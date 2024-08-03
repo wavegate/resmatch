@@ -7,7 +7,8 @@ import RootLayout from "@/pages/RootLayout/RootLayout";
 import HomePage from "@/pages/HomePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "@/pages/Login/Login";
-import SignUp from "./pages/SignUp/SignUp";
+import SignUp from "@/pages/SignUp/SignUp";
+import Programs from "@/pages/Programs/Programs";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: "programs",
-        element: <HomePage />,
+        element: <Programs />,
       },
     ],
   },
