@@ -1,14 +1,17 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 import pg from "pg";
 const { Pool } = pg;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // Required for Heroku SSL connections
+    rejectUnauthorized: false,
   },
 });
 
