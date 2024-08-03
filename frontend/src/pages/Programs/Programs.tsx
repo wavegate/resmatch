@@ -15,12 +15,9 @@ export default () => {
     queryFn: fetchPrograms,
   });
 
-  console.log(data);
-
   const items = useMemo(() => {
     if (data) {
       return data.map((item: any) => {
-        console.log(item);
         return (
           <Accordion.Item key={item.id} value={String(item.id)}>
             <Accordion.Control>

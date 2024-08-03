@@ -13,11 +13,13 @@ import {
 } from "@mantine/core";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { loginSchema } from "./schema"; // Import the schema
 import { API_URL } from "@/constants";
 import apiClient from "@/apiClient";
+import { notifications } from "@mantine/notifications";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormValues {
   email: string;
@@ -41,14 +43,24 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "cc.frankee@gmail.com",
+      password: "testtest",
+    },
   });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       console.log("Login successful:", data);
       localStorage.setItem("token", data.token);
-      // Perform any additional success handling here, such as redirecting the user
+      notifications.show({
+        message: "Login successful",
+      });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/");
     },
     onError: (error: any) => {
       console.error("Login error:", error);
@@ -104,7 +116,7 @@ export default function Login() {
               Forgot password?
             </Anchor>
           </Group>
-          <Button fullWidth mt="xl" type="submit" loading={mutation.isLoading}>
+          <Button fullWidth mt="xl" type="submit" loading={mutation.isPending}>
             Sign in
           </Button>
         </form>

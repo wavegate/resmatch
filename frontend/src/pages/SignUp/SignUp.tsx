@@ -11,10 +11,12 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "./schema"; // Import the schema
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "@/constants";
 import apiClient from "@/apiClient";
+import { notifications } from "@mantine/notifications";
+import { useNavigate } from "react-router-dom";
 
 interface SignupFormValues {
   email: string;
@@ -41,11 +43,20 @@ export default function Signup() {
     resolver: zodResolver(signupSchema),
   });
 
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const mutation = useMutation({
     mutationFn: signupUser,
     onSuccess: (data) => {
       console.log("Signup successful:", data);
       // Perform any additional success handling here, such as redirecting the user
+      localStorage.setItem("token", data.token);
+      notifications.show({
+        message: "Signup successful",
+      });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/");
     },
     onError: (error: any) => {
       console.error("Signup error:", error);
