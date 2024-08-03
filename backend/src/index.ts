@@ -1,3 +1,4 @@
+import "module-alias/register.js";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
@@ -5,6 +6,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import pg from "pg";
 import dotenv from "dotenv";
+import { authenticateToken } from "./middleware/authMiddleware.js";
+import { faker } from "@faker-js/faker";
 const { Pool } = pg;
 
 dotenv.config();
@@ -45,19 +48,48 @@ const pool = new Pool({
   },
 });
 
-// Registration endpoint
+function generateCodename() {
+  // Generate two random nouns
+  const noun1 = faker.word.noun();
+  const noun2 = faker.word.noun();
+
+  // Generate a random number between 1 and 999
+  const number = faker.string.numeric(3); // Generates a string of 3 numeric digits
+
+  // Combine the nouns and number to form the codename
+  const codename = `${capitalize(noun1)}${capitalize(noun2)}${number}`;
+
+  return codename;
+}
+
+// Helper function to capitalize the first letter of each word
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 app.post("/signup", async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
+    // Create the user in the database
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
+        alias: generateCodename(),
       },
     });
-    res.status(201).json({ message: "User registered successfully" });
+
+    // Generate a JWT token for the new user
+    const token = jwt.sign(
+      { id: user.id }, // Payload
+      process.env.SECRET_KEY, // Secret key
+      { expiresIn: "1h" } // Token expiration time
+    );
+
+    // Return the token to the client
+    res.status(201).json({ message: "User registered successfully", token });
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -72,7 +104,7 @@ app.post("/login", async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
+      const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
         expiresIn: "1h",
       });
       res.json({ token });
@@ -134,6 +166,52 @@ app.get("/programs", async (req: Request, res: Response) => {
     res.json(programs);
   } catch (error) {
     console.error("Error fetching programs:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/interview-invites", async (req: Request, res: Response) => {
+  try {
+    // Fetch the first 10 interview invites
+    const interviewInvites = await prisma.interviewInvite.findMany({
+      take: 10,
+      include: {
+        user: true, // Include related user information
+        program: {
+          include: {
+            institution: true,
+          },
+        }, // Include related program information
+      },
+    });
+
+    res.json(interviewInvites);
+  } catch (error) {
+    console.error("Error fetching interview invites:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/user-info", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id; // Extract user ID from the decoded token
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Respond with the user's information, excluding sensitive fields like password
+    res.json({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      // Include other fields as necessary
+    });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

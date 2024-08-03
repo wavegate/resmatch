@@ -14,11 +14,13 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  password         String
+  alias            String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  interviewInvites InterviewInvite[]
 }
 
 model Specialty {
@@ -36,12 +38,66 @@ model Institution {
 }
 
 model Program {
-  id            Int         @id @default(autoincrement())
-  name          String
-  institutionId Int
-  specialtyId   Int
-  institution   Institution @relation(fields: [institutionId], references: [id])
-  specialty     Specialty   @relation(fields: [specialtyId], references: [id])
+  id               Int               @id @default(autoincrement())
+  name             String
+  institutionId    Int
+  specialtyId      Int
+  nrmpProgramCode  String            @unique
+  institution      Institution       @relation(fields: [institutionId], references: [id])
+  specialty        Specialty         @relation(fields: [specialtyId], references: [id])
+  interviewInvites InterviewInvite[]
 
   @@unique([institutionId, specialtyId, name])
+}
+
+model InterviewInvite {
+  id                   Int            @id @default(autoincrement())
+  anonymous            Boolean
+  graduateType         GraduateType?
+  img                  IMGType?
+  inviteDateTime       DateTime
+  geographicPreference Boolean?
+  signal               Boolean?
+  locationState        LocationState?
+  medicalDegree        MedicalDegree?
+  step1ScorePass       Boolean?
+  step1Score           Int?
+  step2Score           Int?
+  comlex1ScorePass     Boolean?
+  comlex2Score         String?
+  visaRequired         Boolean?
+  subI                 Boolean?
+  home                 Boolean?
+  yearOfGraduation     Int?
+  greenCard            Boolean?
+  away                 Boolean?
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  programId Int
+  program   Program @relation(fields: [programId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum GraduateType {
+  US
+  IMG
+}
+
+enum IMGType {
+  nonUSIMG
+  USIMG
+}
+
+enum LocationState {
+  IS
+  OOS
+}
+
+enum MedicalDegree {
+  MD
+  DO
 }

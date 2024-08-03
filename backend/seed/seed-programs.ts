@@ -25,6 +25,7 @@ async function main() {
             name: row.name,
             institutionCode,
             specialtyCode,
+            nrmpProgramCode: row.code,
           });
         }
       })
@@ -62,6 +63,7 @@ async function main() {
             name: program.name,
             institutionId: institution.id,
             specialtyId: specialty.id,
+            nrmpProgramCode: program.nrmpProgramCode,
           },
         });
         counter++;
