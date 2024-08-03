@@ -2,7 +2,7 @@ import { API_URL } from "@/constants";
 import { Accordion } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 const fetchSpecialties = async () => {
   const { data } = await axios.get(`${API_URL}/specialties`);
@@ -29,5 +29,10 @@ export default () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  return <Accordion>{items}</Accordion>;
+  return (
+    <div>
+      <div>{API_URL}</div>
+      <Accordion>{items}</Accordion>
+    </div>
+  );
 };
