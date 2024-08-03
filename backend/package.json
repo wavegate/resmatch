@@ -8,6 +8,9 @@
     "start": "concurrently \"tsc -watch\" \"nodemon ./dist\"",
     "deploy": "git add . && git commit -m \"heroku deploy\" && cd .. && git subtree push --prefix backend heroku main"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts --esm"
+  },
   "type": "module",
   "keywords": [],
   "author": "",
@@ -22,11 +25,13 @@
     "bcrypt": "^5.1.1",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.4",
     "pg": "^8.12.0",
     "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
 }

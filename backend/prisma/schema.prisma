@@ -20,3 +20,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Specialty {
+  id            Int    @id @default(autoincrement())
+  specialtyCode String @unique
+  name          String
+}

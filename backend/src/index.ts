@@ -50,6 +50,16 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/specialties", async (req: Request, res: Response) => {
+  try {
+    const specialties = await prisma.specialty.findMany();
+    res.json(specialties);
+  } catch (error) {
+    console.error("Error fetching specialties:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/first-user", async (req, res) => {
   try {
     const user = await prisma.user.findFirst();
