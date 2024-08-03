@@ -31,7 +31,6 @@ export default () => {
 
   return (
     <div>
-      <div>{API_URL}2</div>
       <Accordion>{items}</Accordion>
     </div>
   );
