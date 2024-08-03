@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import { PrismaClient } from "@prisma/client";
 import pg from "pg";
 const { Pool } = pg;
 
 const app = express();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
 // Define allowed origins
@@ -45,6 +47,20 @@ app.get("/", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Error connecting to database");
+  }
+});
+
+app.get("/first-user", async (req, res) => {
+  try {
+    const user = await prisma.user.findFirst();
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: "No user found" });
+    }
+  } catch (error) {
+    console.error("Error fetching the first user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
