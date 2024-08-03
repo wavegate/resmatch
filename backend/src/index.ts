@@ -78,6 +78,7 @@ app.get("/programs", async (req: Request, res: Response) => {
   try {
     // Fetch all programs along with their associated institution and specialty
     const programs = await prisma.program.findMany({
+      take: 10,
       include: {
         institution: true,
         specialty: true,
