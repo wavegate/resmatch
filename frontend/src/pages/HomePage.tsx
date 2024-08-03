@@ -17,7 +17,7 @@ export default () => {
 
   const items = useMemo(() => {
     if (data) {
-      return data.map((item) => (
+      return data.map((item: any) => (
         <Accordion.Item key={item.specialtyCode} value={item.specialtyCode}>
           <Accordion.Control>{item.name}</Accordion.Control>
           <Accordion.Panel>{item.specialtyCode}</Accordion.Panel>
