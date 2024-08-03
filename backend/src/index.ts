@@ -6,7 +6,11 @@ const { Pool } = pg;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const options = {
+  origin: "http://99.52.202.211:5173",
+};
+
+app.use(cors(options));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
