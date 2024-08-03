@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const options = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://resmatch.vercel.app/"],
 };
 
 app.use(cors(options));
