@@ -7,7 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Define allowed origins
-const allowedOrigins = ["http://localhost:5173", "https://resmatch.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://resmatch.vercel.app",
+  "https://residencymatch.net",
+  "https://www.residencymatch.net",
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
