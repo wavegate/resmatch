@@ -6,11 +6,23 @@ const { Pool } = pg;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const options = {
-  origin: ["http://localhost:5173", "https://resmatch.vercel.app/"],
+// Define allowed origins
+const allowedOrigins = ["http://localhost:5173", "https://resmatch.vercel.app"];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Check if the incoming origin is allowed
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error("Not allowed by CORS")); // Block the request
+    }
+  },
+  optionsSuccessStatus: 200, // For legacy browser support
 };
 
-app.use(cors(options));
+// Apply CORS middleware globally
+app.use(cors(corsOptions));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
