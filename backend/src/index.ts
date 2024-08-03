@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
-import { Pool } from "pg";
+import pg from "pg";
+const { Pool } = pg;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
