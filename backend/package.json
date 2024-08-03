@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --noEmitOnError false",
-    "start": "concurrently \"tsc -watch\" \"nodemon ./dist\""
+    "postinstall": "tsc",
+    "start": "concurrently \"tsc -watch\" \"nodemon ./dist\"",
+    "deploy": "git add . && git commit -m \"heroku deploy\" && cd .. && git subtree push --prefix backend heroku main"
   },
   "type": "module",
   "keywords": [],
