@@ -9,9 +9,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "@/pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 
-const localBackend = "http://localhost:3000/";
-const prodBackend = "https://powerful-falls-38746-ef92b126204d.herokuapp.com/";
-
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -49,11 +46,6 @@ const theme = createTheme({
 });
 
 function App() {
-  useEffect(() => {
-    fetch(prodBackend + "first-user")
-      .then((res) => res.json())
-      .then(console.log);
-  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
