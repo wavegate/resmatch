@@ -1,0 +1,12 @@
+{
+  "name": "resmatch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy-backend": "git subtree push --prefix backend heroku main"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
