@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --noEmitOnError false",
     "start": "concurrently \"tsc -watch\" \"nodemon ./dist\""
   },
   "type": "module",
