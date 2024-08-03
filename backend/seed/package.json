@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "seed": "ts-node seed.types"
+    "seed": "ts-node seed.ts"
   },
   "keywords": [],
   "author": "",

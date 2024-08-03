@@ -22,7 +22,26 @@ model User {
 }
 
 model Specialty {
-  id            Int    @id @default(autoincrement())
-  specialtyCode String @unique
+  id            Int       @id @default(autoincrement())
+  specialtyCode String    @unique
   name          String
+  programs      Program[]
+}
+
+model Institution {
+  id              Int       @id @default(autoincrement())
+  name            String
+  institutionCode String    @unique
+  programs        Program[]
+}
+
+model Program {
+  id            Int         @id @default(autoincrement())
+  name          String
+  institutionId Int
+  specialtyId   Int
+  institution   Institution @relation(fields: [institutionId], references: [id])
+  specialty     Specialty   @relation(fields: [specialtyId], references: [id])
+
+  @@unique([institutionId, specialtyId, name])
 }

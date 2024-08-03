@@ -74,6 +74,22 @@ app.get("/first-user", async (req, res) => {
   }
 });
 
+app.get("/programs", async (req: Request, res: Response) => {
+  try {
+    // Fetch all programs along with their associated institution and specialty
+    const programs = await prisma.program.findMany({
+      include: {
+        institution: true,
+        specialty: true,
+      },
+    });
+    res.json(programs);
+  } catch (error) {
+    console.error("Error fetching programs:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
