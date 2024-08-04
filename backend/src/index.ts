@@ -216,6 +216,92 @@ app.get("/user-info", authenticateToken, async (req, res) => {
   }
 });
 
+app.post("/programs/search", async (req, res) => {
+  try {
+    const { searchTerm } = req.body;
+
+    // Ensure the searchTerm is provided
+    if (searchTerm === undefined) {
+      return res.status(400).json({ error: "Search term is required." });
+    }
+
+    const programs = await prisma.$queryRaw`
+    SELECT 
+      p.id AS program_id, 
+      p.name AS program_name, 
+      i.id AS institution_id, 
+      i.name AS institution_name
+    FROM "Program" p
+    JOIN "Institution" i ON p."institutionId" = i.id
+    WHERE CONCAT(p.name, ' at ', i.name) ILIKE ${"%" + searchTerm + "%"}
+    LIMIT 10
+  `;
+
+    // Format the result to include institution information
+    const formattedPrograms = programs.map((program) => ({
+      id: program.program_id,
+      name: program.program_name,
+      institution: {
+        id: program.institution_id,
+        name: program.institution_name,
+      },
+    }));
+
+    // Send the programs as the response
+    res.json(formattedPrograms);
+  } catch (error) {
+    console.error("Error searching programs:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/interview-invites/search", async (req, res) => {
+  try {
+    const { programId, userId, startDate, endDate } = req.body;
+
+    // Build the query conditions based on provided parameters
+    const conditions = {};
+
+    if (programId) {
+      conditions.programId = programId;
+    }
+
+    if (userId) {
+      conditions.userId = userId;
+    }
+
+    if (startDate || endDate) {
+      conditions.inviteDateTime = {};
+      if (startDate) {
+        conditions.inviteDateTime.gte = new Date(startDate);
+      }
+      if (endDate) {
+        conditions.inviteDateTime.lte = new Date(endDate);
+      }
+    }
+
+    // Fetch interview invites based on conditions
+    const interviewInvites = await prisma.interviewInvite.findMany({
+      where: conditions,
+      include: {
+        program: {
+          include: {
+            institution: true,
+          },
+        },
+        user: true,
+      },
+      take: 10,
+    });
+
+    // Send the retrieved interview invites as the response
+    res.json(interviewInvites);
+  } catch (error) {
+    console.error("Error searching interview invites:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
