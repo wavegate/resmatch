@@ -1,4 +1,13 @@
-import { AppShell, Burger, Button, LoadingOverlay } from "@mantine/core";
+import {
+  ActionIcon,
+  Anchor,
+  AppShell,
+  Burger,
+  Button,
+  Group,
+  LoadingOverlay,
+  rem,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { RiMentalHealthLine } from "react-icons/ri";
@@ -6,6 +15,10 @@ import { FaRegCalendarCheck } from "react-icons/fa6";
 import { HiOutlineHome } from "react-icons/hi";
 import { PiHospital } from "react-icons/pi";
 import useUser from "@/hooks/useUser";
+import classes from "./RootLayout.module.css";
+import { FaTwitter } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { IoLogoLinkedin } from "react-icons/io";
 
 const routes = [
   {
@@ -25,9 +38,30 @@ const routes = [
   },
 ];
 
+const links = [
+  { link: "#", label: "Contact" },
+  { link: "#", label: "Privacy" },
+  { link: "#", label: "Blog" },
+  { link: "#", label: "Store" },
+  { link: "#", label: "Careers" },
+];
+
 export default () => {
   const { user, signOut, isLoading } = useUser();
   const [opened, { toggle }] = useDisclosure();
+
+  const items = links.map((link) => (
+    <Anchor
+      c="dimmed"
+      key={link.label}
+      href={link.link}
+      lh={1}
+      onClick={(event) => event.preventDefault()}
+      size="sm"
+    >
+      {link.label}
+    </Anchor>
+  ));
 
   return (
     <AppShell
@@ -37,6 +71,7 @@ export default () => {
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
+      footer={{ height: 60 }}
       padding="md"
       className={`text-gray-900`}
     >
@@ -107,10 +142,10 @@ export default () => {
           />
           {!user && (
             <>
-              <Link to="/login">
+              <Link to="/login" onClick={toggle}>
                 <Button variant="default">Log in</Button>
               </Link>
-              <Link to="/sign-up">
+              <Link to="/sign-up" onClick={toggle}>
                 <Button>Sign up</Button>
               </Link>
             </>
@@ -122,6 +157,27 @@ export default () => {
       <AppShell.Main>
         <Outlet />
       </AppShell.Main>
+      <AppShell.Footer className={`max-sm:hidden`}>
+        <div className={classes.footer}>
+          <div className={classes.inner}>
+            <div>Hi</div>
+
+            <Group className={classes.links}>{items}</Group>
+
+            <Group gap="xs" justify="flex-end" wrap="nowrap">
+              <ActionIcon size="lg" variant="default" radius="xl">
+                <FaTwitter style={{ width: rem(18), height: rem(18) }} />
+              </ActionIcon>
+              <ActionIcon size="lg" variant="default" radius="xl">
+                <FaYoutube style={{ width: rem(18), height: rem(18) }} />
+              </ActionIcon>
+              <ActionIcon size="lg" variant="default" radius="xl">
+                <IoLogoLinkedin style={{ width: rem(18), height: rem(18) }} />
+              </ActionIcon>
+            </Group>
+          </div>
+        </div>
+      </AppShell.Footer>
     </AppShell>
   );
 };

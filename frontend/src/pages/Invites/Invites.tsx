@@ -1,4 +1,12 @@
-import { Accordion, Button, Drawer, LoadingOverlay, Text } from "@mantine/core";
+import {
+  Accordion,
+  Button,
+  Drawer,
+  LoadingOverlay,
+  Pagination,
+  Select,
+  Text,
+} from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import dayjs from "dayjs";
@@ -7,6 +15,7 @@ import apiClient from "@/apiClient";
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
+import classes from "./Invites.module.css";
 
 const fetchInvites = async (searchQuery) => {
   const { data } = await apiClient.post(
@@ -16,40 +25,45 @@ const fetchInvites = async (searchQuery) => {
   return data;
 };
 
+const pageSize = 10; // Number of items per page
+
 export default () => {
   const [selectedProgramId, setSelectedProgramId] = useState(null);
   const [dateRange, setDateRange] = useState([null, null]);
+  const [pageNum, setPageNum] = useState(1); // State for the current page number
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["invites", selectedProgramId, dateRange],
+    queryKey: ["invites", selectedProgramId, dateRange, pageNum],
     queryFn: () => {
       const [startDate, endDate] = dateRange;
       return fetchInvites({
         programId: selectedProgramId,
         startDate: startDate ? startDate.toISOString() : undefined,
         endDate: endDate ? endDate.toISOString() : undefined,
+        pageNum, // Include the page number in the fetch request
       });
     },
   });
 
-  const [opened, { open, close }] = useDisclosure(false);
-
   const clearFilters = () => {
     setDateRange([null, null]);
     setSelectedProgramId(null);
+    setPageNum(1); // Reset to the first page
   };
 
   const items = useMemo(() => {
     if (data) {
-      return data.map((item: any) => {
+      return data.interviewInvites?.map((item: any) => {
         return (
           <Accordion.Item key={item.id} value={item.id.toString()}>
             <Accordion.Control>
               <Text>
-                <strong>{`${item.program.name} at ${item.program.institution.name}`}</strong>{" "}
+                <span
+                  className={`font-medium`}
+                >{`${item.program.name} at ${item.program.institution.name}`}</span>{" "}
                 - {dayjs(item.inviteDateTime).format("MMMM D, YYYY")}
               </Text>
-              <Text size="sm" color="gray">
+              <Text size="sm" c="dimmed">
                 Posted By: {item.user.alias}
               </Text>
             </Accordion.Control>
@@ -115,37 +129,77 @@ export default () => {
 
   const navigate = useNavigate();
 
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const totalPages = useMemo(() => {
+    if (data) {
+      const totalCount = data?.totalCount || 0; // Total number of items
+      const totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages
+      return totalPages;
+    }
+  }, [data?.totalCount]);
+
   //   if (isLoading) return <div>Loading...</div>;
   //   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className={`flex flex-col gap-2`}>
-      <div className={`flex gap-2`}>
-        <Button onClick={open} variant="light">
-          View Filters
-        </Button>
-        <Button
-          onClick={() => {
-            navigate("/interview-invites/add");
-          }}
-        >
-          Add Invite
-        </Button>
+      <div
+        className={`flex items-center gap-2 justify-between max-sm:items-start max-sm:flex-col max-sm:gap-4`}
+      >
+        <div className={`flex gap-2 items-center`}>
+          <Button onClick={open} variant="outline">
+            Filters
+          </Button>
+          <Button
+            className={`sm:hidden`}
+            onClick={() => {
+              navigate("/interview-invites/add");
+            }}
+          >
+            Add Invite
+          </Button>
+          <Pagination
+            className={`max-sm:hidden`}
+            value={pageNum}
+            onChange={setPageNum}
+            total={totalPages}
+          />
+        </div>
+        <div className={`flex gap-2`}>
+          <Button
+            className={`max-sm:hidden`}
+            onClick={() => {
+              navigate("/interview-invites/add");
+            }}
+          >
+            Add Invite
+          </Button>
+          <Pagination
+            className={`sm:hidden ${classes["mobile-page"]}`}
+            value={pageNum}
+            onChange={setPageNum}
+            total={totalPages}
+            boundaries={0}
+          />
+        </div>
       </div>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Button onClick={clearFilters}>Clear Filters</Button>
-        <DatePickerInput
-          type="range"
-          label="Pick dates range"
-          placeholder="Pick dates range"
-          value={dateRange}
-          onChange={setDateRange}
-          clearable
-        />
-        <ProgramSearch
-          onProgramSelect={setSelectedProgramId}
-          selected={selectedProgramId}
-        />
+        <div className={`flex flex-col gap-3 items-start`}>
+          <Button onClick={clearFilters}>Clear Filters</Button>
+          <DatePickerInput
+            type="range"
+            label="Pick dates range"
+            placeholder="Pick dates range"
+            value={dateRange}
+            onChange={setDateRange}
+            clearable
+          />
+          <ProgramSearch
+            onProgramSelect={setSelectedProgramId}
+            selected={selectedProgramId}
+          />
+        </div>
       </Drawer>
 
       <div className={`relative`} style={{ minHeight: "200px" }}>
@@ -154,12 +208,12 @@ export default () => {
           zIndex={1000}
           overlayProps={{ radius: "sm", blur: 1 }}
         />
-        {data?.length === 0 && (
+        {data?.interviewInvites?.length === 0 && (
           <Text c="dimmed" size="sm">
             No data found...
           </Text>
         )}
-        {data?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.interviewInvites?.length > 0 && <Accordion>{items}</Accordion>}
       </div>
     </div>
   );
