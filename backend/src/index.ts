@@ -192,6 +192,76 @@ app.get("/interview-invites", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/interview-invites", authenticateToken, async (req, res) => {
+  try {
+    const {
+      anonymous,
+      programId,
+      inviteDateTime,
+      signal,
+      geographicPreference,
+      locationState,
+      additionalComments,
+      step1ScorePass,
+      step1Score,
+      step2Score,
+      comlex1ScorePass,
+      comlex2Score,
+      visaRequired,
+      subI,
+      home,
+      yearOfGraduation,
+      greenCard,
+      away,
+      graduateType,
+      img,
+      medicalDegree,
+    } = req.body;
+
+    // Get user ID from authMiddleware
+    const userId = req.user.id;
+
+    // Dynamically construct the data object, including only defined values
+    const data = {
+      anonymous: anonymous ?? false,
+      ...(programId !== undefined && { programId: parseInt(programId, 10) }), // Ensure programId is an integer
+      ...(inviteDateTime !== undefined && {
+        inviteDateTime: new Date(inviteDateTime),
+      }),
+      ...(signal !== undefined && { signal }),
+      ...(geographicPreference !== undefined && { geographicPreference }),
+      ...(locationState !== undefined && { locationState }),
+      ...(additionalComments !== undefined && { additionalComments }),
+      ...(step1ScorePass !== undefined && { step1ScorePass }),
+      ...(step1Score !== undefined && { step1Score }),
+      ...(step2Score !== undefined && { step2Score }),
+      ...(comlex1ScorePass !== undefined && { comlex1ScorePass }),
+      ...(comlex2Score !== undefined && { comlex2Score }),
+      ...(visaRequired !== undefined && { visaRequired }),
+      ...(subI !== undefined && { subI }),
+      ...(home !== undefined && { home }),
+      ...(yearOfGraduation !== undefined && { yearOfGraduation }),
+      ...(greenCard !== undefined && { greenCard }),
+      ...(away !== undefined && { away }),
+      ...(graduateType !== undefined && { graduateType }),
+      ...(img !== undefined && { img }),
+      ...(medicalDegree !== undefined && { medicalDegree }),
+      userId, // Always include userId as it comes from authMiddleware
+    };
+
+    // Create new interview invite
+    const newInvite = await prisma.interviewInvite.create({
+      data,
+    });
+
+    // Respond with the created invite
+    res.status(201).json(newInvite);
+  } catch (error) {
+    console.error("Error creating interview invite:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/user-info", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id; // Extract user ID from the decoded token
