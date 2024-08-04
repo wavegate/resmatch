@@ -98,7 +98,7 @@ export default () => {
             );
           })}
         </div>
-        <div className={`flex gap-4 max-sm:hidden relative`}>
+        <div className={`flex gap-4 sm:hidden relative`}>
           <LoadingOverlay
             visible={isLoading}
             zIndex={1000}
