@@ -1,23 +1,30 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 
 interface JwtPayload {
-  userId: number;
+  id: string;
+}
+export interface AuthenticatedRequest extends Request {
+  user: JwtPayload;
 }
 
-export const authenticateToken = (
+export const verifyToken = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const token = req.header("Authorization")?.split(" ")[1];
 
-  if (!token)
+  if (!token) {
     return res.status(401).json({ error: "Access denied, token missing" });
+  }
 
   try {
-    const payload = jwt.verify(token, process.env.SECRET_KEY) as JwtPayload;
-    req.user = payload; // Attach payload to the request object
+    const payload = jwt.verify(
+      token,
+      process.env.SECRET_KEY as Secret
+    ) as JwtPayload;
+    (req as AuthenticatedRequest).user = payload;
     next();
   } catch (error) {
     res.status(400).json({ error: "Invalid token" });
