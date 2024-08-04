@@ -327,7 +327,12 @@ app.post("/programs/search", async (req, res) => {
 
 app.post("/interview-invites/search", async (req, res) => {
   try {
-    const { programId, userId, startDate, endDate } = req.body;
+    const { programId, userId, startDate, endDate, pageNum } = req.body;
+
+    // Default to page 1 if pageNum is not provided
+    const page = pageNum ? parseInt(pageNum, 10) : 1;
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
 
     // Build the query conditions based on provided parameters
     const conditions = {};
@@ -350,7 +355,11 @@ app.post("/interview-invites/search", async (req, res) => {
       }
     }
 
-    // Fetch interview invites based on conditions
+    const totalCount = await prisma.interviewInvite.count({
+      where: conditions,
+    });
+
+    // Fetch interview invites based on conditions, sorted by inviteDateTime in descending order
     const interviewInvites = await prisma.interviewInvite.findMany({
       where: conditions,
       include: {
@@ -361,11 +370,15 @@ app.post("/interview-invites/search", async (req, res) => {
         },
         user: true,
       },
-      take: 10,
+      orderBy: {
+        inviteDateTime: "desc", // Order by inviteDateTime descending
+      },
+      skip: skip, // Skip records for pagination
+      take: pageSize, // Limit the number of records returned
     });
 
     // Send the retrieved interview invites as the response
-    res.json(interviewInvites);
+    res.json({ totalCount, interviewInvites });
   } catch (error) {
     console.error("Error searching interview invites:", error);
     res.status(500).json({ error: "Internal Server Error" });
