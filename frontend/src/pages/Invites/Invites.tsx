@@ -1,22 +1,43 @@
-import { API_URL } from "@/constants";
-import { Accordion, Text } from "@mantine/core";
+import { Accordion, Button, Drawer, LoadingOverlay, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import dayjs from "dayjs";
+import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
+import apiClient from "@/apiClient";
+import { DatePickerInput } from "@mantine/dates";
+import { useDisclosure } from "@mantine/hooks";
+import { useNavigate } from "react-router-dom";
 
-const fetchInvites = async () => {
-  const { data } = await axios.get(`${API_URL}/interview-invites`);
+const fetchInvites = async (searchQuery) => {
+  const { data } = await apiClient.post(
+    `/interview-invites/search`,
+    searchQuery
+  );
   return data;
 };
 
 export default () => {
+  const [selectedProgramId, setSelectedProgramId] = useState(null);
+  const [dateRange, setDateRange] = useState([null, null]);
+
   const { data, error, isLoading } = useQuery({
-    queryKey: ["invites"],
-    queryFn: fetchInvites,
+    queryKey: ["invites", selectedProgramId, dateRange],
+    queryFn: () => {
+      const [startDate, endDate] = dateRange;
+      return fetchInvites({
+        programId: selectedProgramId,
+        startDate: startDate ? startDate.toISOString() : undefined,
+        endDate: endDate ? endDate.toISOString() : undefined,
+      });
+    },
   });
 
-  console.log(data);
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const clearFilters = () => {
+    setDateRange([null, null]);
+    setSelectedProgramId(null);
+  };
 
   const items = useMemo(() => {
     if (data) {
@@ -33,7 +54,7 @@ export default () => {
               </Text>
             </Accordion.Control>
             <Accordion.Panel>
-              <div className="grid grid-cols-2 gap-4 mt-2 text-gray-600">
+              <div className="grid grid-cols-2 gap-4 mt-2">
                 <div>
                   <strong>Graduate Type:</strong> {item.graduateType || "N/A"}
                 </div>
@@ -92,8 +113,54 @@ export default () => {
     }
   }, [data]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  const navigate = useNavigate();
 
-  return <div>{<Accordion>{items}</Accordion>}</div>;
+  //   if (isLoading) return <div>Loading...</div>;
+  //   if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div className={`flex flex-col gap-2`}>
+      <div className={`flex gap-2`}>
+        <Button onClick={open} variant="light">
+          View Filters
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/interview-invites/add");
+          }}
+        >
+          Add Invite
+        </Button>
+      </div>
+      <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
+        <Button onClick={clearFilters}>Clear Filters</Button>
+        <DatePickerInput
+          type="range"
+          label="Pick dates range"
+          placeholder="Pick dates range"
+          value={dateRange}
+          onChange={setDateRange}
+          clearable
+        />
+        <ProgramSearch
+          onProgramSelect={setSelectedProgramId}
+          selected={selectedProgramId}
+        />
+      </Drawer>
+
+      <div className={`relative`} style={{ minHeight: "200px" }}>
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 1 }}
+        />
+        {data?.length === 0 && (
+          <Text c="dimmed" size="sm">
+            No data found...
+          </Text>
+        )}
+        {data?.length > 0 && <Accordion>{items}</Accordion>}
+      </div>
+    </div>
+  );
 };

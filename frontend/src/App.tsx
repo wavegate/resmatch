@@ -1,5 +1,6 @@
 import "./App.css";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -11,6 +12,7 @@ import SignUp from "@/pages/SignUp/SignUp";
 import Programs from "@/pages/Programs/Programs";
 import { Notifications } from "@mantine/notifications";
 import Invites from "@/pages/Invites/Invites";
+import AddInvite from "./pages/AddInvite.tsx/AddInvite";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "interview-invites",
         element: <Invites />,
+      },
+      {
+        path: "interview-invites/add",
+        element: <AddInvite />,
       },
       {
         path: "programs",
