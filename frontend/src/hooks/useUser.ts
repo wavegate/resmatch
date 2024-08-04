@@ -23,8 +23,6 @@ export default () => {
     queryClient.resetQueries({ queryKey: ["user"] });
   };
 
-  console.log(data);
-
   return {
     user: data,
     isLoading,

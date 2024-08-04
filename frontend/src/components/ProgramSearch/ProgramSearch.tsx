@@ -3,11 +3,15 @@ import { Select } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
-export default function ProgramSearch({ onProgramSelect, selected }) {
+export default function ProgramSearch({
+  onProgramSelect,
+  selected,
+  label = "Search program by name",
+  required = false,
+}) {
   const [data, setData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [search] = useDebouncedValue(searchInput, 200);
-  console.log(search);
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
@@ -25,7 +29,8 @@ export default function ProgramSearch({ onProgramSelect, selected }) {
 
   return (
     <Select
-      label="Search program by name"
+      required={required}
+      label={label}
       placeholder="eg. Stanford"
       value={selected}
       data={data.map((program) => ({
