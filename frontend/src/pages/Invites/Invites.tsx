@@ -62,9 +62,12 @@ export default () => {
           <Accordion.Item key={item.id} value={item.id.toString()}>
             <Accordion.Control className={`pl-0`}>
               <div className="grid grid-cols-[80px,60px,1fr] max-sm:grid-cols-[80px,1fr] gap-4">
-                <div className="flex justify-center items-center text-gray-700 border border-solid rounded">
+                <div className="flex flex-col justify-center items-center text-gray-700 border border-solid rounded">
                   <Text className="text-lg font-medium">
                     {dayjs(item.inviteDateTime).format("MMM D")}
+                  </Text>
+                  <Text c="dimmed" className="text-xs">
+                    {dayjs(item.inviteDateTime).format("YYYY")}
                   </Text>
                 </div>
                 <div
