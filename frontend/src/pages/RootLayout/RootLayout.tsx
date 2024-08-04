@@ -98,34 +98,25 @@ export default () => {
             );
           })}
         </div>
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 2 }}
-        >
-          <div className={`flex gap-4 sm:hidden`}>
-            {!user && (
-              <>
-                <Link to="/login" onClick={toggle}>
-                  <Button variant="default">Log in</Button>
-                </Link>
-                <Link to="/sign-up" onClick={toggle}>
-                  <Button>Sign up</Button>
-                </Link>
-              </>
-            )}
-            {user && (
-              <Button
-                onClick={() => {
-                  signOut();
-                  toggle();
-                }}
-              >
-                Sign out
-              </Button>
-            )}
-          </div>
-        </LoadingOverlay>
+        <div className={`flex gap-4 max-sm:hidden relative`}>
+          <LoadingOverlay
+            visible={isLoading}
+            zIndex={1000}
+            overlayProps={{ radius: "sm", blur: 1 }}
+            loaderProps={{ size: "sm" }}
+          />
+          {!user && (
+            <>
+              <Link to="/login">
+                <Button variant="default">Log in</Button>
+              </Link>
+              <Link to="/sign-up">
+                <Button>Sign up</Button>
+              </Link>
+            </>
+          )}
+          {user && <Button onClick={signOut}>Sign out</Button>}
+        </div>
       </AppShell.Navbar>
 
       <AppShell.Main>
