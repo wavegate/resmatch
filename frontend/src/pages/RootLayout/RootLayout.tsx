@@ -19,6 +19,7 @@ import classes from "./RootLayout.module.css";
 import { FaTwitter } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { IoLogoLinkedin } from "react-icons/io";
+import Logo from "@/assets/Logo";
 
 const routes = [
   {
@@ -160,10 +161,8 @@ export default () => {
       <AppShell.Footer className={`max-sm:hidden`}>
         <div className={classes.footer}>
           <div className={classes.inner}>
-            <div>Hi</div>
-
+            <Logo />
             <Group className={classes.links}>{items}</Group>
-
             <Group gap="xs" justify="flex-end" wrap="nowrap">
               <ActionIcon size="lg" variant="default" radius="xl">
                 <FaTwitter style={{ width: rem(18), height: rem(18) }} />

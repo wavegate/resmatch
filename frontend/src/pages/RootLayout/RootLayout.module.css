@@ -37,13 +37,17 @@
   margin-top: rem(120px);
   border-top: rem(1px) solid
     light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--mantine-spacing-md) var(--mantine-spacing-md);
+  padding: 0 var(--mantine-spacing-md);
+  width: 100%;
 
   @media (max-width: $mantine-breakpoint-sm) {
     flex-direction: column;

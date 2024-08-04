@@ -6,6 +6,7 @@ import {
   Pagination,
   Select,
   Text,
+  Title,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -16,6 +17,7 @@ import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 import classes from "./Invites.module.css";
+import inviteService from "@/services/inviteService";
 
 const fetchInvites = async (searchQuery) => {
   const { data } = await apiClient.post(
@@ -28,7 +30,7 @@ const fetchInvites = async (searchQuery) => {
 const pageSize = 10; // Number of items per page
 
 export default () => {
-  const [selectedProgramId, setSelectedProgramId] = useState(null);
+  const [selectedProgramId, setSelectedProgramId] = useState();
   const [dateRange, setDateRange] = useState([null, null]);
   const [pageNum, setPageNum] = useState(1); // State for the current page number
 
@@ -36,7 +38,7 @@ export default () => {
     queryKey: ["invites", selectedProgramId, dateRange, pageNum],
     queryFn: () => {
       const [startDate, endDate] = dateRange;
-      return fetchInvites({
+      return inviteService.searchInvite({
         programId: selectedProgramId,
         startDate: startDate ? startDate.toISOString() : undefined,
         endDate: endDate ? endDate.toISOString() : undefined,
@@ -144,8 +146,26 @@ export default () => {
 
   return (
     <div className={`flex flex-col gap-2`}>
+      <header>
+        <Title
+          order={2}
+          mb={{ base: "xs", md: "sm" }}
+          className="text-lg sm:text-xl md:text-2xl"
+        >
+          Interview Invites
+        </Title>
+        <Text
+          c="dimmed"
+          mb={{ base: "xs", md: "sm" }}
+          className="text-sm sm:text-base md:text-lg"
+        >
+          Discover interview invites shared by fellow medical residency
+          applicants, along with their qualifications and experiences at the
+          time of the invite.
+        </Text>
+      </header>
       <div
-        className={`flex items-center gap-2 justify-between max-sm:items-start max-sm:flex-col max-sm:gap-4`}
+        className={`flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4`}
       >
         <div className={`flex gap-2 items-center`}>
           <Button onClick={open} variant="outline">
