@@ -28,8 +28,8 @@ const routes = [
     icon: <HiOutlineHome className="h-5 w-5" />,
   },
   {
-    link: "/interview-invites",
-    text: "Interview Invites",
+    link: "/invites",
+    text: "Invites",
     icon: <FaRegCalendarCheck className="h-5 w-5" />,
   },
   {
@@ -72,7 +72,7 @@ export default () => {
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
-      footer={{ height: 60 }}
+      footer={{ height: 50 }}
       padding="md"
       className={`text-gray-900`}
     >
@@ -122,8 +122,10 @@ export default () => {
                 key={index}
                 to={route.link}
                 className={({ isActive }) =>
-                  `flex gap-4 px-4 py-2 hover:bg-blue-100 rounded font-medium items-center ${
-                    isActive ? "text-blue-900 bg-blue-100" : "text-gray-600"
+                  `flex gap-4 px-4 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
+                    isActive
+                      ? "text-blue-900 bg-primary bg-opacity-20"
+                      : "text-gray-600"
                   }`
                 }
                 onClick={toggle}
@@ -158,8 +160,8 @@ export default () => {
       <AppShell.Main>
         <Outlet />
       </AppShell.Main>
-      <AppShell.Footer className={`max-sm:hidden`}>
-        <div className={classes.footer}>
+      <AppShell.Footer>
+        <div className={`${classes.footer} max-sm:hidden`}>
           <div className={classes.inner}>
             <Logo />
             <Group className={classes.links}>{items}</Group>
@@ -175,6 +177,26 @@ export default () => {
               </ActionIcon>
             </Group>
           </div>
+        </div>
+        <div className={`flex sm:hidden justify-center`}>
+          {routes.slice(0, 3).map((route, index) => {
+            return (
+              <NavLink
+                key={index}
+                to={route.link}
+                className={({ isActive }) =>
+                  `flex flex-col px-4 py-2 text-sm items-center ${
+                    isActive
+                      ? "text-blue-900 bg-primary bg-opacity-20"
+                      : "text-gray-600"
+                  }`
+                }
+              >
+                <div className={``}>{route.icon}</div>
+                <div className={`text-xs`}>{route.text}</div>
+              </NavLink>
+            );
+          })}
         </div>
       </AppShell.Footer>
     </AppShell>

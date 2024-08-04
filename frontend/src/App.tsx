@@ -34,11 +34,11 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "interview-invites",
+        path: "invites",
         element: <Invites />,
       },
       {
-        path: "interview-invites/add",
+        path: "invites/add",
         element: <AddInvite />,
       },
       {

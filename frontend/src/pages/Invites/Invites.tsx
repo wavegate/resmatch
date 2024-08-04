@@ -1,5 +1,6 @@
 import {
   Accordion,
+  Avatar,
   Button,
   Drawer,
   LoadingOverlay,
@@ -18,6 +19,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 import classes from "./Invites.module.css";
 import inviteService from "@/services/inviteService";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const fetchInvites = async (searchQuery) => {
   const { data } = await apiClient.post(
@@ -58,16 +60,33 @@ export default () => {
       return data.interviewInvites?.map((item: any) => {
         return (
           <Accordion.Item key={item.id} value={item.id.toString()}>
-            <Accordion.Control>
-              <Text>
-                <span
-                  className={`font-medium`}
-                >{`${item.program.name} at ${item.program.institution.name}`}</span>{" "}
-                - {dayjs(item.inviteDateTime).format("MMMM D, YYYY")}
-              </Text>
-              <Text size="sm" c="dimmed">
-                Posted By: {item.user.alias}
-              </Text>
+            <Accordion.Control className={`pl-0`}>
+              <div className="grid grid-cols-[80px,60px,1fr] max-sm:grid-cols-[80px,1fr] gap-4">
+                <div className="flex justify-center items-center text-gray-700 border border-solid rounded">
+                  <Text className="text-lg font-medium">
+                    {dayjs(item.inviteDateTime).format("MMM D")}
+                  </Text>
+                </div>
+                <div
+                  className={`flex items-center justify-center max-sm:hidden`}
+                >
+                  <img
+                    className={`object-cover h-full`}
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDSi-o3c7GQB3mphyLYYIsD8m5xiZ4dDTzNg&s"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Text className="text-sm sm:text-md md:text-lg font-medium">
+                    {`${item.program.name} at ${item.program.institution.name}`}
+                  </Text>
+                  <div className={`flex items-center gap-2`}>
+                    <Avatar size="sm" />
+                    <Text c="dimmed" className="text-xs sm:text-sm underline">
+                      {item.user.alias}
+                    </Text>
+                  </div>
+                </div>
+              </div>
             </Accordion.Control>
             <Accordion.Panel>
               <div className="grid grid-cols-2 gap-4 mt-2">
@@ -174,7 +193,7 @@ export default () => {
           <Button
             className={`sm:hidden`}
             onClick={() => {
-              navigate("/interview-invites/add");
+              navigate("/invites/add");
             }}
           >
             Add Invite
@@ -190,7 +209,7 @@ export default () => {
           <Button
             className={`max-sm:hidden`}
             onClick={() => {
-              navigate("/interview-invites/add");
+              navigate("/invites/add");
             }}
           >
             Add Invite
