@@ -28,7 +28,6 @@ programRouter.post("/search", async (req, res) => {
 
     const offset = (pageNum - 1) * 10;
 
-    // Query to count the total number of matching programs
     const totalCountResult = await prisma.$queryRaw`
       SELECT COUNT(*) FROM "Program" p
       JOIN "Institution" i ON p."institutionId" = i.id
@@ -36,7 +35,6 @@ programRouter.post("/search", async (req, res) => {
     `;
     const totalCount = totalCountResult[0].count;
 
-    // Query to fetch paginated results
     const programs = await prisma.$queryRaw`
       SELECT 
         p.id AS program_id, 

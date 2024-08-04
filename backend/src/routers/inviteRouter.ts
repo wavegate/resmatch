@@ -9,6 +9,29 @@ import { removeUndefinedValues } from "../utils/various.js";
 
 const inviteRouter = express.Router();
 
+inviteRouter.get("/total-invites-over-time", async (req, res) => {
+  try {
+    const rawData = await prisma.$queryRaw`
+      SELECT
+        DATE("inviteDateTime") AS date,
+        COUNT(*)::bigint AS totalInvites
+      FROM "InterviewInvite"
+      GROUP BY DATE("inviteDateTime")
+      ORDER BY DATE("inviteDateTime");
+    `;
+
+    const formattedData = rawData.map((entry) => ({
+      date: entry.date,
+      totalInvites: Number(entry.totalinvites),
+    }));
+
+    res.status(200).json(formattedData);
+  } catch (error) {
+    console.error("Error retrieving total invites over time:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 inviteRouter.post("/", verifyToken, async (req: AuthenticatedRequest, res) => {
   try {
     const formData = req.body;
