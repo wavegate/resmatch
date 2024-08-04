@@ -85,10 +85,18 @@ const searchInvite = async ({
   return data;
 };
 
+const getTotalInvitesOverTime = async (): Promise<
+  TotalInvitesOverTimeResponse[]
+> => {
+  const { data } = await apiClient.get(`${route}/total-invites-over-time`);
+  return data;
+};
+
 export default {
   createInvite,
   readInvite,
   updateInvite,
   deleteInvite,
   searchInvite,
+  getTotalInvitesOverTime,
 };
