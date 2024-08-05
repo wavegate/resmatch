@@ -62,6 +62,7 @@ export default () => {
     mutateAsync(values).then((res) => {
       notifications.show({
         message: "Interview invite added",
+        withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/interview-invites");

@@ -7,35 +7,44 @@ import {
   Avatar,
   Drawer,
   Text,
+  Loader,
+  Badge,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useState, useMemo } from "react";
-import { IoMdAdd } from "react-icons/io";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import ProgramSearch from "../ProgramSearch/ProgramSearch";
+import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
-import NoRecords from "../NoRecords/NoRecords";
+import NoRecords from "@/components/NoRecords/NoRecords";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 interface InvitesTableProps {
   className?: string;
 }
 
+interface Filter {
+  field: string;
+  value: string;
+  label: string;
+}
+
 export default ({ className }: InvitesTableProps) => {
   const { user } = useUser();
-  const [selectedProgramId, setSelectedProgramId] = useState();
+  const [selectedProgram, setSelectedProgram] = useState();
   const [dateRange, setDateRange] = useState([null, null]);
   const [pageNum, setPageNum] = useState(1); // State for the current page number
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["invites", selectedProgramId, dateRange, pageNum],
+    queryKey: ["invites", selectedProgram, dateRange, pageNum],
     queryFn: () => {
       const [startDate, endDate] = dateRange;
       return inviteService.searchInvite({
-        programId: selectedProgramId,
+        programId: selectedProgram?.id,
         startDate: startDate ? startDate.toISOString() : undefined,
         endDate: endDate ? endDate.toISOString() : undefined,
         pageNum, // Include the page number in the fetch request
@@ -43,9 +52,11 @@ export default ({ className }: InvitesTableProps) => {
     },
   });
 
+  console.log(selectedProgram);
+
   const clearFilters = () => {
     setDateRange([null, null]);
-    setSelectedProgramId(null);
+    setSelectedProgram(null);
     setPageNum(1); // Reset to the first page
   };
 
@@ -157,6 +168,14 @@ export default ({ className }: InvitesTableProps) => {
     }
   }, [data?.totalCount]);
 
+  const filtersPresent = useMemo(() => {
+    if ((dateRange[0] && dateRange[1]) || selectedProgram) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [dateRange, selectedProgram]);
+
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
@@ -167,13 +186,21 @@ export default ({ className }: InvitesTableProps) => {
             label="Pick dates range"
             placeholder="Pick dates range"
             value={dateRange}
-            onChange={setDateRange}
+            onChange={(value) => {
+              // lol
+              if (!(+!!value[0] ^ +!!value[1])) {
+                setDateRange(value);
+              }
+            }}
             clearable
             size="md"
+            leftSection={<FaRegCalendarAlt />}
           />
           <ProgramSearch
-            onProgramSelect={setSelectedProgramId}
-            selected={selectedProgramId}
+            onProgramSelect={(value) => {
+              setSelectedProgram(value);
+            }}
+            selected={selectedProgram}
           />
         </div>
       </Drawer>
@@ -223,12 +250,35 @@ export default ({ className }: InvitesTableProps) => {
           />
         </div>
       </div>
+      {filtersPresent && (
+        <div className={`inline-flex gap-1 mt-2`}>
+          {dateRange[0] && dateRange[1] && (
+            <Badge
+              variant="outline"
+              rightSection={
+                <IoMdClose onClick={() => setDateRange([null, null])} />
+              }
+            >
+              {`${dayjs(dateRange[0]).format("M/DD/YYYY")} -
+            ${dayjs(dateRange[1]).format("M/DD/YYYY")}`}
+            </Badge>
+          )}
+          {selectedProgram && (
+            <Badge
+              variant="outline"
+              rightSection={
+                <IoMdClose onClick={() => setSelectedProgram(null)} />
+              }
+            >{`${selectedProgram.name} at ${selectedProgram.institution.name}`}</Badge>
+          )}
+        </div>
+      )}
       <div className={`relative`} style={{ minHeight: "200px" }}>
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 1 }}
-        />
+        {isLoading && (
+          <div className={`flex flex-col items-center`}>
+            <Loader color="blue" className={`mt-12`} />
+          </div>
+        )}
         {data?.interviewInvites?.length > 0 && <Accordion>{items}</Accordion>}
         {data?.interviewInvites && data.interviewInvites.length === 0 && (
           <NoRecords />

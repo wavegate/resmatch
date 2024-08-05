@@ -17,6 +17,7 @@ import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { loginSchema } from "./schema";
 import authService from "@/services/authService";
+import { useEffect } from "react";
 
 interface LoginFormValues {
   email: string;
@@ -45,6 +46,7 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       notifications.show({
         message: "Login successful",
+        withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/");
@@ -53,6 +55,7 @@ export default function Login() {
       notifications.show({
         message: "Login failed",
         color: "red",
+        withBorder: true,
       });
       console.error("Login error:", error);
     },
@@ -61,7 +64,6 @@ export default function Login() {
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
-
   return (
     <Container size={420} my={40}>
       <Title ta="center">Login</Title>

@@ -53,6 +53,7 @@ export default function Signup() {
       localStorage.setItem("token", data.token);
       notifications.show({
         message: "Signup successful",
+        withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/");
