@@ -24,9 +24,9 @@ export default () => {
           time of the invite.
         </Text>
       </header>
-      <InvitesTable className={`xl:hidden`} />
+      <InvitesTable />
 
-      <div className={`grid grid-cols-[1.5fr_1fr] gap-4 max-xl:hidden`}>
+      {/* <div className={`grid grid-cols-[1.5fr_1fr] gap-4 max-xl:hidden`}>
         <div>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
             <InvitesTable />
@@ -40,7 +40,7 @@ export default () => {
             <TimeRangeChart />
           </Card>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

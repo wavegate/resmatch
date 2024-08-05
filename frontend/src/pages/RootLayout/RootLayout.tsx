@@ -72,7 +72,7 @@ export default () => {
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
-      footer={{ height: 50 }}
+      // footer={{ height: 50 }}
       padding="md"
       className={`text-gray-900`}
     >
@@ -160,7 +160,7 @@ export default () => {
       <AppShell.Main>
         <Outlet />
       </AppShell.Main>
-      <AppShell.Footer>
+      {/* <AppShell.Footer>
         <div className={`${classes.footer} max-sm:hidden`}>
           <div className={classes.inner}>
             <Logo />
@@ -198,7 +198,7 @@ export default () => {
             );
           })}
         </div>
-      </AppShell.Footer>
+      </AppShell.Footer> */}
     </AppShell>
   );
 };
