@@ -1,25 +1,17 @@
-import apiClient from "@/apiClient";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import authService from "@/services/authService";
 
-const fetchUserInfo = async () => {
-  const response = await apiClient.get("/user-info");
-  return response.data;
-};
-
-export default () => {
+const useUser = () => {
   const queryClient = useQueryClient();
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["user"],
-    queryFn: fetchUserInfo,
+    queryFn: authService.getCurrentUser,
     retry: false,
   });
 
   const signOut = () => {
-    // Remove the token from local storage
     localStorage.removeItem("token");
-
-    // Invalidate and remove the user query from cache
     queryClient.resetQueries({ queryKey: ["user"] });
   };
 
@@ -30,3 +22,5 @@ export default () => {
     signOut,
   };
 };
+
+export default useUser;

@@ -16,6 +16,7 @@ import apiClient from "@/apiClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
+import useAuthGuard from "@/hooks/useAuthGuard";
 
 const formSchema = z.object({
   anonymous: z.boolean().optional(),
@@ -41,6 +42,7 @@ const formSchema = z.object({
 });
 
 export default () => {
+  useAuthGuard();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });

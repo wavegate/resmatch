@@ -1,6 +1,7 @@
 import { Card, Text, Title } from "@mantine/core";
 import TimeRangeChart from "@/components/TimeRangeChart/TimeRangeChart";
 import InvitesTable from "@/components/InvitesTable/InvitesTable";
+import useUser from "@/hooks/useUser";
 
 export default () => {
   return (
@@ -23,18 +24,22 @@ export default () => {
           time of the invite.
         </Text>
       </header>
-      <InvitesTable className={`sm:hidden`} />
+      <InvitesTable className={`xl:hidden`} />
 
-      <div className={`grid grid-cols-[1.5fr_1fr] gap-4 max-sm:hidden`}>
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
-          <InvitesTable />
-        </Card>
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
-          <Title order={4} className={`font-medium mb-6`}>
-            Interview Invites Over Time
-          </Title>
-          <TimeRangeChart />
-        </Card>
+      <div className={`grid grid-cols-[1.5fr_1fr] gap-4 max-xl:hidden`}>
+        <div>
+          <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <InvitesTable />
+          </Card>
+        </div>
+        <div className={`flex flex-col gap-4`}>
+          <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <Title order={4} className={`font-medium mb-6`}>
+              Interview Invites Over Time
+            </Title>
+            <TimeRangeChart />
+          </Card>
+        </div>
       </div>
     </div>
   );

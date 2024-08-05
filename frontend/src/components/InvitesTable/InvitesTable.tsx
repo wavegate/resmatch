@@ -17,8 +17,14 @@ import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import ProgramSearch from "../ProgramSearch/ProgramSearch";
 import { PAGE_SIZE } from "@/constants";
+import useUser from "@/hooks/useUser";
 
-export default ({ className }) => {
+interface InvitesTableProps {
+  className?: string;
+}
+
+export default ({ className }: InvitesTableProps) => {
+  const { user } = useUser();
   const [selectedProgramId, setSelectedProgramId] = useState();
   const [dateRange, setDateRange] = useState([null, null]);
   const [pageNum, setPageNum] = useState(1); // State for the current page number
@@ -176,15 +182,17 @@ export default ({ className }) => {
           <Button onClick={open} variant="outline">
             Filters
           </Button>
-          <Button
-            className={`sm:hidden`}
-            onClick={() => {
-              navigate("/invites/add");
-            }}
-            leftSection={<IoMdAdd size={18} />}
-          >
-            Add Invite
-          </Button>
+          {user && (
+            <Button
+              className={`sm:hidden`}
+              onClick={() => {
+                navigate("/invites/add");
+              }}
+              leftSection={<IoMdAdd size={18} />}
+            >
+              Add Invite
+            </Button>
+          )}
           <Pagination
             className={`max-sm:hidden`}
             value={pageNum}
@@ -193,15 +201,17 @@ export default ({ className }) => {
           />
         </div>
         <div className={`flex gap-2`}>
-          <Button
-            className={`max-sm:hidden`}
-            onClick={() => {
-              navigate("/invites/add");
-            }}
-            leftSection={<IoMdAdd size={18} />}
-          >
-            Add Invite
-          </Button>
+          {user && (
+            <Button
+              className={`max-sm:hidden`}
+              onClick={() => {
+                navigate("/invites/add");
+              }}
+              leftSection={<IoMdAdd size={18} />}
+            >
+              Add Invite
+            </Button>
+          )}
           <Pagination
             className={`sm:hidden`}
             value={pageNum}

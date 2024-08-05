@@ -1,4 +1,3 @@
-import React from "react";
 import {
   TextInput,
   PasswordInput,
@@ -14,26 +13,14 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { loginSchema } from "./schema"; // Import the schema
-import { API_URL } from "@/constants";
-import apiClient from "@/apiClient";
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
+import { loginSchema } from "./schema";
+import authService from "@/services/authService";
 
 interface LoginFormValues {
   email: string;
   password: string;
-}
-
-async function loginUser(data: LoginFormValues) {
-  const response = await apiClient.post(`/login`, data);
-
-  if (response.status !== 200) {
-    throw new Error("Login failed");
-  }
-
-  return response.data;
 }
 
 export default function Login() {
@@ -48,13 +35,13 @@ export default function Login() {
       password: "testtest",
     },
   });
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: authService.login,
     onSuccess: (data) => {
-      console.log("Login successful:", data);
       localStorage.setItem("token", data.token);
       notifications.show({
         message: "Login successful",
@@ -63,6 +50,10 @@ export default function Login() {
       navigate("/");
     },
     onError: (error: any) => {
+      notifications.show({
+        message: "Login failed",
+        color: "red",
+      });
       console.error("Login error:", error);
     },
   });
@@ -89,7 +80,7 @@ export default function Login() {
             render={({ field }) => (
               <TextInput
                 label="Email"
-                placeholder="you@mantine.dev"
+                placeholder="Enter your email"
                 error={errors.email?.message}
                 required
                 {...field}
@@ -102,7 +93,7 @@ export default function Login() {
             render={({ field }) => (
               <PasswordInput
                 label="Password"
-                placeholder="Your password"
+                placeholder="Enter your password"
                 error={errors.password?.message}
                 required
                 mt="md"
