@@ -33,7 +33,7 @@ programRouter.post("/search", async (req, res) => {
       JOIN "Institution" i ON p."institutionId" = i.id
       WHERE CONCAT(p.name, ' at ', i.name) ILIKE ${"%" + searchTerm + "%"}
     `;
-    const totalCount = totalCountResult[0].count;
+    const totalCount = Number(totalCountResult[0].count);
 
     const programs = await prisma.$queryRaw`
       SELECT 
@@ -42,8 +42,7 @@ programRouter.post("/search", async (req, res) => {
         p."nrmpProgramCode" AS nrmp_program_code,
         i.id AS institution_id, 
         i.name AS institution_name,
-        s.name AS specialty_name,
-        (SELECT COUNT(*) FROM "InterviewInvite" ii WHERE ii."programId" = p.id) AS interview_invites
+        s.name AS specialty_name
       FROM "Program" p
       JOIN "Institution" i ON p."institutionId" = i.id
       JOIN "Specialty" s ON p."specialtyId" = s.id
