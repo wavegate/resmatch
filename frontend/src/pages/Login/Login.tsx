@@ -83,6 +83,7 @@ export default function Login() {
                 placeholder="Enter your email"
                 error={errors.email?.message}
                 required
+                size="md"
                 {...field}
               />
             )}
@@ -97,6 +98,7 @@ export default function Login() {
                 error={errors.password?.message}
                 required
                 mt="md"
+                size="md"
                 {...field}
               />
             )}

@@ -87,10 +87,10 @@ export default () => {
               hiddenFrom="sm"
               size="sm"
             />
-            <div className={`items-center flex gap-3`}>
+            <Link className={`items-center flex gap-3`} to={"/"}>
               <RiMentalHealthLine size={24} />
               <h1 className={`font-medium text-xl`}>Residency Match</h1>
-            </div>
+            </Link>
           </div>
           <div className={`flex gap-4 max-sm:hidden relative`}>
             <LoadingOverlay

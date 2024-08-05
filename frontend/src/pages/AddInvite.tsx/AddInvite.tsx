@@ -99,6 +99,7 @@ export default () => {
             placeholder="Select a date"
             required
             error={fieldState.error?.message}
+            size="md"
             {...field}
           />
         )}
@@ -112,6 +113,7 @@ export default () => {
             label="I want this invite to be anonymous (not linked to your profile)."
             {...field}
             checked={field.value}
+            size="md"
           />
         )}
       />
@@ -124,6 +126,7 @@ export default () => {
             label="I signalled to this program."
             {...field}
             checked={field.value}
+            size="md"
           />
         )}
       />
@@ -136,6 +139,7 @@ export default () => {
             label="This program is in a geographically preferred location."
             {...field}
             checked={field.value}
+            size="md"
           />
         )}
       />
@@ -148,6 +152,7 @@ export default () => {
             label="Are you a US medical graduate or IMG?"
             placeholder="Enter graduate type"
             data={["US", "IMG"]}
+            size="md"
             {...field}
           />
         )}
@@ -162,6 +167,7 @@ export default () => {
               label="Are you an MD or DO applicant?"
               placeholder="Enter medical degree"
               data={["MD", "DO"]}
+              size="md"
               {...field}
             />
           )}
@@ -177,6 +183,7 @@ export default () => {
               label="Are you in or out of state for this program?"
               placeholder="Enter option"
               data={["IS", "OOS"]}
+              size="md"
               {...field}
             />
           )}
@@ -192,6 +199,7 @@ export default () => {
               label="This is my home program."
               {...field}
               checked={field.value}
+              size="md"
             />
           )}
         />
@@ -204,6 +212,7 @@ export default () => {
             label="I completed an away at this program."
             {...field}
             checked={field.value}
+            size="md"
           />
         )}
       />
@@ -215,6 +224,7 @@ export default () => {
             label="I completed a subI at this program."
             {...field}
             checked={field.value}
+            size="md"
           />
         )}
       />
@@ -227,6 +237,7 @@ export default () => {
               label="Are you a US IMG or non-US IMG?"
               placeholder="Enter option"
               data={["USIMG", "nonUSIMG"]}
+              size="md"
               {...field}
             />
           )}
@@ -242,6 +253,7 @@ export default () => {
               label="I require Visa sponsorship."
               {...field}
               checked={field.value}
+              size="md"
             />
           )}
         />
@@ -255,6 +267,7 @@ export default () => {
               label="I have a green card."
               {...field}
               checked={field.value}
+              size="md"
             />
           )}
         />
@@ -268,6 +281,7 @@ export default () => {
             label="Year of Graduation"
             placeholder="Enter year of graduation"
             {...field}
+            size="md"
           />
         )}
       />
@@ -280,6 +294,7 @@ export default () => {
             label="Have you passed Step 1?"
             {...field}
             checked={field.value}
+            size="md"
           />
         )}
       />
@@ -295,6 +310,7 @@ export default () => {
             placeholder="Enter Step 1 Score"
             min={1}
             max={300}
+            size="md"
             {...field}
           />
         )}
@@ -309,6 +325,7 @@ export default () => {
             placeholder="Enter Step 2 Score"
             min={1}
             max={300}
+            size="md"
             {...field}
           />
         )}

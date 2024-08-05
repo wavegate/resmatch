@@ -50,7 +50,6 @@ export default function Signup() {
     mutationFn: signupUser,
     onSuccess: (data) => {
       console.log("Signup successful:", data);
-      // Perform any additional success handling here, such as redirecting the user
       localStorage.setItem("token", data.token);
       notifications.show({
         message: "Signup successful",
@@ -88,6 +87,7 @@ export default function Signup() {
                 placeholder="residency@match.com"
                 error={errors.email?.message}
                 required
+                size="md"
                 {...field}
               />
             )}
@@ -102,6 +102,7 @@ export default function Signup() {
                 error={errors.password?.message}
                 required
                 mt="md"
+                size="md"
                 {...field}
               />
             )}
@@ -116,6 +117,7 @@ export default function Signup() {
                 error={errors.confirmPassword?.message}
                 required
                 mt="md"
+                size="md"
                 {...field}
               />
             )}

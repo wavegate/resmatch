@@ -169,6 +169,7 @@ export default ({ className }: InvitesTableProps) => {
             value={dateRange}
             onChange={setDateRange}
             clearable
+            size="md"
           />
           <ProgramSearch
             onProgramSelect={setSelectedProgramId}
