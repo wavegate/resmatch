@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import ProgramSearch from "../ProgramSearch/ProgramSearch";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
+import NoRecords from "../NoRecords/NoRecords";
 
 interface InvitesTableProps {
   className?: string;
@@ -227,12 +228,10 @@ export default ({ className }: InvitesTableProps) => {
           zIndex={1000}
           overlayProps={{ radius: "sm", blur: 1 }}
         />
-        {data?.interviewInvites?.length === 0 && (
-          <Text c="dimmed" size="sm">
-            No data found...
-          </Text>
-        )}
         {data?.interviewInvites?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.interviewInvites && data.interviewInvites.length === 0 && (
+          <NoRecords />
+        )}
       </div>
     </div>
   );

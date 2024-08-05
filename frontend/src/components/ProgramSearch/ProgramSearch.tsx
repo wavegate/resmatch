@@ -1,4 +1,5 @@
 import apiClient from "@/apiClient";
+import programService from "@/services/programService";
 import { Select } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -15,10 +16,11 @@ export default function ProgramSearch({
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
-        const response = await apiClient.post(`/programs/search`, {
+        const response = await programService.searchProgram({
           searchTerm: search,
+          pageNum: 1,
         });
-        setData(response.data);
+        setData(response.programs);
       } catch (error) {
         console.error("Error fetching programs:", error);
       }
@@ -41,7 +43,8 @@ export default function ProgramSearch({
       clearable
       searchValue={searchInput}
       onSearchChange={setSearchInput}
-      onChange={(value) => onProgramSelect(Number(value))} // Pass the selected program ID
+      onChange={(value) => onProgramSelect(Number(value))}
+      size="md"
     />
   );
 }
