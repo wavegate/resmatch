@@ -46,6 +46,7 @@ model Program {
   institution      Institution       @relation(fields: [institutionId], references: [id])
   specialty        Specialty         @relation(fields: [specialtyId], references: [id])
   interviewInvites InterviewInvite[]
+  image            String?
 
   @@unique([institutionId, specialtyId, name])
 }
