@@ -1,4 +1,4 @@
-import AddInvite from "@/pages/AddInvite.tsx/AddInvite";
+import AddInvite from "@/pages/AddInvite/AddInvite";
 import HomePage from "@/pages/HomePage";
 import Invites from "@/pages/Invites/Invites";
 import Login from "@/pages/Login/Login";
@@ -6,6 +6,7 @@ import Programs from "@/pages/Programs/Programs";
 import RootLayout from "@/pages/RootLayout/RootLayout";
 import SignUp from "@/pages/SignUp/SignUp";
 import User from "@/pages/User/User";
+import AddProgram from "@/pages/AddProgram/AddProgram";
 
 const routes = [
   {
@@ -35,6 +36,10 @@ const routes = [
       {
         path: "program",
         element: <Programs />,
+      },
+      {
+        path: "program/:id",
+        element: <AddProgram />,
       },
       {
         path: "user/:id",

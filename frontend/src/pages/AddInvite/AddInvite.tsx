@@ -65,7 +65,7 @@ export default () => {
         message: "Thanks for sharing information about your invite!",
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["invite"] });
       navigate("/invite");
     });
   }
@@ -95,9 +95,7 @@ export default () => {
               <ProgramSearch
                 required
                 selected={value}
-                onProgramSelect={(value) => {
-                  onChange(value.id);
-                }}
+                onChange={onChange}
                 label="For which program were you invited to interview for?"
               />
               {fieldState.error && (

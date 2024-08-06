@@ -10,6 +10,7 @@ export default function ProgramSearch({
   selected,
   label = "Search program by name",
   required = false,
+  onChange,
 }) {
   const [searchInput, setSearchInput] = useState("");
   const [search] = useDebouncedValue(searchInput, 200);
@@ -24,8 +25,6 @@ export default function ProgramSearch({
     },
   });
 
-  console.log(selected);
-
   // need to fix issue here where unmounting will remove data, and so the selected is not displayed properly
 
   return (
@@ -34,7 +33,7 @@ export default function ProgramSearch({
       required={required}
       label={label}
       placeholder="Enter program name here"
-      value={selected}
+      value={String(selected)}
       data={data?.programs.map((program) => ({
         value: program.id.toString(),
         label: `${program.name} at ${program.institution.name}`,
@@ -44,11 +43,13 @@ export default function ProgramSearch({
       searchValue={searchInput}
       onSearchChange={setSearchInput}
       onChange={(value) => {
-        onProgramSelect(
-          data?.programs.find((program) => {
-            return program.id === Number(value);
-          })
-        );
+        onProgramSelect &&
+          onProgramSelect(
+            data?.programs.find((program) => {
+              return program.id === Number(value);
+            })
+          );
+        onChange && onChange(Number(value));
       }}
       size="md"
     />

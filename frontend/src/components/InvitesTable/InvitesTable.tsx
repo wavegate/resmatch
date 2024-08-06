@@ -9,37 +9,20 @@ import {
   Loader,
   Badge,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useState, useMemo } from "react";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import {
-  FaHome,
-  FaMapMarkerAlt,
-  FaPassport,
-  FaPlane,
-  FaRegCalendarAlt,
-  FaSignal,
-  FaSuitcaseRolling,
-} from "react-icons/fa";
-import { MdMenuBook } from "react-icons/md";
 import ItemDetails from "@/components/InviteDetails/InviteDetails";
+import Filters from "./Filters/Filters";
 
 interface InvitesTableProps {
   className?: string;
-}
-
-interface Filter {
-  field: string;
-  value: string;
-  label: string;
 }
 
 export default ({ className }: InvitesTableProps) => {
@@ -47,23 +30,23 @@ export default ({ className }: InvitesTableProps) => {
   const [selectedProgram, setSelectedProgram] = useState();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [pageNum, setPageNum] = useState(1); // State for the current page number
+  const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["invites", selectedProgram, startDate, endDate, pageNum],
+    queryKey: ["invite", selectedProgram, startDate, endDate, pageNum],
     queryFn: () => {
       return inviteService.searchInvite({
         programId: selectedProgram?.id,
         startDate: startDate ? startDate.toISOString() : undefined,
         endDate: endDate ? endDate.toISOString() : undefined,
-        pageNum, // Include the page number in the fetch request
+        pageNum,
       });
     },
   });
 
   const clearFilters = () => {
     setSelectedProgram(null);
-    setPageNum(1); // Reset to the first page
+    setPageNum(1);
   };
 
   const items = useMemo(() => {
@@ -114,7 +97,6 @@ export default ({ className }: InvitesTableProps) => {
               </div>
             </Accordion.Control>
             <Accordion.Panel>
-              {" "}
               <ItemDetails item={item} />
             </Accordion.Panel>
           </Accordion.Item>
@@ -146,35 +128,16 @@ export default ({ className }: InvitesTableProps) => {
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <div className={`flex flex-col gap-3 items-start`}>
-          <Button onClick={clearFilters}>Clear Filters</Button>
-          <DatePickerInput
-            label="Pick start date"
-            placeholder="Pick start date"
-            value={startDate}
-            onChange={setStartDate}
-            clearable
-            size="md"
-            leftSection={<FaRegCalendarAlt />}
-            maxDate={endDate ? dayjs(endDate).toDate() : undefined}
-          />
-          <DatePickerInput
-            label="Pick end date"
-            placeholder="Pick end date"
-            value={endDate}
-            onChange={setEndDate}
-            clearable
-            size="md"
-            leftSection={<FaRegCalendarAlt />}
-            minDate={startDate ? dayjs(startDate).toDate() : undefined}
-          />
-          <ProgramSearch
-            onProgramSelect={(value) => {
-              setSelectedProgram(value);
-            }}
-            selected={selectedProgram?.id}
-          />
-        </div>
+        <Filters
+          opened={opened}
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+          setSelectedProgram={setSelectedProgram}
+          selectedProgram={selectedProgram}
+          clearFilters={clearFilters}
+        />
       </Drawer>
       <div
         className={`flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4`}
@@ -226,7 +189,6 @@ export default ({ className }: InvitesTableProps) => {
         <div className="inline-flex gap-1 mt-2">
           {startDate && !endDate && (
             <Badge
-              variant="outline"
               rightSection={<IoMdClose onClick={() => setStartDate(null)} />}
             >
               {`After ${dayjs(startDate).format("M/DD/YYYY")}`}
@@ -234,7 +196,6 @@ export default ({ className }: InvitesTableProps) => {
           )}
           {!startDate && endDate && (
             <Badge
-              variant="outline"
               rightSection={<IoMdClose onClick={() => setEndDate(null)} />}
             >
               {`Before ${dayjs(endDate).format("M/DD/YYYY")}`}
@@ -242,7 +203,6 @@ export default ({ className }: InvitesTableProps) => {
           )}
           {startDate && endDate && (
             <Badge
-              variant="outline"
               rightSection={
                 <IoMdClose
                   onClick={() => {
@@ -259,7 +219,6 @@ export default ({ className }: InvitesTableProps) => {
           )}
           {selectedProgram && (
             <Badge
-              variant="outline"
               rightSection={
                 <IoMdClose onClick={() => setSelectedProgram(null)} />
               }

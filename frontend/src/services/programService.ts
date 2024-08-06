@@ -15,7 +15,7 @@ interface FormData {
 }
 
 interface SearchParams {
-  searchTerm: string;
+  searchTerm: string | null;
   pageNum: number;
 }
 

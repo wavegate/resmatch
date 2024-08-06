@@ -29,7 +29,7 @@ const ItemDetails = ({ item }) => {
     );
   }
   return (
-    <div className="inline-flex flex-wrap gap-2 mt-2">
+    <div className="inline-flex flex-wrap gap-2">
       {item.graduateType && (
         <Badge color="blue" variant="outline">
           {item.graduateType}

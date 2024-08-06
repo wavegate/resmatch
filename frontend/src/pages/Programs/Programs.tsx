@@ -1,37 +1,29 @@
-import { API_URL } from "@/constants";
-import { Accordion } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useMemo } from "react";
-
-const fetchPrograms = async () => {
-  const { data } = await axios.get(`${API_URL}/programs`);
-  return data;
-};
+import { Text, Title } from "@mantine/core";
+import InvitesTable from "@/components/InvitesTable/InvitesTable";
+import ProgramsTable from "@/components/ProgramsTable/ProgramsTable";
 
 export default () => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["programs"],
-    queryFn: fetchPrograms,
-  });
-
-  const items = useMemo(() => {
-    if (data) {
-      return data.map((item: any) => {
-        return (
-          <Accordion.Item key={item.id} value={String(item.id)}>
-            <Accordion.Control>
-              {item.name} at {item.institution.name}
-            </Accordion.Control>
-            <Accordion.Panel>{item.specialty.specialtyCode}</Accordion.Panel>
-          </Accordion.Item>
-        );
-      });
-    }
-  }, [data]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  return <div>{<Accordion>{items}</Accordion>}</div>;
+  return (
+    <div className={`flex flex-col gap-2`}>
+      <header>
+        <Title
+          order={2}
+          mb={{ base: "xs", md: "sm" }}
+          className="text-lg sm:text-xl md:text-2xl"
+        >
+          Programs
+        </Title>
+        <Text
+          c="dimmed"
+          mb={{ base: "xs", md: "sm" }}
+          className="text-sm sm:text-base md:text-lg"
+        >
+          Discover interview invites shared by fellow medical residency
+          applicants, along with their qualifications and experiences at the
+          time of the invite.
+        </Text>
+      </header>
+      <ProgramsTable />
+    </div>
+  );
 };

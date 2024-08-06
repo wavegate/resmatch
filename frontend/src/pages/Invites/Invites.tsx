@@ -1,7 +1,5 @@
-import { Card, Text, Title } from "@mantine/core";
-import TimeRangeChart from "@/components/TimeRangeChart/TimeRangeChart";
 import InvitesTable from "@/components/InvitesTable/InvitesTable";
-import useUser from "@/hooks/useUser";
+import { Text, Title } from "@mantine/core";
 
 export default () => {
   return (
