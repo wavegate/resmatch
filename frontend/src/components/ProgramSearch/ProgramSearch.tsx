@@ -24,6 +24,8 @@ export default function ProgramSearch({
     },
   });
 
+  console.log(selected);
+
   // need to fix issue here where unmounting will remove data, and so the selected is not displayed properly
 
   return (
@@ -31,8 +33,8 @@ export default function ProgramSearch({
       leftSection={<IoIosSearch />}
       required={required}
       label={label}
-      placeholder="eg. Stanford"
-      value={String(selected?.id)}
+      placeholder="Enter program name here"
+      value={selected}
       data={data?.programs.map((program) => ({
         value: program.id.toString(),
         label: `${program.name} at ${program.institution.name}`,
@@ -42,7 +44,6 @@ export default function ProgramSearch({
       searchValue={searchInput}
       onSearchChange={setSearchInput}
       onChange={(value) => {
-        console.log(value);
         onProgramSelect(
           data?.programs.find((program) => {
             return program.id === Number(value);

@@ -2,7 +2,6 @@ import inviteService from "@/services/inviteService";
 import {
   Button,
   Pagination,
-  LoadingOverlay,
   Accordion,
   Avatar,
   Drawer,
@@ -16,12 +15,22 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useState, useMemo } from "react";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaMapMarkerAlt,
+  FaPassport,
+  FaPlane,
+  FaRegCalendarAlt,
+  FaSignal,
+  FaSuitcaseRolling,
+} from "react-icons/fa";
+import { MdMenuBook } from "react-icons/md";
+import ItemDetails from "@/components/InviteDetails/InviteDetails";
 
 interface InvitesTableProps {
   className?: string;
@@ -36,13 +45,13 @@ interface Filter {
 export default ({ className }: InvitesTableProps) => {
   const { user } = useUser();
   const [selectedProgram, setSelectedProgram] = useState();
-  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [pageNum, setPageNum] = useState(1); // State for the current page number
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["invites", selectedProgram, dateRange, pageNum],
+    queryKey: ["invites", selectedProgram, startDate, endDate, pageNum],
     queryFn: () => {
-      const [startDate, endDate] = dateRange;
       return inviteService.searchInvite({
         programId: selectedProgram?.id,
         startDate: startDate ? startDate.toISOString() : undefined,
@@ -52,10 +61,7 @@ export default ({ className }: InvitesTableProps) => {
     },
   });
 
-  console.log(selectedProgram);
-
   const clearFilters = () => {
-    setDateRange([null, null]);
     setSelectedProgram(null);
     setPageNum(1); // Reset to the first page
   };
@@ -89,66 +95,27 @@ export default ({ className }: InvitesTableProps) => {
                   </Text>
                   <div className={`flex items-center gap-2`}>
                     <Avatar size="sm" />
-                    <Text c="dimmed" className="text-xs sm:text-sm underline">
-                      {item.user.alias}
-                    </Text>
+                    {item.anonymous ? (
+                      <Text c="dimmed" className="text-xs sm:text-sm">
+                        Anonymous
+                      </Text>
+                    ) : (
+                      <Link to={`/user/${item.user.id}`}>
+                        <Text
+                          c="dimmed"
+                          className="text-xs sm:text-sm underline"
+                        >
+                          {item.user.alias}
+                        </Text>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
             </Accordion.Control>
             <Accordion.Panel>
-              <div className="grid grid-cols-2 gap-4 mt-2">
-                <div>
-                  <strong>Graduate Type:</strong> {item.graduateType || "N/A"}
-                </div>
-                <div>
-                  <strong>IMG:</strong> {item.img || "N/A"}
-                </div>
-                <div>
-                  <strong>Medical Degree:</strong> {item.medicalDegree}
-                </div>
-                <div>
-                  <strong>Step 1 Score:</strong>{" "}
-                  {item.step1Score || (item.step1ScorePass ? "Pass" : "N/A")}
-                </div>
-                <div>
-                  <strong>Step 2 Score:</strong> {item.step2Score || "N/A"}
-                </div>
-                <div>
-                  <strong>COMLEX 1 Score Pass:</strong>{" "}
-                  {item.comlex1ScorePass ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>COMLEX 2 Score:</strong> {item.comlex2Score || "N/A"}
-                </div>
-                <div>
-                  <strong>Geographic Preference:</strong>{" "}
-                  {item.geographicPreference ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>Signal Sent:</strong> {item.signal ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>Visa Required:</strong>{" "}
-                  {item.visaRequired ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>SubI:</strong> {item.subI ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>Home Program:</strong> {item.home ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>Away Rotation:</strong> {item.away ? "Yes" : "No"}
-                </div>
-                <div>
-                  <strong>Year of Graduation:</strong>{" "}
-                  {item.yearOfGraduation || "N/A"}
-                </div>
-                <div>
-                  <strong>Green Card:</strong> {item.greenCard ? "Yes" : "No"}
-                </div>
-              </div>
+              {" "}
+              <ItemDetails item={item} />
             </Accordion.Panel>
           </Accordion.Item>
         );
@@ -169,12 +136,12 @@ export default ({ className }: InvitesTableProps) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    if ((dateRange[0] && dateRange[1]) || selectedProgram) {
+    if (startDate || endDate || selectedProgram) {
       return true;
     } else {
       return false;
     }
-  }, [dateRange, selectedProgram]);
+  }, [startDate, endDate, selectedProgram]);
 
   return (
     <div className={`${className}`}>
@@ -182,25 +149,30 @@ export default ({ className }: InvitesTableProps) => {
         <div className={`flex flex-col gap-3 items-start`}>
           <Button onClick={clearFilters}>Clear Filters</Button>
           <DatePickerInput
-            type="range"
-            label="Pick dates range"
-            placeholder="Pick dates range"
-            value={dateRange}
-            onChange={(value) => {
-              // lol
-              if (!(+!!value[0] ^ +!!value[1])) {
-                setDateRange(value);
-              }
-            }}
+            label="Pick start date"
+            placeholder="Pick start date"
+            value={startDate}
+            onChange={setStartDate}
             clearable
             size="md"
             leftSection={<FaRegCalendarAlt />}
+            maxDate={endDate ? dayjs(endDate).toDate() : undefined}
+          />
+          <DatePickerInput
+            label="Pick end date"
+            placeholder="Pick end date"
+            value={endDate}
+            onChange={setEndDate}
+            clearable
+            size="md"
+            leftSection={<FaRegCalendarAlt />}
+            minDate={startDate ? dayjs(startDate).toDate() : undefined}
           />
           <ProgramSearch
             onProgramSelect={(value) => {
               setSelectedProgram(value);
             }}
-            selected={selectedProgram}
+            selected={selectedProgram?.id}
           />
         </div>
       </Drawer>
@@ -215,11 +187,11 @@ export default ({ className }: InvitesTableProps) => {
             <Button
               className={`sm:hidden`}
               onClick={() => {
-                navigate("/invites/add");
+                navigate("/invite/add");
               }}
               leftSection={<IoMdAdd size={18} />}
             >
-              Add Invite
+              Share Invite
             </Button>
           )}
           <Pagination
@@ -234,7 +206,7 @@ export default ({ className }: InvitesTableProps) => {
             <Button
               className={`max-sm:hidden`}
               onClick={() => {
-                navigate("/invites/add");
+                navigate("/invite/add");
               }}
               leftSection={<IoMdAdd size={18} />}
             >
@@ -251,16 +223,38 @@ export default ({ className }: InvitesTableProps) => {
         </div>
       </div>
       {filtersPresent && (
-        <div className={`inline-flex gap-1 mt-2`}>
-          {dateRange[0] && dateRange[1] && (
+        <div className="inline-flex gap-1 mt-2">
+          {startDate && !endDate && (
+            <Badge
+              variant="outline"
+              rightSection={<IoMdClose onClick={() => setStartDate(null)} />}
+            >
+              {`After ${dayjs(startDate).format("M/DD/YYYY")}`}
+            </Badge>
+          )}
+          {!startDate && endDate && (
+            <Badge
+              variant="outline"
+              rightSection={<IoMdClose onClick={() => setEndDate(null)} />}
+            >
+              {`Before ${dayjs(endDate).format("M/DD/YYYY")}`}
+            </Badge>
+          )}
+          {startDate && endDate && (
             <Badge
               variant="outline"
               rightSection={
-                <IoMdClose onClick={() => setDateRange([null, null])} />
+                <IoMdClose
+                  onClick={() => {
+                    setStartDate(null);
+                    setEndDate(null);
+                  }}
+                />
               }
             >
-              {`${dayjs(dateRange[0]).format("M/DD/YYYY")} -
-            ${dayjs(dateRange[1]).format("M/DD/YYYY")}`}
+              {`${dayjs(startDate).format("M/DD/YYYY")} - ${dayjs(
+                endDate
+              ).format("M/DD/YYYY")}`}
             </Badge>
           )}
           {selectedProgram && (
@@ -269,11 +263,13 @@ export default ({ className }: InvitesTableProps) => {
               rightSection={
                 <IoMdClose onClick={() => setSelectedProgram(null)} />
               }
-            >{`${selectedProgram.name} at ${selectedProgram.institution.name}`}</Badge>
+            >
+              {`${selectedProgram.name} at ${selectedProgram.institution.name}`}
+            </Badge>
           )}
         </div>
       )}
-      <div className={`relative`} style={{ minHeight: "200px" }}>
+      <div className={`mt-2`}>
         {isLoading && (
           <div className={`flex flex-col items-center`}>
             <Loader color="blue" className={`mt-12`} />

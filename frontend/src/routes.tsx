@@ -5,6 +5,7 @@ import Login from "@/pages/Login/Login";
 import Programs from "@/pages/Programs/Programs";
 import RootLayout from "@/pages/RootLayout/RootLayout";
 import SignUp from "@/pages/SignUp/SignUp";
+import User from "@/pages/User/User";
 
 const routes = [
   {
@@ -24,16 +25,20 @@ const routes = [
         element: <SignUp />,
       },
       {
-        path: "invites",
+        path: "invite",
         element: <Invites />,
       },
       {
-        path: "invites/add",
+        path: "invite/add",
         element: <AddInvite />,
       },
       {
-        path: "programs",
+        path: "program",
         element: <Programs />,
+      },
+      {
+        path: "user/:id",
+        element: <User />,
       },
     ],
   },

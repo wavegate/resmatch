@@ -25,22 +25,6 @@ export default () => {
         </Text>
       </header>
       <InvitesTable />
-
-      {/* <div className={`grid grid-cols-[1.5fr_1fr] gap-4 max-xl:hidden`}>
-        <div>
-          <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <InvitesTable />
-          </Card>
-        </div>
-        <div className={`flex flex-col gap-4`}>
-          <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <Title order={4} className={`font-medium mb-6`}>
-              Interview Invites Over Time
-            </Title>
-            <TimeRangeChart />
-          </Card>
-        </div>
-      </div> */}
     </div>
   );
 };

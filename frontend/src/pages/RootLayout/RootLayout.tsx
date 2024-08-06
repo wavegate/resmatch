@@ -1,12 +1,9 @@
 import {
-  ActionIcon,
   Anchor,
   AppShell,
   Burger,
   Button,
-  Group,
   LoadingOverlay,
-  rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link, NavLink, Outlet } from "react-router-dom";
@@ -15,11 +12,6 @@ import { FaRegCalendarCheck } from "react-icons/fa6";
 import { HiOutlineHome } from "react-icons/hi";
 import { PiHospital } from "react-icons/pi";
 import useUser from "@/hooks/useUser";
-import classes from "./RootLayout.module.css";
-import { FaTwitter } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
-import { IoLogoLinkedin } from "react-icons/io";
-import Logo from "@/assets/Logo";
 
 const routes = [
   {
@@ -28,12 +20,12 @@ const routes = [
     icon: <HiOutlineHome className="h-5 w-5" />,
   },
   {
-    link: "/invites",
+    link: "/invite",
     text: "Invites",
     icon: <FaRegCalendarCheck className="h-5 w-5" />,
   },
   {
-    link: "/programs",
+    link: "/program",
     text: "Programs",
     icon: <PiHospital className="h-5 w-5" />,
   },
