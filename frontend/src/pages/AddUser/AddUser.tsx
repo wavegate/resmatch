@@ -25,6 +25,7 @@ import {
 } from "@/typings/UserTypings";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { removeNulls } from "@/utils/processObjects";
 
 const formSchema = z.object({
   alias: z.string().optional(),
@@ -98,14 +99,7 @@ export default function AddUser() {
 
   useEffect(() => {
     if (userData) {
-      const sanitizedData = Object.fromEntries(
-        Object.entries(userData).map(([key, value]) => [
-          key,
-          value === null ? undefined : value,
-        ])
-      );
-
-      form.reset(sanitizedData);
+      form.reset(removeNulls(userData));
     }
   }, [userData, form]);
 
