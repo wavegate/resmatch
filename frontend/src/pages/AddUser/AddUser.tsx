@@ -27,6 +27,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 const formSchema = z.object({
+  alias: z.string().optional(),
   greenCard: z.boolean().optional(),
   step2CSPathway: z.nativeEnum(Pathway).optional(),
   schoolRanking: z.nativeEnum(SchoolRanking).optional(),
@@ -97,9 +98,16 @@ export default function AddUser() {
 
   useEffect(() => {
     if (userData) {
-      form.reset(userData);
+      const sanitizedData = Object.fromEntries(
+        Object.entries(userData).map(([key, value]) => [
+          key,
+          value === null ? undefined : value,
+        ])
+      );
+
+      form.reset(sanitizedData);
     }
-  }, [userData]);
+  }, [userData, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await mutateAsync(values).then((res) => {
@@ -109,8 +117,8 @@ export default function AddUser() {
           : "User added successfully!",
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-      navigate("/users");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/user");
     });
   }
 
@@ -132,14 +140,28 @@ export default function AddUser() {
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
         <Controller
+          name="alias"
+          control={control}
+          render={({ field, fieldState }) => (
+            <TextInput
+              label="Alias"
+              placeholder="Enter alias"
+              error={fieldState.error?.message}
+              size="md"
+              {...field}
+            />
+          )}
+        />
+        <Controller
           name="graduateType"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               label="Graduate Type"
               placeholder="Select Graduate Type"
               data={Object.values(GraduateType)}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -148,12 +170,13 @@ export default function AddUser() {
         <Controller
           name="medicalDegree"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               label="Medical Degree"
               placeholder="Select Medical Degree"
               data={Object.values(MedicalDegree)}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -162,12 +185,13 @@ export default function AddUser() {
         <Controller
           name="img"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               label="IMG Type"
               placeholder="Select IMG Type"
               data={Object.values(IMGType)}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -176,12 +200,13 @@ export default function AddUser() {
         <Controller
           name="step1ScorePass"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Checkbox
               label="Step 1 Score Pass"
-              {...field}
               checked={field.value}
               size="md"
+              error={fieldState.error?.message}
+              {...field}
             />
           )}
         />
@@ -189,13 +214,14 @@ export default function AddUser() {
         <Controller
           name="step1Score"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Step 1 Score"
               placeholder="Enter Step 1 Score"
               min={0}
               max={300}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -204,13 +230,14 @@ export default function AddUser() {
         <Controller
           name="step2Score"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Step 2 Score"
               placeholder="Enter Step 2 Score"
               min={0}
               max={300}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -219,12 +246,13 @@ export default function AddUser() {
         <Controller
           name="comlex1ScorePass"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Checkbox
               label="COMLEX 1 Score Pass"
-              {...field}
               checked={field.value}
               size="md"
+              error={fieldState.error?.message}
+              {...field}
             />
           )}
         />
@@ -232,13 +260,14 @@ export default function AddUser() {
         <Controller
           name="comlex2Score"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="COMLEX 2 Score"
               placeholder="Enter COMLEX 2 Score"
               min={0}
               max={999}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -247,12 +276,13 @@ export default function AddUser() {
         <Controller
           name="schoolRanking"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               label="School Ranking"
               placeholder="Select School Ranking"
               data={Object.values(SchoolRanking)}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -261,12 +291,13 @@ export default function AddUser() {
         <Controller
           name="classRank"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               label="Class Rank"
               placeholder="Select Class Rank"
               data={Object.values(ClassRanking)}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -275,12 +306,13 @@ export default function AddUser() {
         <Controller
           name="greenCard"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Checkbox
               label="Green Card"
-              {...field}
               checked={field.value}
               size="md"
+              error={fieldState.error?.message}
+              {...field}
             />
           )}
         />
@@ -288,12 +320,13 @@ export default function AddUser() {
         <Controller
           name="visaRequired"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Checkbox
               label="Visa Required"
-              {...field}
               checked={field.value}
               size="md"
+              error={fieldState.error?.message}
+              {...field}
             />
           )}
         />
@@ -301,12 +334,13 @@ export default function AddUser() {
         <Controller
           name="ecfmgCertified"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Checkbox
               label="ECFMG Certified"
-              {...field}
               checked={field.value}
               size="md"
+              error={fieldState.error?.message}
+              {...field}
             />
           )}
         />
@@ -314,13 +348,14 @@ export default function AddUser() {
         <Controller
           name="yearOfGraduation"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Year of Graduation"
               placeholder="Enter Year of Graduation"
               min={1900}
               max={new Date().getFullYear()}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -329,12 +364,13 @@ export default function AddUser() {
         <Controller
           name="monthsOfUSCE"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Months of US Clinical Experience"
               placeholder="Enter Months"
               min={0}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -343,12 +379,13 @@ export default function AddUser() {
         <Controller
           name="numPublications"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Number of Publications"
               placeholder="Enter Number"
               min={0}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -357,12 +394,13 @@ export default function AddUser() {
         <Controller
           name="numWorkExperiences"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Number of Work Experiences"
               placeholder="Enter Number"
               min={0}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -371,12 +409,13 @@ export default function AddUser() {
         <Controller
           name="numVolunteerExperiences"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Number of Volunteer Experiences"
               placeholder="Enter Number"
               min={0}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -385,11 +424,12 @@ export default function AddUser() {
         <Controller
           name="otherDegrees"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextInput
               label="Other Degrees"
               placeholder="Enter Other Degrees"
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}
@@ -398,13 +438,14 @@ export default function AddUser() {
         <Controller
           name="applicationYear"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <NumberInput
               label="Application Year"
               placeholder="Enter Application Year"
               min={1900}
               max={new Date().getFullYear()}
               size="md"
+              error={fieldState.error?.message}
               {...field}
             />
           )}

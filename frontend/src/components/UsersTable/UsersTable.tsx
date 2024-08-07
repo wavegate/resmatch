@@ -7,6 +7,7 @@ import {
   Text,
   Loader,
   Badge,
+  Avatar,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
@@ -28,7 +29,7 @@ export default ({ className }: UsersTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["users", searchTerm, pageNum],
+    queryKey: ["user", searchTerm, pageNum],
     queryFn: () => {
       return userService.searchUser({
         searchTerm,
@@ -44,17 +45,110 @@ export default ({ className }: UsersTableProps) => {
 
   const items = useMemo(() => {
     if (data) {
-      return data.users?.map((item: any) => (
-        <Accordion.Item key={item.id} value={item.id.toString()}>
-          <Accordion.Control className="pl-0">
-            <div>{item.alias}</div>
+      return data.users?.map((user: any) => (
+        <Accordion.Item key={user.id} value={user.id.toString()}>
+          <Accordion.Control className={`pl-0`}>
+            <div className="grid grid-cols-[80px,1fr] gap-4">
+              <div className="flex items-center justify-center">
+                <Avatar size="sm" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Text className="text-sm sm:text-md md:text-lg font-medium">
+                  {user.alias}
+                </Text>
+                <div className="flex items-center gap-2">
+                  <Text className="text-xs sm:text-sm">
+                    <strong>Graduate Type:</strong> {user.graduateType || "N/A"}
+                  </Text>
+                  <Text className="text-xs sm:text-sm">
+                    <strong>Medical Degree:</strong>{" "}
+                    {user.medicalDegree || "N/A"}
+                  </Text>
+                  <Text className="text-xs sm:text-sm">
+                    <strong>IMG:</strong> {user.img || "N/A"}
+                  </Text>
+                  <Text className="text-xs sm:text-sm">
+                    <strong>Step 2 Score:</strong> {user.step2Score || "N/A"}
+                  </Text>
+                </div>
+              </div>
+            </div>
           </Accordion.Control>
           <Accordion.Panel>
-            <Link to={`/user/${item.id}`}>
+            <Link to={`/user/${user.id}`}>
               <Button variant="outline" size="sm">
                 Update Applicant
               </Button>
             </Link>
+            <div className="flex flex-col gap-4">
+              <Text>
+                <strong>Alias:</strong> {user.alias}
+              </Text>
+              <Text>
+                <strong>Graduate Type:</strong> {user.graduateType || "N/A"}
+              </Text>
+              <Text>
+                <strong>Medical Degree:</strong> {user.medicalDegree || "N/A"}
+              </Text>
+              <Text>
+                <strong>IMG Type:</strong> {user.img || "N/A"}
+              </Text>
+              <Text>
+                <strong>Step 1 Score:</strong> {user.step1Score || "N/A"}
+              </Text>
+              <Text>
+                <strong>Step 2 Score:</strong> {user.step2Score || "N/A"}
+              </Text>
+              <Text>
+                <strong>COMLEX 1 Score:</strong> {user.comlex1Score || "N/A"}
+              </Text>
+              <Text>
+                <strong>COMLEX 2 Score:</strong> {user.comlex2Score || "N/A"}
+              </Text>
+              <Text>
+                <strong>School Ranking:</strong> {user.schoolRanking || "N/A"}
+              </Text>
+              <Text>
+                <strong>Class Rank:</strong> {user.classRank || "N/A"}
+              </Text>
+              <Text>
+                <strong>Green Card:</strong> {user.greenCard ? "Yes" : "No"}
+              </Text>
+              <Text>
+                <strong>Visa Required:</strong>{" "}
+                {user.visaRequired ? "Yes" : "No"}
+              </Text>
+              <Text>
+                <strong>ECFMG Certified:</strong>{" "}
+                {user.ecfmgCertified ? "Yes" : "No"}
+              </Text>
+              <Text>
+                <strong>Year of Graduation:</strong>{" "}
+                {user.yearOfGraduation || "N/A"}
+              </Text>
+              <Text>
+                <strong>Months of USCE:</strong> {user.monthsOfUSCE || "N/A"}
+              </Text>
+              <Text>
+                <strong>Number of Publications:</strong>{" "}
+                {user.numPublications || "N/A"}
+              </Text>
+              <Text>
+                <strong>Number of Work Experiences:</strong>{" "}
+                {user.numWorkExperiences || "N/A"}
+              </Text>
+              <Text>
+                <strong>Number of Volunteer Experiences:</strong>{" "}
+                {user.numVolunteerExperiences || "N/A"}
+              </Text>
+              <Text>
+                <strong>Other Degrees:</strong> {user.otherDegrees || "N/A"}
+              </Text>
+              <Text>
+                <strong>Application Year:</strong>{" "}
+                {user.applicationYear || "N/A"}
+              </Text>
+            </div>
           </Accordion.Panel>
         </Accordion.Item>
       ));
