@@ -14,13 +14,46 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  email            String            @unique
-  password         String
-  alias            String
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  interviewInvites InterviewInvite[]
+  id                      Int               @id @default(autoincrement())
+  email                   String            @unique
+  password                String
+  alias                   String
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  interviewInvites        InterviewInvite[]
+  cityUserInputs          CityUserInput[]
+  greenCard               Boolean?
+  step2CSPathway          Pathway?
+  schoolRanking           SchoolRanking?
+  yearOfGraduation        Int?
+  monthsOfUSCE            Int?
+  ecfmgCertified          Boolean?
+  visaRequired            Boolean?
+  graduateType            GraduateType?
+  medicalDegree           MedicalDegree?
+  img                     IMGType?
+  step1ScorePass          Boolean?
+  step1Score              Int?
+  step2Score              Int?
+  step3Score              Int?
+  comlex1ScorePass        Boolean?
+  comlex2Score            Int?
+  redFlags                Boolean?
+  redFlagsExplanation     String?
+  aoa                     Boolean?
+  sigmaSigmaPhi           Boolean?
+  goldHumanism            Boolean?
+  numPublications         Int?
+  numWorkExperiences      Int?
+  numVolunteerExperiences Int?
+  classRank               ClassRanking?
+  otherDegrees            String?
+  numApplications         Int?
+  numInterviews           Int?
+  numWithdrawn            Int?
+  numRejected             Int?
+  numWaitlisted           Int?
+  applicationYear         Int?
 }
 
 model Specialty {
@@ -101,4 +134,59 @@ enum LocationState {
 enum MedicalDegree {
   MD
   DO
+}
+
+enum SchoolRanking {
+  top20
+  top50
+  mid
+  low
+  unranked
+}
+
+enum ClassRanking {
+  top10
+  top25
+  top50
+  bottom50
+}
+
+enum Pathway {
+  Pathway1
+  Pathway2
+  Pathway3
+  Pathway4
+  Pathway5
+  Pathway6
+}
+
+model City {
+  id         Int             @id @default(autoincrement())
+  name       String
+  state      String
+  userInputs CityUserInput[] // Relation field to CityUserInput
+
+  @@index([name, state])
+}
+
+model CityUserInput {
+  id                   Int      @id @default(autoincrement())
+  pros                 String
+  cons                 String
+  publicTransportation String
+  weather              String
+  dating               String
+  lgbtq                String
+  diversity            String
+  safetyCrime          String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  userId               Int
+  cityId               Int
+
+  city City @relation(fields: [cityId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([cityId])
+  @@index([userId])
 }
