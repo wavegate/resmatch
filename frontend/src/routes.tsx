@@ -7,6 +7,8 @@ import RootLayout from "@/pages/RootLayout/RootLayout";
 import SignUp from "@/pages/SignUp/SignUp";
 import User from "@/pages/User/User";
 import AddProgram from "@/pages/AddProgram/AddProgram";
+import Users from "@/pages/Users/Users";
+import AddUser from "@/pages/AddUser/AddUser";
 
 const routes = [
   {
@@ -42,8 +44,12 @@ const routes = [
         element: <AddProgram />,
       },
       {
+        path: "user",
+        element: <Users />,
+      },
+      {
         path: "user/:id",
-        element: <User />,
+        element: <AddUser />,
       },
     ],
   },

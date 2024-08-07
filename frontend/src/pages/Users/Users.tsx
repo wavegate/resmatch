@@ -1,5 +1,5 @@
+import UsersTable from "@/components/UsersTable/UsersTable";
 import { Text, Title } from "@mantine/core";
-import ProgramsTable from "@/components/ProgramsTable/ProgramsTable";
 
 export default () => {
   return (
@@ -10,19 +10,19 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          Programs
+          Applicants
         </Title>
         <Text
           c="dimmed"
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Find your best fit among internal medicine residency programs across
-          the U.S., with detailed information and unique insights provided by
-          fellow applicants.
+          Compare and analyze stats and trends across other applicants to help
+          guide your match list decision-making, providing valuable insights for
+          crafting a competitive and informed ranking strategy.
         </Text>
       </header>
-      <ProgramsTable />
+      <UsersTable />
     </div>
   );
 };

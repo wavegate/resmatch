@@ -11,6 +11,7 @@ import { RiMentalHealthLine } from "react-icons/ri";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { HiOutlineHome } from "react-icons/hi";
 import { PiHospital } from "react-icons/pi";
+import { FaUserFriends } from "react-icons/fa";
 import useUser from "@/hooks/useUser";
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
     link: "/program",
     text: "Programs",
     icon: <PiHospital className="h-5 w-5" />,
+  },
+  {
+    link: "/user",
+    text: "Applicants",
+    icon: <FaUserFriends className="h-5 w-5" />,
   },
 ];
 

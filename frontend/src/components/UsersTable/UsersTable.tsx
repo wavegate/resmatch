@@ -1,9 +1,8 @@
-import inviteService from "@/services/inviteService";
+import userService from "@/services/userService";
 import {
   Button,
   Pagination,
   Accordion,
-  Avatar,
   Drawer,
   Text,
   Loader,
@@ -11,31 +10,27 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
 import { useState, useMemo } from "react";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import ItemDetails from "@/components/InviteDetails/InviteDetails";
 import Filters from "./Filters/Filters";
-import programService from "@/services/programService";
-import ProgramDetails from "./ProgramDetails/ProgramDetails";
 
-interface InvitesTableProps {
+interface UsersTableProps {
   className?: string;
 }
 
-export default ({ className }: InvitesTableProps) => {
+export default ({ className }: UsersTableProps) => {
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["programs", searchTerm, pageNum],
+    queryKey: ["users", searchTerm, pageNum],
     queryFn: () => {
-      return programService.searchProgram({
+      return userService.searchUser({
         searchTerm,
         pageNum,
       });
@@ -49,21 +44,20 @@ export default ({ className }: InvitesTableProps) => {
 
   const items = useMemo(() => {
     if (data) {
-      return data.programs?.map((item: any) => {
-        return (
-          <Accordion.Item key={item.id} value={item.id.toString()}>
-            <Accordion.Control className={`pl-0`}>
-              <div>
-                {item.name} at {item.institution.name}
-              </div>
-              {item.image && <img src={item.image}></img>}
-            </Accordion.Control>
-            <Accordion.Panel>
-              <ProgramDetails item={item} />
-            </Accordion.Panel>
-          </Accordion.Item>
-        );
-      });
+      return data.users?.map((item: any) => (
+        <Accordion.Item key={item.id} value={item.id.toString()}>
+          <Accordion.Control className="pl-0">
+            <div>{item.alias}</div>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Link to={`/user/${item.id}`}>
+              <Button variant="outline" size="sm">
+                Update Applicant
+              </Button>
+            </Link>
+          </Accordion.Panel>
+        </Accordion.Item>
+      ));
     }
   }, [data]);
 
@@ -93,24 +87,43 @@ export default ({ className }: InvitesTableProps) => {
           clearFilters={clearFilters}
         />
       </Drawer>
-      <div
-        className={`flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4`}
-      >
-        <div className={`flex gap-2 items-center`}>
+      <div className="flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4">
+        <div className="flex gap-2 items-center">
           <Button onClick={open} variant="outline">
             Filters
           </Button>
-
+          {user && (
+            <Button
+              className="sm:hidden"
+              onClick={() => {
+                navigate("/user/add");
+              }}
+              leftSection={<IoMdAdd size={18} />}
+            >
+              Add User
+            </Button>
+          )}
           <Pagination
-            className={`max-sm:hidden`}
+            className="max-sm:hidden"
             value={pageNum}
             onChange={setPageNum}
             total={totalPages}
           />
         </div>
-        <div className={`flex gap-2`}>
+        <div className="flex gap-2">
+          {user && (
+            <Button
+              className="max-sm:hidden"
+              onClick={() => {
+                navigate("/user/add");
+              }}
+              leftSection={<IoMdAdd size={18} />}
+            >
+              Add User
+            </Button>
+          )}
           <Pagination
-            className={`sm:hidden`}
+            className="sm:hidden"
             value={pageNum}
             onChange={setPageNum}
             total={totalPages}
@@ -122,21 +135,21 @@ export default ({ className }: InvitesTableProps) => {
         <div className="inline-flex gap-1 mt-2">
           {searchTerm && (
             <Badge
-              rightSection={<IoMdClose onClick={() => setSearchTerm(null)} />}
+              rightSection={<IoMdClose onClick={() => setSearchTerm("")} />}
             >
               {`${searchTerm}`}
             </Badge>
           )}
         </div>
       )}
-      <div className={`mt-2`}>
+      <div className="mt-2">
         {isLoading && (
-          <div className={`flex flex-col items-center`}>
-            <Loader color="blue" className={`mt-12`} />
+          <div className="flex flex-col items-center">
+            <Loader color="blue" className="mt-12" />
           </div>
         )}
-        {data?.programs?.length > 0 && <Accordion>{items}</Accordion>}
-        {data?.programs && data.programs.length === 0 && <NoRecords />}
+        {data?.users?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.users && data.users.length === 0 && <NoRecords />}
       </div>
     </div>
   );
