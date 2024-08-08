@@ -8,6 +8,7 @@ import {
   verifyToken,
 } from "../middleware/authMiddleware.js";
 import mg from "../mailClient.js";
+import { FRONTEND_URL } from "../constants.js";
 
 const authRouter = express.Router();
 
@@ -69,7 +70,7 @@ authRouter.post("/register", async (req, res) => {
         );
 
         // Send confirmation email
-        const confirmationUrl = `http://localhost:5173/confirm-email?token=${token}`;
+        const confirmationUrl = `${FRONTEND_URL}/confirm-email?token=${token}`;
         mg.messages
           .create("mail.residencymatch.net", {
             from: "admin@mail.residencymatch.net",
@@ -106,7 +107,7 @@ authRouter.post("/register", async (req, res) => {
     });
 
     // Send confirmation email
-    const confirmationUrl = `http://localhost:5173/confirm-email?token=${token}`;
+    const confirmationUrl = `${FRONTEND_URL}/confirm-email?token=${token}`;
     mg.messages
       .create("mail.residencymatch.net", {
         from: "admin@mail.residencymatch.net",
