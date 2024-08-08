@@ -12,6 +12,7 @@ import { FaRegCalendarCheck } from "react-icons/fa6";
 import { HiOutlineHome } from "react-icons/hi";
 import { PiHospital } from "react-icons/pi";
 import { FaUserFriends } from "react-icons/fa";
+import { BiMap } from "react-icons/bi";
 import useUser from "@/hooks/useUser";
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
     link: "/user",
     text: "Applicants",
     icon: <FaUserFriends className="h-5 w-5" />,
+  },
+  {
+    link: "/city",
+    text: "Cities",
+    icon: <BiMap className="h-5 w-5" />,
   },
 ];
 

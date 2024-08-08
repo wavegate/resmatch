@@ -39,8 +39,14 @@ const getCurrentUser = async (): Promise<User> => {
   return data;
 };
 
+const confirmEmail = async (token: string): Promise<string> => {
+  const { data } = await apiClient.get(`${route}/confirm-email?token=${token}`);
+  return data.message;
+};
+
 export default {
   login,
   register,
   getCurrentUser,
+  confirmEmail,
 };

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 
 // Create an Axios instance
 const apiClient = axios.create({
@@ -22,4 +23,26 @@ apiClient.interceptors.request.use(
   }
 );
 
+// Handle responses and errors
+apiClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.data && error.response.data.error) {
+      notifications.show({
+        message: error.response.data.error,
+        withBorder: true,
+        color: "red",
+      });
+    } else {
+      notifications.show({
+        message: "An unknown error occurred. Please try again.",
+        withBorder: true,
+        color: "red",
+      });
+    }
+    return Promise.reject(error);
+  }
+);
 export default apiClient;

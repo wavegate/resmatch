@@ -17,21 +17,12 @@ import { API_URL } from "@/constants";
 import apiClient from "@/apiClient";
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
+import authService from "@/services/authService";
 
 interface SignupFormValues {
   email: string;
   password: string;
   confirmPassword: string;
-}
-
-async function signupUser(data: SignupFormValues) {
-  const response = await apiClient.post("/signup", data);
-
-  if (response.status !== 201) {
-    throw new Error("Signup failed");
-  }
-
-  return response.data;
 }
 
 export default function Signup() {
@@ -41,13 +32,18 @@ export default function Signup() {
     formState: { errors },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: "cc.frankee+01@gmail.com",
+      password: "testtest",
+      confirmPassword: "testtest",
+    },
   });
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: signupUser,
+    mutationFn: (values) => authService.register(values),
     onSuccess: (data) => {
       console.log("Signup successful:", data);
       localStorage.setItem("token", data.token);
