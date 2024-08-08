@@ -17,6 +17,7 @@ model User {
   id                      Int               @id @default(autoincrement())
   email                   String            @unique
   password                String
+  isConfirmed             Boolean           @default(false)
   alias                   String
   createdAt               DateTime          @default(now())
   updatedAt               DateTime          @updatedAt
@@ -68,13 +69,16 @@ model Institution {
   name            String
   institutionCode String    @unique
   programs        Program[]
+  cityId          Int?
+  city            City?     @relation(fields: [cityId], references: [id])
 }
 
 model Program {
-  id               Int               @id @default(autoincrement())
-  name             String
-  institutionId    Int
-  specialtyId      Int
+  id            Int    @id @default(autoincrement())
+  name          String
+  institutionId Int
+  specialtyId   Int
+
   nrmpProgramCode  String            @unique
   institution      Institution       @relation(fields: [institutionId], references: [id])
   specialty        Specialty         @relation(fields: [specialtyId], references: [id])
@@ -161,10 +165,11 @@ enum Pathway {
 }
 
 model City {
-  id         Int             @id @default(autoincrement())
-  name       String
-  state      String
-  userInputs CityUserInput[] // Relation field to CityUserInput
+  id           Int             @id @default(autoincrement())
+  name         String
+  state        String
+  userInputs   CityUserInput[] // Relation field to CityUserInput
+  institutions Institution[]
 
   @@index([name, state])
 }
