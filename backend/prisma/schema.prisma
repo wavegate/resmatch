@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id                      Int               @id @default(autoincrement())
-  email                   String            @unique
+  id                      Int                  @id @default(autoincrement())
+  email                   String               @unique
   password                String
-  isConfirmed             Boolean           @default(false)
+  isConfirmed             Boolean              @default(false)
   alias                   String
-  createdAt               DateTime          @default(now())
-  updatedAt               DateTime          @updatedAt
+  createdAt               DateTime             @default(now())
+  updatedAt               DateTime             @updatedAt
   interviewInvites        InterviewInvite[]
   cityUserInputs          CityUserInput[]
   greenCard               Boolean?
@@ -57,6 +57,7 @@ model User {
   applicationYear         Int?
   threads                 Thread[]
   replies                 Reply[]
+  FameShameUserInput      FameShameUserInput[]
 }
 
 model Reply {
@@ -101,11 +102,12 @@ model Program {
   institutionId Int
   specialtyId   Int
 
-  nrmpProgramCode  String            @unique
-  institution      Institution       @relation(fields: [institutionId], references: [id])
-  specialty        Specialty         @relation(fields: [specialtyId], references: [id])
-  interviewInvites InterviewInvite[]
-  image            String?
+  nrmpProgramCode    String               @unique
+  institution        Institution          @relation(fields: [institutionId], references: [id])
+  specialty          Specialty            @relation(fields: [specialtyId], references: [id])
+  interviewInvites   InterviewInvite[]
+  image              String?
+  FameShameUserInput FameShameUserInput[]
 
   @@unique([institutionId, specialtyId, name])
 }
@@ -216,4 +218,16 @@ model CityUserInput {
 
   @@index([cityId])
   @@index([userId])
+}
+
+model FameShameUserInput {
+  id        Int      @id @default(autoincrement())
+  fame      String
+  shame     String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  programId Int
+  program   Program  @relation(fields: [programId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

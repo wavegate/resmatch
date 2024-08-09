@@ -9,6 +9,7 @@ import userRouter from "./routers/userRouter.js";
 import cityRouter from "./routers/cityRouter.js";
 import threadRouter from "./routers/threadRouter.js";
 import replyRouter from "./routers/replyRouter.js";
+import fameShameRouter from "./routers/fameShameRouter.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use("/auth", authRouter);
 app.use("/city", cityRouter);
 app.use("/thread", threadRouter);
 app.use("/reply", replyRouter);
+app.use("/fame-shame", fameShameRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
