@@ -13,6 +13,8 @@ import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 import Chat from "@/pages/Chat/Chat";
 import FameShame from "@/pages/FameShame/FameShame";
 import AddFameShamePage from "./pages/AddFameShame/AddFameShame";
+import RankLists from "./pages/RankLists/RankLists";
+import AddRankList from "./pages/AddRankList/AddRankList";
 
 const routes = [
   {
@@ -74,6 +76,14 @@ const routes = [
       {
         path: "fame-shame/add",
         element: <AddFameShamePage />,
+      },
+      {
+        path: "rank-list",
+        element: <RankLists />,
+      },
+      {
+        path: "rank-list/add",
+        element: <AddRankList />,
       },
     ],
   },

@@ -174,7 +174,7 @@ const sidebarRoutes = [
     heading: "Rank Data",
     items: [
       {
-        link: "/unofficial-rank-lists-md",
+        link: "/rank-list",
         text: "Unofficial Rank Lists (MD)",
         icon: <FaSortNumericDown className="h-5 w-5" />,
       },
