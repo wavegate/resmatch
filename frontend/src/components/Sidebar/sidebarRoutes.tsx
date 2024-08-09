@@ -26,6 +26,7 @@ import {
   FaSortNumericDown,
   FaSortNumericDownAlt,
   FaSortAmountUp,
+  FaInfoCircle,
 } from "react-icons/fa";
 
 const sidebarRoutes = [
@@ -107,6 +108,11 @@ const sidebarRoutes = [
   {
     heading: "Program Info",
     items: [
+      {
+        link: "/program",
+        text: "Program Overview",
+        icon: <FaInfoCircle className="h-5 w-5" />, // Represents informational content
+      },
       {
         link: "/name-fame-shame",
         text: "Name Fame/Shame",

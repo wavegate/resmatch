@@ -10,6 +10,7 @@ import Users from "@/pages/Users/Users";
 import AddUser from "@/pages/AddUser/AddUser";
 import Cities from "@/pages/Cities/Cities";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
+import Chat from "./pages/Chat/Chat";
 
 const routes = [
   {
@@ -29,7 +30,7 @@ const routes = [
         element: <SignUp />,
       },
       {
-        path: "invite",
+        path: "iv-offers",
         element: <Invites />,
       },
       {
@@ -45,7 +46,7 @@ const routes = [
         element: <AddProgram />,
       },
       {
-        path: "user",
+        path: "applicant-data",
         element: <Users />,
       },
       {
@@ -59,6 +60,10 @@ const routes = [
       {
         path: "confirm-email",
         element: <ConfirmEmail />,
+      },
+      {
+        path: "main-chat",
+        element: <Chat />,
       },
     ],
   },
