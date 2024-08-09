@@ -48,7 +48,7 @@ export default function Login() {
         message: "Login successful",
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.resetQueries({ queryKey: ["currentUser"] });
       navigate("/");
     },
     onError: (error: any) => {

@@ -29,13 +29,33 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.data && error.response.data.error) {
+    if (
+      error.response &&
+      error.response.status === 400 &&
+      error.response.data.error === "Invalid token"
+    ) {
+      // Clear the token from local storage
+      localStorage.removeItem("token");
+
+      // Notify the user that their session has expired
+      notifications.show({
+        message: "Your session has expired. Please log in again.",
+        withBorder: true,
+        color: "red",
+      });
+    } else if (
+      error.response &&
+      error.response.data &&
+      error.response.data.error !== "Access denied, token missing"
+    ) {
+      // Display the error message returned from the backend, except for the "Access denied, token missing" error
       notifications.show({
         message: error.response.data.error,
         withBorder: true,
         color: "red",
       });
-    } else {
+    } else if (!error.response.data.error) {
+      // Handle any other unknown errors
       notifications.show({
         message: "An unknown error occurred. Please try again.",
         withBorder: true,
@@ -45,4 +65,5 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 export default apiClient;

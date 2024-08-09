@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import authService from "@/services/authService";
+import { notifications } from "@mantine/notifications";
 
 const useUser = () => {
   const queryClient = useQueryClient();
@@ -7,15 +8,18 @@ const useUser = () => {
   const token = localStorage.getItem("token");
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["currentUser"],
     queryFn: authService.getCurrentUser,
-    enabled: !!token, // Only run the query if the token exists
     retry: false,
   });
 
   const signOut = () => {
     localStorage.removeItem("token");
-    queryClient.resetQueries({ queryKey: ["user"] });
+    queryClient.resetQueries({ queryKey: ["currentUser"] });
+    notifications.show({
+      message: "Sign out successful",
+      withBorder: true,
+    });
   };
 
   return {

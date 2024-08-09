@@ -51,7 +51,7 @@ export default function Signup() {
         message: "Signup successful",
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       navigate("/");
     },
     onError: (error: any) => {
