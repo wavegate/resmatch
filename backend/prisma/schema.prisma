@@ -55,6 +55,28 @@ model User {
   numRejected             Int?
   numWaitlisted           Int?
   applicationYear         Int?
+  threads                 Thread[]
+  replies                 Reply[]
+}
+
+model Reply {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  thread    Thread   @relation(fields: [threadId], references: [id])
+  threadId  Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model Thread {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  replies   Reply[]
 }
 
 model Specialty {

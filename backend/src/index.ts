@@ -7,6 +7,8 @@ import authRouter from "./routers/authRouter.js";
 import corsOptions from "./middleware/corsMiddleware.js";
 import userRouter from "./routers/userRouter.js";
 import cityRouter from "./routers/cityRouter.js";
+import threadRouter from "./routers/threadRouter.js";
+import replyRouter from "./routers/replyRouter.js";
 
 dotenv.config();
 
@@ -23,6 +25,8 @@ app.use("/invite", inviteRouter);
 app.use("/program", programRouter);
 app.use("/auth", authRouter);
 app.use("/city", cityRouter);
+app.use("/thread", threadRouter);
+app.use("/reply", replyRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
