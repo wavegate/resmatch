@@ -10,7 +10,9 @@ import Users from "@/pages/Users/Users";
 import AddUser from "@/pages/AddUser/AddUser";
 import Cities from "@/pages/Cities/Cities";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
-import Chat from "./pages/Chat/Chat";
+import Chat from "@/pages/Chat/Chat";
+import FameShame from "@/pages/FameShame/FameShame";
+import AddFameShamePage from "./pages/AddFameShame/AddFameShame";
 
 const routes = [
   {
@@ -64,6 +66,14 @@ const routes = [
       {
         path: "main-chat",
         element: <Chat />,
+      },
+      {
+        path: "fame-shame",
+        element: <FameShame />,
+      },
+      {
+        path: "fame-shame/add",
+        element: <AddFameShamePage />,
       },
     ],
   },

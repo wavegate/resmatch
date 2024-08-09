@@ -114,7 +114,7 @@ const sidebarRoutes = [
         icon: <FaInfoCircle className="h-5 w-5" />, // Represents informational content
       },
       {
-        link: "/name-fame-shame",
+        link: "/fame-shame",
         text: "Name Fame/Shame",
         icon: <FaMedal className="h-5 w-5" />,
       },
