@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "./schema";
 import authService from "@/services/authService";
 import { useEffect } from "react";
@@ -69,9 +69,11 @@ export default function Login() {
       <Title ta="center">Login</Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{" "}
-        <Anchor size="sm" component="button">
-          Sign up
-        </Anchor>
+        <Link to="/sign-up">
+          <Anchor size="sm" component="button">
+            Sign up
+          </Anchor>
+        </Link>
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -106,7 +108,7 @@ export default function Login() {
             )}
           />
           <Group justify="space-between" mt="lg">
-            <Checkbox label="Remember me" />
+            {/* <Checkbox label="Remember me" /> */}
             <Anchor component="button" size="sm">
               Forgot password?
             </Anchor>

@@ -16,7 +16,7 @@ import axios from "axios";
 import { API_URL } from "@/constants";
 import apiClient from "@/apiClient";
 import { notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authService from "@/services/authService";
 
 interface SignupFormValues {
@@ -68,9 +68,11 @@ export default function Signup() {
       <Title ta="center">Sign up</Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{" "}
-        <Anchor size="sm" component="button">
-          Login
-        </Anchor>
+        <Link to="/login">
+          <Anchor size="sm" component="button">
+            Login
+          </Anchor>
+        </Link>
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
