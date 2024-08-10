@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { Button, LoadingOverlay, Collapse } from "@mantine/core";
 import { HiHome, HiOutlineChat } from "react-icons/hi";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Icons for collapse/expand
-import sidebarRoutes from "./sidebarRoutes";
+import menuRoutes from "./menuRoutes";
 
 const Sidebar = ({ toggle, isLoading, user, signOut }) => {
   const [collapsedSections, setCollapsedSections] = useState({});
@@ -33,7 +33,7 @@ const Sidebar = ({ toggle, isLoading, user, signOut }) => {
         </div>
         <div>Welcome</div>
       </NavLink>
-      {/* <NavLink
+      <NavLink
         to="/main-chat"
         className={({ isActive }) =>
           `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
@@ -48,9 +48,9 @@ const Sidebar = ({ toggle, isLoading, user, signOut }) => {
           <HiOutlineChat className="h-4 w-4" />
         </div>
         <div>Main Chat</div>
-      </NavLink> */}
+      </NavLink>
 
-      {sidebarRoutes.map((group, groupIndex) => (
+      {menuRoutes.map((group, groupIndex) => (
         <div key={groupIndex} className="flex flex-col gap-1.5">
           <div
             className="flex justify-between items-center cursor-pointer"

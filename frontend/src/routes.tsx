@@ -1,20 +1,20 @@
 import HomePage from "@/pages/HomePage";
-import Invites from "@/pages/Invites/Invites";
 import Login from "@/pages/Login/Login";
-import Programs from "@/pages/Programs/Programs";
-import RootLayout from "@/pages/RootLayout/RootLayout";
+import RootLayout from "@/components/RootLayout/RootLayout";
 import SignUp from "@/pages/SignUp/SignUp";
-import Users from "@/pages/Users/Users";
-import Cities from "@/pages/Cities/Cities";
-import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
-import Chat from "@/pages/Chat/Chat";
-import FameShame from "@/pages/FameShame/FameShame";
-import RankLists from "./pages/RankLists/RankLists";
-import AddInvite from "./pages/updatePages/AddInvite/AddInvite";
-import AddProgram from "./pages/updatePages/AddProgram/AddProgram";
-import AddUser from "./pages/updatePages/AddUser/AddUser";
-import AddFameShamePage from "./pages/updatePages/AddFameShame/AddFameShame";
-import AddRankList from "./pages/updatePages/AddRankList/AddRankList";
+import ConfirmEmail from "@/pages/ConfirmEmail/ConfirmEmail";
+import Chat from "@/pages/listPages/Chat/Chat";
+import FameShame from "@/pages/listPages/FameShame/FameShame";
+import RankLists from "@/pages/listPages/RankList/RankList";
+import AddInvite from "@/pages/updatePages/AddInvite/AddInvite";
+import AddProgram from "@/pages/updatePages/AddProgram/AddProgram";
+import AddUser from "@/pages/updatePages/AddUser/AddUser";
+import AddFameShamePage from "@/pages/updatePages/AddFameShame/AddFameShame";
+import AddRankList from "@/pages/updatePages/AddRankList/AddRankList";
+import Invite from "@/pages/listPages/Invite/Invite";
+import Program from "@/pages/listPages/Program/Program";
+import User from "@/pages/listPages/User/User";
+import City from "@/pages/listPages/City/City";
 
 const routes = [
   {
@@ -34,16 +34,16 @@ const routes = [
         element: <SignUp />,
       },
       {
-        path: "iv-offers",
-        element: <Invites />,
+        path: "invite",
+        element: <Invite />,
       },
       {
-        path: "invite/add",
+        path: "invite/:id",
         element: <AddInvite />,
       },
       {
         path: "program",
-        element: <Programs />,
+        element: <Program />,
       },
       {
         path: "program/:id",
@@ -51,7 +51,7 @@ const routes = [
       },
       {
         path: "applicant-data",
-        element: <Users />,
+        element: <User />,
       },
       {
         path: "user/:id",
@@ -59,7 +59,7 @@ const routes = [
       },
       {
         path: "city",
-        element: <Cities />,
+        element: <City />,
       },
       {
         path: "confirm-email",
