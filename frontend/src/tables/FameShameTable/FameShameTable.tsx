@@ -1,9 +1,7 @@
-import inviteService from "@/services/inviteService";
 import {
   Button,
   Pagination,
   Accordion,
-  Avatar,
   Drawer,
   Text,
   Loader,
@@ -11,63 +9,59 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
 import { useState, useMemo } from "react";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import ItemDetails from "@/components/InviteDetails/InviteDetails";
-import Filters from "./Filters/Filters";
-import programService from "@/services/programService";
-import ProgramDetails from "./ProgramDetails/ProgramDetails";
+import fameShameService from "@/services/fameShameService";
+import { useNavigate } from "react-router-dom";
+import FameShameDetails from "@/details/FameShameDetails/FameShameDetails";
+import FameShameFilters from "@/filters/FameShameFilters/FameShameFilters";
 
-interface InvitesTableProps {
+interface FameShameTableProps {
   className?: string;
 }
 
-export default ({ className }: InvitesTableProps) => {
+export default ({ className }: FameShameTableProps) => {
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [pageNum, setPageNum] = useState(1);
+  const [programId, setProgramId] = useState<number | null>(null);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["programs", searchTerm, pageNum],
+    queryKey: ["fameShameEntries", searchTerm, pageNum, programId],
     queryFn: () => {
-      return programService.searchProgram({
+      return fameShameService.searchFameShame({
         searchTerm,
         pageNum,
+        programId,
       });
     },
   });
 
   const clearFilters = () => {
     setSearchTerm("");
+    setProgramId(null);
     setPageNum(1);
   };
 
   const items = useMemo(() => {
     if (data) {
-      return data.programs?.map((item: any) => {
-        return (
-          <Accordion.Item key={item.id} value={item.id.toString()}>
-            <Accordion.Control className={`pl-0`}>
-              <div>
-                {item.name} at {item.institution.name}
-              </div>
-              {item.image && <img src={item.image}></img>}
-            </Accordion.Control>
-            <Accordion.Panel>
-              <ProgramDetails item={item} />
-            </Accordion.Panel>
-          </Accordion.Item>
-        );
-      });
+      return data.fameShameInputs?.map((item: any) => (
+        <Accordion.Item key={item.id} value={item.id.toString()}>
+          <Accordion.Control className={`pl-0`}>
+            <div>
+              {item.program.name} - {item.fame}/{item.shame}
+            </div>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <FameShameDetails item={item} />
+          </Accordion.Panel>
+        </Accordion.Item>
+      ));
     }
   }, [data]);
-
-  const navigate = useNavigate();
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -80,16 +74,19 @@ export default ({ className }: InvitesTableProps) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return false;
-  }, []);
+    return searchTerm || programId;
+  }, [searchTerm, programId]);
+
+  const navigate = useNavigate();
 
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
+        <FameShameFilters
           opened={opened}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          setProgramId={setProgramId}
           clearFilters={clearFilters}
         />
       </Drawer>
@@ -109,6 +106,17 @@ export default ({ className }: InvitesTableProps) => {
           />
         </div>
         <div className={`flex gap-2`}>
+          {user && (
+            <Button
+              className={`max-sm:hidden`}
+              onClick={() => {
+                navigate("/fame-shame/add");
+              }}
+              leftSection={<IoMdAdd size={18} />}
+            >
+              Add Fame/Shame
+            </Button>
+          )}
           <Pagination
             className={`sm:hidden`}
             value={pageNum}
@@ -127,6 +135,13 @@ export default ({ className }: InvitesTableProps) => {
               {`${searchTerm}`}
             </Badge>
           )}
+          {programId && (
+            <Badge
+              rightSection={<IoMdClose onClick={() => setProgramId(null)} />}
+            >
+              {`Program ID: ${programId}`}
+            </Badge>
+          )}
         </div>
       )}
       <div className={`mt-2`}>
@@ -135,8 +150,10 @@ export default ({ className }: InvitesTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.programs?.length > 0 && <Accordion>{items}</Accordion>}
-        {data?.programs && data.programs.length === 0 && <NoRecords />}
+        {data?.fameShameInputs?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.fameShameInputs && data.fameShameInputs.length === 0 && (
+          <NoRecords />
+        )}
       </div>
     </div>
   );

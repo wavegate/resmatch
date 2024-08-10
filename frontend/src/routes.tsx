@@ -1,20 +1,20 @@
-import AddInvite from "@/pages/AddInvite/AddInvite";
 import HomePage from "@/pages/HomePage";
 import Invites from "@/pages/Invites/Invites";
 import Login from "@/pages/Login/Login";
 import Programs from "@/pages/Programs/Programs";
 import RootLayout from "@/pages/RootLayout/RootLayout";
 import SignUp from "@/pages/SignUp/SignUp";
-import AddProgram from "@/pages/AddProgram/AddProgram";
 import Users from "@/pages/Users/Users";
-import AddUser from "@/pages/AddUser/AddUser";
 import Cities from "@/pages/Cities/Cities";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 import Chat from "@/pages/Chat/Chat";
 import FameShame from "@/pages/FameShame/FameShame";
-import AddFameShamePage from "./pages/AddFameShame/AddFameShame";
 import RankLists from "./pages/RankLists/RankLists";
-import AddRankList from "./pages/AddRankList/AddRankList";
+import AddInvite from "./pages/updatePages/AddInvite/AddInvite";
+import AddProgram from "./pages/updatePages/AddProgram/AddProgram";
+import AddUser from "./pages/updatePages/AddUser/AddUser";
+import AddFameShamePage from "./pages/updatePages/AddFameShame/AddFameShame";
+import AddRankList from "./pages/updatePages/AddRankList/AddRankList";
 
 const routes = [
   {

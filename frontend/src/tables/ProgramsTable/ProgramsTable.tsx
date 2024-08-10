@@ -1,35 +1,41 @@
-import cityService from "@/services/cityService";
+import inviteService from "@/services/inviteService";
 import {
   Button,
   Pagination,
   Accordion,
+  Avatar,
+  Drawer,
   Text,
   Loader,
   Badge,
-  Drawer,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { useState, useMemo } from "react";
-import { IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
+import { Link, useNavigate } from "react-router-dom";
 import { PAGE_SIZE } from "@/constants";
+import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import CityDetails from "./CityDetails/CityDetails";
-import Filters from "./Filters/Filters";
+import ItemDetails from "@/components/InviteDetails/InviteDetails";
+import programService from "@/services/programService";
+import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
+import ProgramFilters from "@/filters/ProgramFilters/ProgramFilters";
 
-interface CitiesTableProps {
+interface InvitesTableProps {
   className?: string;
 }
 
-export default ({ className }: CitiesTableProps) => {
+export default ({ className }: InvitesTableProps) => {
+  const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["cities", searchTerm, pageNum],
+    queryKey: ["programs", searchTerm, pageNum],
     queryFn: () => {
-      return cityService.searchCity({
+      return programService.searchProgram({
         searchTerm,
         pageNum,
       });
@@ -43,17 +49,17 @@ export default ({ className }: CitiesTableProps) => {
 
   const items = useMemo(() => {
     if (data) {
-      return data.cities?.map((item: any) => {
+      return data.programs?.map((item: any) => {
         return (
           <Accordion.Item key={item.id} value={item.id.toString()}>
             <Accordion.Control className={`pl-0`}>
-              <div className="flex items-center">
-                <Text className="font-medium">{item.name}</Text>
-                <Text className="ml-2 text-gray-500">{item.state}</Text>
+              <div>
+                {item.name} at {item.institution.name}
               </div>
+              {item.image && <img src={item.image}></img>}
             </Accordion.Control>
             <Accordion.Panel>
-              <CityDetails item={item} />
+              <ProgramDetails item={item} />
             </Accordion.Panel>
           </Accordion.Item>
         );
@@ -74,13 +80,13 @@ export default ({ className }: CitiesTableProps) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return !!searchTerm;
-  }, [searchTerm]);
+    return false;
+  }, []);
 
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
+        <ProgramFilters
           opened={opened}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -116,7 +122,7 @@ export default ({ className }: CitiesTableProps) => {
         <div className="inline-flex gap-1 mt-2">
           {searchTerm && (
             <Badge
-              rightSection={<IoMdClose onClick={() => setSearchTerm("")} />}
+              rightSection={<IoMdClose onClick={() => setSearchTerm(null)} />}
             >
               {`${searchTerm}`}
             </Badge>
@@ -129,8 +135,8 @@ export default ({ className }: CitiesTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.cities?.length > 0 && <Accordion>{items}</Accordion>}
-        {data?.cities && data.cities.length === 0 && <NoRecords />}
+        {data?.programs?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.programs && data.programs.length === 0 && <NoRecords />}
       </div>
     </div>
   );

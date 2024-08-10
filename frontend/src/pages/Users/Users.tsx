@@ -1,4 +1,4 @@
-import UsersTable from "@/components/UsersTable/UsersTable";
+import UsersTable from "@/tables/UsersTable/UsersTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {

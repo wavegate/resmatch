@@ -1,5 +1,5 @@
+import ProgramsTable from "@/tables/ProgramsTable/ProgramsTable";
 import { Text, Title } from "@mantine/core";
-import ProgramsTable from "@/components/ProgramsTable/ProgramsTable";
 
 export default () => {
   return (

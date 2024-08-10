@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import Filters from "./Filters/Filters";
+import RankListFilters from "@/filters/RankListFilters/RankListFilters";
 
 interface RankListsTableProps {
   className?: string;
@@ -125,7 +125,7 @@ export default ({ className }: RankListsTableProps) => {
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
+        <RankListFilters
           opened={opened}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

@@ -1,5 +1,5 @@
+import FameShameTable from "@/tables/FameShameTable/FameShameTable";
 import { Text, Title } from "@mantine/core";
-import FameShameTable from "@/components/FameShameTable/FameShameTable";
 
 export default () => {
   return (

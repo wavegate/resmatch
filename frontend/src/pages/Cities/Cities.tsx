@@ -1,4 +1,4 @@
-import CitiesTable from "@/components/CitiesTable/CitiesTable";
+import CitiesTable from "@/tables/CitiesTable/CitiesTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {

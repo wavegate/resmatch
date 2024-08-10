@@ -1,67 +1,67 @@
+import cityService from "@/services/cityService";
 import {
   Button,
   Pagination,
   Accordion,
-  Drawer,
   Text,
   Loader,
   Badge,
+  Drawer,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
-import { IoMdAdd, IoMdClose } from "react-icons/io";
-import { PAGE_SIZE } from "@/constants";
-import useUser from "@/hooks/useUser";
-import NoRecords from "@/components/NoRecords/NoRecords";
-import Filters from "./Filters/Filters";
-import FameShameDetails from "./FameShameDetails/FameShameDetails";
-import fameShameService from "@/services/fameShameService";
+import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { PAGE_SIZE } from "@/constants";
+import NoRecords from "@/components/NoRecords/NoRecords";
+import CityDetails from "@/details/CityDetails/CityDetails";
+import CityFilters from "@/filters/CityFilters/CityFilters";
 
-interface FameShameTableProps {
+interface CitiesTableProps {
   className?: string;
 }
 
-export default ({ className }: FameShameTableProps) => {
-  const { user } = useUser();
+export default ({ className }: CitiesTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [pageNum, setPageNum] = useState(1);
-  const [programId, setProgramId] = useState<number | null>(null);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["fameShameEntries", searchTerm, pageNum, programId],
+    queryKey: ["cities", searchTerm, pageNum],
     queryFn: () => {
-      return fameShameService.searchFameShame({
+      return cityService.searchCity({
         searchTerm,
         pageNum,
-        programId,
       });
     },
   });
 
   const clearFilters = () => {
     setSearchTerm("");
-    setProgramId(null);
     setPageNum(1);
   };
 
   const items = useMemo(() => {
     if (data) {
-      return data.fameShameInputs?.map((item: any) => (
-        <Accordion.Item key={item.id} value={item.id.toString()}>
-          <Accordion.Control className={`pl-0`}>
-            <div>
-              {item.program.name} - {item.fame}/{item.shame}
-            </div>
-          </Accordion.Control>
-          <Accordion.Panel>
-            <FameShameDetails item={item} />
-          </Accordion.Panel>
-        </Accordion.Item>
-      ));
+      return data.cities?.map((item: any) => {
+        return (
+          <Accordion.Item key={item.id} value={item.id.toString()}>
+            <Accordion.Control className={`pl-0`}>
+              <div className="flex items-center">
+                <Text className="font-medium">{item.name}</Text>
+                <Text className="ml-2 text-gray-500">{item.state}</Text>
+              </div>
+            </Accordion.Control>
+            <Accordion.Panel>
+              <CityDetails item={item} />
+            </Accordion.Panel>
+          </Accordion.Item>
+        );
+      });
     }
   }, [data]);
+
+  const navigate = useNavigate();
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -74,19 +74,16 @@ export default ({ className }: FameShameTableProps) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return searchTerm || programId;
-  }, [searchTerm, programId]);
-
-  const navigate = useNavigate();
+    return !!searchTerm;
+  }, [searchTerm]);
 
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
+        <CityFilters
           opened={opened}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          setProgramId={setProgramId}
           clearFilters={clearFilters}
         />
       </Drawer>
@@ -106,17 +103,6 @@ export default ({ className }: FameShameTableProps) => {
           />
         </div>
         <div className={`flex gap-2`}>
-          {user && (
-            <Button
-              className={`max-sm:hidden`}
-              onClick={() => {
-                navigate("/fame-shame/add");
-              }}
-              leftSection={<IoMdAdd size={18} />}
-            >
-              Add Fame/Shame
-            </Button>
-          )}
           <Pagination
             className={`sm:hidden`}
             value={pageNum}
@@ -130,16 +116,9 @@ export default ({ className }: FameShameTableProps) => {
         <div className="inline-flex gap-1 mt-2">
           {searchTerm && (
             <Badge
-              rightSection={<IoMdClose onClick={() => setSearchTerm(null)} />}
+              rightSection={<IoMdClose onClick={() => setSearchTerm("")} />}
             >
               {`${searchTerm}`}
-            </Badge>
-          )}
-          {programId && (
-            <Badge
-              rightSection={<IoMdClose onClick={() => setProgramId(null)} />}
-            >
-              {`Program ID: ${programId}`}
             </Badge>
           )}
         </div>
@@ -150,10 +129,8 @@ export default ({ className }: FameShameTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.fameShameInputs?.length > 0 && <Accordion>{items}</Accordion>}
-        {data?.fameShameInputs && data.fameShameInputs.length === 0 && (
-          <NoRecords />
-        )}
+        {data?.cities?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.cities && data.cities.length === 0 && <NoRecords />}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import PastSpreadsheets from "@/components/PastSpreadsheets/PastSpreadsheets";
+import TimeRangeChart from "@/components/TimeRangeChart/TimeRangeChart";
 import {
   Card,
   Title,
@@ -116,6 +117,7 @@ export default () => {
           </a>
           .
         </Text>
+        <TimeRangeChart />
       </Card>
     </div>
   );

@@ -1,5 +1,5 @@
+import RankListsTable from "@/tables/RankListsTable/RankListsTable";
 import { Text, Title } from "@mantine/core";
-import RankListsTable from "@/components/RankListsTable/RankListsTable";
 
 export default () => {
   return (

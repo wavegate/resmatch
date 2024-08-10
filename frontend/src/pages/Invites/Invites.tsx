@@ -1,4 +1,4 @@
-import InvitesTable from "@/components/InvitesTable/InvitesTable";
+import InvitesTable from "@/tables/InvitesTable/InvitesTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {

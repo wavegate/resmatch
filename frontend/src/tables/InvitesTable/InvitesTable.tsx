@@ -18,8 +18,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { PAGE_SIZE } from "@/constants";
 import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import ItemDetails from "@/components/InviteDetails/InviteDetails";
-import Filters from "./Filters/Filters";
+import ItemDetails from "@/details/InviteDetails/InviteDetails";
+import InviteFilters from "@/filters/InviteFilters/InviteFilters";
 
 interface InvitesTableProps {
   className?: string;
@@ -128,7 +128,7 @@ export default ({ className }: InvitesTableProps) => {
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
+        <InviteFilters
           opened={opened}
           startDate={startDate}
           endDate={endDate}
