@@ -19,6 +19,7 @@ commentRouter.post("/", verifyToken, async (req, res) => {
     tierListId,
     pstp = false,
     report = false,
+    main = false,
   } = req.body;
 
   const userId = req.user.id;
@@ -45,6 +46,7 @@ commentRouter.post("/", verifyToken, async (req, res) => {
         tierListId: tierListId ? Number(tierListId) : null,
         pstp,
         report,
+        main,
       },
     });
 
@@ -125,6 +127,7 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
 // Search comments with optional pstp and report flags
 commentRouter.post("/search", verifyToken, async (req, res) => {
   const {
+    main = false,
     pstp = false,
     report = false,
     rankListId,
@@ -143,6 +146,7 @@ commentRouter.post("/search", verifyToken, async (req, res) => {
     const totalCount = await prisma.comment.count({
       where: {
         parentId: null,
+        main,
         pstp,
         report,
         rankListId: rankListId ? Number(rankListId) : undefined,
@@ -167,6 +171,7 @@ commentRouter.post("/search", verifyToken, async (req, res) => {
     const comments = await prisma.comment.findMany({
       where: {
         parentId: null,
+        main,
         pstp,
         report,
         rankListId: rankListId ? Number(rankListId) : undefined,

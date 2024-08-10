@@ -28,6 +28,7 @@ import suggestionRouter from "./routers/suggestionRouter.js";
 import binRouter from "./routers/binRouter.js";
 import commentRouter from "./routers/commentRouter.js";
 import fellowshipMatchRouter from "./routers/fellowshipMatchRouter.js";
+import xOrYRouter from "./routers/xOrYRouter.js";
 
 dotenv.config();
 
@@ -65,6 +66,7 @@ app.use("/suggestion", suggestionRouter);
 app.use("/bin", binRouter);
 app.use("/comment", commentRouter);
 app.use("/fellowship-match", fellowshipMatchRouter);
+app.use("/x-or-y", xOrYRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

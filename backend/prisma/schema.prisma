@@ -72,6 +72,7 @@ model User {
   Dropped                 Dropped[]
   FellowshipMatch         FellowshipMatch[]
   Suggestion              Suggestion[]
+  XorY                    XorY[]
 }
 
 model Specialty {
@@ -120,6 +121,8 @@ model Program {
   FellowshipMatch     FellowshipMatch[]
   Bin                 Bin?                  @relation(fields: [binId], references: [id])
   binId               Int?
+  asProgramX          XorY[]                @relation("ProgramXRelation")
+  asProgramY          XorY[]                @relation("ProgramYRelation")
 
   @@unique([institutionId, specialtyId, name])
 }
@@ -271,8 +274,11 @@ model Comment {
   parentId              Int?
   parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id])
   replies               Comment[]            @relation("CommentReplies")
+  main                  Boolean              @default(false)
   pstp                  Boolean              @default(false)
   report                Boolean              @default(false)
+  XorY                  XorY?                @relation(fields: [xorYId], references: [id])
+  xorYId                Int?
 }
 
 model RankList {
@@ -547,4 +553,19 @@ model Suggestion {
   tierList   TierList @relation(fields: [tierListId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model XorY {
+  id         Int       @id @default(autoincrement())
+  programX   Program   @relation("ProgramXRelation", fields: [programXId], references: [id])
+  programXId Int
+  programY   Program   @relation("ProgramYRelation", fields: [programYId], references: [id])
+  programYId Int
+  question   String
+  comments   Comment[]
+  userId     Int
+  img        Boolean?
+  user       User      @relation(fields: [userId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
