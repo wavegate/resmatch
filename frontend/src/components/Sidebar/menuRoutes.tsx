@@ -154,12 +154,12 @@ const sidebarRoutes = [
         icon: <FaListOl className="h-5 w-5" />,
       },
       {
-        link: "/x-vs-y",
+        link: "/x-or-y",
         text: "X vs Y",
         icon: <FaBalanceScale className="h-5 w-5" />,
       },
       {
-        link: "/x-vs-y-img",
+        link: "/x-or-y-img",
         text: "X vs Y (IMG)",
         icon: <FaBalanceScaleLeft className="h-5 w-5" />,
       },

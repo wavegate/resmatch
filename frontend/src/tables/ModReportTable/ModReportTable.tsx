@@ -1,26 +1,25 @@
 import { Accordion, Loader } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
-import NoRecords from "@/components/NoRecords/NoRecords";
-import { PAGE_SIZE } from "@/constants";
-import Controls from "@/components/Controls/Controls";
 import commentService from "@/services/commentService";
 import CommentHeader from "@/headers/CommentHeader/CommentHeader";
 import CommentDetails from "@/details/CommentDetails/CommentDetails";
+import NoRecords from "@/components/NoRecords/NoRecords";
+import { PAGE_SIZE } from "@/constants";
 
-interface ChatTableProps {
+interface ModReportTableProps {
   className?: string;
 }
 
-export default ({ className }: ChatTableProps) => {
+export default function ModReportTable({ className }: ModReportTableProps) {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["chat", pageNum],
+    queryKey: ["modReports", pageNum],
     queryFn: () => {
       return commentService.searchComment({
+        report: true,
         pageNum,
-        main: true,
       });
     },
   });
@@ -34,14 +33,9 @@ export default ({ className }: ChatTableProps) => {
 
   return (
     <div className={`${className}`}>
-      <Controls
-        pageNum={pageNum}
-        setPageNum={setPageNum}
-        totalPages={totalPages}
-        shareUrl="/chat/add"
-        shareText="Share Chat"
-      />
-
+      <div className={`flex items-center justify-between mb-4`}>
+        <Pagination value={pageNum} onChange={setPageNum} total={totalPages} />
+      </div>
       <div className={`mt-2`}>
         {isLoading && (
           <div className={`flex flex-col items-center`}>
@@ -62,4 +56,4 @@ export default ({ className }: ChatTableProps) => {
       </div>
     </div>
   );
-};
+}

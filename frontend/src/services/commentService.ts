@@ -7,6 +7,7 @@ interface Comment {
   content: string;
   pstp: boolean;
   report: boolean;
+  main: boolean;
   parentId: number | null;
   children: Comment[];
   // Add other comment-related properties here
@@ -15,6 +16,7 @@ interface Comment {
 interface SearchCommentParams {
   pstp?: boolean;
   report?: boolean;
+  main?: boolean;
   threadId?: number; // Assuming you want to filter by thread
   pageNum?: number;
 }
@@ -27,12 +29,14 @@ interface SearchResponse {
 const searchComment = async ({
   pstp = false,
   report = false,
+  main = false,
   threadId,
   pageNum = 1,
 }: SearchCommentParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     pstp,
     report,
+    main,
     threadId,
     pageNum,
   });

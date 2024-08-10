@@ -27,6 +27,7 @@ import PSTP from "./pages/listPages/PSTP/PSTP";
 import TierList from "./pages/TierList/TierList";
 import IMGTierList from "./pages/IMGTierList/IMGTierList";
 import RankList from "@/pages/listPages/RankList/RankList";
+import XorY from "./pages/listPages/XorY/XorY";
 
 const routes = [
   {
@@ -82,11 +83,11 @@ const routes = [
         element: <RankList />,
       },
       {
-        path: "/rank-list-img",
+        path: "rank-list-img",
         element: <RankList />,
       },
       {
-        path: "/rank-list-do",
+        path: "rank-list-do",
         element: <RankList />,
       },
       {
@@ -164,6 +165,18 @@ const routes = [
       {
         path: "tier-list-img",
         element: <IMGTierList />,
+      },
+      {
+        path: "mod-report",
+        element: <IMGTierList />,
+      },
+      {
+        path: "x-or-y",
+        element: <XorY />,
+      },
+      {
+        path: "x-or-y-img",
+        element: <XorY />,
       },
     ],
   },
