@@ -9,7 +9,7 @@ export default function FameShameHeader({ item }: FameShameHeaderProps) {
   return (
     <Accordion.Control className="pl-0">
       <div className="flex flex-col gap-2">
-        <Text className="text-sm sm:text-md md:text-lg font-medium">
+        {/* <Text className="text-sm sm:text-md md:text-lg font-medium">
           {`${item.program.name} at ${item.program.institution.name}`}
         </Text>
         <Text className="text-xs sm:text-sm">{`Fame: ${item.fame}`}</Text>
@@ -22,7 +22,7 @@ export default function FameShameHeader({ item }: FameShameHeaderProps) {
               </Text>
             </Link>
           )}
-        </div>
+        </div> */}
       </div>
     </Accordion.Control>
   );

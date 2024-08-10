@@ -1,7 +1,7 @@
-import ChatTable from "@/tables/ChatTable/ChatTable";
+import FellowshipMatchTable from "@/tables/FellowshipMatchTable/FellowshipMatchTable";
 import { Text, Title } from "@mantine/core";
 
-export default () => {
+export default function FellowshipMatch() {
   return (
     <div className={`flex flex-col gap-2`}>
       <header>
@@ -10,17 +10,17 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          Main Chat
+          Fellowship Matches
         </Title>
         <Text
           c="dimmed"
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Participate in discussions and share information with the community.
+          View and manage fellowship match details.
         </Text>
       </header>
-      <ChatTable />
+      <FellowshipMatchTable />
     </div>
   );
-};
+}

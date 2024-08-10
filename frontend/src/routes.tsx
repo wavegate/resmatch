@@ -5,12 +5,6 @@ import SignUp from "@/pages/SignUp/SignUp";
 import ConfirmEmail from "@/pages/ConfirmEmail/ConfirmEmail";
 import Chat from "@/pages/listPages/Chat/Chat";
 import FameShame from "@/pages/listPages/FameShame/FameShame";
-import RankLists from "@/pages/listPages/RankList/RankList";
-import AddInvite from "@/pages/updatePages/AddInvite/AddInvite";
-import AddProgram from "@/pages/updatePages/AddProgram/AddProgram";
-import AddUser from "@/pages/updatePages/AddUser/AddUser";
-import AddFameShamePage from "@/pages/updatePages/AddFameShame/AddFameShame";
-import AddRankList from "@/pages/updatePages/AddRankList/AddRankList";
 import Invite from "@/pages/listPages/Invite/Invite";
 import Program from "@/pages/listPages/Program/Program";
 import User from "@/pages/listPages/User/User";
@@ -27,6 +21,12 @@ import ScheduleDetails from "./pages/listPages/ScheduleDetails/ScheduleDetails";
 import SecondLook from "./pages/listPages/SecondLook/SecondLook";
 import Withdrawal from "./pages/listPages/Withdrawal/Withdrawal";
 import Malignant from "./pages/listPages/Malignant/Malignant";
+import RankTally from "./pages/RankTally/RankTally";
+import FellowshipMatch from "./pages/listPages/FellowshipMatch/FellowshipMatch";
+import PSTP from "./pages/listPages/PSTP/PSTP";
+import TierList from "./pages/TierList/TierList";
+import IMGTierList from "./pages/IMGTierList/IMGTierList";
+import RankList from "@/pages/listPages/RankList/RankList";
 
 const routes = [
   {
@@ -58,6 +58,10 @@ const routes = [
         element: <User />,
       },
       {
+        path: "img-user",
+        element: <User />,
+      },
+      {
         path: "city",
         element: <City />,
       },
@@ -75,7 +79,15 @@ const routes = [
       },
       {
         path: "rank-list",
-        element: <RankLists />,
+        element: <RankList />,
+      },
+      {
+        path: "/rank-list-img",
+        element: <RankList />,
+      },
+      {
+        path: "/rank-list-do",
+        element: <RankList />,
       },
       {
         path: "dropped",
@@ -90,7 +102,11 @@ const routes = [
         element: <Logistics />,
       },
       {
-        path: "loi-response",
+        path: "lointerest-response",
+        element: <LOIResponse />,
+      },
+      {
+        path: "lointent-response",
         element: <LOIResponse />,
       },
       {
@@ -124,6 +140,30 @@ const routes = [
       {
         path: "withdrawal",
         element: <Withdrawal />,
+      },
+      {
+        path: "rank-tally",
+        element: <RankTally />,
+      },
+      {
+        path: "rank-tally",
+        element: <RankTally />,
+      },
+      {
+        path: "fellowship-match",
+        element: <FellowshipMatch />,
+      },
+      {
+        path: "pstp",
+        element: <PSTP />,
+      },
+      {
+        path: "tier-list",
+        element: <TierList />,
+      },
+      {
+        path: "tier-list-img",
+        element: <IMGTierList />,
       },
     ],
   },

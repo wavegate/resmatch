@@ -64,12 +64,12 @@ const sidebarRoutes = [
         icon: <FaThumbsUp className="h-5 w-5" />,
       },
       {
-        link: "/loi-response",
+        link: "/lointerest-response",
         text: "LOInterest Response",
         icon: <FaEnvelopeOpenText className="h-5 w-5" />,
       },
       {
-        link: "/loi-intent",
+        link: "/lointent-response",
         text: "LOIntent Response",
         icon: <FaEnvelope className="h-5 w-5" />,
       },
@@ -94,7 +94,7 @@ const sidebarRoutes = [
         icon: <FaUserGraduate className="h-5 w-5" />,
       },
       {
-        link: "/img-applicant-data",
+        link: "/img-user",
         text: "IMG Applicant Data",
         icon: <FaUserMd className="h-5 w-5" />,
       },
@@ -179,12 +179,12 @@ const sidebarRoutes = [
         icon: <FaSortNumericDown className="h-5 w-5" />,
       },
       {
-        link: "/unofficial-rank-lists-do",
+        link: "/rank-list-do",
         text: "Unofficial Rank Lists (DO)",
         icon: <FaSortNumericDownAlt className="h-5 w-5" />,
       },
       {
-        link: "/unofficial-rank-lists-img",
+        link: "/rank-list-img",
         text: "Unofficial Rank Lists (IMG)",
         icon: <FaSortAmountUp className="h-5 w-5" />,
       },

@@ -1,26 +1,26 @@
 import { Button, Group, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import fameShameService from "@/services/fameShameService";
+import fellowshipMatchService from "@/services/fellowshipMatchService";
 import { notifications } from "@mantine/notifications";
 
-export default function FameShameDetails({ item }) {
+export default function FellowshipMatchDetails({ item }) {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: () => fameShameService.deleteFameShame(item.id),
+    mutationFn: () => fellowshipMatchService.deleteFellowshipMatch(item.id),
     onSuccess: () => {
       notifications.show({
         title: "Success",
-        message: "Fame/Shame entry deleted successfully",
+        message: "Fellowship Match deleted successfully",
         color: "green",
       });
-      queryClient.invalidateQueries({ queryKey: ["fameShame"] });
+      queryClient.invalidateQueries({ queryKey: ["fellowshipMatch"] });
     },
     onError: () => {
       notifications.show({
         title: "Error",
-        message: "Failed to delete the Fame/Shame entry",
+        message: "Failed to delete the Fellowship Match",
         color: "red",
       });
     },
@@ -33,26 +33,28 @@ export default function FameShameDetails({ item }) {
   return (
     <div>
       <Group justify="apart">
-        <Link to={`/fame-shame/${item.id}`}>
-          <Button>Update Fame/Shame</Button>
+        <Link to={`/fellowship-match/${item.id}`}>
+          <Button>Update Fellowship Match</Button>
         </Link>
         <Button
           color="red"
           onClick={handleDelete}
           loading={deleteMutation.isPending}
         >
-          Delete Fame/Shame
+          Delete Fellowship Match
         </Button>
       </Group>
       <Text>
-        <strong>Program:</strong> {item.program.name} at{" "}
-        {item.program.institution.name}
+        <strong>Program:</strong> {item.program.name}
       </Text>
       <Text>
-        <strong>Fame:</strong> {item.fame}
+        <strong>Year:</strong> {item.year}
       </Text>
       <Text>
-        <strong>Shame:</strong> {item.shame}
+        <strong>User:</strong> {item.user.alias}
+      </Text>
+      <Text>
+        <strong>Details:</strong> {item.details}
       </Text>
     </div>
   );

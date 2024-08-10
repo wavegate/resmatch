@@ -1,28 +1,28 @@
-import rejectionService from "@/services/rejectionService";
+import fellowshipMatchService from "@/services/fellowshipMatchService";
 import { Accordion, Drawer, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import RejectionHeader from "@/headers/RejectionHeader/RejectionHeader";
-import RejectionDetails from "@/details/RejectionDetails/RejectionDetails";
+import FellowshipMatchHeader from "@/headers/FellowshipMatchHeader/FellowshipMatchHeader";
+import FellowshipMatchDetails from "@/details/FellowshipMatchDetails/FellowshipMatchDetails";
 import { PAGE_SIZE } from "@/constants";
 import Filters from "@/components/Filters/Filters";
 import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
 
-interface RejectionTableProps {
+interface FellowshipMatchTableProps {
   className?: string;
 }
 
-export default ({ className }: RejectionTableProps) => {
+export default ({ className }: FellowshipMatchTableProps) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["rejections", selectedProgram, pageNum],
+    queryKey: ["fellowshipMatch", selectedProgram, pageNum],
     queryFn: () => {
-      return rejectionService.searchRejection({
+      return fellowshipMatchService.searchFellowshipMatch({
         programId: selectedProgram?.id,
         pageNum,
       });
@@ -62,8 +62,8 @@ export default ({ className }: RejectionTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/rejection/add"
-        shareText="Share Rejection"
+        shareUrl="/fellowship-match/add"
+        shareText="Share Fellowship Match"
       />
 
       {filtersPresent && (
@@ -78,17 +78,17 @@ export default ({ className }: RejectionTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.interviewRejections?.length > 0 && (
+        {data?.fellowshipMatches?.length > 0 && (
           <Accordion>
-            {data.interviewRejections.map((item: any) => (
+            {data.fellowshipMatches.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
-                <RejectionHeader item={item} />
-                <RejectionDetails item={item} />
+                <FellowshipMatchHeader item={item} />
+                <FellowshipMatchDetails item={item} />
               </Accordion.Item>
             ))}
           </Accordion>
         )}
-        {data?.interviewRejections && data.interviewRejections.length === 0 && (
+        {data?.fellowshipMatches && data.fellowshipMatches.length === 0 && (
           <NoRecords />
         )}
       </div>

@@ -78,9 +78,9 @@ export default ({ className }: LogisticsTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.logistics?.length > 0 && (
+        {data?.interviewLogistics?.length > 0 && (
           <Accordion>
-            {data.logistics.map((item: any) => (
+            {data.interviewLogistics.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <LogisticsHeader item={item} />
                 <LogisticsDetails item={item} />
@@ -88,7 +88,9 @@ export default ({ className }: LogisticsTableProps) => {
             ))}
           </Accordion>
         )}
-        {data?.logistics && data.logistics.length === 0 && <NoRecords />}
+        {data?.interviewLogistics && data.interviewLogistics.length === 0 && (
+          <NoRecords />
+        )}
       </div>
     </div>
   );

@@ -78,9 +78,9 @@ export default ({ className }: FameShameTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.fameShame?.length > 0 && (
+        {data?.fameShameInputs?.length > 0 && (
           <Accordion>
-            {data.fameShame.map((item: any) => (
+            {data.fameShameInputs.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <FameShameHeader item={item} />
                 <FameShameDetails item={item} />
@@ -88,7 +88,9 @@ export default ({ className }: FameShameTableProps) => {
             ))}
           </Accordion>
         )}
-        {data?.fameShame && data.fameShame.length === 0 && <NoRecords />}
+        {data?.fameShameInputs && data.fameShameInputs.length === 0 && (
+          <NoRecords />
+        )}
       </div>
     </div>
   );

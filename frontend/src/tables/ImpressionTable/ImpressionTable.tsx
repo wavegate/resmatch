@@ -78,9 +78,9 @@ export default ({ className }: ImpressionTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.impressions?.length > 0 && (
+        {data?.interviewImpressions?.length > 0 && (
           <Accordion>
-            {data.impressions.map((item: any) => (
+            {data.interviewImpressions.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <ImpressionHeader item={item} />
                 <ImpressionDetails item={item} />
@@ -88,7 +88,8 @@ export default ({ className }: ImpressionTableProps) => {
             ))}
           </Accordion>
         )}
-        {data?.impressions && data.impressions.length === 0 && <NoRecords />}
+        {data?.interviewImpressions &&
+          data.interviewImpressions.length === 0 && <NoRecords />}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import ChatTable from "@/tables/ChatTable/ChatTable";
+import PSTPTable from "@/tables/PSTPTable/PSTPTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -10,17 +10,18 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          Main Chat
+          PSTP Discussion Forum
         </Title>
         <Text
           c="dimmed"
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Participate in discussions and share information with the community.
+          Join the conversation and discuss topics related to PSTP (Physician
+          Scientist Training Program).
         </Text>
       </header>
-      <ChatTable />
+      <PSTPTable />
     </div>
   );
 };

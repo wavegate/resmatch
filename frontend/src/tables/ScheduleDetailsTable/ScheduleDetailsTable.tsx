@@ -78,9 +78,9 @@ export default ({ className }: ScheduleDetailsTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.scheduleDetails?.length > 0 && (
+        {data?.scheduleDetailsList?.length > 0 && (
           <Accordion>
-            {data.scheduleDetails.map((item: any) => (
+            {data.scheduleDetailsList.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <ScheduleDetailsHeader item={item} />
                 <ScheduleDetailsDetails item={item} />
@@ -88,7 +88,7 @@ export default ({ className }: ScheduleDetailsTableProps) => {
             ))}
           </Accordion>
         )}
-        {data?.scheduleDetails && data.scheduleDetails.length === 0 && (
+        {data?.scheduleDetailsList && data.scheduleDetailsList.length === 0 && (
           <NoRecords />
         )}
       </div>

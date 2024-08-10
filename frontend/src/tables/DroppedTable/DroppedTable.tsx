@@ -78,9 +78,9 @@ export default function DroppedTable({ className }: DroppedTableProps) {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.dropped?.length > 0 && (
+        {data?.droppedRecords?.length > 0 && (
           <Accordion>
-            {data.dropped.map((item: any) => (
+            {data.droppedRecords.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <DroppedHeader item={item} />
                 <DroppedDetails item={item} />
@@ -88,7 +88,9 @@ export default function DroppedTable({ className }: DroppedTableProps) {
             ))}
           </Accordion>
         )}
-        {data?.dropped && data.dropped.length === 0 && <NoRecords />}
+        {data?.droppedRecords && data.droppedRecords.length === 0 && (
+          <NoRecords />
+        )}
       </div>
     </div>
   );
