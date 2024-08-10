@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id                      Int                  @id @default(autoincrement())
-  email                   String               @unique
+  id                      Int                   @id @default(autoincrement())
+  email                   String                @unique
   password                String
-  isConfirmed             Boolean              @default(false)
+  isConfirmed             Boolean               @default(false)
   alias                   String
-  createdAt               DateTime             @default(now())
-  updatedAt               DateTime             @updatedAt
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
   interviewInvites        InterviewInvite[]
   cityUserInputs          CityUserInput[]
   greenCard               Boolean?
@@ -60,6 +60,17 @@ model User {
   FameShameUserInput      FameShameUserInput[]
   comments                Comment[]
   rankLists               RankList[]
+  PostIVCommunication     PostIVCommunication[]
+  ScheduleDetails         ScheduleDetails[]
+  InterviewLogistics      InterviewLogistics[]
+  SecondLook              SecondLook[]
+  InterviewRejection      InterviewRejection[]
+  InterviewWithdrawal     InterviewWithdrawal[]
+  M4InternImpression      M4InternImpression[]
+  Malignant               Malignant[]
+  LOIResponse             LOIResponse[]
+  InterviewImpression     InterviewImpression[]
+  Question                Question[]
 }
 
 model Reply {
@@ -108,13 +119,24 @@ model Program {
   rankListId      Int?
   nrmpProgramCode String @unique
 
-  institution        Institution          @relation(fields: [institutionId], references: [id])
-  specialty          Specialty            @relation(fields: [specialtyId], references: [id])
-  rankLists          RankList[]           @relation("RankedPrograms")
-  matchedInLists     RankList[]           @relation("MatchedProgram")
-  interviewInvites   InterviewInvite[]
-  image              String?
-  FameShameUserInput FameShameUserInput[]
+  institution         Institution           @relation(fields: [institutionId], references: [id])
+  specialty           Specialty             @relation(fields: [specialtyId], references: [id])
+  rankLists           RankList[]            @relation("RankedPrograms")
+  matchedInLists      RankList[]            @relation("MatchedProgram")
+  interviewInvites    InterviewInvite[]
+  image               String?
+  FameShameUserInput  FameShameUserInput[]
+  PostIVCommunication PostIVCommunication[]
+  ScheduleDetails     ScheduleDetails[]
+  InterviewLogistics  InterviewLogistics[]
+  SecondLook          SecondLook[]
+  InterviewRejection  InterviewRejection[]
+  InterviewWithdrawal InterviewWithdrawal[]
+  M4InternImpression  M4InternImpression[]
+  Malignant           Malignant[]
+  LOIResponse         LOIResponse[]
+  InterviewImpression InterviewImpression[]
+  Question            Question[]
 
   @@unique([institutionId, specialtyId, name])
 }
@@ -147,8 +169,9 @@ model InterviewInvite {
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  InterviewLogistics InterviewLogistics[]
 }
 
 enum GraduateType {
@@ -240,14 +263,26 @@ model FameShameUserInput {
 }
 
 model Comment {
-  id         Int       @id @default(autoincrement())
-  userId     Int
-  content    String
-  user       User      @relation(fields: [userId], references: [id])
-  RankList   RankList? @relation(fields: [rankListId], references: [id])
-  rankListId Int?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id                    Int                  @id @default(autoincrement())
+  userId                Int
+  content               String
+  user                  User                 @relation(fields: [userId], references: [id])
+  RankList              RankList?            @relation(fields: [rankListId], references: [id])
+  rankListId            Int?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  PostIVCommunication   PostIVCommunication? @relation(fields: [postIVCommunicationId], references: [id])
+  postIVCommunicationId Int?
+  ScheduleDetails       ScheduleDetails?     @relation(fields: [scheduleDetailsId], references: [id])
+  scheduleDetailsId     Int?
+  M4InternImpression    M4InternImpression?  @relation(fields: [m4InternImpressionId], references: [id])
+  m4InternImpressionId  Int?
+  Malignant             Malignant?           @relation(fields: [malignantId], references: [id])
+  malignantId           Int?
+  LOIResponse           LOIResponse?         @relation(fields: [lOIResponseId], references: [id])
+  lOIResponseId         Int?
+  InterviewImpression   InterviewImpression? @relation(fields: [interviewImpressionId], references: [id])
+  interviewImpressionId Int?
 }
 
 model RankList {
@@ -270,4 +305,199 @@ model RankList {
   matchedProgram   Program? @relation("MatchedProgram", fields: [matchedProgramId], references: [id])
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+model PostIVCommunication {
+  id                    Int       @id @default(autoincrement())
+  userId                Int
+  user                  User      @relation(fields: [userId], references: [id])
+  programId             Int
+  program               Program   @relation(fields: [programId], references: [id])
+  communicationReceived String?
+  thankYouLetterPolicy  String?
+  rankImpact            String?
+  source                String?
+  comments              Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ScheduleDetails {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  programId Int
+  program   Program @relation(fields: [programId], references: [id])
+
+  longOvernightCall    String?
+  scheduleContinuity   String?
+  locations            String?
+  emr                  String?
+  startDateOrientation DateTime?
+  visaInfo             String?
+  union                String?
+  midlevel             String?
+  ancillary            String?
+  teamRatios           String?
+  internCap            String?
+  admittingSystem      String?
+  icuHours             String?
+  nightFloat           String?
+  sickCallSystem       String?
+  moonlighting         String?
+  stayUntilSignout     String?
+  didactics            String?
+  vacationHolidays     String?
+  gym                  String?
+  food                 String?
+  salary               String?
+  comments             Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InterviewLogistics {
+  id                Int             @id @default(autoincrement())
+  sortType          String
+  userId            Int
+  user              User            @relation(fields: [userId], references: [id])
+  programId         Int
+  program           Program         @relation(fields: [programId], references: [id])
+  schedulerPlatform String?
+  ivFormat          String?
+  timeSlots         String?
+  ivPlatform        String?
+  openIVDates       DateTime[]
+  interviewInviteId Int
+  interviewInvite   InterviewInvite @relation(fields: [interviewInviteId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SecondLook {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  programId     Int
+  program       Program   @relation(fields: [programId], references: [id])
+  setting       String?
+  date          DateTime?
+  bearingOnRank String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InterviewRejection {
+  id        Int      @id @default(autoincrement())
+  programId Int
+  program   Program  @relation(fields: [programId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  date      DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InterviewWithdrawal {
+  id        Int      @id @default(autoincrement())
+  programId Int
+  program   Program  @relation(fields: [programId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  date      DateTime
+  reason    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model M4InternImpression {
+  id                 Int       @id @default(autoincrement())
+  userId             Int
+  user               User      @relation(fields: [userId], references: [id])
+  programId          Int
+  program            Program   @relation(fields: [programId], references: [id])
+  positiveImpression String?
+  negativeImpression String?
+  comments           Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Malignant {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  user        User          @relation(fields: [userId], references: [id])
+  programId   Int
+  program     Program       @relation(fields: [programId], references: [id])
+  malignant   MalignantEnum
+  source      String?
+  explanation String?
+  comments    Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum MalignantEnum {
+  Yes
+  No
+  Maybe
+}
+
+model LOIResponse {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  programId Int
+  program   Program @relation(fields: [programId], references: [id])
+
+  intent                     Boolean?
+  sentTo                     String?
+  dateSent                   DateTime?
+  response                   Boolean?
+  responseTone               String?
+  timeBetweenSentAndResponse String?
+  mentionedTopChoice         Boolean?
+  comments                   Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InterviewImpression {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  programId Int
+  program   Program @relation(fields: [programId], references: [id])
+
+  positives                  String?
+  negatives                  String?
+  howInterviewDayAffectsRank String?
+  gift                       String?
+  timeGiftReceived           String?
+  comments                   Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Question {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  programId Int
+  program   Program @relation(fields: [programId], references: [id])
+
+  questions String[] @default([]) // A list of strings to store questions
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
