@@ -1,4 +1,4 @@
-import PostIVCommunicationsTable from "@/tables/PostIVCommunicationsTable/PostIVCommunicationsTable";
+import PostIVCommunicationTable from "@/tables/PostIVCommunicationTable/PostIVCommunicationTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           Manage and review post-interview communications.
         </Text>
       </header>
-      <PostIVCommunicationsTable />
+      <PostIVCommunicationTable />
     </div>
   );
 };

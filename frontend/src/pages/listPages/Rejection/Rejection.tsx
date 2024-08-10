@@ -1,4 +1,4 @@
-import RejectionsTable from "@/tables/RejectionsTable/RejectionsTable";
+import RejectionTable from "@/tables/RejectionTable/RejectionTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           View and manage interview rejections.
         </Text>
       </header>
-      <RejectionsTable />
+      <RejectionTable />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import LOIResponsesTable from "@/tables/LOIResponsesTable/LOIResponsesTable";
+import LOIResponseTable from "@/tables/LOIResponseTable/LOIResponseTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           Review and manage responses to Letters of Intent.
         </Text>
       </header>
-      <LOIResponsesTable />
+      <LOIResponseTable />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import RankListsTable from "@/tables/RankListsTable/RankListsTable";
+import RankListTable from "@/tables/RankListTable/RankListTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -21,7 +21,7 @@ export default () => {
           preferences and finalize your matched programs with ease.
         </Text>
       </header>
-      <RankListsTable />
+      <RankListTable />
     </div>
   );
 };

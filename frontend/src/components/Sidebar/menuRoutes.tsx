@@ -39,27 +39,27 @@ const sidebarRoutes = [
         icon: <FaRegCalendarCheck className="h-5 w-5" />,
       },
       {
-        link: "/iv-rejections",
+        link: "/rejection",
         text: "IV Rejections",
         icon: <FaTimesCircle className="h-5 w-5" />,
       },
       {
-        link: "/iv-dropped",
+        link: "/dropped",
         text: "IV Dropped",
         icon: <FaRegCalendarMinus className="h-5 w-5" />,
       },
       {
-        link: "/iv-logistics",
+        link: "/logistics",
         text: "IV Logistics/Open Spots",
         icon: <FaMapSigns className="h-5 w-5" />,
       },
       {
-        link: "/iv-questions",
+        link: "/question",
         text: "IV Questions",
         icon: <FaQuestionCircle className="h-5 w-5" />,
       },
       {
-        link: "/iv-impressions",
+        link: "/impression",
         text: "IV Impressions",
         icon: <FaThumbsUp className="h-5 w-5" />,
       },
@@ -89,7 +89,7 @@ const sidebarRoutes = [
     heading: "Applicant Info",
     items: [
       {
-        link: "/applicant-data",
+        link: "/user",
         text: "Applicant Data",
         icon: <FaUserGraduate className="h-5 w-5" />,
       },
@@ -119,7 +119,7 @@ const sidebarRoutes = [
         icon: <FaMedal className="h-5 w-5" />,
       },
       {
-        link: "/m4-intern-impressions",
+        link: "/m4-intern-impression",
         text: "M4/Intern Impressions",
         icon: <FaClipboardList className="h-5 w-5" />,
       },
@@ -129,7 +129,7 @@ const sidebarRoutes = [
         icon: <FaSkullCrossbones className="h-5 w-5" />,
       },
       {
-        link: "/program-schedule",
+        link: "/schedule-details",
         text: "Program Schedule/Details",
         icon: <FaCalendarAlt className="h-5 w-5" />,
       },
@@ -164,7 +164,7 @@ const sidebarRoutes = [
         icon: <FaBalanceScaleLeft className="h-5 w-5" />,
       },
       {
-        link: "/cities",
+        link: "/city",
         text: "Cities",
         icon: <FaCity className="h-5 w-5" />,
       },

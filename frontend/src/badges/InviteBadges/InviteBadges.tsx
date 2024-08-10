@@ -2,15 +2,6 @@ import { Badge } from "@mantine/core";
 import { IoMdClose } from "react-icons/io";
 import dayjs from "dayjs";
 
-interface InviteBadgesProps {
-  startDate: Date | null;
-  endDate: Date | null;
-  selectedProgram: any; // Replace with proper type if available
-  setStartDate: (date: Date | null) => void;
-  setEndDate: (date: Date | null) => void;
-  setSelectedProgram: (program: any) => void; // Replace with proper type if available
-}
-
 export default function InviteBadges({
   startDate,
   endDate,
@@ -18,7 +9,7 @@ export default function InviteBadges({
   setStartDate,
   setEndDate,
   setSelectedProgram,
-}: InviteBadgesProps) {
+}) {
   return (
     <div className="inline-flex gap-1 mt-2">
       {startDate && !endDate && (

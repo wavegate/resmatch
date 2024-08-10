@@ -1,31 +1,21 @@
 import inviteService from "@/services/inviteService";
-import {
-  Button,
-  Pagination,
-  Accordion,
-  Drawer,
-  Text,
-  Loader,
-} from "@mantine/core";
+import { Accordion, Drawer, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
-import { IoMdAdd } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { PAGE_SIZE } from "@/constants";
-import useUser from "@/hooks/useUser";
 import InviteHeader from "@/headers/InviteHeader/InviteHeader";
 import InviteDetails from "@/details/InviteDetails/InviteDetails";
 import InviteFilters from "@/filters/InviteFilters/InviteFilters";
 import InviteBadges from "@/badges/InviteBadges/InviteBadges";
 import NoRecords from "@/components/NoRecords/NoRecords";
+import Controls from "@/components/Controls/Controls";
+import { PAGE_SIZE } from "@/constants";
 
 interface InviteTableProps {
   className?: string;
 }
 
 export default ({ className }: InviteTableProps) => {
-  const { user } = useUser();
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -48,18 +38,6 @@ export default ({ className }: InviteTableProps) => {
     setPageNum(1);
   };
 
-  const items = useMemo(() => {
-    if (data) {
-      return data.interviewInvites?.map((item: any) => (
-        <Accordion.Item key={item.id} value={item.id.toString()}>
-          <InviteHeader item={item} />
-          <InviteDetails item={item} />
-        </Accordion.Item>
-      ));
-    }
-  }, [data]);
-
-  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
 
   const totalPages = useMemo(() => {
@@ -77,7 +55,6 @@ export default ({ className }: InviteTableProps) => {
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
         <InviteFilters
-          opened={opened}
           startDate={startDate}
           endDate={endDate}
           setStartDate={setStartDate}
@@ -87,52 +64,16 @@ export default ({ className }: InviteTableProps) => {
           clearFilters={clearFilters}
         />
       </Drawer>
-      <div
-        className={`flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4`}
-      >
-        <div className={`flex gap-2 items-center`}>
-          <Button onClick={open} variant="outline">
-            Filters
-          </Button>
-          {user && (
-            <Button
-              className={`sm:hidden`}
-              onClick={() => {
-                navigate("/invite/add");
-              }}
-              leftSection={<IoMdAdd size={18} />}
-            >
-              Share Invite
-            </Button>
-          )}
-          <Pagination
-            className={`max-sm:hidden`}
-            value={pageNum}
-            onChange={setPageNum}
-            total={totalPages}
-          />
-        </div>
-        <div className={`flex gap-2`}>
-          {user && (
-            <Button
-              className={`max-sm:hidden`}
-              onClick={() => {
-                navigate("/invite/add");
-              }}
-              leftSection={<IoMdAdd size={18} />}
-            >
-              Add Invite
-            </Button>
-          )}
-          <Pagination
-            className={`sm:hidden`}
-            value={pageNum}
-            onChange={setPageNum}
-            total={totalPages}
-            boundaries={0}
-          />
-        </div>
-      </div>
+
+      <Controls
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+        totalPages={totalPages}
+        openFilters={open}
+        shareUrl="/invite/add"
+        shareText="Share Invite"
+      />
+
       {filtersPresent && (
         <InviteBadges
           startDate={startDate}
@@ -149,7 +90,16 @@ export default ({ className }: InviteTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.interviewInvites?.length > 0 && <Accordion>{items}</Accordion>}
+        {data?.interviewInvites?.length > 0 && (
+          <Accordion>
+            {data.interviewInvites.map((item: any) => (
+              <Accordion.Item key={item.id} value={item.id.toString()}>
+                <InviteHeader item={item} />
+                <InviteDetails item={item} />
+              </Accordion.Item>
+            ))}
+          </Accordion>
+        )}
         {data?.interviewInvites && data.interviewInvites.length === 0 && (
           <NoRecords />
         )}

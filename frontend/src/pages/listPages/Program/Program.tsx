@@ -1,4 +1,4 @@
-import ProgramsTable from "@/tables/ProgramsTable/ProgramsTable";
+import ProgramTable from "@/tables/ProgramTable/ProgramTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -22,7 +22,7 @@ export default () => {
           fellow applicants.
         </Text>
       </header>
-      <ProgramsTable />
+      <ProgramTable />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import WithdrawalsTable from "@/tables/WithdrawalsTable/WithdrawalsTable";
+import WithdrawalTable from "@/tables/WithdrawalTable/WithdrawalTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           View and manage interview withdrawals.
         </Text>
       </header>
-      <WithdrawalsTable />
+      <WithdrawalTable />
     </div>
   );
 };

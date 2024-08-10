@@ -1,4 +1,4 @@
-import ImpressionsTable from "@/tables/ImpressionsTable/ImpressionsTable";
+import ImpressionTable from "@/tables/ImpressionTable/ImpressionTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           Review and analyze interview impressions shared by users.
         </Text>
       </header>
-      <ImpressionsTable />
+      <ImpressionTable />
     </div>
   );
 };

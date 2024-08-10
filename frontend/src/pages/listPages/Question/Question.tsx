@@ -1,4 +1,4 @@
-import QuestionsTable from "@/tables/QuestionsTable/QuestionsTable";
+import QuestionTable from "@/tables/QuestionTable/QuestionTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           Browse and manage questions submitted by users.
         </Text>
       </header>
-      <QuestionsTable />
+      <QuestionTable />
     </div>
   );
 };

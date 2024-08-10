@@ -1,4 +1,4 @@
-import M4InternImpressionsTable from "@/tables/M4InternImpressionsTable/M4InternImpressionsTable";
+import M4InternImpressionTable from "@/tables/M4InternImpressionTable/M4InternImpressionTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           Explore and manage impressions from M4 interns.
         </Text>
       </header>
-      <M4InternImpressionsTable />
+      <M4InternImpressionTable />
     </div>
   );
 };

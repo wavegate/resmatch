@@ -1,148 +1,76 @@
-import {
-  Button,
-  Pagination,
-  Accordion,
-  Drawer,
-  Text,
-  Loader,
-  Badge,
-} from "@mantine/core";
+import fameShameService from "@/services/fameShameService";
+import { Accordion, Drawer, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
-import { IoMdAdd, IoMdClose } from "react-icons/io";
-import { PAGE_SIZE } from "@/constants";
-import useUser from "@/hooks/useUser";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import fameShameService from "@/services/fameShameService";
-import { useNavigate } from "react-router-dom";
+import FameShameHeader from "@/headers/FameShameHeader/FameShameHeader";
 import FameShameDetails from "@/details/FameShameDetails/FameShameDetails";
-import FameShameFilters from "@/filters/FameShameFilters/FameShameFilters";
+import { PAGE_SIZE } from "@/constants";
+import Filters from "@/components/Filters/Filters";
+import Controls from "@/components/Controls/Controls";
+import Badges from "@/components/Badges/Badges";
 
 interface FameShameTableProps {
   className?: string;
 }
 
 export default ({ className }: FameShameTableProps) => {
-  const { user } = useUser();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
-  const [programId, setProgramId] = useState<number | null>(null);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["fameShameEntries", searchTerm, pageNum, programId],
+    queryKey: ["fameShame", selectedProgram, pageNum],
     queryFn: () => {
       return fameShameService.searchFameShame({
-        searchTerm,
+        programId: selectedProgram?.id,
         pageNum,
-        programId,
       });
     },
   });
 
   const clearFilters = () => {
-    setSearchTerm("");
-    setProgramId(null);
+    setSelectedProgram(null);
     setPageNum(1);
   };
-
-  const items = useMemo(() => {
-    if (data) {
-      return data.fameShameInputs?.map((item: any) => (
-        <Accordion.Item key={item.id} value={item.id.toString()}>
-          <Accordion.Control className={`pl-0`}>
-            <div>
-              {item.program.name} - {item.fame}/{item.shame}
-            </div>
-          </Accordion.Control>
-          <Accordion.Panel>
-            <FameShameDetails item={item} />
-          </Accordion.Panel>
-        </Accordion.Item>
-      ));
-    }
-  }, [data]);
 
   const [opened, { open, close }] = useDisclosure(false);
 
   const totalPages = useMemo(() => {
     if (data) {
       const totalCount = data?.totalCount || 0;
-      const totalPages = Math.ceil(totalCount / PAGE_SIZE);
-      return totalPages;
+      return Math.ceil(totalCount / PAGE_SIZE);
     }
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return searchTerm || programId;
-  }, [searchTerm, programId]);
-
-  const navigate = useNavigate();
+    return !!selectedProgram;
+  }, [selectedProgram]);
 
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <FameShameFilters
-          opened={opened}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          setProgramId={setProgramId}
+        <Filters
+          selectedProgram={selectedProgram}
+          setSelectedProgram={setSelectedProgram}
           clearFilters={clearFilters}
         />
       </Drawer>
-      <div
-        className={`flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4`}
-      >
-        <div className={`flex gap-2 items-center`}>
-          <Button onClick={open} variant="outline">
-            Filters
-          </Button>
 
-          <Pagination
-            className={`max-sm:hidden`}
-            value={pageNum}
-            onChange={setPageNum}
-            total={totalPages}
-          />
-        </div>
-        <div className={`flex gap-2`}>
-          {user && (
-            <Button
-              className={`max-sm:hidden`}
-              onClick={() => {
-                navigate("/fame-shame/add");
-              }}
-              leftSection={<IoMdAdd size={18} />}
-            >
-              Add Fame/Shame
-            </Button>
-          )}
-          <Pagination
-            className={`sm:hidden`}
-            value={pageNum}
-            onChange={setPageNum}
-            total={totalPages}
-            boundaries={0}
-          />
-        </div>
-      </div>
+      <Controls
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+        totalPages={totalPages}
+        openFilters={open}
+        shareUrl="/fame-shame/add"
+        shareText="Share Fame/Shame"
+      />
+
       {filtersPresent && (
-        <div className="inline-flex gap-1 mt-2">
-          {searchTerm && (
-            <Badge
-              rightSection={<IoMdClose onClick={() => setSearchTerm(null)} />}
-            >
-              {`${searchTerm}`}
-            </Badge>
-          )}
-          {programId && (
-            <Badge
-              rightSection={<IoMdClose onClick={() => setProgramId(null)} />}
-            >
-              {`Program ID: ${programId}`}
-            </Badge>
-          )}
-        </div>
+        <Badges
+          selectedProgram={selectedProgram}
+          setSelectedProgram={setSelectedProgram}
+        />
       )}
       <div className={`mt-2`}>
         {isLoading && (
@@ -150,10 +78,17 @@ export default ({ className }: FameShameTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.fameShameInputs?.length > 0 && <Accordion>{items}</Accordion>}
-        {data?.fameShameInputs && data.fameShameInputs.length === 0 && (
-          <NoRecords />
+        {data?.fameShame?.length > 0 && (
+          <Accordion>
+            {data.fameShame.map((item: any) => (
+              <Accordion.Item key={item.id} value={item.id.toString()}>
+                <FameShameHeader item={item} />
+                <FameShameDetails item={item} />
+              </Accordion.Item>
+            ))}
+          </Accordion>
         )}
+        {data?.fameShame && data.fameShame.length === 0 && <NoRecords />}
       </div>
     </div>
   );

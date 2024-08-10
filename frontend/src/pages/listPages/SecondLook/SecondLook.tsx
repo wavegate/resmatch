@@ -1,4 +1,4 @@
-import SecondLooksTable from "@/tables/SecondLooksTable/SecondLooksTable";
+import SecondLookTable from "@/tables/SecondLookTable/SecondLookTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -20,7 +20,7 @@ export default () => {
           Manage and review second look visit information.
         </Text>
       </header>
-      <SecondLooksTable />
+      <SecondLookTable />
     </div>
   );
 };

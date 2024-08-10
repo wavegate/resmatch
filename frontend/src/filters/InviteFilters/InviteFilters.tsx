@@ -1,11 +1,10 @@
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
-import { Drawer, Button } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import dayjs from "dayjs";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 export default ({
-  opened,
   startDate,
   endDate,
   setStartDate,
