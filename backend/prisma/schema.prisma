@@ -55,8 +55,6 @@ model User {
   numRejected             Int?
   numWaitlisted           Int?
   applicationYear         Int?
-  threads                 Thread[]
-  replies                 Reply[]
   FameShameUserInput      FameShameUserInput[]
   comments                Comment[]
   rankLists               RankList[]
@@ -72,28 +70,8 @@ model User {
   InterviewImpression     InterviewImpression[]
   Question                Question[]
   Dropped                 Dropped[]
-}
-
-model Reply {
-  id        Int      @id @default(autoincrement())
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  thread    Thread   @relation(fields: [threadId], references: [id])
-  threadId  Int
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-}
-
-model Thread {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  replies   Reply[]
+  FellowshipMatch         FellowshipMatch[]
+  Suggestion              Suggestion[]
 }
 
 model Specialty {
@@ -139,6 +117,9 @@ model Program {
   InterviewImpression InterviewImpression[]
   Question            Question[]
   Dropped             Dropped[]
+  FellowshipMatch     FellowshipMatch[]
+  Bin                 Bin?                  @relation(fields: [binId], references: [id])
+  binId               Int?
 
   @@unique([institutionId, specialtyId, name])
 }
@@ -285,6 +266,13 @@ model Comment {
   lOIResponseId         Int?
   InterviewImpression   InterviewImpression? @relation(fields: [interviewImpressionId], references: [id])
   interviewImpressionId Int?
+  TierList              TierList?            @relation(fields: [tierListId], references: [id])
+  tierListId            Int?
+  parentId              Int?
+  parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id])
+  replies               Comment[]            @relation("CommentReplies")
+  pstp                  Boolean              @default(false)
+  report                Boolean              @default(false)
 }
 
 model RankList {
@@ -516,4 +504,47 @@ model Dropped {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model FellowshipMatch {
+  id        Int     @id @default(autoincrement())
+  year      Int
+  programId Int
+  program   Program @relation(fields: [programId], references: [id])
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  matchData String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TierList {
+  id          Int          @id @default(autoincrement())
+  img         Boolean?
+  title       String
+  bins        Bin[]
+  comments    Comment[]
+  suggestions Suggestion[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Bin {
+  id         Int       @id @default(autoincrement())
+  name       String
+  programs   Program[]
+  tierListId Int
+  tierList   TierList  @relation(fields: [tierListId], references: [id])
+}
+
+model Suggestion {
+  id         Int      @id @default(autoincrement())
+  content    String
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  tierListId Int
+  tierList   TierList @relation(fields: [tierListId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

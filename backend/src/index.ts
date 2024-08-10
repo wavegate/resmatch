@@ -23,6 +23,11 @@ import scheduleDetailsRouter from "./routers/scheduleDetailsRouter.js";
 import secondLookRouter from "./routers/secondLookRouter.js";
 import withdrawalRouter from "./routers/withdrawalRouter.js";
 import loiResponseRouter from "./routers/loiResponseRouter.js";
+import tierListRouter from "./routers/tierListRouter.js";
+import suggestionRouter from "./routers/suggestionRouter.js";
+import binRouter from "./routers/binRouter.js";
+import commentRouter from "./routers/commentRouter.js";
+import fellowshipMatchRouter from "./routers/fellowshipMatchRouter.js";
 
 dotenv.config();
 
@@ -55,6 +60,11 @@ app.use("/rejection", rejectionRouter);
 app.use("/schedule-details", scheduleDetailsRouter);
 app.use("/second-look", secondLookRouter);
 app.use("/withdrawal", withdrawalRouter);
+app.use("/tier-list", tierListRouter);
+app.use("/suggestion", suggestionRouter);
+app.use("/bin", binRouter);
+app.use("/comment", commentRouter);
+app.use("/fellowship-match", fellowshipMatchRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
