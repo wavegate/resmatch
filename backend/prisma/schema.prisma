@@ -71,6 +71,7 @@ model User {
   LOIResponse             LOIResponse[]
   InterviewImpression     InterviewImpression[]
   Question                Question[]
+  Dropped                 Dropped[]
 }
 
 model Reply {
@@ -137,6 +138,7 @@ model Program {
   LOIResponse         LOIResponse[]
   InterviewImpression InterviewImpression[]
   Question            Question[]
+  Dropped             Dropped[]
 
   @@unique([institutionId, specialtyId, name])
 }
@@ -497,6 +499,20 @@ model Question {
   program   Program @relation(fields: [programId], references: [id])
 
   questions String[] @default([]) // A list of strings to store questions
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Dropped {
+  id                       Int       @id @default(autoincrement())
+  userId                   Int
+  user                     User      @relation(fields: [userId], references: [id])
+  programId                Int
+  program                  Program   @relation(fields: [programId], references: [id])
+  dateDropped              DateTime
+  dateOfInterviewCancelled DateTime?
+  reason                   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
