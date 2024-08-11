@@ -28,6 +28,11 @@ import TierList from "./pages/TierList/TierList";
 import IMGTierList from "./pages/IMGTierList/IMGTierList";
 import RankList from "@/pages/listPages/RankList/RankList";
 import XorY from "./pages/listPages/XorY/XorY";
+import AddInvite from "./pages/updatePages/AddInvite/AddInvite";
+import ModReport from "./pages/listPages/ModReport/ModReport";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Profile from "./pages/Profile/Profile";
+import AddUser from "./pages/updatePages/AddUser/AddUser";
 
 const routes = [
   {
@@ -49,6 +54,14 @@ const routes = [
       {
         path: "invite",
         element: <Invite />,
+      },
+      {
+        path: "invite/add",
+        element: <AddInvite />,
+      },
+      {
+        path: "invite/:id",
+        element: <AddInvite />,
       },
       {
         path: "program",
@@ -168,7 +181,7 @@ const routes = [
       },
       {
         path: "mod-report",
-        element: <IMGTierList />,
+        element: <ModReport />,
       },
       {
         path: "x-or-y",
@@ -177,6 +190,18 @@ const routes = [
       {
         path: "x-or-y-img",
         element: <XorY />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "user/:id",
+        element: <AddUser />,
       },
     ],
   },

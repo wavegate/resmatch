@@ -112,13 +112,13 @@ export default function AddUser() {
         withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      navigate("/user");
+      navigate("/profile");
     });
   }
 
   const items = [
-    { title: "Applicants", to: "/user" },
-    { title: "Add Applicant" },
+    { title: "Profile", to: "/profile" },
+    { title: "Edit Profile" },
   ].map((item, index) =>
     item.to ? (
       <Link to={item.to} key={index}>

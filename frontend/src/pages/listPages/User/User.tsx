@@ -1,5 +1,6 @@
 import UsersTable from "@/tables/UsersTable/UsersTable";
 import { Text, Title } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 export default () => {
   return (
@@ -18,8 +19,11 @@ export default () => {
           className="text-sm sm:text-base md:text-lg"
         >
           Compare and analyze stats and trends across other applicants to help
-          guide your match list decision-making, providing valuable insights for
-          crafting a competitive and informed ranking strategy.
+          guide your match list decision-making. If your{" "}
+          <Link to="/profile" className={`text-blue-500 underline`}>
+            Profile
+          </Link>{" "}
+          is public, your stats will show up here.
         </Text>
       </header>
       <UsersTable />

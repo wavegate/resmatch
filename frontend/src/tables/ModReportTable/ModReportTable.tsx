@@ -1,4 +1,4 @@
-import { Accordion, Loader } from "@mantine/core";
+import { Accordion, Loader, Pagination } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import commentService from "@/services/commentService";

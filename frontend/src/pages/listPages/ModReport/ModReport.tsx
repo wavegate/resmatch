@@ -20,7 +20,7 @@ export default function ModReport() {
           Report issues to moderators.
         </Text>
       </header>
-      <ModReportTable report={true} />
+      <ModReportTable />
     </div>
   );
 }

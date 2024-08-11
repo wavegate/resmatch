@@ -31,6 +31,7 @@ const formSchema = z.object({
   programId: z.number({ required_error: "Program is required." }),
   inviteDateTime: z.date({ required_error: "An invitation date is required." }),
   signal: z.boolean().optional(),
+  linked: z.boolean(),
   geographicPreference: z.boolean().optional(),
   locationState: z.string().optional(),
   step1ScorePass: z.boolean().optional(),
@@ -146,11 +147,11 @@ export default () => {
         />
 
         <Controller
-          name="anonymous"
+          name="linked"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="I want this invite to be anonymous (not linked to your profile)."
+              label="Link this invite to my profile."
               {...field}
               checked={field.value}
               size="md"
@@ -158,10 +159,10 @@ export default () => {
           )}
         />
 
-        <Button onClick={() => setShowExtra((prev) => !prev)}>
+        <Button onClick={() => setShowExtra((prev) => !prev)} variant="outline">
           Add Additional Information
         </Button>
-        <Collapse in={showExtra}>
+        <Collapse in={showExtra} className={`flex flex-col gap-4`}>
           <Button onClick={handleImport}>Import My Profile</Button>
           <Controller
             name="signal"

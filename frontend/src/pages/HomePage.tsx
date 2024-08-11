@@ -8,9 +8,11 @@ import {
   Avatar,
   Group,
   SimpleGrid,
+  Blockquote,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default () => {
   // Calculate days until Match Day
@@ -25,7 +27,6 @@ export default () => {
 
   return (
     <div className="space-y-8">
-      {/* Admin Message Section */}
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Group align="center" spacing="sm" className="mb-4">
           <Avatar
@@ -58,32 +59,42 @@ export default () => {
         <List spacing="xs" size="sm" icon="•">
           <List.Item>
             <Text size="sm">
-              <strong>Authentication</strong> prevents sabotage and keeps
-              information secure.
+              <strong>Authentication:</strong> Only moderators can edit other
+              users' data. This prevents sabotage and keeps information secure.
             </Text>
           </List.Item>
           <List.Item>
             <Text size="sm">
-              <strong>Decentralized ownership</strong> ensures data is backed up
-              and accessible.
+              <strong>Anonymity:</strong> All information you provide will be
+              anonymous by default, which means it cannot be visibly tied to
+              your account. You can, however, link your profile to your
+              information if you like.
             </Text>
           </List.Item>
           <List.Item>
             <Text size="sm">
-              <strong>Improved UI</strong> with structured data for easier
-              analysis.
+              <strong>Decentralized ownership:</strong> I will backup data every
+              few days, and will release a Excel spreadsheet with all data every
+              few weeks, free to download.
             </Text>
           </List.Item>
           <List.Item>
             <Text size="sm">
-              <strong>Community contribution</strong> is encouraged with easy
-              internet access.
+              <strong>Stability:</strong> I am happy to maintain this
+              application year to year, as well as can extend to other
+              specialties if things work out. The code is also open-source, so
+              if something happens to me, other people can jump in and keep the
+              application running.
             </Text>
           </List.Item>
           <List.Item>
             <Text size="sm">
-              Maintains the <strong>freedom</strong> for users to interact and
-              modify features.
+              <strong>Extensibility:</strong> I will improve the application
+              over time. Your feedback (see{" "}
+              <Link className={`text-blue-500 underline`} to="/mod-report">
+                Mod Reports
+              </Link>
+              ) will be super useful for this.
             </Text>
           </List.Item>
         </List>
@@ -117,7 +128,6 @@ export default () => {
           </a>
           .
         </Text>
-        <TimeRangeChart />
       </Card>
     </div>
   );
