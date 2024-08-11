@@ -20,6 +20,7 @@ commentRouter.post("/", verifyToken, async (req, res) => {
     pstp = false,
     report = false,
     main = false,
+    linked = false,
   } = req.body;
 
   const userId = req.user.id;
@@ -47,6 +48,7 @@ commentRouter.post("/", verifyToken, async (req, res) => {
         pstp,
         report,
         main,
+        linked,
       },
     });
 
@@ -62,15 +64,26 @@ commentRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Fetch the comment with the user and replies included, ordered by createdAt
     const comment = await prisma.comment.findUnique({
       where: { id: Number(id) },
       include: {
-        replies: true, // Include nested comments if applicable
+        user: true, // Include the user information
+        replies: {
+          orderBy: {
+            createdAt: "desc", // Order replies by createdAt, latest first
+          },
+        },
       },
     });
 
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
+    }
+
+    // Check if the comment is not linked, if so, remove the user data
+    if (!comment.linked) {
+      delete comment.user;
     }
 
     res.json(comment);
@@ -123,8 +136,6 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-// Search comments with optional pstp and report flags
 commentRouter.post("/search", verifyToken, async (req, res) => {
   const {
     main = false,
@@ -168,7 +179,7 @@ commentRouter.post("/search", verifyToken, async (req, res) => {
       },
     });
 
-    const comments = await prisma.comment.findMany({
+    let comments = await prisma.comment.findMany({
       where: {
         parentId: null,
         main,
@@ -193,12 +204,21 @@ commentRouter.post("/search", verifyToken, async (req, res) => {
       },
       include: {
         replies: true,
+        user: true,
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc", // Order by createdAt in descending order
       },
       skip: (pageNum - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
+    });
+
+    // Process comments to remove user information if linked is not true
+    comments = comments.map((comment) => {
+      if (!comment.linked) {
+        comment.user = null; // Remove user information
+      }
+      return comment;
     });
 
     res.json({ totalCount, comments });
