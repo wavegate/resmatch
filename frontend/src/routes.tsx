@@ -36,6 +36,8 @@ import AddUser from "./pages/updatePages/AddUser/AddUser";
 import AddChat from "./pages/updatePages/AddChat/AddChat";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import AddRejection from "./pages/updatePages/AddRejection/AddRejection";
+import AddDropped from "./pages/updatePages/AddDropped/AddDropped";
+import AddLogistics from "./pages/updatePages/AddLogistics/AddLogistics";
 
 const routes = [
   {
@@ -111,12 +113,28 @@ const routes = [
         element: <Dropped />,
       },
       {
+        path: "dropped/add",
+        element: <AddDropped />,
+      },
+      {
+        path: "dropped/:id",
+        element: <AddDropped />,
+      },
+      {
         path: "impression",
         element: <Impression />,
       },
       {
         path: "logistics",
         element: <Logistics />,
+      },
+      {
+        path: "logistics/add",
+        element: <AddLogistics />,
+      },
+      {
+        path: "logistics/:id",
+        element: <AddLogistics />,
       },
       {
         path: "lointerest-response",

@@ -21,6 +21,7 @@ import inviteService from "@/services/inviteService";
 import userService from "@/services/userService";
 import { useEffect, useState } from "react";
 import { removeNulls } from "@/utils/processObjects";
+import useUser from "@/hooks/useUser";
 
 const formSchema = z.object({
   programId: z.number({ required_error: "Program is required." }),
@@ -51,6 +52,9 @@ export default function AddInvite() {
   const isUpdate = !!id; // Check if this is an update operation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      linked: false,
+    },
   });
 
   const { control, handleSubmit } = form;
@@ -73,7 +77,13 @@ export default function AddInvite() {
 
   useEffect(() => {
     if (inviteData) {
-      form.reset(removeNulls(inviteData));
+      const transformedData = {
+        ...inviteData,
+        inviteDateTime: inviteData.inviteDateTime
+          ? new Date(inviteData.inviteDateTime)
+          : null,
+      };
+      form.reset(removeNulls(transformedData));
     }
   }, [inviteData, form]);
 
@@ -104,6 +114,25 @@ export default function AddInvite() {
   );
 
   const [showExtra, setShowExtra] = useState(false);
+
+  const { user } = useUser();
+
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userLoading,
+  } = useQuery({
+    queryKey: ["user", user?.id],
+    queryFn: () => userService.readUser(user.id),
+  });
+
+  const handleImport = () => {
+    if (userData) {
+      const formValues = form.getValues();
+      Object.assign(formValues, removeNulls(userData));
+      form.reset(formValues);
+    }
+  };
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -162,6 +191,7 @@ export default function AddInvite() {
           Add Additional Information
         </Button>
         <Collapse in={showExtra} className={`flex flex-col gap-4`}>
+          <Button onClick={handleImport}>Import My Profile</Button>
           <Controller
             name="signal"
             control={control}

@@ -1,4 +1,4 @@
-import { Accordion, Badge, Button } from "@mantine/core";
+import { Accordion, Badge, Button, Group } from "@mantine/core";
 import {
   FaMapMarkerAlt,
   FaSignal,
@@ -8,13 +8,41 @@ import {
   FaSuitcaseRolling,
 } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import inviteService from "@/services/inviteService";
+import { notifications } from "@mantine/notifications";
 
 interface InviteDetailsProps {
   item: any; // Replace with the correct type if available
 }
 
 export default function InviteDetails({ item }: InviteDetailsProps) {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutateAsync: deleteInvite } = useMutation({
+    mutationFn: () => inviteService.deleteInvite(item.id),
+    onSuccess: () => {
+      notifications.show({
+        message: "Invite deleted successfully!",
+        color: "green",
+      });
+      queryClient.invalidateQueries({ queryKey: ["invite"] });
+      navigate("/invite");
+    },
+    onError: () => {
+      notifications.show({
+        message: "Failed to delete invite",
+        color: "red",
+      });
+    },
+  });
+
+  const handleDelete = async () => {
+    await deleteInvite();
+  };
+
   const hasBadges =
     item.graduateType ||
     item.medicalDegree ||
@@ -95,11 +123,16 @@ export default function InviteDetails({ item }: InviteDetailsProps) {
         </div>
       )}
 
-      <Link to={`/invite/${item.id}`}>
-        <Button variant="outline" size="xs">
-          Edit Invite
+      <Group>
+        <Link to={`/invite/${item.id}`}>
+          <Button variant="outline" size="xs">
+            Edit Invite
+          </Button>
+        </Link>
+        <Button variant="outline" size="xs" color="red" onClick={handleDelete}>
+          Delete Invite
         </Button>
-      </Link>
+      </Group>
     </Accordion.Panel>
   );
 }
