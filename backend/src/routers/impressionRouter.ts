@@ -8,18 +8,18 @@ const router = express.Router();
 router.post("/", verifyToken, async (req, res) => {
   const {
     programId,
-    userId,
     positives,
     negatives,
     howInterviewDayAffectsRank,
     gift,
     timeGiftReceived,
+    linked = false, // Default to false if not provided
   } = req.body;
 
-  if (!programId || !userId) {
-    return res
-      .status(400)
-      .json({ error: "Program ID and User ID are required" });
+  const userId = req.user.id;
+
+  if (!programId) {
+    return res.status(400).json({ error: "Program ID is required" });
   }
 
   try {
@@ -32,6 +32,7 @@ router.post("/", verifyToken, async (req, res) => {
         howInterviewDayAffectsRank,
         gift,
         timeGiftReceived,
+        linked: Boolean(linked), // Ensure linked is stored as a boolean
       },
     });
 
@@ -58,6 +59,11 @@ router.get("/:id", async (req, res) => {
 
     if (!interviewImpression) {
       return res.status(404).json({ error: "Interview Impression not found" });
+    }
+
+    // Remove user data if the linked field is not true
+    if (!interviewImpression.linked) {
+      interviewImpression.user = undefined;
     }
 
     res.json(interviewImpression);
@@ -123,7 +129,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
         comments: true,
       },
@@ -132,7 +142,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ interviewImpressions, totalCount });
+    // Remove user data if the linked field is not true
+    const processedImpressions = interviewImpressions.map((impression) => {
+      if (!impression.linked) {
+        impression.user = undefined; // Remove user data
+      }
+      return impression;
+    });
+
+    res.json({ interviewImpressions: processedImpressions, totalCount });
   } catch (error) {
     console.error("Error fetching interview impressions:", error);
     res.status(500).json({ error: "Internal Server Error" });

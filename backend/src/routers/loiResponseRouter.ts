@@ -8,20 +8,20 @@ const router = express.Router();
 router.post("/", verifyToken, async (req, res) => {
   const {
     programId,
-    userId,
-    intent,
+    intent = false, // Default intent to false
     sentTo,
     dateSent,
     response,
     responseTone,
     timeBetweenSentAndResponse,
     mentionedTopChoice,
+    linked = false, // Default linked to false
   } = req.body;
 
-  if (!programId || !userId) {
-    return res
-      .status(400)
-      .json({ error: "Program ID and User ID are required" });
+  const userId = req.user.id;
+
+  if (!programId) {
+    return res.status(400).json({ error: "Program ID is required" });
   }
 
   try {
@@ -36,6 +36,7 @@ router.post("/", verifyToken, async (req, res) => {
         responseTone,
         timeBetweenSentAndResponse,
         mentionedTopChoice,
+        linked: Boolean(linked), // Ensure linked is stored as a boolean
       },
     });
 
@@ -54,7 +55,11 @@ router.get("/:id", async (req, res) => {
     const loiResponse = await prisma.lOIResponse.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the response
+          },
+        },
         user: true,
         comments: true,
       },
@@ -62,6 +67,11 @@ router.get("/:id", async (req, res) => {
 
     if (!loiResponse) {
       return res.status(404).json({ error: "LOI Response not found" });
+    }
+
+    // Remove user data if the linked field is not true
+    if (!loiResponse.linked) {
+      loiResponse.user = undefined;
     }
 
     res.json(loiResponse);
@@ -118,16 +128,29 @@ router.delete("/:id", verifyToken, async (req, res) => {
 // List LOI Responses with Pagination
 router.post("/search", async (req, res) => {
   try {
-    const { pageNum = 1 } = req.body;
+    const { pageNum = 1, intent } = req.body; // Add intent to the request body
     const offset = (pageNum - 1) * 10;
 
-    const totalCount = await prisma.lOIResponse.count();
+    const conditions = {}; // Initialize conditions object
+
+    if (typeof intent !== "undefined") {
+      conditions.intent = intent; // Add intent condition if provided
+    }
+
+    const totalCount = await prisma.lOIResponse.count({
+      where: conditions, // Apply conditions to the count query
+    });
 
     const loiResponses = await prisma.lOIResponse.findMany({
       skip: offset,
       take: 10,
+      where: conditions, // Apply conditions to the findMany query
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the search results
+          },
+        },
         user: true,
         comments: true,
       },
@@ -136,7 +159,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ loiResponses, totalCount });
+    // Remove user data if the linked field is not true
+    const processedResponses = loiResponses.map((response) => {
+      if (!response.linked) {
+        response.user = undefined; // Remove user data
+      }
+      return response;
+    });
+
+    res.json({ loiResponses: processedResponses, totalCount });
   } catch (error) {
     console.error("Error fetching LOI responses:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -6,12 +6,14 @@ const router = express.Router();
 
 // Create a new Question
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, userId, questions } = req.body;
+  const { programId, questions, linked = false } = req.body;
 
-  if (!programId || !userId || !questions) {
+  const userId = req.user.id;
+
+  if (!programId || !questions) {
     return res
       .status(400)
-      .json({ error: "Program ID, User ID, and Questions are required" });
+      .json({ error: "Program ID and Questions are required" });
   }
 
   try {
@@ -20,6 +22,7 @@ router.post("/", verifyToken, async (req, res) => {
         programId: Number(programId),
         userId: Number(userId),
         questions: questions, // expecting an array of strings
+        linked: Boolean(linked), // Ensure linked is stored as a boolean
       },
     });
 
@@ -38,13 +41,22 @@ router.get("/:id", async (req, res) => {
     const question = await prisma.question.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include the institution in the response
+          },
+        },
         user: true,
       },
     });
 
     if (!question) {
       return res.status(404).json({ error: "Question not found" });
+    }
+
+    // Remove user data if the linked field is not true
+    if (!question.linked) {
+      question.user = undefined;
     }
 
     res.json(question);
@@ -110,7 +122,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include the institution in the search results
+          },
+        },
         user: true,
       },
       orderBy: {
@@ -118,7 +134,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ questions, totalCount });
+    // Remove user data if the linked field is not true
+    const processedQuestions = questions.map((question) => {
+      if (!question.linked) {
+        question.user = undefined; // Remove user data
+      }
+      return question;
+    });
+
+    res.json({ questions: processedQuestions, totalCount });
   } catch (error) {
     console.error("Error fetching questions:", error);
     res.status(500).json({ error: "Internal Server Error" });
