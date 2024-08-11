@@ -362,20 +362,19 @@ model ScheduleDetails {
 }
 
 model InterviewLogistics {
-  id                Int             @id @default(autoincrement())
-  sortType          String
+  id                Int              @id @default(autoincrement())
   userId            Int
-  user              User            @relation(fields: [userId], references: [id])
+  user              User             @relation(fields: [userId], references: [id])
   programId         Int
-  program           Program         @relation(fields: [programId], references: [id])
+  program           Program          @relation(fields: [programId], references: [id])
   schedulerPlatform String?
   ivFormat          String?
   timeSlots         String?
   ivPlatform        String?
   openIVDates       DateTime[]
-  interviewInviteId Int
-  interviewInvite   InterviewInvite @relation(fields: [interviewInviteId], references: [id])
-  linked            Boolean         @default(false)
+  interviewInviteId Int?
+  interviewInvite   InterviewInvite? @relation(fields: [interviewInviteId], references: [id])
+  linked            Boolean          @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

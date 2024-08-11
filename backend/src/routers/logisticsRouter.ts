@@ -7,8 +7,6 @@ const router = express.Router();
 // Create a new InterviewLogistics
 router.post("/", verifyToken, async (req, res) => {
   const {
-    sortType,
-    userId,
     programId,
     schedulerPlatform,
     ivFormat,
@@ -16,21 +14,20 @@ router.post("/", verifyToken, async (req, res) => {
     ivPlatform,
     openIVDates,
     interviewInviteId,
+    linked = false, // Default to false if not provided
   } = req.body;
 
-  if (!sortType || !userId || !programId || !interviewInviteId) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Sort Type, User ID, Program ID, and Interview Invite ID are required",
-      });
+  const userId = req.user.id;
+
+  if (!programId) {
+    return res.status(400).json({
+      error: "Program ID is required",
+    });
   }
 
   try {
     const newInterviewLogistics = await prisma.interviewLogistics.create({
       data: {
-        sortType,
         userId: Number(userId),
         programId: Number(programId),
         schedulerPlatform,
@@ -41,6 +38,7 @@ router.post("/", verifyToken, async (req, res) => {
           ? openIVDates.map((date) => new Date(date))
           : [],
         interviewInviteId: Number(interviewInviteId),
+        linked: Boolean(linked), // Ensure linked is a boolean
       },
     });
 
@@ -132,7 +130,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
         interviewInvite: true,
       },
@@ -141,7 +143,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ interviewLogistics, totalCount });
+    // Remove user data if the linked field is not true
+    const processedLogistics = interviewLogistics.map((logistics) => {
+      if (!logistics.linked) {
+        logistics.user = undefined; // Remove user data
+      }
+      return logistics;
+    });
+
+    res.json({ interviewLogistics: processedLogistics, totalCount });
   } catch (error) {
     console.error("Error fetching interview logistics:", error);
     res.status(500).json({ error: "Internal Server Error" });

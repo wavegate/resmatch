@@ -6,12 +6,15 @@ const router = express.Router();
 
 // Create a new Dropped record
 router.post("/", verifyToken, async (req, res) => {
-  const { userId, programId, reason, date } = req.body;
+  const { programId, reason, dateDropped, dateOfInterviewCancelled, linked } =
+    req.body;
 
-  if (!userId || !programId || !date) {
+  const userId = req.user.id;
+
+  if (!programId || !dateDropped) {
     return res
       .status(400)
-      .json({ error: "User ID, Program ID, and Date are required" });
+      .json({ error: "Program ID and Date Dropped are required" });
   }
 
   try {
@@ -20,7 +23,11 @@ router.post("/", verifyToken, async (req, res) => {
         userId: Number(userId),
         programId: Number(programId),
         reason,
-        date: new Date(date),
+        dateDropped: new Date(dateDropped),
+        dateOfInterviewCancelled: dateOfInterviewCancelled
+          ? new Date(dateOfInterviewCancelled)
+          : null,
+        linked: linked ?? false,
       },
     });
 
@@ -30,7 +37,6 @@ router.post("/", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 // Get a Dropped record by ID
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -112,14 +118,26 @@ router.post("/search", async (req, res) => {
       take: 10,
       include: {
         user: true,
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    res.json({ droppedRecords, totalCount });
+    // Remove user data if the linked field is not true
+    const processedRecords = droppedRecords.map((record) => {
+      if (!record.linked) {
+        record.user = undefined; // Remove user data
+      }
+      return record;
+    });
+
+    res.json({ droppedRecords: processedRecords, totalCount });
   } catch (error) {
     console.error("Error fetching dropped records:", error);
     res.status(500).json({ error: "Internal Server Error" });
