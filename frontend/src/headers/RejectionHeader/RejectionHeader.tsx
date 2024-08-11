@@ -1,6 +1,7 @@
 import { Accordion, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import IdentityTag from "@/components/IdentityTag/IdentityTag";
 
 interface RejectionHeaderProps {
   item: any; // Replace with the correct type if available
@@ -17,13 +18,7 @@ export default function RejectionHeader({ item }: RejectionHeaderProps) {
           {`Date of Rejection: ${dayjs(item.date).format("MMM D, YYYY")}`}
         </Text>
         <div className="flex items-center gap-2">
-          {item.user && (
-            <Link to={`/user/${item.user.id}`}>
-              <Text c="dimmed" className="text-xs sm:text-sm underline">
-                {item.user.alias}
-              </Text>
-            </Link>
-          )}
+          {item.user && <IdentityTag user={item.user} />}
         </div>
       </div>
     </Accordion.Control>

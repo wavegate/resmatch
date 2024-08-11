@@ -1,4 +1,4 @@
-import { Accordion, Badge } from "@mantine/core";
+import { Accordion, Badge, Button } from "@mantine/core";
 import {
   FaMapMarkerAlt,
   FaSignal,
@@ -8,6 +8,7 @@ import {
   FaSuitcaseRolling,
 } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 interface InviteDetailsProps {
   item: any; // Replace with the correct type if available
@@ -32,7 +33,7 @@ export default function InviteDetails({ item }: InviteDetailsProps) {
       {!hasBadges ? (
         <div className={`text-gray-500 text-xs`}>Nothing to show here...</div>
       ) : (
-        <div className="inline-flex flex-wrap gap-2">
+        <div className="inline-flex flex-wrap gap-2 mb-4">
           {item.graduateType && (
             <Badge color="blue" variant="outline">
               {item.graduateType}
@@ -93,6 +94,12 @@ export default function InviteDetails({ item }: InviteDetailsProps) {
           )}
         </div>
       )}
+
+      <Link to={`/invite/${item.id}`}>
+        <Button variant="outline" size="xs">
+          Edit Invite
+        </Button>
+      </Link>
     </Accordion.Panel>
   );
 }

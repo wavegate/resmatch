@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Accordion, Button, Group, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import rejectionService from "@/services/rejectionService";
@@ -31,7 +31,7 @@ export default function RejectionDetails({ item }) {
   };
 
   return (
-    <div>
+    <Accordion.Panel>
       <Group justify="apart">
         <Link to={`/rejection/${item.id}`}>
           <Button>Update Rejection</Button>
@@ -44,12 +44,6 @@ export default function RejectionDetails({ item }) {
           Delete Rejection
         </Button>
       </Group>
-      <Text>
-        <strong>Program:</strong> {item.program.name}
-      </Text>
-      <Text>
-        <strong>Date:</strong> {item.date}
-      </Text>
-    </div>
+    </Accordion.Panel>
   );
 }

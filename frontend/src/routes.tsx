@@ -34,6 +34,8 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import AddUser from "./pages/updatePages/AddUser/AddUser";
 import AddChat from "./pages/updatePages/AddChat/AddChat";
+import UserProfile from "./pages/UserProfile/UserProfile";
+import AddRejection from "./pages/updatePages/AddRejection/AddRejection";
 
 const routes = [
   {
@@ -145,6 +147,14 @@ const routes = [
         element: <Rejection />,
       },
       {
+        path: "rejection/add",
+        element: <AddRejection />,
+      },
+      {
+        path: "rejection/:id",
+        element: <AddRejection />,
+      },
+      {
         path: "schedule-details",
         element: <ScheduleDetails />,
       },
@@ -202,6 +212,10 @@ const routes = [
       },
       {
         path: "user/:id",
+        element: <UserProfile />,
+      },
+      {
+        path: "user/add/:id",
         element: <AddUser />,
       },
       {

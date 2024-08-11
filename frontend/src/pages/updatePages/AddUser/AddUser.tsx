@@ -29,6 +29,7 @@ import { removeNulls } from "@/utils/processObjects";
 
 const formSchema = z.object({
   alias: z.string().optional(),
+  public: z.boolean().optional(),
   greenCard: z.boolean().optional(),
   step2CSPathway: z.nativeEnum(Pathway).optional(),
   schoolRanking: z.nativeEnum(SchoolRanking).optional(),
@@ -133,6 +134,20 @@ export default function AddUser() {
     <div className={`flex flex-col gap-4`}>
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
+        <Controller
+          name="public"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Checkbox
+              label="Make my profile public"
+              description="A public profile will show up on the Applicant Data tab for others to view. If your profile is not public, users will not be able to see your data, even if you link data to the profile."
+              checked={field.value}
+              size="md"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
         <Controller
           name="alias"
           control={control}

@@ -1,3 +1,4 @@
+import IdentityTag from "@/components/IdentityTag/IdentityTag";
 import { Accordion, Avatar, Text } from "@mantine/core";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -22,26 +23,14 @@ export default function InviteHeader({ item }: InviteHeaderProps) {
           <img
             className={`object-cover h-full`}
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDSi-o3c7GQB3mphyLYYIsD8m5xiZ4dDTzNg&s"
+            alt="Program logo"
           />
         </div>
         <div className="flex flex-col gap-1">
           <Text className="text-sm sm:text-md md:text-lg font-medium">
             {`${item.program.name} at ${item.program.institution.name}`}
           </Text>
-          <div className={`flex items-center gap-2`}>
-            <Avatar size="sm" />
-            {item.anonymous ? (
-              <Text c="dimmed" className="text-xs sm:text-sm">
-                Anonymous
-              </Text>
-            ) : (
-              <Link to={`/user/${item.user.id}`}>
-                <Text c="dimmed" className="text-xs sm:text-sm underline">
-                  {item.user.alias}
-                </Text>
-              </Link>
-            )}
-          </div>
+          {item.user && <IdentityTag user={item.user} />}
         </div>
       </div>
     </Accordion.Control>

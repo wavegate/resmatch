@@ -20,7 +20,7 @@ export default ({ className }: RejectionTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["rejections", selectedProgram, pageNum],
+    queryKey: ["rejection", selectedProgram, pageNum],
     queryFn: () => {
       return rejectionService.searchRejection({
         programId: selectedProgram?.id,

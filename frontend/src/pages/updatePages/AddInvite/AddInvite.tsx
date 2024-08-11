@@ -3,31 +3,26 @@ import { numericNull } from "@/utils/zodHelpers";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  TextInput,
-  Checkbox,
-  Textarea,
   Button,
-  Select,
-  NumberInput,
   Breadcrumbs,
   Anchor,
+  Checkbox,
   Collapse,
+  NumberInput,
+  Select,
 } from "@mantine/core";
-import { DateInput, DatePicker, DatePickerInput } from "@mantine/dates";
+import { DateInput } from "@mantine/dates";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
-import apiClient from "@/apiClient";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
 import inviteService from "@/services/inviteService";
-import useUser from "@/hooks/useUser";
 import userService from "@/services/userService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { removeNulls } from "@/utils/processObjects";
 
 const formSchema = z.object({
-  anonymous: z.boolean().optional(),
   programId: z.number({ required_error: "Program is required." }),
   inviteDateTime: z.date({ required_error: "An invitation date is required." }),
   signal: z.boolean().optional(),
@@ -50,33 +45,44 @@ const formSchema = z.object({
   medicalDegree: z.string().optional(),
 });
 
-export default () => {
+export default function AddInvite() {
   useAuthGuard();
+  const { id } = useParams<{ id: string }>(); // Use the ID from the URL params
+  const isUpdate = !!id; // Check if this is an update operation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const { control, handleSubmit } = form;
 
-  const { data, error, isPending, mutateAsync } = useMutation({
-    mutationFn: (values) => inviteService.createInvite(values),
+  const { mutateAsync } = useMutation({
+    mutationFn: (values) =>
+      isUpdate
+        ? inviteService.updateInvite(id, values)
+        : inviteService.createInvite(values),
   });
-
-  const { user } = useUser();
-
-  const {
-    data: userData,
-    error: userError,
-    isLoading: userLoading,
-  } = useQuery({ queryFn: () => userService.readUser(user.id) });
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const { data: inviteData, isLoading } = useQuery({
+    queryKey: ["invite", id],
+    queryFn: () => inviteService.readInvite(id),
+    enabled: isUpdate,
+  });
+
+  useEffect(() => {
+    if (inviteData) {
+      form.reset(removeNulls(inviteData));
+    }
+  }, [inviteData, form]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    mutateAsync(values).then((res) => {
+    await mutateAsync(values).then(() => {
       notifications.show({
-        message: "Thanks for sharing information about your invite!",
+        message: isUpdate
+          ? "Invite updated successfully!"
+          : "Invite added successfully!",
         withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["invite"] });
@@ -86,7 +92,7 @@ export default () => {
 
   const items = [
     { title: "Interview Invites", to: "/invite" },
-    { title: "Share Invite" },
+    { title: isUpdate ? "Edit Invite" : "Share Invite" },
   ].map((item, index) =>
     item.to ? (
       <Link to={item.to} key={index}>
@@ -98,14 +104,6 @@ export default () => {
   );
 
   const [showExtra, setShowExtra] = useState(false);
-
-  const handleImport = () => {
-    if (userData) {
-      const formValues = form.getValues();
-      Object.assign(formValues, removeNulls(userData));
-      form.reset(formValues);
-    }
-  };
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -120,7 +118,7 @@ export default () => {
                 required
                 selected={value}
                 onChange={onChange}
-                label="For which program were you invited to interview for?"
+                label="For which program were you invited to interview?"
               />
               {fieldState.error && (
                 <div style={{ color: "red", fontSize: "12px" }}>
@@ -141,7 +139,8 @@ export default () => {
               required
               error={fieldState.error?.message}
               size="md"
-              {...field}
+              value={field.value ? new Date(field.value) : null} // Ensure value is a Date object
+              onChange={(date) => field.onChange(date)} // Pass Date object directly
             />
           )}
         />
@@ -163,7 +162,6 @@ export default () => {
           Add Additional Information
         </Button>
         <Collapse in={showExtra} className={`flex flex-col gap-4`}>
-          <Button onClick={handleImport}>Import My Profile</Button>
           <Controller
             name="signal"
             control={control}
@@ -406,8 +404,10 @@ export default () => {
           )}
         </Collapse>
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {isUpdate ? "Update Invite" : "Submit Invite"}
+        </Button>
       </form>
     </div>
   );
-};
+}
