@@ -17,7 +17,7 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Participate in discussions and share information with the community.
+          A place for general discussion.
         </Text>
       </header>
       <ChatTable />

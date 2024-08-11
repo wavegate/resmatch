@@ -33,6 +33,7 @@ import ModReport from "./pages/listPages/ModReport/ModReport";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import AddUser from "./pages/updatePages/AddUser/AddUser";
+import AddChat from "./pages/updatePages/AddChat/AddChat";
 
 const routes = [
   {
@@ -202,6 +203,10 @@ const routes = [
       {
         path: "user/:id",
         element: <AddUser />,
+      },
+      {
+        path: "chat/add",
+        element: <AddChat />,
       },
     ],
   },

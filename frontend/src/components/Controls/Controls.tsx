@@ -19,6 +19,7 @@ export default function Controls({
   openFilters,
   shareUrl,
   shareText,
+  noFilters,
 }: ControlsProps) {
   const { user } = useUser();
   const navigate = useNavigate();
@@ -28,9 +29,11 @@ export default function Controls({
       className={`flex items-center gap-2 max-sm:items-start max-sm:flex-col max-sm:gap-4`}
     >
       <div className={`flex gap-2 items-center`}>
-        <Button onClick={openFilters} variant="outline">
-          Filters
-        </Button>
+        {!noFilters && (
+          <Button onClick={openFilters} variant="outline">
+            Filters
+          </Button>
+        )}
         {user && (
           <Button
             className={`sm:hidden`}

@@ -1,12 +1,11 @@
-import { Accordion, Loader } from "@mantine/core";
+import { Loader } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { PAGE_SIZE } from "@/constants";
 import Controls from "@/components/Controls/Controls";
 import commentService from "@/services/commentService";
-import CommentHeader from "@/headers/CommentHeader/CommentHeader";
-import CommentDetails from "@/details/CommentDetails/CommentDetails";
+import Comment from "@/components/Comment/Comment";
 
 interface ChatTableProps {
   className?: string;
@@ -35,11 +34,12 @@ export default ({ className }: ChatTableProps) => {
   return (
     <div className={`${className}`}>
       <Controls
+        noFilters
         pageNum={pageNum}
         setPageNum={setPageNum}
         totalPages={totalPages}
         shareUrl="/chat/add"
-        shareText="Share Chat"
+        shareText="New Thread"
       />
 
       <div className={`mt-2`}>
@@ -49,14 +49,11 @@ export default ({ className }: ChatTableProps) => {
           </div>
         )}
         {data?.comments?.length > 0 && (
-          <Accordion>
+          <div className={`flex flex-col gap-4`}>
             {data.comments.map((item: any) => (
-              <Accordion.Item key={item.id} value={item.id.toString()}>
-                <CommentHeader item={item} />
-                <CommentDetails item={item} />
-              </Accordion.Item>
+              <Comment id={item.id} key={item.id} />
             ))}
-          </Accordion>
+          </div>
         )}
         {data?.comments && data.comments.length === 0 && <NoRecords />}
       </div>
