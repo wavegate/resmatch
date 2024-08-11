@@ -38,7 +38,7 @@ inviteRouter.post("/", verifyToken, async (req: AuthenticatedRequest, res) => {
     const userId = req.user.id;
 
     const data = removeUndefinedValues({
-      anonymous: formData.anonymous ?? false,
+      linked: formData.linked ?? false,
       programId: formData.programId ? parseInt(formData.programId) : undefined,
       inviteDateTime: formData.inviteDateTime
         ? new Date(formData.inviteDateTime)
@@ -79,19 +79,72 @@ inviteRouter.post("/", verifyToken, async (req: AuthenticatedRequest, res) => {
   }
 });
 
-inviteRouter.get("/:id", (req, res) => {
+// Get an Invite by ID
+inviteRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
-  res.send(`Invite details for ID: ${id}`);
+
+  try {
+    const invite = await prisma.interviewInvite.findUnique({
+      where: { id: Number(id) },
+      include: {
+        program: true,
+        user: true,
+      },
+    });
+
+    if (!invite) {
+      return res.status(404).json({ error: "Invite not found" });
+    }
+
+    res.json(invite);
+  } catch (error) {
+    console.error("Error fetching invite details:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-inviteRouter.put("/:id", (req, res) => {
+// Update an Invite by ID
+inviteRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  res.send(`Invite with ID: ${id} updated`);
+  const formData = req.body;
+
+  try {
+    const updatedInvite = await prisma.interviewInvite.update({
+      where: { id: Number(id) },
+      data: formData,
+    });
+
+    res.json(updatedInvite);
+  } catch (error) {
+    console.error("Error updating invite:", error);
+
+    if (error.code === "P2025") {
+      return res.status(404).json({ error: "Invite not found" });
+    }
+
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-inviteRouter.delete("/:id", (req, res) => {
+// Delete an Invite by ID
+inviteRouter.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  res.send(`Invite with ID: ${id} deleted`);
+
+  try {
+    await prisma.interviewInvite.delete({
+      where: { id: Number(id) },
+    });
+
+    res.json({ message: `Invite with ID: ${id} deleted` });
+  } catch (error) {
+    console.error("Error deleting invite:", error);
+
+    if (error.code === "P2025") {
+      return res.status(404).json({ error: "Invite not found" });
+    }
+
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 inviteRouter.post("/search", async (req, res) => {
@@ -126,7 +179,7 @@ inviteRouter.post("/search", async (req, res) => {
       where: conditions,
     });
 
-    const interviewInvites = await prisma.interviewInvite.findMany({
+    let interviewInvites = await prisma.interviewInvite.findMany({
       where: conditions,
       include: {
         program: {
@@ -141,6 +194,15 @@ inviteRouter.post("/search", async (req, res) => {
       },
       skip,
       take: pageSize,
+    });
+
+    // Process interviewInvites to remove user data if the linked field is false
+    interviewInvites = interviewInvites.map((invite) => {
+      if (!invite.linked) {
+        // Replace 'linked' with the correct field if necessary
+        invite.user = undefined; // Remove user data
+      }
+      return invite;
     });
 
     res.json({ totalCount, interviewInvites });

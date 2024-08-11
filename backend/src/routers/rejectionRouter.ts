@@ -5,17 +5,17 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, userId, date } = req.body;
+  const { programId, date, linked } = req.body;
+  const userId = req.user.id;
 
-  if (!programId || !userId || !date) {
-    return res
-      .status(400)
-      .json({ error: "Program ID, User ID, and Date are required" });
+  if (!programId || !date) {
+    return res.status(400).json({ error: "Program ID and Date are required" });
   }
 
   try {
     const newInterviewRejection = await prisma.interviewRejection.create({
       data: {
+        linked: linked ?? false,
         programId: Number(programId),
         userId: Number(userId),
         date: new Date(date),
@@ -97,7 +97,6 @@ router.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
-// List Interview Rejections with Pagination
 router.post("/search", async (req, res) => {
   try {
     const { pageNum = 1 } = req.body;
@@ -109,7 +108,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
       },
       orderBy: {
@@ -117,7 +120,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ interviewRejections, totalCount });
+    // Process the interviewRejections to remove user data if linked is not true
+    const processedRejections = interviewRejections.map((rejection) => {
+      if (!rejection.linked) {
+        rejection.user = undefined;
+      }
+      return rejection;
+    });
+
+    res.json({ interviewRejections: processedRejections, totalCount });
   } catch (error) {
     console.error("Error fetching interview rejections:", error);
     res.status(500).json({ error: "Internal Server Error" });
