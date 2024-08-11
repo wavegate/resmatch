@@ -17,6 +17,7 @@ interface UserFormData {
 interface UserSearchParams {
   searchTerm: string | null;
   pageNum: number;
+  graduateType: string;
 }
 
 interface UserSearchResponse {
@@ -49,10 +50,12 @@ const deleteUser = async (id: string | number): Promise<void> => {
 const searchUser = async ({
   searchTerm,
   pageNum,
+  graduateType,
 }: UserSearchParams): Promise<UserSearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     searchTerm,
     pageNum,
+    graduateType,
   });
   return data;
 };

@@ -1,30 +1,31 @@
-import postIVCommunicationService from "@/services/postIVCommunicationService";
+import userService from "@/services/userService";
 import { Accordion, Drawer, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import PostIVCommunicationHeader from "@/headers/PostIVCommunicationHeader/PostIVCommunicationHeader";
-import PostIVCommunicationDetails from "@/details/PostIVCommunicationDetails/PostIVCommunicationDetails";
+import UserHeader from "@/headers/UserHeader/UserHeader";
+import UserDetails from "@/details/UserDetails/UserDetails";
 import { PAGE_SIZE } from "@/constants";
 import Filters from "@/components/Filters/Filters";
 import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
 
-interface PostIVCommunicationTableProps {
+interface UserTableProps {
   className?: string;
 }
 
-export default ({ className }: PostIVCommunicationTableProps) => {
+export default ({ className }: UserTableProps) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["postIVCommunication", selectedProgram, pageNum],
+    queryKey: ["user", "IMG", selectedProgram, pageNum],
     queryFn: () => {
-      return postIVCommunicationService.searchPostIVCommunication({
+      return userService.searchUser({
         programId: selectedProgram?.id,
         pageNum,
+        graduateType: "IMG",
       });
     },
   });
@@ -58,12 +59,13 @@ export default ({ className }: PostIVCommunicationTableProps) => {
       </Drawer>
 
       <Controls
+        noShare
         pageNum={pageNum}
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/post-iv-communication/add"
-        shareText="Share Post-IV Communication"
+        shareUrl="/user/add"
+        shareText="Share User"
       />
 
       {filtersPresent && (
@@ -78,18 +80,17 @@ export default ({ className }: PostIVCommunicationTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.postIVCommunications?.length > 0 && (
+        {data?.users?.length > 0 && (
           <Accordion>
-            {data.postIVCommunications.map((item: any) => (
+            {data.users.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
-                <PostIVCommunicationHeader item={item} />
-                <PostIVCommunicationDetails item={item} />
+                <UserHeader item={item} />
+                <UserDetails item={item} />
               </Accordion.Item>
             ))}
           </Accordion>
         )}
-        {data?.postIVCommunications &&
-          data.postIVCommunications.length === 0 && <NoRecords />}
+        {data?.users && data.users.length === 0 && <NoRecords />}
       </div>
     </div>
   );

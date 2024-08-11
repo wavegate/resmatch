@@ -7,12 +7,10 @@ import Chat from "@/pages/listPages/Chat/Chat";
 import FameShame from "@/pages/listPages/FameShame/FameShame";
 import Invite from "@/pages/listPages/Invite/Invite";
 import Program from "@/pages/listPages/Program/Program";
-import User from "@/pages/listPages/User/User";
 import City from "@/pages/listPages/City/City";
 import Dropped from "./pages/listPages/Dropped/Dropped";
 import Impression from "./pages/listPages/Impression/Impression";
 import Logistics from "./pages/listPages/Logistics/Logistics";
-import LOIResponse from "./pages/listPages/LOInterestResponse/LOInterestResponse";
 import Rejection from "./pages/listPages/Rejection/Rejection";
 import M4InternImpression from "./pages/listPages/M4InternImpression/M4InternImpression";
 import PostIVCommunication from "./pages/listPages/PostIVCommunication/PostIVCommunication";
@@ -40,11 +38,17 @@ import AddDropped from "./pages/updatePages/AddDropped/AddDropped";
 import AddLogistics from "./pages/updatePages/AddLogistics/AddLogistics";
 import AddQuestion from "./pages/updatePages/AddQuestion/AddQuestion";
 import AddImpression from "./pages/updatePages/AddImpression/AddImpression";
-import AddLOIResponse from "./pages/updatePages/AddLOInterestResponse/AddLOInterestResponse";
 import AddLOInterestResponse from "./pages/updatePages/AddLOInterestResponse/AddLOInterestResponse";
 import LOInterestResponse from "./pages/listPages/LOInterestResponse/LOInterestResponse";
 import LOIntentResponse from "./pages/listPages/LOIntentResponse/LOIntentResponse";
 import AddLOIntentResponse from "./pages/updatePages/AddLOIntentResponse/AddLOIntentResponse";
+import AddPostIVCommunication from "./pages/updatePages/AddPostIVCommunication/AddPostIVCommunication";
+import AddSecondLook from "./pages/updatePages/AddSecondLook/AddSecondLook";
+import USApplicant from "./pages/listPages/USApplicant/USApplicant";
+import IMGApplicant from "./pages/listPages/IMGApplicant/IMGApplicant";
+import AddFameShame from "./pages/updatePages/AddFameShame/AddFameShame";
+import AddM4InternImpression from "./pages/updatePages/AddM4InternImpression/AddM4InternImpression";
+import AddMalignant from "./pages/updatePages/AddMalignant/AddMalignant";
 
 const routes = [
   {
@@ -80,12 +84,12 @@ const routes = [
         element: <Program />,
       },
       {
-        path: "user",
-        element: <User />,
+        path: "applicant-us",
+        element: <USApplicant />,
       },
       {
-        path: "img-user",
-        element: <User />,
+        path: "applicant-img",
+        element: <IMGApplicant />,
       },
       {
         path: "city",
@@ -102,6 +106,14 @@ const routes = [
       {
         path: "fame-shame",
         element: <FameShame />,
+      },
+      {
+        path: "fame-shame/add",
+        element: <AddFameShame />,
+      },
+      {
+        path: "fame-shame/:id",
+        element: <AddFameShame />,
       },
       {
         path: "rank-list",
@@ -180,12 +192,36 @@ const routes = [
         element: <M4InternImpression />,
       },
       {
+        path: "m4-intern-impression/add",
+        element: <AddM4InternImpression />,
+      },
+      {
+        path: "m4-intern-impression/:id",
+        element: <AddM4InternImpression />,
+      },
+      {
         path: "malignant",
         element: <Malignant />,
       },
       {
+        path: "malignant/:id",
+        element: <AddMalignant />,
+      },
+      {
+        path: "malignant/add",
+        element: <AddMalignant />,
+      },
+      {
         path: "post-iv-communication",
         element: <PostIVCommunication />,
+      },
+      {
+        path: "post-iv-communication/add",
+        element: <AddPostIVCommunication />,
+      },
+      {
+        path: "post-iv-communication/:id",
+        element: <AddPostIVCommunication />,
       },
       {
         path: "question",
@@ -218,6 +254,14 @@ const routes = [
       {
         path: "second-look",
         element: <SecondLook />,
+      },
+      {
+        path: "second-look/:id",
+        element: <AddSecondLook />,
+      },
+      {
+        path: "second-look/add",
+        element: <AddSecondLook />,
       },
       {
         path: "withdrawal",

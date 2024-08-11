@@ -20,6 +20,7 @@ export default function Controls({
   shareUrl,
   shareText,
   noFilters,
+  noShare,
 }: ControlsProps) {
   const { user } = useUser();
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ export default function Controls({
         />
       </div>
       <div className={`flex gap-2`}>
-        {user && (
+        {user && !noShare && (
           <Button
             className={`max-sm:hidden`}
             onClick={() => navigate(shareUrl)}

@@ -89,12 +89,12 @@ const sidebarRoutes = [
     heading: "Applicant Info",
     items: [
       {
-        link: "/user",
-        text: "Applicant Data",
+        link: "/applicant-us",
+        text: "US Applicant Data",
         icon: <FaUserGraduate className="h-5 w-5" />,
       },
       {
-        link: "/img-user",
+        link: "/applicant-img",
         text: "IMG Applicant Data",
         icon: <FaUserMd className="h-5 w-5" />,
       },

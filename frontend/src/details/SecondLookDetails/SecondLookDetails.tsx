@@ -52,7 +52,7 @@ export default function SecondLookDetails({ item }) {
       </Text>
       <Text>
         <strong>Date:</strong>{" "}
-        {item.date ? item.date.toLocaleDateString() : "N/A"}
+        {item.date ? new Date(item.date).toLocaleDateString() : "N/A"}
       </Text>
       <Text>
         <strong>Bearing on Rank:</strong> {item.bearingOnRank}

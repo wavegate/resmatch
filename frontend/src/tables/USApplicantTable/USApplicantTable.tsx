@@ -20,11 +20,12 @@ export default ({ className }: UserTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["users", selectedProgram, pageNum],
+    queryKey: ["user", "US", selectedProgram, pageNum],
     queryFn: () => {
       return userService.searchUser({
         programId: selectedProgram?.id,
         pageNum,
+        graduateType: "US",
       });
     },
   });
@@ -58,6 +59,7 @@ export default ({ className }: UserTableProps) => {
       </Drawer>
 
       <Controls
+        noShare
         pageNum={pageNum}
         setPageNum={setPageNum}
         totalPages={totalPages}

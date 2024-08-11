@@ -20,7 +20,7 @@ export default ({ className }: MalignantTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["malignants", selectedProgram, pageNum],
+    queryKey: ["malignant", selectedProgram, pageNum],
     queryFn: () => {
       return malignantService.searchMalignant({
         programId: selectedProgram?.id,

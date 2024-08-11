@@ -32,18 +32,6 @@ export default function UserDetails({ item }) {
 
   return (
     <div>
-      <Group justify="apart">
-        <Link to={`/user/${item.id}`}>
-          <Button>Update User</Button>
-        </Link>
-        <Button
-          color="red"
-          onClick={handleDelete}
-          loading={deleteMutation.isPending}
-        >
-          Delete User
-        </Button>
-      </Group>
       <Text>
         <strong>Email:</strong> {item.email}
       </Text>

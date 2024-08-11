@@ -20,7 +20,7 @@ export default ({ className }: SecondLookTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["secondLooks", selectedProgram, pageNum],
+    queryKey: ["secondLook", selectedProgram, pageNum],
     queryFn: () => {
       return secondLookService.searchSecondLook({
         programId: selectedProgram?.id,

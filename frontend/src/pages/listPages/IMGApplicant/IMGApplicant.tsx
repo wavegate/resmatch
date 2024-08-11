@@ -1,4 +1,4 @@
-import UsersTable from "@/tables/UsersTable/UsersTable";
+import IMGApplicantTable from "@/tables/IMGApplicantTable/IMGApplicantTable";
 import { Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 
@@ -11,22 +11,22 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          Applicants
+          IMG Applicant Data
         </Title>
         <Text
           c="dimmed"
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Compare and analyze stats and trends across other applicants to help
-          guide your match list decision-making. If your{" "}
+          Compare and analyze stats and trends across other IMG applicants to
+          help guide your match list decision-making. If your{" "}
           <Link to="/profile" className={`text-blue-500 underline`}>
             Profile
           </Link>{" "}
           is public, your stats will show up here.
         </Text>
       </header>
-      <UsersTable />
+      <IMGApplicantTable />
     </div>
   );
 };

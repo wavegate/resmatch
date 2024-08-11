@@ -20,7 +20,7 @@ export default ({ className }: M4InternImpressionTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["m4InternImpressions", selectedProgram, pageNum],
+    queryKey: ["m4InternImpression", selectedProgram, pageNum],
     queryFn: () => {
       return m4InternImpressionService.searchM4InternImpression({
         programId: selectedProgram?.id,
