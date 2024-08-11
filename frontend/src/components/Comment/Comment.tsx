@@ -45,6 +45,16 @@ export default function Comment({ id }: CommentProps) {
           queryKey: ["chat"],
         });
       }
+      if (comment.pstp && !comment.parentId) {
+        queryClient.invalidateQueries({
+          queryKey: ["pstp"],
+        });
+      }
+      if (comment.report && !comment.parentId) {
+        queryClient.invalidateQueries({
+          queryKey: ["report"],
+        });
+      }
     },
     onError: () => {
       notifications.show({

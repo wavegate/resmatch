@@ -15,7 +15,7 @@ export default function FellowshipMatchHeader({
           {`${item.program.name} - ${item.year}`}
         </Text>
         <Text c="dimmed" className="text-xs sm:text-sm">
-          {item.user.alias} | {dayjs(item.createdAt).format("MMM D, YYYY")}
+          {dayjs(item.createdAt).format("MMM D, YYYY")}
         </Text>
         <Text className="text-xs sm:text-sm">
           {item.details}{" "}

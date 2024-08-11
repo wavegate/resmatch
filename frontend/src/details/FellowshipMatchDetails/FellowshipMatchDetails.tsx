@@ -51,10 +51,7 @@ export default function FellowshipMatchDetails({ item }) {
         <strong>Year:</strong> {item.year}
       </Text>
       <Text>
-        <strong>User:</strong> {item.user.alias}
-      </Text>
-      <Text>
-        <strong>Details:</strong> {item.details}
+        <strong>Match data:</strong> {item.matchData}
       </Text>
     </div>
   );

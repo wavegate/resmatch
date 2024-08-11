@@ -1,22 +1,27 @@
-import { Accordion, Loader } from "@mantine/core";
+import { Loader } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
-import commentService from "@/services/commentService";
-import CommentHeader from "@/headers/CommentHeader/CommentHeader";
-import CommentDetails from "@/details/CommentDetails/CommentDetails";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { PAGE_SIZE } from "@/constants";
+import Controls from "@/components/Controls/Controls";
+import commentService from "@/services/commentService";
+import Comment from "@/components/Comment/Comment";
 
-interface PSTPTableProps {
+interface ChatTableProps {
   className?: string;
 }
 
-export default ({ className }: PSTPTableProps) => {
+export default ({ className }: ChatTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["pstp-comments", pageNum],
-    queryFn: () => commentService.searchComment({ pstp: true, pageNum }),
+    queryKey: ["pstp", pageNum],
+    queryFn: () => {
+      return commentService.searchComment({
+        pageNum,
+        pstp: true,
+      });
+    },
   });
 
   const totalPages = useMemo(() => {
@@ -26,26 +31,32 @@ export default ({ className }: PSTPTableProps) => {
     }
   }, [data?.totalCount]);
 
-  const items = useMemo(() => {
-    if (data) {
-      return data.comments.map((comment: any) => (
-        <Accordion.Item key={comment.id} value={comment.id.toString()}>
-          <CommentHeader item={comment} />
-          <CommentDetails item={comment} />
-        </Accordion.Item>
-      ));
-    }
-  }, [data]);
-
   return (
-    <div className={className}>
-      {isLoading && (
-        <div className="flex flex-col items-center">
-          <Loader color="blue" className="mt-12" />
-        </div>
-      )}
-      {data?.comments?.length > 0 && <Accordion>{items}</Accordion>}
-      {data?.comments && data.comments.length === 0 && <NoRecords />}
+    <div className={`${className}`}>
+      <Controls
+        noFilters
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+        totalPages={totalPages}
+        shareUrl="/pstp/add"
+        shareText="New Thread"
+      />
+
+      <div className={`mt-2`}>
+        {isLoading && (
+          <div className={`flex flex-col items-center`}>
+            <Loader color="blue" className={`mt-12`} />
+          </div>
+        )}
+        {data?.comments?.length > 0 && (
+          <div className={`flex flex-col gap-4`}>
+            {data.comments.map((item: any) => (
+              <Comment id={item.id} key={item.id} />
+            ))}
+          </div>
+        )}
+        {data?.comments && data.comments.length === 0 && <NoRecords />}
+      </div>
     </div>
   );
 };

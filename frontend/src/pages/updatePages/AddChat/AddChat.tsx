@@ -13,11 +13,18 @@ const formSchema = z.object({
   linked: z.boolean().optional(),
 });
 
-export default function AddChat() {
+interface AddChatProps {
+  type: "main" | "pstp" | "report";
+}
+
+export default function AddChat({ type }: AddChatProps) {
   useAuthGuard();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      linked: false,
+    },
   });
 
   const { control, handleSubmit } = form;
@@ -28,21 +35,44 @@ export default function AddChat() {
     mutationFn: (values) => commentService.createComment(values),
     onSuccess: () => {
       notifications.show({
-        message: "Chat thread created successfully!",
+        message: `${
+          type === "main"
+            ? "Chat thread"
+            : type === "pstp"
+            ? "PSTP thread"
+            : "Report"
+        } created successfully!`,
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["chats"] });
-      navigate("/main-chat");
+      queryClient.invalidateQueries({ queryKey: [type] });
+      navigate(
+        `/${type === "main" ? "main" : type === "pstp" ? "pstp" : "report"}`
+      );
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutateAsync({ ...values, main: true });
+    mutateAsync({ ...values, [type]: true });
   };
 
   const items = [
-    { title: "Main Chat", to: "/main-chat" },
-    { title: "New Thread" },
+    {
+      title:
+        type === "main"
+          ? "Main Chat"
+          : type === "pstp"
+          ? "PSTP Chat"
+          : "Reports",
+      to: `/${type === "main" ? "main" : type === "pstp" ? "pstp" : "report"}`,
+    },
+    {
+      title:
+        type === "main"
+          ? "New Thread"
+          : type === "pstp"
+          ? "New PSTP Thread"
+          : "New Report",
+    },
   ].map((item, index) =>
     item.to ? (
       <Link to={item.to} key={index}>
@@ -62,8 +92,16 @@ export default function AddChat() {
           control={control}
           render={({ field, fieldState }) => (
             <Textarea
-              label="Thread Content"
-              placeholder="Enter the content"
+              label={`${
+                type === "main"
+                  ? "Thread Content"
+                  : type === "pstp"
+                  ? "PSTP Content"
+                  : "Report Content"
+              }`}
+              placeholder={`Enter the ${
+                type === "main" ? "thread" : type === "pstp" ? "PSTP" : "report"
+              } content`}
               required
               error={fieldState.error?.message}
               minRows={4}
@@ -85,7 +123,15 @@ export default function AddChat() {
           )}
         />
 
-        <Button type="submit">Create Chat</Button>
+        <Button type="submit">
+          {`Create ${
+            type === "main"
+              ? "Chat"
+              : type === "pstp"
+              ? "PSTP Thread"
+              : "Report"
+          }`}
+        </Button>
       </form>
     </div>
   );

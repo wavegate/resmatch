@@ -49,6 +49,8 @@ import IMGApplicant from "./pages/listPages/IMGApplicant/IMGApplicant";
 import AddFameShame from "./pages/updatePages/AddFameShame/AddFameShame";
 import AddM4InternImpression from "./pages/updatePages/AddM4InternImpression/AddM4InternImpression";
 import AddMalignant from "./pages/updatePages/AddMalignant/AddMalignant";
+import AddScheduleDetails from "./pages/updatePages/AddScheduleDetails/AddScheduleDetails";
+import AddFellowshipMatch from "./pages/updatePages/AddFellowshipMatch/AddFellowshipMatch";
 
 const routes = [
   {
@@ -100,7 +102,7 @@ const routes = [
         element: <ConfirmEmail />,
       },
       {
-        path: "main-chat",
+        path: "main",
         element: <Chat />,
       },
       {
@@ -252,6 +254,14 @@ const routes = [
         element: <ScheduleDetails />,
       },
       {
+        path: "schedule-details/add",
+        element: <AddScheduleDetails />,
+      },
+      {
+        path: "schedule-details/:id",
+        element: <AddScheduleDetails />,
+      },
+      {
         path: "second-look",
         element: <SecondLook />,
       },
@@ -278,6 +288,14 @@ const routes = [
       {
         path: "fellowship-match",
         element: <FellowshipMatch />,
+      },
+      {
+        path: "fellowship-match/add",
+        element: <AddFellowshipMatch />,
+      },
+      {
+        path: "fellowship-match/:id",
+        element: <AddFellowshipMatch />,
       },
       {
         path: "pstp",
@@ -321,7 +339,15 @@ const routes = [
       },
       {
         path: "chat/add",
-        element: <AddChat />,
+        element: <AddChat type="main" />,
+      },
+      {
+        path: "pstp/add",
+        element: <AddChat type="pstp" />,
+      },
+      {
+        path: "report/add",
+        element: <AddChat type="report" />,
       },
     ],
   },
