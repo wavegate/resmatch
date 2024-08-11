@@ -6,11 +6,12 @@ const fellowshipMatchRouter = express.Router();
 
 // Create a new Fellowship Match entry
 fellowshipMatchRouter.post("/", verifyToken, async (req, res) => {
-  const { year, programId, userId, matchDetails } = req.body;
+  const { year, programId, matchData } = req.body;
+  const userId = req.user.id; // Get userId from the token
 
-  if (!year || !programId || !userId || !matchDetails) {
+  if (!year || !programId || !matchData) {
     return res.status(400).json({
-      error: "Year, Program ID, User ID, and match details are required",
+      error: "Year, Program ID, and match details are required",
     });
   }
 
@@ -20,7 +21,8 @@ fellowshipMatchRouter.post("/", verifyToken, async (req, res) => {
         year,
         programId: Number(programId),
         userId: Number(userId),
-        matchDetails,
+        matchData,
+        linked: false, // Ensure 'linked' is false by default
       },
     });
     res.status(201).json(newFellowshipMatch);
@@ -38,13 +40,22 @@ fellowshipMatchRouter.get("/:id", async (req, res) => {
     const fellowshipMatch = await prisma.fellowshipMatch.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the program
+          },
+        },
         user: true,
       },
     });
 
     if (!fellowshipMatch) {
       return res.status(404).json({ error: "Fellowship Match not found" });
+    }
+
+    // Remove user data if linked is false
+    if (!fellowshipMatch.linked) {
+      fellowshipMatch.user = undefined;
     }
 
     res.json(fellowshipMatch);
@@ -110,7 +121,11 @@ fellowshipMatchRouter.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the program
+          },
+        },
         user: true,
       },
       orderBy: {
@@ -118,7 +133,15 @@ fellowshipMatchRouter.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ fellowshipMatches, totalCount });
+    // Remove user data if linked is false
+    const processedMatches = fellowshipMatches.map((match) => {
+      if (!match.linked) {
+        match.user = undefined;
+      }
+      return match;
+    });
+
+    res.json({ fellowshipMatches: processedMatches, totalCount });
   } catch (error) {
     console.error("Error fetching Fellowship Match entries:", error);
     res.status(500).json({ error: "Internal Server Error" });

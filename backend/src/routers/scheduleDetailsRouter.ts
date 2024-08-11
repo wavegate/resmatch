@@ -4,10 +4,9 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Create a new ScheduleDetails
+// Create new Schedule Details
 router.post("/", verifyToken, async (req, res) => {
   const {
-    userId,
     programId,
     longOvernightCall,
     scheduleContinuity,
@@ -33,10 +32,10 @@ router.post("/", verifyToken, async (req, res) => {
     salary,
   } = req.body;
 
-  if (!userId || !programId) {
-    return res
-      .status(400)
-      .json({ error: "User ID and Program ID are required" });
+  const userId = req.user.id;
+
+  if (!programId) {
+    return res.status(400).json({ error: "Program ID is required" });
   }
 
   try {
@@ -68,6 +67,7 @@ router.post("/", verifyToken, async (req, res) => {
         gym,
         food,
         salary,
+        linked: false,
       },
     });
 
@@ -78,7 +78,7 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-// Get ScheduleDetails by ID
+// Get Schedule Details by ID
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -86,14 +86,21 @@ router.get("/:id", async (req, res) => {
     const scheduleDetails = await prisma.scheduleDetails.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
-        comments: true,
       },
     });
 
     if (!scheduleDetails) {
-      return res.status(404).json({ error: "Schedule Details not found" });
+      return res.status(404).json({ error: "Schedule details not found" });
+    }
+
+    if (!scheduleDetails.linked) {
+      scheduleDetails.user = undefined;
     }
 
     res.json(scheduleDetails);
@@ -103,7 +110,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update ScheduleDetails by ID
+// Update Schedule Details by ID
 router.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const formData = req.body;
@@ -119,14 +126,14 @@ router.put("/:id", verifyToken, async (req, res) => {
     console.error("Error updating schedule details:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({ error: "Schedule Details not found" });
+      return res.status(404).json({ error: "Schedule details not found" });
     }
 
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Delete ScheduleDetails by ID
+// Delete Schedule Details by ID
 router.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
@@ -135,19 +142,19 @@ router.delete("/:id", verifyToken, async (req, res) => {
       where: { id: Number(id) },
     });
 
-    res.json({ message: `Schedule Details with ID: ${id} deleted` });
+    res.json({ message: `Schedule details with ID: ${id} deleted` });
   } catch (error) {
     console.error("Error deleting schedule details:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({ error: "Schedule Details not found" });
+      return res.status(404).json({ error: "Schedule details not found" });
     }
 
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// List ScheduleDetails with Pagination
+// List Schedule Details with Pagination
 router.post("/search", async (req, res) => {
   try {
     const { pageNum = 1 } = req.body;
@@ -159,18 +166,28 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
-        comments: true,
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    res.json({ scheduleDetailsList, totalCount });
+    const processedList = scheduleDetailsList.map((details) => {
+      if (!details.linked) {
+        details.user = undefined;
+      }
+      return details;
+    });
+
+    res.json({ scheduleDetailsList: processedList, totalCount });
   } catch (error) {
-    console.error("Error fetching schedule details list:", error);
+    console.error("Error fetching schedule details:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
