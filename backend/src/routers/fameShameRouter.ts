@@ -145,7 +145,11 @@ fameShameRouter.post("/search", async (req, res) => {
             alias: true,
           },
         },
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
       },
     });
 

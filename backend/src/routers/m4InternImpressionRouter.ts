@@ -6,13 +6,12 @@ const router = express.Router();
 
 // Create a new M4InternImpression
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, userId, positiveImpression, negativeImpression } =
-    req.body;
+  const { programId, positiveImpression, negativeImpression } = req.body;
 
-  if (!programId || !userId) {
-    return res
-      .status(400)
-      .json({ error: "Program ID and User ID are required" });
+  const userId = req.user.id; // Get userId from the authenticated user
+
+  if (!programId) {
+    return res.status(400).json({ error: "Program ID is required" });
   }
 
   try {
@@ -40,7 +39,11 @@ router.get("/:id", async (req, res) => {
     const m4InternImpression = await prisma.m4InternImpression.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the program
+          },
+        },
         user: true,
         comments: true,
       },
@@ -48,6 +51,11 @@ router.get("/:id", async (req, res) => {
 
     if (!m4InternImpression) {
       return res.status(404).json({ error: "M4 Intern Impression not found" });
+    }
+
+    // Remove user data if the impression is not linked
+    if (!m4InternImpression.linked) {
+      m4InternImpression.user = undefined;
     }
 
     res.json(m4InternImpression);
@@ -113,7 +121,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the program
+          },
+        },
         user: true,
         comments: true,
       },
@@ -122,7 +134,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ m4InternImpressions, totalCount });
+    // Remove user data if the impression is not linked
+    const processedImpressions = m4InternImpressions.map((impression) => {
+      if (!impression.linked) {
+        impression.user = undefined;
+      }
+      return impression;
+    });
+
+    res.json({ m4InternImpressions: processedImpressions, totalCount });
   } catch (error) {
     console.error("Error fetching M4 intern impressions:", error);
     res.status(500).json({ error: "Internal Server Error" });

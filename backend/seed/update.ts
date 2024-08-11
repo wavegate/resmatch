@@ -2,23 +2,23 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function setPublicToFalseForAllUsers() {
+async function setGraduateTypeToUSForAllUsers() {
   try {
     await prisma.user.updateMany({
       data: {
-        public: false, // Set the 'public' field to false for all users
+        graduateType: "US", // Set the 'graduateType' field to "US" for all users
       },
     });
 
-    console.log("The 'public' field has been set to false for all users.");
+    console.log("The 'graduateType' field has been set to 'US' for all users.");
   } catch (error) {
-    console.error("Error updating 'public' field for users:", error);
+    console.error("Error updating 'graduateType' field for users:", error);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-setPublicToFalseForAllUsers()
+setGraduateTypeToUSForAllUsers()
   .catch((e) => {
     console.error(e);
   })

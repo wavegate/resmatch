@@ -6,14 +6,13 @@ const router = express.Router();
 
 // Create a new Malignant record
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, userId, malignant, source, explanation } = req.body;
+  const { programId, malignant, source, explanation } = req.body;
+  const userId = req.user.id;
 
-  if (!programId || !userId || !malignant) {
+  if (!programId || !malignant) {
     return res
       .status(400)
-      .json({
-        error: "Program ID, User ID, and Malignant status are required",
-      });
+      .json({ error: "Program ID and Malignant level are required" });
   }
 
   try {
@@ -24,6 +23,7 @@ router.post("/", verifyToken, async (req, res) => {
         malignant,
         source,
         explanation,
+        linked: false, // Ensures the linked field is set to false by default
       },
     });
 
@@ -42,14 +42,22 @@ router.get("/:id", async (req, res) => {
     const malignant = await prisma.malignant.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
-        comments: true,
       },
     });
 
     if (!malignant) {
-      return res.status(404).json({ error: "Malignant record not found" });
+      return res.status(404).json({ error: "Malignant program not found" });
+    }
+
+    // Remove user data if the record is not linked
+    if (!malignant.linked) {
+      malignant.user = undefined;
     }
 
     res.json(malignant);
@@ -75,7 +83,7 @@ router.put("/:id", verifyToken, async (req, res) => {
     console.error("Error updating malignant record:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({ error: "Malignant record not found" });
+      return res.status(404).json({ error: "Malignant program not found" });
     }
 
     res.status(500).json({ error: "Internal Server Error" });
@@ -91,12 +99,12 @@ router.delete("/:id", verifyToken, async (req, res) => {
       where: { id: Number(id) },
     });
 
-    res.json({ message: `Malignant record with ID: ${id} deleted` });
+    res.json({ message: `Malignant program with ID: ${id} deleted` });
   } catch (error) {
     console.error("Error deleting malignant record:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({ error: "Malignant record not found" });
+      return res.status(404).json({ error: "Malignant program not found" });
     }
 
     res.status(500).json({ error: "Internal Server Error" });
@@ -115,16 +123,27 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true,
+          },
+        },
         user: true,
-        comments: true,
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    res.json({ malignants, totalCount });
+    // Remove user data if the record is not linked
+    const processedMalignants = malignants.map((malignant) => {
+      if (!malignant.linked) {
+        malignant.user = undefined;
+      }
+      return malignant;
+    });
+
+    res.json({ malignants: processedMalignants, totalCount });
   } catch (error) {
     console.error("Error fetching malignant records:", error);
     res.status(500).json({ error: "Internal Server Error" });

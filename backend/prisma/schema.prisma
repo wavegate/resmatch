@@ -30,7 +30,7 @@ model User {
   monthsOfUSCE            Int?
   ecfmgCertified          Boolean?
   visaRequired            Boolean?
-  graduateType            GraduateType?
+  graduateType            GraduateType          @default(US)
   medicalDegree           MedicalDegree?
   img                     IMGType?
   step1ScorePass          Boolean?

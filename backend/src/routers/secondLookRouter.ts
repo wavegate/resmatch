@@ -6,12 +6,12 @@ const router = express.Router();
 
 // Create a new SecondLook
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, userId, setting, date, bearingOnRank } = req.body;
+  const { programId, setting, date, bearingOnRank, linked = false } = req.body;
 
-  if (!programId || !userId) {
-    return res
-      .status(400)
-      .json({ error: "Program ID and User ID are required" });
+  const userId = req.user.id;
+
+  if (!programId) {
+    return res.status(400).json({ error: "Program ID is required" });
   }
 
   try {
@@ -22,6 +22,7 @@ router.post("/", verifyToken, async (req, res) => {
         setting,
         date: date ? new Date(date) : null,
         bearingOnRank,
+        linked: Boolean(linked), // Ensure linked is stored as a boolean
       },
     });
 
@@ -40,13 +41,22 @@ router.get("/:id", async (req, res) => {
     const secondLook = await prisma.secondLook.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the response
+          },
+        },
         user: true,
       },
     });
 
     if (!secondLook) {
       return res.status(404).json({ error: "Second Look not found" });
+    }
+
+    // Remove user data if the linked field is not true
+    if (!secondLook.linked) {
+      secondLook.user = undefined;
     }
 
     res.json(secondLook);
@@ -112,7 +122,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the search results
+          },
+        },
         user: true,
       },
       orderBy: {
@@ -120,7 +134,15 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ secondLooks, totalCount });
+    // Remove user data if the linked field is not true
+    const processedSecondLooks = secondLooks.map((secondLook) => {
+      if (!secondLook.linked) {
+        secondLook.user = undefined; // Remove user data
+      }
+      return secondLook;
+    });
+
+    res.json({ secondLooks: processedSecondLooks, totalCount });
   } catch (error) {
     console.error("Error fetching second looks:", error);
     res.status(500).json({ error: "Internal Server Error" });

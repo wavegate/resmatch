@@ -7,18 +7,18 @@ const router = express.Router();
 // Create a new PostIVCommunication
 router.post("/", verifyToken, async (req, res) => {
   const {
-    userId,
     programId,
     communicationReceived,
     thankYouLetterPolicy,
     rankImpact,
     source,
+    linked = false, // Default linked to false
   } = req.body;
 
-  if (!userId || !programId) {
-    return res
-      .status(400)
-      .json({ error: "User ID and Program ID are required" });
+  const userId = req.user.id;
+
+  if (!programId) {
+    return res.status(400).json({ error: "Program ID is required" });
   }
 
   try {
@@ -30,6 +30,7 @@ router.post("/", verifyToken, async (req, res) => {
         thankYouLetterPolicy,
         rankImpact,
         source,
+        linked: Boolean(linked), // Ensure linked is stored as a boolean
       },
     });
 
@@ -48,7 +49,11 @@ router.get("/:id", async (req, res) => {
     const postIVCommunication = await prisma.postIVCommunication.findUnique({
       where: { id: Number(id) },
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the response
+          },
+        },
         user: true,
         comments: true,
       },
@@ -56,6 +61,11 @@ router.get("/:id", async (req, res) => {
 
     if (!postIVCommunication) {
       return res.status(404).json({ error: "Post-IV Communication not found" });
+    }
+
+    // Remove user data if the linked field is not true
+    if (!postIVCommunication.linked) {
+      postIVCommunication.user = undefined;
     }
 
     res.json(postIVCommunication);
@@ -121,7 +131,11 @@ router.post("/search", async (req, res) => {
       skip: offset,
       take: 10,
       include: {
-        program: true,
+        program: {
+          include: {
+            institution: true, // Include institution in the search results
+          },
+        },
         user: true,
         comments: true,
       },
@@ -130,7 +144,17 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ postIVCommunications, totalCount });
+    // Remove user data if the linked field is not true
+    const processedCommunications = postIVCommunications.map(
+      (communication) => {
+        if (!communication.linked) {
+          communication.user = undefined; // Remove user data
+        }
+        return communication;
+      }
+    );
+
+    res.json({ postIVCommunications: processedCommunications, totalCount });
   } catch (error) {
     console.error("Error fetching Post-IV communications:", error);
     res.status(500).json({ error: "Internal Server Error" });

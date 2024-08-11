@@ -53,21 +53,35 @@ userRouter.delete("/:id", (req, res) => {
 
 userRouter.post("/search", async (req, res) => {
   try {
-    const { searchTerm = "", pageNum = 1 } = req.body;
+    const { searchTerm = "", graduateType = "", pageNum = 1 } = req.body;
     const offset = (pageNum - 1) * 10;
 
-    const totalCountResult = await prisma.$queryRaw`
-  SELECT COUNT(*) FROM "User"
-  WHERE "alias" ILIKE ${"%" + searchTerm + "%"}
-`;
-    const totalCount = Number(totalCountResult[0].count);
+    // Construct the where clause based on searchTerm and graduateType
+    const whereClause = {
+      alias: {
+        contains: searchTerm,
+        mode: "insensitive", // Case-insensitive search
+      },
+      public: true,
+    };
 
-    const usersWithPassword = await prisma.$queryRaw`
-  SELECT * FROM "User"
-  WHERE "alias" ILIKE ${"%" + searchTerm + "%"}
-  LIMIT 10 OFFSET ${offset}
-`;
+    if (graduateType) {
+      whereClause.graduateType = graduateType;
+    }
 
+    // Total count query
+    const totalCount = await prisma.user.count({
+      where: whereClause,
+    });
+
+    // Users query
+    const usersWithPassword = await prisma.user.findMany({
+      where: whereClause,
+      skip: offset,
+      take: 10,
+    });
+
+    // Remove password from results
     const users = usersWithPassword.map((user) => {
       const { password, ...userWithoutPassword } = user;
       return userWithoutPassword;
