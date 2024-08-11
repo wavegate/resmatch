@@ -21,6 +21,7 @@ interface FormData {
 
 interface SearchParams {
   pageNum: number;
+  intent?: boolean;
 }
 
 interface SearchResponse {
@@ -52,9 +53,11 @@ const deleteLOIResponse = async (id: string | number): Promise<void> => {
 
 const searchLOIResponse = async ({
   pageNum,
+  intent,
 }: SearchParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     pageNum,
+    intent,
   });
   return data;
 };

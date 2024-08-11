@@ -1,3 +1,4 @@
+import IdentityTag from "@/components/IdentityTag/IdentityTag";
 import { Accordion, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 
@@ -27,13 +28,7 @@ export default function ImpressionHeader({ item }: ImpressionHeaderProps) {
           </Text>
         )}
         <div className="flex items-center gap-2">
-          {item.user && (
-            <Link to={`/user/${item.user.id}`}>
-              <Text c="dimmed" className="text-xs sm:text-sm underline">
-                {item.user.alias}
-              </Text>
-            </Link>
-          )}
+          {item.user && <IdentityTag user={item.user} />}
         </div>
       </div>
     </Accordion.Control>

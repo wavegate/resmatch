@@ -12,7 +12,7 @@ import City from "@/pages/listPages/City/City";
 import Dropped from "./pages/listPages/Dropped/Dropped";
 import Impression from "./pages/listPages/Impression/Impression";
 import Logistics from "./pages/listPages/Logistics/Logistics";
-import LOIResponse from "./pages/listPages/LOIResponse/LOIResponse";
+import LOIResponse from "./pages/listPages/LOInterestResponse/LOInterestResponse";
 import Rejection from "./pages/listPages/Rejection/Rejection";
 import M4InternImpression from "./pages/listPages/M4InternImpression/M4InternImpression";
 import PostIVCommunication from "./pages/listPages/PostIVCommunication/PostIVCommunication";
@@ -38,6 +38,13 @@ import UserProfile from "./pages/UserProfile/UserProfile";
 import AddRejection from "./pages/updatePages/AddRejection/AddRejection";
 import AddDropped from "./pages/updatePages/AddDropped/AddDropped";
 import AddLogistics from "./pages/updatePages/AddLogistics/AddLogistics";
+import AddQuestion from "./pages/updatePages/AddQuestion/AddQuestion";
+import AddImpression from "./pages/updatePages/AddImpression/AddImpression";
+import AddLOIResponse from "./pages/updatePages/AddLOInterestResponse/AddLOInterestResponse";
+import AddLOInterestResponse from "./pages/updatePages/AddLOInterestResponse/AddLOInterestResponse";
+import LOInterestResponse from "./pages/listPages/LOInterestResponse/LOInterestResponse";
+import LOIntentResponse from "./pages/listPages/LOIntentResponse/LOIntentResponse";
+import AddLOIntentResponse from "./pages/updatePages/AddLOIntentResponse/AddLOIntentResponse";
 
 const routes = [
   {
@@ -125,6 +132,14 @@ const routes = [
         element: <Impression />,
       },
       {
+        path: "impression/add",
+        element: <AddImpression />,
+      },
+      {
+        path: "impression/:id",
+        element: <AddImpression />,
+      },
+      {
         path: "logistics",
         element: <Logistics />,
       },
@@ -138,11 +153,27 @@ const routes = [
       },
       {
         path: "lointerest-response",
-        element: <LOIResponse />,
+        element: <LOInterestResponse />,
+      },
+      {
+        path: "lointerest-response/add",
+        element: <AddLOInterestResponse />,
+      },
+      {
+        path: "lointerest-response/:id",
+        element: <AddLOInterestResponse />,
       },
       {
         path: "lointent-response",
-        element: <LOIResponse />,
+        element: <LOIntentResponse />,
+      },
+      {
+        path: "lointent-response/add",
+        element: <AddLOIntentResponse />,
+      },
+      {
+        path: "lointent-response/:id",
+        element: <AddLOIntentResponse />,
       },
       {
         path: "m4-intern-impression",
@@ -159,6 +190,14 @@ const routes = [
       {
         path: "question",
         element: <Question />,
+      },
+      {
+        path: "question/add",
+        element: <AddQuestion />,
+      },
+      {
+        path: "question/:id",
+        element: <AddQuestion />,
       },
       {
         path: "rejection",

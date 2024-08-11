@@ -20,11 +20,12 @@ export default ({ className }: LOIResponseTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["loiResponses", selectedProgram, pageNum],
+    queryKey: ["lointentResponse", selectedProgram, pageNum],
     queryFn: () => {
       return loiResponseService.searchLOIResponse({
         programId: selectedProgram?.id,
         pageNum,
+        intent: true,
       });
     },
   });
@@ -62,7 +63,7 @@ export default ({ className }: LOIResponseTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/loi-response/add"
+        shareUrl="/lointent-response/add"
         shareText="Share LOI Response"
       />
 

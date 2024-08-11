@@ -1,4 +1,5 @@
-import LOIResponseTable from "@/tables/LOIResponseTable/LOIResponseTable";
+import LOIntentResponseTable from "@/tables/LOIntentResponseTable/LOIntentResponseTable";
+import LOInterestResponseTable from "@/tables/LOInterestResponseTable/LOInterestResponseTable";
 import { Text, Title } from "@mantine/core";
 
 export default () => {
@@ -10,7 +11,7 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          LOI Responses
+          Letter of Intent Responses
         </Title>
         <Text
           c="dimmed"
@@ -20,7 +21,7 @@ export default () => {
           Review and manage responses to Letters of Intent.
         </Text>
       </header>
-      <LOIResponseTable />
+      <LOIntentResponseTable />
     </div>
   );
 };

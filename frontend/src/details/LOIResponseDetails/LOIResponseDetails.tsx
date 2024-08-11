@@ -15,7 +15,9 @@ export default function LOIResponseDetails({ item }) {
         message: "LOI Response deleted successfully",
         color: "green",
       });
-      queryClient.invalidateQueries({ queryKey: ["loiResponse"] });
+      queryClient.invalidateQueries({
+        queryKey: item.intent ? ["lointentResponse"] : ["lointerestResponse"],
+      });
     },
     onError: () => {
       notifications.show({
@@ -33,7 +35,13 @@ export default function LOIResponseDetails({ item }) {
   return (
     <div>
       <Group justify="apart">
-        <Link to={`/loi-response/${item.id}`}>
+        <Link
+          to={
+            item.intent
+              ? `/lointent-response/${item.id}`
+              : `/lointerest-response/${item.id}`
+          }
+        >
           <Button>Update LOI Response</Button>
         </Link>
         <Button
