@@ -55,6 +55,7 @@ model User {
   numRejected             Int?
   numWaitlisted           Int?
   applicationYear         Int?
+  public                  Boolean               @default(false)
   FameShameUserInput      FameShameUserInput[]
   comments                Comment[]
   rankLists               RankList[]
@@ -129,7 +130,6 @@ model Program {
 
 model InterviewInvite {
   id                   Int            @id @default(autoincrement())
-  anonymous            Boolean
   graduateType         GraduateType?
   img                  IMGType?
   inviteDateTime       DateTime
@@ -148,6 +148,7 @@ model InterviewInvite {
   yearOfGraduation     Int?
   greenCard            Boolean?
   away                 Boolean?
+  linked               Boolean        @default(false)
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
@@ -216,18 +217,19 @@ model City {
 
 model CityUserInput {
   id                   Int      @id @default(autoincrement())
-  pros                 String
-  cons                 String
-  publicTransportation String
-  weather              String
-  dating               String
-  lgbtq                String
-  diversity            String
-  safetyCrime          String
+  pros                 String?
+  cons                 String?
+  publicTransportation String?
+  weather              String?
+  dating               String?
+  lgbtq                String?
+  diversity            String?
+  safetyCrime          String?
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   userId               Int
   cityId               Int
+  linked               Boolean  @default(false)
 
   city City @relation(fields: [cityId], references: [id])
   user User @relation(fields: [userId], references: [id])
@@ -240,9 +242,10 @@ model FameShameUserInput {
   id        Int      @id @default(autoincrement())
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
-  fame      String
-  shame     String
+  fame      String?
+  shame     String?
   programId Int
+  linked    Boolean  @default(false)
   program   Program  @relation(fields: [programId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -279,6 +282,7 @@ model Comment {
   report                Boolean              @default(false)
   XorY                  XorY?                @relation(fields: [xorYId], references: [id])
   xorYId                Int?
+  linked                Boolean              @default(false)
 }
 
 model RankList {
@@ -296,6 +300,7 @@ model RankList {
   hardestPartOfRanking       String?
   comments                   Comment[]
   programs                   Program[]     @relation("RankedPrograms")
+  linked                     Boolean       @default(false)
 
   matchedProgramId Int?
   matchedProgram   Program? @relation("MatchedProgram", fields: [matchedProgramId], references: [id])
@@ -314,6 +319,7 @@ model PostIVCommunication {
   rankImpact            String?
   source                String?
   comments              Comment[]
+  linked                Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -349,6 +355,7 @@ model ScheduleDetails {
   food                 String?
   salary               String?
   comments             Comment[]
+  linked               Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -368,6 +375,7 @@ model InterviewLogistics {
   openIVDates       DateTime[]
   interviewInviteId Int
   interviewInvite   InterviewInvite @relation(fields: [interviewInviteId], references: [id])
+  linked            Boolean         @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -382,6 +390,7 @@ model SecondLook {
   setting       String?
   date          DateTime?
   bearingOnRank String?
+  linked        Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -394,6 +403,7 @@ model InterviewRejection {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   date      DateTime
+  linked    Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -407,6 +417,7 @@ model InterviewWithdrawal {
   user      User     @relation(fields: [userId], references: [id])
   date      DateTime
   reason    String?
+  linked    Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -421,6 +432,7 @@ model M4InternImpression {
   positiveImpression String?
   negativeImpression String?
   comments           Comment[]
+  linked             Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -436,6 +448,7 @@ model Malignant {
   source      String?
   explanation String?
   comments    Comment[]
+  linked      Boolean       @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -462,6 +475,7 @@ model LOIResponse {
   timeBetweenSentAndResponse String?
   mentionedTopChoice         Boolean?
   comments                   Comment[]
+  linked                     Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -480,6 +494,7 @@ model InterviewImpression {
   gift                       String?
   timeGiftReceived           String?
   comments                   Comment[]
+  linked                     Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -496,6 +511,7 @@ model Question {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  linked    Boolean  @default(false)
 }
 
 model Dropped {
@@ -507,6 +523,7 @@ model Dropped {
   dateDropped              DateTime
   dateOfInterviewCancelled DateTime?
   reason                   String?
+  linked                   Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -520,6 +537,7 @@ model FellowshipMatch {
   userId    Int
   user      User    @relation(fields: [userId], references: [id])
   matchData String
+  linked    Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -553,6 +571,7 @@ model Suggestion {
   tierList   TierList @relation(fields: [tierListId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  linked     Boolean  @default(false)
 }
 
 model XorY {
@@ -568,4 +587,5 @@ model XorY {
   user       User      @relation(fields: [userId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+  linked     Boolean   @default(false)
 }
