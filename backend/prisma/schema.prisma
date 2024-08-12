@@ -571,9 +571,12 @@ model TierList {
 model Bin {
   id         Int       @id @default(autoincrement())
   name       String
+  order      Int
   programs   Program[]
   tierListId Int
   tierList   TierList  @relation(fields: [tierListId], references: [id])
+
+  @@unique([tierListId, order])
 }
 
 model Suggestion {

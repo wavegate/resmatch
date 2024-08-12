@@ -60,7 +60,11 @@ tierListRouter.get("/:id", async (req, res) => {
       include: {
         bins: {
           include: {
-            programs: true,
+            programs: {
+              include: {
+                institution: true,
+              },
+            },
           },
         },
         comments: {
@@ -169,7 +173,11 @@ tierListRouter.post("/search", async (req, res) => {
       include: {
         bins: {
           include: {
-            programs: true,
+            programs: {
+              include: {
+                institution: true,
+              },
+            },
           },
         },
         comments: true,

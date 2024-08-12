@@ -6,12 +6,13 @@ const suggestionRouter = express.Router();
 
 // Create a new Suggestion
 suggestionRouter.post("/", verifyToken, async (req, res) => {
-  const { content, tierListId, userId } = req.body;
+  const { content, tierListId } = req.body;
+  const userId = req.user.id; // Assuming the user ID is available from the verified token
 
-  if (!content || !tierListId || !userId) {
+  if (!content || !tierListId) {
     return res
       .status(400)
-      .json({ error: "Content, Tier List ID, and User ID are required" });
+      .json({ error: "Content and Tier List ID are required" });
   }
 
   try {
@@ -67,6 +68,10 @@ suggestionRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const { content } = req.body;
 
+  if (!content) {
+    return res.status(400).json({ error: "Content is required" });
+  }
+
   try {
     const updatedSuggestion = await prisma.suggestion.update({
       where: { id: Number(id) },
@@ -109,8 +114,7 @@ suggestionRouter.delete("/:id", verifyToken, async (req, res) => {
 // List Suggestions with Pagination
 suggestionRouter.post("/search", async (req, res) => {
   try {
-    const { tierListId, pageNum = 1 } = req.body;
-    const offset = (pageNum - 1) * 10;
+    const { tierListId } = req.body;
 
     const totalCount = await prisma.suggestion.count({
       where: { tierListId },
@@ -118,10 +122,13 @@ suggestionRouter.post("/search", async (req, res) => {
 
     const suggestions = await prisma.suggestion.findMany({
       where: { tierListId },
-      skip: offset,
-      take: 10,
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            alias: true, // Assuming the User model has an 'alias' field
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
