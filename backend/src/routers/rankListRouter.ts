@@ -176,18 +176,31 @@ rankListRouter.delete("/:id", verifyToken, async (req, res) => {
 
 // Search RankLists with pagination and optional filtering
 rankListRouter.post("/search", async (req, res) => {
-  const { pageNum = 1 } = req.body;
-
+  const { pageNum = 1, graduateType, medicalDegree } = req.body;
   const offset = (pageNum - 1) * 10;
 
   try {
-    // Get the total count for pagination
-    const totalCount = await prisma.rankList.count();
+    // Define the filters object based on provided graduateType and medicalDegree
+    const filters = {};
 
-    // Get the paginated rank lists
+    if (graduateType) {
+      filters.graduateType = graduateType;
+    }
+
+    if (medicalDegree) {
+      filters.medicalDegree = medicalDegree;
+    }
+
+    // Get the total count for pagination with filters applied
+    const totalCount = await prisma.rankList.count({
+      where: filters,
+    });
+
+    // Get the paginated rank lists with filters and relationships
     const rankLists = await prisma.rankList.findMany({
       skip: offset,
       take: 10,
+      where: filters,
       orderBy: {
         createdAt: "desc",
       },

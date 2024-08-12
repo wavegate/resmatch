@@ -103,38 +103,84 @@ cityRouter.delete("/:id", async (req, res) => {
   }
 });
 
-// Search cities with sorting by name
 cityRouter.post("/search", async (req, res) => {
   try {
     const { searchTerm = "", pageNum = 1 } = req.body;
-
-    const offset = (pageNum - 1) * 10;
+    const PAGE_SIZE = 10;
+    const offset = (pageNum - 1) * PAGE_SIZE;
 
     // Count total number of cities matching the search term
-    const totalCountResult = await prisma.$queryRaw`
-      SELECT COUNT(*) FROM "City"
-      WHERE "name" ILIKE ${"%" + searchTerm + "%"}
-    `;
+    const totalCount = await prisma.city.count({
+      where: {
+        name: {
+          contains: searchTerm,
+          mode: "insensitive", // Case-insensitive search
+        },
+      },
+    });
 
-    const totalCount = Number(totalCountResult[0].count);
+    // Fetch cities with sorting by name and include related CityUserInput and Program data
+    const cities = await prisma.city.findMany({
+      where: {
+        name: {
+          contains: searchTerm,
+          mode: "insensitive", // Case-insensitive search
+        },
+      },
+      orderBy: {
+        name: "asc",
+      },
+      skip: offset,
+      take: PAGE_SIZE,
+      include: {
+        userInputs: true, // Include related CityUserInput data
+        programs: {
+          include: {
+            institution: true, // Include related Institution data for each Program
+          },
+        },
+      },
+    });
 
-    // Fetch cities with sorting by name
-    const cities = await prisma.$queryRaw`
-      SELECT 
-        id AS city_id, 
-        name AS city_name, 
-        state AS city_state
-      FROM "City"
-      WHERE "name" ILIKE ${"%" + searchTerm + "%"}
-      ORDER BY name ASC 
-      LIMIT 10 OFFSET ${offset}
-    `;
+    // Combine user inputs for each city
+    const formattedCities = cities.map((city) => {
+      const combinedUserInputs = city.userInputs.reduce(
+        (acc, input) => {
+          if (input.pros) acc.pros.push(input.pros);
+          if (input.cons) acc.cons.push(input.cons);
+          if (input.publicTransportation)
+            acc.publicTransportation.push(input.publicTransportation);
+          if (input.weather) acc.weather.push(input.weather);
+          if (input.dating) acc.dating.push(input.dating);
+          if (input.lgbtq) acc.lgbtq.push(input.lgbtq);
+          if (input.diversity) acc.diversity.push(input.diversity);
+          if (input.safetyCrime) acc.safetyCrime.push(input.safetyCrime);
+          return acc;
+        },
+        {
+          pros: [],
+          cons: [],
+          publicTransportation: [],
+          weather: [],
+          dating: [],
+          lgbtq: [],
+          diversity: [],
+          safetyCrime: [],
+        }
+      );
 
-    const formattedCities = cities.map((city) => ({
-      id: city.city_id,
-      name: city.city_name,
-      state: city.city_state,
-    }));
+      return {
+        id: city.id,
+        name: city.name,
+        state: city.state,
+        userInputs: combinedUserInputs,
+        programs: city.programs.map((program) => ({
+          id: program.id,
+          name: program.name,
+          institution: program.institution,
+        })),
+      };
+    });
 
     res.json({ cities: formattedCities, totalCount });
   } catch (error) {

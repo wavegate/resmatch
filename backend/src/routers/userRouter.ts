@@ -1,10 +1,12 @@
 import express from "express";
 import prisma from "../prismaClient.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/:id", async (req, res) => {
+userRouter.get("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
+  const currentUserId = req.user.id;
 
   try {
     const user = await prisma.user.findUnique({
@@ -13,6 +15,11 @@ userRouter.get("/:id", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    // If the user's profile is not public and the current user is not the requested user
+    if (!user.public && user.id !== currentUserId) {
+      return res.json({ id: user.id });
     }
 
     const { password, ...rest } = user;

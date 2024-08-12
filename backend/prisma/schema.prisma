@@ -98,10 +98,12 @@ model Program {
   institutionId   Int
   specialtyId     Int
   rankListId      Int?
+  cityId          Int?
   nrmpProgramCode String @unique
 
   institution         Institution           @relation(fields: [institutionId], references: [id])
   specialty           Specialty             @relation(fields: [specialtyId], references: [id])
+  city                City?                 @relation(fields: [cityId], references: [id])
   rankLists           RankList[]            @relation("RankedPrograms")
   matchedInLists      RankList[]            @relation("MatchedProgram")
   interviewInvites    InterviewInvite[]
@@ -211,6 +213,7 @@ model City {
   state        String
   userInputs   CityUserInput[] // Relation field to CityUserInput
   institutions Institution[]
+  programs     Program[]
 
   @@index([name, state])
 }
@@ -286,11 +289,11 @@ model Comment {
 }
 
 model RankList {
-  id                         Int           @id @default(autoincrement())
+  id                         Int            @id @default(autoincrement())
   userId                     Int
-  user                       User          @relation(fields: [userId], references: [id])
+  user                       User           @relation(fields: [userId], references: [id])
   graduateType               GraduateType
-  medicalDegree              MedicalDegree
+  medicalDegree              MedicalDegree?
   numberOfProgramsApplied    Int?
   numberOfInvites            Int?
   numberOfInterviewsAttended Int?
@@ -299,8 +302,8 @@ model RankList {
   prioritiesWhenRanking      String?
   hardestPartOfRanking       String?
   comments                   Comment[]
-  programs                   Program[]     @relation("RankedPrograms")
-  linked                     Boolean       @default(false)
+  programs                   Program[]      @relation("RankedPrograms")
+  linked                     Boolean        @default(false)
 
   matchedProgramId Int?
   matchedProgram   Program? @relation("MatchedProgram", fields: [matchedProgramId], references: [id])
