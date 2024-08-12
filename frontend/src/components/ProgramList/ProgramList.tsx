@@ -12,23 +12,45 @@ export default function ProgramList({
   const [programs, handlers] = useListState([]);
 
   useEffect(() => {
-    if (initialPrograms) {
-      handlers.setState(initialPrograms);
+    if (initialPrograms.length > 0) {
+      handlers.setState(
+        initialPrograms.map((program, index) => ({
+          ...program,
+          rank: index + 1,
+        }))
+      );
     }
   }, [initialPrograms]);
 
   const handleProgramSelect = (program) => {
-    if (program && !programs.some((p) => p.id === program.id)) {
-      handlers.append(program);
-      const updatedProgramIds = [...programs.map((p) => p.id), program.id];
-      onProgramsChange(updatedProgramIds); // Update form state with array of IDs
+    if (program && !programs.some((p) => p.programId === program.id)) {
+      const newProgram = {
+        programId: program.id,
+        name: program.name,
+        institution: program.institution,
+        rank: programs.length + 1,
+      };
+      handlers.append(newProgram);
+      onProgramsChange(
+        [...programs, newProgram].map((p) => ({
+          programId: p.programId,
+          rank: p.rank,
+        }))
+      ); // Update form state with array of IDs and ranks
     }
   };
 
-  const handleRemoveProgram = (id) => {
-    const updatedPrograms = programs.filter((program) => program.id !== id);
+  const handleRemoveProgram = (programId) => {
+    const updatedPrograms = programs.filter(
+      (program) => program.programId !== programId
+    );
     handlers.setState(updatedPrograms);
-    onProgramsChange(updatedPrograms.map((p) => p.id)); // Update form state
+    onProgramsChange(
+      updatedPrograms.map((p, index) => ({
+        programId: p.programId,
+        rank: index + 1,
+      }))
+    ); // Update form state with reordered ranks
   };
 
   const handleDragEnd = ({ destination, source }) => {
@@ -37,14 +59,19 @@ export default function ProgramList({
     const updatedPrograms = [...programs];
     const [movedProgram] = updatedPrograms.splice(source.index, 1);
     updatedPrograms.splice(destination.index, 0, movedProgram);
-    onProgramsChange(updatedPrograms.map((p) => p.id)); // Update form state
+    onProgramsChange(
+      updatedPrograms.map((p, index) => ({
+        programId: p.programId,
+        rank: index + 1,
+      }))
+    ); // Update form state with reordered ranks
   };
 
   const items = programs.map((program, index) => (
     <Draggable
-      key={program.id}
+      key={program.programId}
       index={index}
-      draggableId={program.id.toString()}
+      draggableId={program.programId.toString()}
     >
       {(provided, snapshot) => (
         <div
@@ -58,13 +85,13 @@ export default function ProgramList({
             <MdDragIndicator />
           </div>
           <Text>
-            {program.name} at {program.institution.name}
+            {program.program.name} at {program.program.institution.name}
           </Text>
           <Button
             size="xs"
             variant="outline"
             color="red"
-            onClick={() => handleRemoveProgram(program.id)}
+            onClick={() => handleRemoveProgram(program.programId)}
           >
             Remove
           </Button>

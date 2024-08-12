@@ -31,7 +31,7 @@ const formSchema = z.object({
   hardestPartOfRanking: z.string().optional(),
   linked: z.boolean().default(false),
   programs: z
-    .array(z.number())
+    .array(z.object({ programId: z.number(), rank: z.number() }))
     .nonempty("At least one program must be selected"),
 });
 
@@ -76,10 +76,13 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
           prioritiesWhenRanking: rankListData.prioritiesWhenRanking,
           hardestPartOfRanking: rankListData.hardestPartOfRanking,
           linked: rankListData.linked,
-          programs: rankListData.programs?.map((program) => program.id),
+          programs: rankListData.RankedProgram?.map((program) => ({
+            programId: program.program.id,
+            rank: program.rank,
+          })),
         })
       );
-      setInitialPrograms(rankListData.programs || []);
+      setInitialPrograms(rankListData.RankedProgram || []);
     }
   }, [rankListData, reset]);
 
@@ -101,6 +104,9 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutateAsync(values);
   };
+
+  console.log(form.formState.errors);
+  console.log(form.getValues("programs"));
 
   const items = [
     {

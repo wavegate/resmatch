@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import rankListService from "@/services/rankListService";
 import { notifications } from "@mantine/notifications";
+import { useMemo } from "react";
 
 export default function RankListDetails({ item }) {
   const queryClient = useQueryClient();
@@ -33,6 +34,17 @@ export default function RankListDetails({ item }) {
       });
     },
   });
+
+  const type = useMemo(() => {
+    if (item.graduateType === "IMG") {
+      return "img";
+    } else if (item.medicalDegree === "MD") {
+      return "md";
+    } else if (item.medicalDegree === "DO") {
+      return "do";
+    }
+  }, [item]);
+
   const handleDelete = () => {
     deleteMutation.mutate();
   };
@@ -40,7 +52,7 @@ export default function RankListDetails({ item }) {
   return (
     <div>
       <Group justify="apart">
-        <Link to={`/rank-list/${item.id}`}>
+        <Link to={`/rank-list-${type}/${item.id}`}>
           <Button>Update Rank List</Button>
         </Link>
         <Button
@@ -85,16 +97,19 @@ export default function RankListDetails({ item }) {
         <strong>Matched Program:</strong> {item.matchedProgram?.name}
       </Text>
 
-      <Text mt="lg" weight={500} size="lg">
+      <Text mt="lg" w={500} size="lg">
         Ranked Programs:
       </Text>
-      {item.programs?.length > 0 ? (
+      {item.RankedProgram?.length > 0 ? (
         <div>
-          {item.programs.map((program, index) => (
-            <Text key={program.id}>
-              {index + 1}. {program.name} at {program.institution.name}
-            </Text>
-          ))}
+          {item.RankedProgram.sort((a, b) => a.rank - b.rank).map(
+            (rankedProgram) => (
+              <Text key={rankedProgram.id}>
+                {rankedProgram.rank}. {rankedProgram.program.name} at{" "}
+                {rankedProgram.program.institution.name}
+              </Text>
+            )
+          )}
         </div>
       ) : (
         <Text>No programs ranked.</Text>
