@@ -20,7 +20,7 @@ export default ({ className }: RankListTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["rankLists", selectedProgram, pageNum],
+    queryKey: ["rankList", selectedProgram, pageNum],
     queryFn: () => {
       return rankListService.searchRankList({
         programId: selectedProgram?.id,

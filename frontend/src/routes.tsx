@@ -53,6 +53,7 @@ import AddScheduleDetails from "./pages/updatePages/AddScheduleDetails/AddSchedu
 import AddFellowshipMatch from "./pages/updatePages/AddFellowshipMatch/AddFellowshipMatch";
 import AddXorY from "./pages/updatePages/AddXorY/AddXorY";
 import XorYIMG from "./pages/listPages/XorYIMG/XorYIMG";
+import AddRankList from "./pages/updatePages/AddRankList/AddRankList";
 
 const routes = [
   {
@@ -122,6 +123,14 @@ const routes = [
       {
         path: "rank-list",
         element: <RankList />,
+      },
+      {
+        path: "rank-list/add",
+        element: <AddRankList />,
+      },
+      {
+        path: "rank-list/:id",
+        element: <AddRankList />,
       },
       {
         path: "rank-list-img",

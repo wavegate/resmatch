@@ -1,26 +1,26 @@
 import { Button, Group, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import scheduleDetailsService from "@/services/scheduleDetailsService";
+import rankListService from "@/services/rankListService";
 import { notifications } from "@mantine/notifications";
 
-export default function ScheduleDetailsDetails({ item }) {
+export default function RankListDetails({ item }) {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: () => scheduleDetailsService.deleteScheduleDetails(item.id),
+    mutationFn: () => rankListService.deleteRankList(item.id),
     onSuccess: () => {
       notifications.show({
         title: "Success",
-        message: "Schedule Details deleted successfully",
+        message: "Rank List deleted successfully",
         color: "green",
       });
-      queryClient.invalidateQueries({ queryKey: ["scheduleDetails"] });
+      queryClient.invalidateQueries({ queryKey: ["rankList"] });
     },
     onError: () => {
       notifications.show({
         title: "Error",
-        message: "Failed to delete the Schedule Details",
+        message: "Failed to delete the Rank List",
         color: "red",
       });
     },
@@ -33,86 +33,65 @@ export default function ScheduleDetailsDetails({ item }) {
   return (
     <div>
       <Group justify="apart">
-        <Link to={`/schedule-details/${item.id}`}>
-          <Button>Update Schedule Details</Button>
+        <Link to={`/rank-list/${item.id}`}>
+          <Button>Update Rank List</Button>
         </Link>
         <Button
           color="red"
           onClick={handleDelete}
           loading={deleteMutation.isPending}
         >
-          Delete Schedule Details
+          Delete Rank List
         </Button>
       </Group>
       <Text>
-        <strong>Program:</strong> {item.program.name}
+        <strong>Graduate Type:</strong> {item.graduateType}
       </Text>
       <Text>
-        <strong>Long Overnight Call:</strong> {item.longOvernightCall}
+        <strong>Medical Degree:</strong> {item.medicalDegree}
       </Text>
       <Text>
-        <strong>Schedule Continuity:</strong> {item.scheduleContinuity}
+        <strong>Number of Programs Applied:</strong>{" "}
+        {item.numberOfProgramsApplied}
       </Text>
       <Text>
-        <strong>Locations:</strong> {item.locations}
+        <strong>Number of Invites:</strong> {item.numberOfInvites}
       </Text>
       <Text>
-        <strong>EMR:</strong> {item.emr}
+        <strong>Number of Interviews Attended:</strong>{" "}
+        {item.numberOfInterviewsAttended}
       </Text>
       <Text>
-        <strong>Start Date Orientation:</strong> {item.startDateOrientation}
+        <strong>Done With Interviews:</strong>{" "}
+        {item.doneWithInterviews ? "Yes" : "No"}
       </Text>
       <Text>
-        <strong>Visa Info:</strong> {item.visaInfo}
+        <strong>Why Number One:</strong> {item.whyNumberOne}
       </Text>
       <Text>
-        <strong>Union:</strong> {item.union}
+        <strong>Priorities When Ranking:</strong> {item.prioritiesWhenRanking}
       </Text>
       <Text>
-        <strong>Midlevel:</strong> {item.midlevel}
+        <strong>Hardest Part Of Ranking:</strong> {item.hardestPartOfRanking}
       </Text>
       <Text>
-        <strong>Ancillary:</strong> {item.ancillary}
+        <strong>Matched Program:</strong> {item.matchedProgram?.name}
       </Text>
-      <Text>
-        <strong>Team Ratios:</strong> {item.teamRatios}
+
+      <Text mt="lg" weight={500} size="lg">
+        Ranked Programs:
       </Text>
-      <Text>
-        <strong>Intern Cap:</strong> {item.internCap}
-      </Text>
-      <Text>
-        <strong>Admitting System:</strong> {item.admittingSystem}
-      </Text>
-      <Text>
-        <strong>ICU Hours:</strong> {item.icuHours}
-      </Text>
-      <Text>
-        <strong>Night Float:</strong> {item.nightFloat}
-      </Text>
-      <Text>
-        <strong>Sick Call System:</strong> {item.sickCallSystem}
-      </Text>
-      <Text>
-        <strong>Moonlighting:</strong> {item.moonlighting}
-      </Text>
-      <Text>
-        <strong>Stay Until Signout:</strong> {item.stayUntilSignout}
-      </Text>
-      <Text>
-        <strong>Didactics:</strong> {item.didactics}
-      </Text>
-      <Text>
-        <strong>Vacation/Holidays:</strong> {item.vacationHolidays}
-      </Text>
-      <Text>
-        <strong>Gym:</strong> {item.gym}
-      </Text>
-      <Text>
-        <strong>Food:</strong> {item.food}
-      </Text>
-      <Text>
-        <strong>Salary:</strong> {item.salary}
-      </Text>
+      {item.programs?.length > 0 ? (
+        <div>
+          {item.programs.map((program, index) => (
+            <Text key={program.id}>
+              {index + 1}. {program.name} at {program.institution.name}
+            </Text>
+          ))}
+        </div>
+      ) : (
+        <Text>No programs ranked.</Text>
+      )}
     </div>
   );
 }

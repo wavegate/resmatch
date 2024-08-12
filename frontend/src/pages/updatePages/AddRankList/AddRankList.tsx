@@ -2,103 +2,106 @@ import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  TextInput,
+  Textarea,
   Button,
-  MultiSelect,
+  Checkbox,
+  NumberInput,
+  Select,
   Breadcrumbs,
   Anchor,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
+import { notifications } from "@mantine/notifications";
+import { useEffect, useState } from "react";
+import { removeNulls } from "@/utils/processObjects";
 import rankListService from "@/services/rankListService";
-import programService from "@/services/programService";
-import { useEffect } from "react";
+import ProgramList from "@/components/ProgramList/ProgramList";
 
 const formSchema = z.object({
-  graduateType: z.string(),
-  medicalDegree: z.string(),
-  numberOfProgramsApplied: z.number().min(1),
-  numberOfInvites: z.number().min(0),
-  numberOfInterviewsAttended: z.number().min(0),
-  programs: z.array(z.string()).min(1, "At least one program must be selected"),
-  matchedProgramId: z.string().optional(),
-  doneWithInterviews: z.boolean(),
+  graduateType: z.string().nonempty({ message: "Graduate Type is required" }),
+  medicalDegree: z.string().nonempty({ message: "Medical Degree is required" }),
+  numberOfProgramsApplied: z.number().optional(),
+  numberOfInvites: z.number().optional(),
+  numberOfInterviewsAttended: z.number().optional(),
+  doneWithInterviews: z.boolean().optional(),
   whyNumberOne: z.string().optional(),
-  prioritizesWhenRanking: z.string().optional(),
+  prioritiesWhenRanking: z.string().optional(),
   hardestPartOfRanking: z.string().optional(),
+  linked: z.boolean().default(false),
+  programs: z
+    .array(z.number())
+    .nonempty("At least one program must be selected"),
 });
 
 export default function AddRankList() {
   useAuthGuard();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const isUpdate = !!id;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      graduateType: "",
-      medicalDegree: "",
-      numberOfProgramsApplied: 0,
-      numberOfInvites: 0,
-      numberOfInterviewsAttended: 0,
-      programs: [],
-      matchedProgramId: undefined,
-      doneWithInterviews: false,
-      whyNumberOne: "",
-      prioritizesWhenRanking: "",
-      hardestPartOfRanking: "",
+      linked: false,
     },
   });
 
-  const { control, handleSubmit, setValue } = form;
+  const [initialPrograms, setInitialPrograms] = useState([]);
+
+  const { control, handleSubmit, reset } = form;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // Fetch rank list data if updating
   const { data: rankListData, isLoading } = useQuery({
     queryKey: ["rankList", id],
-    queryFn: () => rankListService.readRankList(id),
+    queryFn: () => rankListService.readRankList(id!),
     enabled: isUpdate,
-  });
-
-  // Fetch list of programs for selection
-  const { data: programsData } = useQuery({
-    queryKey: ["programs"],
-    queryFn: programService.getPrograms, // Assuming you have a function to fetch programs
   });
 
   useEffect(() => {
     if (rankListData) {
-      form.reset(rankListData);
+      reset(
+        removeNulls({
+          graduateType: rankListData.graduateType,
+          medicalDegree: rankListData.medicalDegree,
+          numberOfProgramsApplied: rankListData.numberOfProgramsApplied,
+          numberOfInvites: rankListData.numberOfInvites,
+          numberOfInterviewsAttended: rankListData.numberOfInterviewsAttended,
+          doneWithInterviews: rankListData.doneWithInterviews,
+          whyNumberOne: rankListData.whyNumberOne,
+          prioritiesWhenRanking: rankListData.prioritiesWhenRanking,
+          hardestPartOfRanking: rankListData.hardestPartOfRanking,
+          linked: rankListData.linked,
+          programs: rankListData.programs?.map((program) => program.id),
+        })
+      );
+      setInitialPrograms(rankListData.programs || []);
     }
-  }, [rankListData]);
+  }, [rankListData, reset]);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: (values) => {
-      if (isUpdate) {
-        return rankListService.updateRankList(id, values);
-      }
-      return rankListService.createRankList(values);
-    },
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (values: z.infer<typeof formSchema>) =>
+      isUpdate
+        ? rankListService.updateRankList(id!, values)
+        : rankListService.createRankList(values),
     onSuccess: () => {
       notifications.show({
-        message: `Rank List ${isUpdate ? "updated" : "created"} successfully`,
+        message: `Rank List ${isUpdate ? "updated" : "created"} successfully!`,
         withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["rankList"] });
-      navigate("/ranklist");
+      navigate("/rank-list");
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    await mutateAsync(values);
-  }
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutateAsync(values);
+  };
 
   const items = [
     { title: "Rank Lists", to: "/rank-list" },
-    { title: isUpdate ? "Update Rank List" : "Add Rank List" },
+    { title: isUpdate ? "Edit Rank List" : "Add Rank List" },
   ].map((item, index) =>
     item.to ? (
       <Link to={item.to} key={index}>
@@ -109,133 +112,88 @@ export default function AddRankList() {
     )
   );
 
-  return (
-    <div className="flex flex-col gap-4">
-      <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        {isLoading && <p>Loading...</p>}
+  console.log(form.formState.errors);
+  console.log(form.getValues("programs"));
 
+  return (
+    <div className={`flex flex-col gap-4`}>
+      <Breadcrumbs separator=">">{items}</Breadcrumbs>
+      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
         <Controller
           name="graduateType"
           control={control}
           render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Graduate Type"
-                placeholder="Enter the graduate type"
-                required
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
-          )}
-        />
-        <Controller
-          name="medicalDegree"
-          control={control}
-          render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="MedicalDegree"
-                placeholder="Enter the graduate type"
-                required
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
-          )}
-        />
-
-        <Controller
-          name="numberOfProgramsApplied"
-          control={control}
-          render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Number of Programs Applied"
-                placeholder="Enter the number of programs applied to"
-                required
-                type="number"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
-          )}
-        />
-
-        <Controller
-          name="numberOfInvites"
-          control={control}
-          render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Number of Invites"
-                placeholder="Enter the number of invites"
-                required
-                type="number"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
-          )}
-        />
-
-        <Controller
-          name="numberOfInterviewsAttended"
-          control={control}
-          render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Number of Interviews Attended"
-                placeholder="Enter the number of interviews attended"
-                required
-                type="number"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
+            <Select
+              label="Graduate Type"
+              placeholder="Select your graduate type"
+              data={["US", "IMG"]}
+              required
+              error={fieldState.error?.message}
+              {...field}
+            />
           )}
         />
 
         <Controller
           name="programs"
           control={control}
-          render={({ field, fieldState }) => (
-            <div>
-              <MultiSelect
-                label="Programs"
-                placeholder="Select programs"
-                data={programsData?.map((program: any) => ({
-                  value: program.id,
-                  label: program.name,
-                }))}
-                required
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
+          render={({ field }) => (
+            <ProgramList
+              initialPrograms={initialPrograms}
+              selectedPrograms={field.value}
+              onProgramsChange={field.onChange}
+            />
           )}
         />
 
         <Controller
-          name="matchedProgramId"
+          name="medicalDegree"
           control={control}
           render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Matched Program ID"
-                placeholder="Enter the matched program ID (optional)"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
+            <Select
+              label="Medical Degree"
+              placeholder="Select your medical degree"
+              data={["MD", "DO"]}
+              required
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          name="numberOfProgramsApplied"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              label="Number of Programs Applied"
+              placeholder="Enter the number"
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          name="numberOfInvites"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              label="Number of Invites"
+              placeholder="Enter the number"
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          name="numberOfInterviewsAttended"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              label="Number of Interviews Attended"
+              placeholder="Enter the number"
+              {...field}
+            />
           )}
         />
 
@@ -243,16 +201,12 @@ export default function AddRankList() {
           name="doneWithInterviews"
           control={control}
           render={({ field }) => (
-            <div>
-              <TextInput
-                label="Done with Interviews"
-                placeholder="Are you done with interviews?"
-                type="checkbox"
-                checked={field.value}
-                size="md"
-                {...field}
-              />
-            </div>
+            <Checkbox
+              label="Done with Interviews"
+              {...field}
+              checked={field.value}
+              size="md"
+            />
           )}
         />
 
@@ -260,31 +214,25 @@ export default function AddRankList() {
           name="whyNumberOne"
           control={control}
           render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Why #1"
-                placeholder="Why is this your #1 choice?"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
+            <Textarea
+              label="Why Number One?"
+              placeholder="Why did you rank this program number one?"
+              error={fieldState.error?.message}
+              {...field}
+            />
           )}
         />
 
         <Controller
-          name="prioritizesWhenRanking"
+          name="prioritiesWhenRanking"
           control={control}
           render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Prioritizes When Ranking"
-                placeholder="What do you prioritize when ranking?"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
+            <Textarea
+              label="Priorities When Ranking"
+              placeholder="What were your priorities when ranking?"
+              error={fieldState.error?.message}
+              {...field}
+            />
           )}
         />
 
@@ -292,20 +240,30 @@ export default function AddRankList() {
           name="hardestPartOfRanking"
           control={control}
           render={({ field, fieldState }) => (
-            <div>
-              <TextInput
-                label="Hardest Part of Ranking"
-                placeholder="What was the hardest part of ranking?"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            </div>
+            <Textarea
+              label="Hardest Part of Ranking"
+              placeholder="What was the hardest part of ranking?"
+              error={fieldState.error?.message}
+              {...field}
+            />
           )}
         />
 
-        <Button type="submit" loading={isLoading}>
-          {isUpdate ? "Update Rank List" : "Create Rank List"}
+        <Controller
+          name="linked"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              label="Link this Rank List to my profile."
+              {...field}
+              checked={field.value}
+              size="md"
+            />
+          )}
+        />
+
+        <Button type="submit" loading={isPending}>
+          {isUpdate ? "Update Rank List" : "Submit Rank List"}
         </Button>
       </form>
     </div>
