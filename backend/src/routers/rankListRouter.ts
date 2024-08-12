@@ -18,6 +18,7 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
     prioritiesWhenRanking,
     hardestPartOfRanking,
     medicalDegree,
+    linked = false,
   } = req.body;
 
   const userId = req.user.id; // Assuming the user ID is available from the verified token
@@ -38,7 +39,8 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
         prioritiesWhenRanking,
         hardestPartOfRanking,
         medicalDegree,
-        userId, // Assuming RankList is associated with a user
+        userId,
+        linked,
       },
     });
     res.status(201).json(newRankList);
@@ -61,8 +63,17 @@ rankListRouter.get("/:id", async (req, res) => {
     const rankList = await prisma.rankList.findUnique({
       where: { id: rankListId },
       include: {
-        programs: true,
-        matchedProgram: true,
+        programs: {
+          include: {
+            institution: true, // Include institution in the program details
+          },
+        },
+        matchedProgram: {
+          include: {
+            institution: true, // Include institution in the matched program details
+          },
+        },
+        user: true,
         comments: {
           include: {
             user: true,
@@ -73,6 +84,11 @@ rankListRouter.get("/:id", async (req, res) => {
 
     if (!rankList) {
       return res.status(404).json({ error: "RankList not found" });
+    }
+
+    // Remove user data if linked is not true
+    if (!rankList.linked) {
+      rankList.user = undefined;
     }
 
     res.status(200).json(rankList);
@@ -98,6 +114,7 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
     prioritiesWhenRanking,
     hardestPartOfRanking,
     medicalDegree,
+    linked = false,
   } = req.body;
 
   if (isNaN(rankListId)) {
@@ -122,6 +139,7 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
         prioritiesWhenRanking,
         hardestPartOfRanking,
         medicalDegree,
+        linked,
       },
     });
 
@@ -179,10 +197,28 @@ rankListRouter.post("/search", async (req, res) => {
             alias: true,
           },
         },
+        programs: {
+          include: {
+            institution: true,
+          },
+        },
+        matchedProgram: {
+          include: {
+            institution: true,
+          },
+        },
       },
     });
 
-    res.status(200).json({ rankLists, totalCount });
+    // Remove user data if linked is not true
+    const processedRankLists = rankLists.map((rankList) => {
+      if (!rankList.linked) {
+        rankList.user = undefined;
+      }
+      return rankList;
+    });
+
+    res.status(200).json({ rankLists: processedRankLists, totalCount });
   } catch (error) {
     console.error("Error searching rank lists:", error);
     res.status(500).json({ error: "Internal Server Error" });
