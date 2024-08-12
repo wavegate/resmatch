@@ -6,7 +6,14 @@ const xOrYRouter = express.Router();
 
 // Create a new XorY entry
 xOrYRouter.post("/", verifyToken, async (req, res) => {
-  const { programXId, programYId, question, userId } = req.body;
+  const {
+    programXId,
+    programYId,
+    question,
+    linked = false,
+    img = false,
+  } = req.body;
+  const userId = req.user.id;
 
   if (!programXId || !programYId || !question || !userId) {
     return res.status(400).json({ error: "All fields are required" });
@@ -19,6 +26,8 @@ xOrYRouter.post("/", verifyToken, async (req, res) => {
         programYId: Number(programYId),
         question,
         userId: Number(userId),
+        linked,
+        img, // Add the img field to the data object
       },
     });
 
@@ -37,14 +46,20 @@ xOrYRouter.get("/:id", async (req, res) => {
     const xOrY = await prisma.xorY.findUnique({
       where: { id: Number(id) },
       include: {
-        programX: true,
-        programY: true,
+        programX: { include: { institution: true } },
+        programY: { include: { institution: true } },
         comments: true,
+        user: true,
       },
     });
 
     if (!xOrY) {
       return res.status(404).json({ error: "XorY entry not found" });
+    }
+
+    // Remove user data if linked is not true
+    if (!xOrY.linked) {
+      xOrY.user = undefined;
     }
 
     res.json(xOrY);
@@ -57,7 +72,7 @@ xOrYRouter.get("/:id", async (req, res) => {
 // Update an XorY entry by ID
 xOrYRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  const { programXId, programYId, question } = req.body;
+  const { programXId, programYId, question, linked } = req.body;
 
   try {
     const updatedXorY = await prisma.xorY.update({
@@ -66,6 +81,7 @@ xOrYRouter.put("/:id", verifyToken, async (req, res) => {
         programXId: programXId ? Number(programXId) : undefined,
         programYId: programYId ? Number(programYId) : undefined,
         question,
+        linked,
       },
     });
 
@@ -86,7 +102,7 @@ xOrYRouter.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {
-    await prisma.xOrY.delete({
+    await prisma.xorY.delete({
       where: { id: Number(id) },
     });
 
@@ -102,27 +118,47 @@ xOrYRouter.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
-// List XorY entries with Pagination
 xOrYRouter.post("/search", async (req, res) => {
-  const { pageNum = 1 } = req.body;
+  const { pageNum = 1, img } = req.body;
   const PAGE_SIZE = 10; // Example page size
 
   try {
-    const totalCount = await prisma.xorY.count();
+    // Create a condition object for the img field
+    const imgCondition = img !== undefined ? { img } : {};
 
+    // Count the total number of entries matching the img condition
+    const totalCount = await prisma.xorY.count({
+      where: {
+        ...imgCondition,
+      },
+    });
+
+    // Fetch the paginated XorY entries, including related program and user data
     const xOrYEntries = await prisma.xorY.findMany({
       skip: (pageNum - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
+      where: {
+        ...imgCondition,
+      },
       include: {
-        programX: true,
-        programY: true,
+        programX: { include: { institution: true } },
+        programY: { include: { institution: true } },
+        user: true,
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    res.json({ xOrYEntries, totalCount });
+    // Remove user data if linked is not true
+    const processedEntries = xOrYEntries.map((entry) => {
+      if (!entry.linked) {
+        entry.user = undefined;
+      }
+      return entry;
+    });
+
+    res.json({ xOrYEntries: processedEntries, totalCount });
   } catch (error) {
     console.error("Error fetching XorY entries:", error);
     res.status(500).json({ error: "Internal Server Error" });
