@@ -22,115 +22,67 @@ const Sidebar = ({ toggle, isLoading, user, signOut }) => {
 
   return (
     <div className={`flex flex-col gap-2`}>
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
-            isActive
-              ? "text-blue-900 bg-primary bg-opacity-20"
-              : "text-gray-600"
-          } text-base`
-        }
-        onClick={toggle}
-      >
-        <div>
-          <HiHome className="h-4 w-4" /> {/* Use the home icon */}
-        </div>
-        <div>Welcome</div>
-      </NavLink>
-      <NavLink
-        to="/dashboard"
-        className={({ isActive }) =>
-          `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
-            isActive
-              ? "text-blue-900 bg-primary bg-opacity-20"
-              : "text-gray-600"
-          } text-base`
-        }
-        onClick={toggle}
-      >
-        <div>
-          <HiOutlineViewGrid className="h-4 w-4" />{" "}
-          {/* Use the dashboard icon */}
-        </div>
-        <div>Dashboard</div>
-      </NavLink>
-
-      <NavLink
-        to="/profile"
-        className={({ isActive }) =>
-          `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
-            isActive
-              ? "text-blue-900 bg-primary bg-opacity-20"
-              : "text-gray-600"
-          } text-base`
-        }
-        onClick={toggle}
-      >
-        <div>
-          <HiOutlineUserCircle className="h-4 w-4" />{" "}
-          {/* Use the profile icon */}
-        </div>
-        <div>Profile</div>
-      </NavLink>
-      <NavLink
-        to="/main"
-        className={({ isActive }) =>
-          `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
-            isActive
-              ? "text-blue-900 bg-primary bg-opacity-20"
-              : "text-gray-600"
-          } text-base`
-        }
-        onClick={toggle}
-      >
-        <div>
-          <HiOutlineChat className="h-4 w-4" />
-        </div>
-        <div>Main Chat</div>
-      </NavLink>
-
-      {menuRoutes.map((group, groupIndex) => (
-        <div key={groupIndex} className="flex flex-col gap-1.5">
-          <div
-            className="flex justify-between items-center cursor-pointer"
-            onClick={() => toggleSection(group.heading)}
-          >
-            <h3 className="text-md font-semibold text-gray-800">
-              {group.heading}
-            </h3>
-            <div className="text-gray-600">
-              {collapsedSections[group.heading] ? (
-                <FaChevronUp />
-              ) : (
-                <FaChevronDown />
-              )}
+      {menuRoutes.map((group, groupIndex) =>
+        group.items ? (
+          // Render grouped links
+          <div key={groupIndex} className="flex flex-col gap-1.5">
+            <div
+              className="flex justify-between items-center cursor-pointer"
+              onClick={() => toggleSection(group.heading)}
+            >
+              <h3 className="text-md font-semibold text-gray-800">
+                {group.heading}
+              </h3>
+              <div className="text-gray-600">
+                {collapsedSections[group.heading] ? (
+                  <FaChevronUp />
+                ) : (
+                  <FaChevronDown />
+                )}
+              </div>
             </div>
+
+            <Collapse in={!collapsedSections[group.heading]}>
+              <div className="flex flex-col gap-1.5">
+                {group.items.map((route, index) => (
+                  <NavLink
+                    key={index}
+                    to={route.link}
+                    className={({ isActive }) =>
+                      `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
+                        isActive
+                          ? "text-blue-900 bg-primary bg-opacity-20"
+                          : "text-gray-600"
+                      } text-base`
+                    }
+                    onClick={toggle}
+                  >
+                    <div>{route.icon}</div>
+                    <div>{route.text}</div>
+                  </NavLink>
+                ))}
+              </div>
+            </Collapse>
           </div>
-
-          <Collapse in={!collapsedSections[group.heading]}>
-            <div className="flex flex-col gap-1.5">
-              {group.items.map((route, index) => (
-                <NavLink
-                  key={index}
-                  to={route.link}
-                  className={({ isActive }) =>
-                    `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
-                      isActive
-                        ? "text-blue-900 bg-primary bg-opacity-20"
-                        : "text-gray-600"
-                    } text-base`
-                  }
-                  onClick={toggle}
-                >
-                  <div>{route.icon}</div>
-                  <div>{route.text}</div>
-                </NavLink>
-              ))}
-            </div>
-          </Collapse>
-        </div>
-      ))}
+        ) : (
+          // Render top-level link
+          <NavLink
+            key={groupIndex}
+            to={group.link}
+            className={({ isActive }) =>
+              `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
+                isActive
+                  ? "text-blue-900 bg-primary bg-opacity-20"
+                  : "text-gray-600"
+              } text-base`
+            }
+            onClick={toggle}
+          >
+            <div>{group.icon}</div>
+            <div>{group.text}</div>
+          </NavLink>
+        )
+      )}
 
       <div className={`flex gap-3 sm:hidden relative`}>
         <LoadingOverlay

@@ -13,19 +13,37 @@ import Badges from "@/components/Badges/Badges";
 
 interface RankListTableProps {
   className?: string;
+  type: "MD" | "DO" | "IMG";
 }
 
-export default ({ className }: RankListTableProps) => {
+export default ({ className, type }: RankListTableProps) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["rankList", selectedProgram, pageNum],
+    queryKey: [
+      `rankList-${type.toLowerCase()}`,
+      selectedProgram,
+      pageNum,
+      type,
+    ],
     queryFn: () => {
-      return rankListService.searchRankList({
+      const filters: any = {
         programId: selectedProgram?.id,
         pageNum,
-      });
+      };
+
+      if (type === "MD") {
+        filters.graduateType = "US";
+        filters.medicalDegree = "MD";
+      } else if (type === "DO") {
+        filters.graduateType = "US";
+        filters.medicalDegree = "DO";
+      } else if (type === "IMG") {
+        filters.graduateType = "IMG";
+      }
+
+      return rankListService.searchRankList(filters);
     },
   });
 
@@ -47,6 +65,18 @@ export default ({ className }: RankListTableProps) => {
     return !!selectedProgram;
   }, [selectedProgram]);
 
+  const shareUrl = useMemo(() => {
+    if (type === "MD") return "/rank-list-md/add";
+    if (type === "DO") return "/rank-list-do/add";
+    return "/rank-list-img/add";
+  }, [type]);
+
+  const shareText = useMemo(() => {
+    if (type === "MD") return "Share MD Rank List";
+    if (type === "DO") return "Share DO Rank List";
+    return "Share IMG Rank List";
+  }, [type]);
+
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
@@ -62,8 +92,8 @@ export default ({ className }: RankListTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/rank-list/add"
-        shareText="Share Rank List"
+        shareUrl={shareUrl}
+        shareText={shareText}
       />
 
       {filtersPresent && (

@@ -10,7 +10,7 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          Rank Lists
+          Rank Lists (IMG)
         </Title>
         <Text
           c="dimmed"
@@ -21,7 +21,7 @@ export default () => {
           preferences and finalize your matched programs with ease.
         </Text>
       </header>
-      <RankListTable />
+      <RankListTable type="IMG" />
     </div>
   );
 };

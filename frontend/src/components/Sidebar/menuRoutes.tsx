@@ -28,8 +28,40 @@ import {
   FaSortAmountUp,
   FaInfoCircle,
 } from "react-icons/fa";
+import {
+  HiHome,
+  HiOutlineViewGrid,
+  HiOutlineUserCircle,
+  HiOutlineChat,
+  HiOutlineFlag,
+} from "react-icons/hi";
 
 const sidebarRoutes = [
+  {
+    link: "/",
+    text: "Welcome",
+    icon: <HiHome className="h-5 w-5" />,
+  },
+  {
+    link: "/dashboard",
+    text: "Dashboard",
+    icon: <HiOutlineViewGrid className="h-5 w-5" />,
+  },
+  {
+    link: "/profile",
+    text: "Profile",
+    icon: <HiOutlineUserCircle className="h-5 w-5" />,
+  },
+  {
+    link: "/main",
+    text: "Main Chat",
+    icon: <HiOutlineChat className="h-5 w-5" />,
+  },
+  {
+    link: "/report",
+    text: "Mod Reports",
+    icon: <HiOutlineFlag className="h-5 w-5" />,
+  },
   {
     heading: "Interview Info",
     items: [
@@ -174,7 +206,7 @@ const sidebarRoutes = [
     heading: "Rank Data",
     items: [
       {
-        link: "/rank-list",
+        link: "/rank-list-md",
         text: "Unofficial Rank Lists (MD)",
         icon: <FaSortNumericDown className="h-5 w-5" />,
       },

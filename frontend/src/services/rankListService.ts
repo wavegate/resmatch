@@ -73,10 +73,14 @@ const deleteRankList = async (id: string | number): Promise<void> => {
 const searchRankList = async ({
   searchTerm,
   pageNum,
+  medicalDegree,
+  graduateType,
 }: SearchParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     searchTerm,
     pageNum,
+    medicalDegree,
+    graduateType,
   });
   return data;
 };

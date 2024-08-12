@@ -20,7 +20,7 @@ export default ({ className }: CitiesTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["cities", selectedProgram, pageNum],
+    queryKey: ["city", selectedProgram, pageNum],
     queryFn: () => {
       return cityService.searchCity({
         programId: selectedProgram?.id,
@@ -62,8 +62,8 @@ export default ({ className }: CitiesTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/city/add"
-        shareText="Share City"
+        shareUrl="/city-user-input/add"
+        shareText="Share City Information"
       />
 
       {filtersPresent && (

@@ -26,7 +26,7 @@ export default function UserProfile() {
 
   return (
     <div>
-      {userDetails && (
+      {userDetails?.public ? (
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <Title order={2}>User Profile</Title>
@@ -203,6 +203,8 @@ export default function UserProfile() {
             <Text>{userDetails.public ? "Yes" : "No"}</Text>
           </Group>
         </div>
+      ) : (
+        <div>This user's profile is not public.</div>
       )}
     </div>
   );

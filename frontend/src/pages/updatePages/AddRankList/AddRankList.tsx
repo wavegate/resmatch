@@ -21,7 +21,7 @@ import ProgramList from "@/components/ProgramList/ProgramList";
 
 const formSchema = z.object({
   graduateType: z.string().nonempty({ message: "Graduate Type is required" }),
-  medicalDegree: z.string().nonempty({ message: "Medical Degree is required" }),
+  medicalDegree: z.string().optional(),
   numberOfProgramsApplied: z.number().optional(),
   numberOfInvites: z.number().optional(),
   numberOfInterviewsAttended: z.number().optional(),
@@ -35,7 +35,7 @@ const formSchema = z.object({
     .nonempty("At least one program must be selected"),
 });
 
-export default function AddRankList() {
+export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
   useAuthGuard();
   const { id } = useParams<{ id: string }>();
   const isUpdate = !!id;
@@ -44,8 +44,11 @@ export default function AddRankList() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       linked: false,
+      medicalDegree: type === "MD" ? "MD" : type === "DO" ? "DO" : undefined,
+      graduateType: type === "IMG" ? "IMG" : "US",
     },
   });
+  console.log(form.formState.errors);
 
   const [initialPrograms, setInitialPrograms] = useState([]);
 
@@ -91,7 +94,7 @@ export default function AddRankList() {
         withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: ["rankList"] });
-      navigate("/rank-list");
+      navigate(`/rank-list-${type.toLowerCase()}`);
     },
   });
 
@@ -100,7 +103,20 @@ export default function AddRankList() {
   };
 
   const items = [
-    { title: "Rank Lists", to: "/rank-list" },
+    {
+      title:
+        type === "MD"
+          ? "Rank Lists (MD)"
+          : type === "DO"
+          ? "Rank Lists (DO)"
+          : "Rank Lists (IMG)",
+      to:
+        type === "MD"
+          ? "/rank-list-md"
+          : type === "DO"
+          ? "/rank-list-do"
+          : "/rank-list-img",
+    },
     { title: isUpdate ? "Edit Rank List" : "Add Rank List" },
   ].map((item, index) =>
     item.to ? (
@@ -112,28 +128,10 @@ export default function AddRankList() {
     )
   );
 
-  console.log(form.formState.errors);
-  console.log(form.getValues("programs"));
-
   return (
     <div className={`flex flex-col gap-4`}>
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
-        <Controller
-          name="graduateType"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Select
-              label="Graduate Type"
-              placeholder="Select your graduate type"
-              data={["US", "IMG"]}
-              required
-              error={fieldState.error?.message}
-              {...field}
-            />
-          )}
-        />
-
         <Controller
           name="programs"
           control={control}
@@ -142,21 +140,6 @@ export default function AddRankList() {
               initialPrograms={initialPrograms}
               selectedPrograms={field.value}
               onProgramsChange={field.onChange}
-            />
-          )}
-        />
-
-        <Controller
-          name="medicalDegree"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Select
-              label="Medical Degree"
-              placeholder="Select your medical degree"
-              data={["MD", "DO"]}
-              required
-              error={fieldState.error?.message}
-              {...field}
             />
           )}
         />

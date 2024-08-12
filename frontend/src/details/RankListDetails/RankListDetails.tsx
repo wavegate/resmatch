@@ -15,7 +15,15 @@ export default function RankListDetails({ item }) {
         message: "Rank List deleted successfully",
         color: "green",
       });
-      queryClient.invalidateQueries({ queryKey: ["rankList"] });
+
+      // Invalidate specific rankList queries based on graduateType and medicalDegree
+      if (item.graduateType === "IMG") {
+        queryClient.invalidateQueries({ queryKey: ["rankList-img"] });
+      } else if (item.medicalDegree === "MD") {
+        queryClient.invalidateQueries({ queryKey: ["rankList-md"] });
+      } else if (item.medicalDegree === "DO") {
+        queryClient.invalidateQueries({ queryKey: ["rankList-do"] });
+      }
     },
     onError: () => {
       notifications.show({
@@ -25,7 +33,6 @@ export default function RankListDetails({ item }) {
       });
     },
   });
-
   const handleDelete = () => {
     deleteMutation.mutate();
   };

@@ -24,7 +24,6 @@ import FellowshipMatch from "./pages/listPages/FellowshipMatch/FellowshipMatch";
 import PSTP from "./pages/listPages/PSTP/PSTP";
 import TierList from "./pages/TierList/TierList";
 import IMGTierList from "./pages/IMGTierList/IMGTierList";
-import RankList from "@/pages/listPages/RankList/RankList";
 import XorY from "./pages/listPages/XorY/XorY";
 import AddInvite from "./pages/updatePages/AddInvite/AddInvite";
 import ModReport from "./pages/listPages/ModReport/ModReport";
@@ -54,6 +53,10 @@ import AddFellowshipMatch from "./pages/updatePages/AddFellowshipMatch/AddFellow
 import AddXorY from "./pages/updatePages/AddXorY/AddXorY";
 import XorYIMG from "./pages/listPages/XorYIMG/XorYIMG";
 import AddRankList from "./pages/updatePages/AddRankList/AddRankList";
+import RankListMD from "./pages/listPages/RankListMD/RankListMD";
+import RankListDO from "./pages/listPages/RankListDO/RankListDO";
+import RankListIMG from "./pages/listPages/RankListIMG/RankListIMG";
+import AddCityUserInput from "./pages/updatePages/AddCityUserInput/AddCityUserInput";
 
 const routes = [
   {
@@ -101,6 +104,10 @@ const routes = [
         element: <City />,
       },
       {
+        path: "add-city-user-input",
+        element: <AddCityUserInput />,
+      },
+      {
         path: "confirm-email",
         element: <ConfirmEmail />,
       },
@@ -121,24 +128,40 @@ const routes = [
         element: <AddFameShame />,
       },
       {
-        path: "rank-list",
-        element: <RankList />,
+        path: "rank-list-md",
+        element: <RankListMD />,
       },
       {
-        path: "rank-list/add",
-        element: <AddRankList />,
+        path: "rank-list-md/add",
+        element: <AddRankList type="MD" />,
       },
       {
-        path: "rank-list/:id",
-        element: <AddRankList />,
-      },
-      {
-        path: "rank-list-img",
-        element: <RankList />,
+        path: "rank-list-md/:id",
+        element: <AddRankList type="MD" />,
       },
       {
         path: "rank-list-do",
-        element: <RankList />,
+        element: <RankListDO />,
+      },
+      {
+        path: "rank-list-do/add",
+        element: <AddRankList type="DO" />,
+      },
+      {
+        path: "rank-list-do/:id",
+        element: <AddRankList type="DO" />,
+      },
+      {
+        path: "rank-list-img",
+        element: <RankListIMG />,
+      },
+      {
+        path: "rank-list-img/add",
+        element: <AddRankList type="IMG" />,
+      },
+      {
+        path: "rank-list-img/:id",
+        element: <AddRankList type="IMG" />,
       },
       {
         path: "dropped",
@@ -321,7 +344,7 @@ const routes = [
         element: <IMGTierList />,
       },
       {
-        path: "mod-report",
+        path: "report",
         element: <ModReport />,
       },
       {
@@ -379,6 +402,10 @@ const routes = [
       {
         path: "report/add",
         element: <AddChat type="report" />,
+      },
+      {
+        path: "city-user-input/add",
+        element: <AddCityUserInput />,
       },
     ],
   },
