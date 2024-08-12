@@ -22,6 +22,31 @@ const Sidebar = ({ toggle, isLoading, user, signOut }) => {
 
   return (
     <div className={`flex flex-col gap-2`}>
+      <div className={`flex gap-3 sm:hidden relative`}>
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 1 }}
+          loaderProps={{ size: "sm" }}
+        />
+        {!user && (
+          <>
+            <Link to="/login" onClick={toggle}>
+              <Button variant="default" size="sm">
+                Log in
+              </Button>
+            </Link>
+            <Link to="/sign-up" onClick={toggle}>
+              <Button size="sm">Sign up</Button>
+            </Link>
+          </>
+        )}
+        {user && (
+          <Button onClick={signOut} size="sm">
+            Sign out
+          </Button>
+        )}
+      </div>
       {menuRoutes.map((group, groupIndex) =>
         group.items ? (
           // Render grouped links
@@ -83,32 +108,6 @@ const Sidebar = ({ toggle, isLoading, user, signOut }) => {
           </NavLink>
         )
       )}
-
-      <div className={`flex gap-3 sm:hidden relative`}>
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 1 }}
-          loaderProps={{ size: "sm" }}
-        />
-        {!user && (
-          <>
-            <Link to="/login" onClick={toggle}>
-              <Button variant="default" size="sm">
-                Log in
-              </Button>
-            </Link>
-            <Link to="/sign-up" onClick={toggle}>
-              <Button size="sm">Sign up</Button>
-            </Link>
-          </>
-        )}
-        {user && (
-          <Button onClick={signOut} size="sm">
-            Sign out
-          </Button>
-        )}
-      </div>
     </div>
   );
 };

@@ -67,6 +67,8 @@ export default function ProgramList({
     ); // Update form state with reordered ranks
   };
 
+  console.log(programs);
+
   const items = programs.map((program, index) => (
     <Draggable
       key={program.programId}
@@ -85,7 +87,7 @@ export default function ProgramList({
             <MdDragIndicator />
           </div>
           <Text>
-            {program.program.name} at {program.program.institution.name}
+            {program.name} at {program.institution.name}
           </Text>
           <Button
             size="xs"

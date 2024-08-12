@@ -82,7 +82,17 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
           })),
         })
       );
-      setInitialPrograms(rankListData.RankedProgram || []);
+      const transformedData = rankListData.RankedProgram?.map((item) => ({
+        programId: item.program.id,
+        name: item.program.name,
+        institution: {
+          id: item.program.institution.id,
+          name: item.program.institution.name,
+          city: item.program.institution.cityId || null,
+        },
+        rank: item.rank,
+      }));
+      setInitialPrograms(transformedData || []);
     }
   }, [rankListData, reset]);
 

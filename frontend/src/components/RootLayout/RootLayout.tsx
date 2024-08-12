@@ -61,9 +61,9 @@ export default () => {
       padding="md"
       className={`text-gray-900`}
     >
-      <AppShell.Header>
-        <header
-          className={`flex justify-between px-8 max-sm:px-4 h-full items-center`}
+      <AppShell.Header className={`flex items-center`}>
+        <div
+          className={`flex justify-between px-8 max-sm:px-4 w-full items-center`}
         >
           <div className={`flex gap-4`}>
             <Burger
@@ -96,12 +96,12 @@ export default () => {
             )}
             {user && <Button onClick={signOut}>Sign out</Button>}
           </div>
-        </header>
+        </div>
       </AppShell.Header>
 
       <AppShell.Navbar
         p="md"
-        className={`flex flex-col gap-4 h-full overflow-y-auto`}
+        className={`flex flex-col gap-4  overflow-y-auto`}
       >
         <Sidebar
           toggle={toggle}
@@ -114,45 +114,6 @@ export default () => {
       <AppShell.Main>
         <Outlet />
       </AppShell.Main>
-      {/* <AppShell.Footer>
-        <div className={`${classes.footer} max-sm:hidden`}>
-          <div className={classes.inner}>
-            <Logo />
-            <Group className={classes.links}>{items}</Group>
-            <Group gap="xs" justify="flex-end" wrap="nowrap">
-              <ActionIcon size="lg" variant="default" radius="xl">
-                <FaTwitter style={{ width: rem(18), height: rem(18) }} />
-              </ActionIcon>
-              <ActionIcon size="lg" variant="default" radius="xl">
-                <FaYoutube style={{ width: rem(18), height: rem(18) }} />
-              </ActionIcon>
-              <ActionIcon size="lg" variant="default" radius="xl">
-                <IoLogoLinkedin style={{ width: rem(18), height: rem(18) }} />
-              </ActionIcon>
-            </Group>
-          </div>
-        </div>
-        <div className={`flex sm:hidden justify-center`}>
-          {routes.slice(0, 3).map((route, index) => {
-            return (
-              <NavLink
-                key={index}
-                to={route.link}
-                className={({ isActive }) =>
-                  `flex flex-col px-4 py-2 text-sm items-center ${
-                    isActive
-                      ? "text-blue-900 bg-primary bg-opacity-20"
-                      : "text-gray-600"
-                  }`
-                }
-              >
-                <div className={``}>{route.icon}</div>
-                <div className={`text-xs`}>{route.text}</div>
-              </NavLink>
-            );
-          })}
-        </div>
-      </AppShell.Footer> */}
     </AppShell>
   );
 };
