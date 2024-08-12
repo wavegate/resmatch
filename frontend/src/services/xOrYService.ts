@@ -20,6 +20,7 @@ interface FormData {
 
 interface SearchParams {
   pageNum?: number;
+  img: boolean;
 }
 
 interface SearchResponse {
@@ -48,9 +49,11 @@ const deleteXorY = async (id: number): Promise<void> => {
 
 const searchXorY = async ({
   pageNum = 1,
+  img = false,
 }: SearchParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     pageNum,
+    img,
   });
   return data;
 };

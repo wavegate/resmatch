@@ -17,12 +17,6 @@ export default function XorYHeader({ item }: XorYHeaderProps) {
             Question: {item.question}
           </Text>
           <Text className="text-xs sm:text-sm c-dimmed">
-            Created by:
-            <Link to={`/user/${item.user.id}`} className="underline">
-              {item.user.alias}
-            </Link>
-          </Text>
-          <Text className="text-xs sm:text-sm c-dimmed">
             Date: {new Date(item.createdAt).toLocaleDateString()}
           </Text>
         </div>

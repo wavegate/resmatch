@@ -25,7 +25,7 @@ export default ({ className }: XorYTableProps) => {
       return xOrYService.searchXorY({
         programId: selectedProgram?.id,
         pageNum,
-        img: false,
+        img: true,
       });
     },
   });
@@ -63,7 +63,7 @@ export default ({ className }: XorYTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/x-or-y/add"
+        shareUrl="/x-or-y-img/add"
         shareText="Share Comparison"
       />
 

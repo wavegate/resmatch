@@ -51,6 +51,8 @@ import AddM4InternImpression from "./pages/updatePages/AddM4InternImpression/Add
 import AddMalignant from "./pages/updatePages/AddMalignant/AddMalignant";
 import AddScheduleDetails from "./pages/updatePages/AddScheduleDetails/AddScheduleDetails";
 import AddFellowshipMatch from "./pages/updatePages/AddFellowshipMatch/AddFellowshipMatch";
+import AddXorY from "./pages/updatePages/AddXorY/AddXorY";
+import XorYIMG from "./pages/listPages/XorYIMG/XorYIMG";
 
 const routes = [
   {
@@ -316,6 +318,26 @@ const routes = [
       {
         path: "x-or-y",
         element: <XorY />,
+      },
+      {
+        path: "x-or-y/:id",
+        element: <AddXorY />,
+      },
+      {
+        path: "x-or-y/add",
+        element: <AddXorY />,
+      },
+      {
+        path: "x-or-y-img",
+        element: <XorYIMG />,
+      },
+      {
+        path: "x-or-y-img/:id",
+        element: <AddXorY img />,
+      },
+      {
+        path: "x-or-y-img/add",
+        element: <AddXorY img />,
       },
       {
         path: "x-or-y-img",
