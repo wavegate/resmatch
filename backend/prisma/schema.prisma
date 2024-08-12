@@ -104,7 +104,6 @@ model Program {
   institution         Institution           @relation(fields: [institutionId], references: [id])
   specialty           Specialty             @relation(fields: [specialtyId], references: [id])
   city                City?                 @relation(fields: [cityId], references: [id])
-  rankLists           RankList[]            @relation("RankedPrograms")
   matchedInLists      RankList[]            @relation("MatchedProgram")
   interviewInvites    InterviewInvite[]
   image               String?
@@ -126,6 +125,7 @@ model Program {
   binId               Int?
   asProgramX          XorY[]                @relation("ProgramXRelation")
   asProgramY          XorY[]                @relation("ProgramYRelation")
+  RankedProgram       RankedProgram[]
 
   @@unique([institutionId, specialtyId, name])
 }
@@ -302,13 +302,25 @@ model RankList {
   prioritiesWhenRanking      String?
   hardestPartOfRanking       String?
   comments                   Comment[]
-  programs                   Program[]      @relation("RankedPrograms")
   linked                     Boolean        @default(false)
 
   matchedProgramId Int?
-  matchedProgram   Program? @relation("MatchedProgram", fields: [matchedProgramId], references: [id])
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  matchedProgram   Program?        @relation("MatchedProgram", fields: [matchedProgramId], references: [id])
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  RankedProgram    RankedProgram[]
+}
+
+model RankedProgram {
+  id         Int      @id @default(autoincrement())
+  rank       Int // This field will store the order of the programs
+  rankListId Int
+  rankList   RankList @relation(fields: [rankListId], references: [id])
+  programId  Int
+  program    Program  @relation(fields: [programId], references: [id])
+
+  @@unique([rankListId, rank])
+  @@unique([rankListId, programId])
 }
 
 model PostIVCommunication {

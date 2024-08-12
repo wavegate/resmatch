@@ -11,7 +11,7 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
     numberOfProgramsApplied,
     numberOfInvites,
     numberOfInterviewsAttended,
-    programs,
+    programs, // Array of { programId, rank }
     matchedProgramId,
     doneWithInterviews,
     whyNumberOne,
@@ -21,7 +21,7 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
     linked = false,
   } = req.body;
 
-  const userId = req.user.id; // Assuming the user ID is available from the verified token
+  const userId = req.user.id;
 
   try {
     const newRankList = await prisma.rankList.create({
@@ -30,9 +30,6 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
         numberOfProgramsApplied,
         numberOfInvites,
         numberOfInterviewsAttended,
-        programs: {
-          connect: programs.map((programId) => ({ id: programId })),
-        },
         matchedProgramId,
         doneWithInterviews,
         whyNumberOne,
@@ -41,6 +38,12 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
         medicalDegree,
         userId,
         linked,
+        RankedProgram: {
+          create: programs.map((program, index) => ({
+            rank: program.rank,
+            program: { connect: { id: program.programId } },
+          })),
+        },
       },
     });
     res.status(201).json(newRankList);
@@ -63,14 +66,19 @@ rankListRouter.get("/:id", async (req, res) => {
     const rankList = await prisma.rankList.findUnique({
       where: { id: rankListId },
       include: {
-        programs: {
+        RankedProgram: {
+          orderBy: { rank: "asc" }, // Ensure programs are ordered
           include: {
-            institution: true, // Include institution in the program details
+            program: {
+              include: {
+                institution: true,
+              },
+            },
           },
         },
         matchedProgram: {
           include: {
-            institution: true, // Include institution in the matched program details
+            institution: true,
           },
         },
         user: true,
@@ -107,7 +115,7 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
     numberOfProgramsApplied,
     numberOfInvites,
     numberOfInterviewsAttended,
-    programs,
+    programs, // Array of { programId, rank }
     matchedProgramId,
     doneWithInterviews,
     whyNumberOne,
@@ -129,10 +137,6 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
         numberOfProgramsApplied,
         numberOfInvites,
         numberOfInterviewsAttended,
-        programs: {
-          set: [], // Clear existing relations
-          connect: programs.map((programId) => ({ id: programId })), // Reconnect new programs
-        },
         matchedProgramId,
         doneWithInterviews,
         whyNumberOne,
@@ -140,6 +144,13 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
         hardestPartOfRanking,
         medicalDegree,
         linked,
+        RankedProgram: {
+          deleteMany: {}, // Clear existing relations
+          create: programs.map((program) => ({
+            rank: program.rank,
+            program: { connect: { id: program.programId } },
+          })),
+        },
       },
     });
 
@@ -210,9 +221,14 @@ rankListRouter.post("/search", async (req, res) => {
             alias: true,
           },
         },
-        programs: {
+        RankedProgram: {
+          orderBy: { rank: "asc" }, // Ensure programs are ordered
           include: {
-            institution: true,
+            program: {
+              include: {
+                institution: true,
+              },
+            },
           },
         },
         matchedProgram: {
