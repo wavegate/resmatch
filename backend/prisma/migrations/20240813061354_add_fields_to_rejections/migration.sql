@@ -1,0 +1,18 @@
+-- AlterTable
+ALTER TABLE "InterviewRejection" ADD COLUMN     "away" BOOLEAN,
+ADD COLUMN     "comlex1ScorePass" BOOLEAN,
+ADD COLUMN     "comlex2Score" TEXT,
+ADD COLUMN     "geographicPreference" BOOLEAN,
+ADD COLUMN     "graduateType" "GraduateType",
+ADD COLUMN     "greenCard" BOOLEAN,
+ADD COLUMN     "home" BOOLEAN,
+ADD COLUMN     "img" "IMGType",
+ADD COLUMN     "locationState" "LocationState",
+ADD COLUMN     "medicalDegree" "MedicalDegree",
+ADD COLUMN     "signal" BOOLEAN,
+ADD COLUMN     "step1Score" INTEGER,
+ADD COLUMN     "step1ScorePass" BOOLEAN,
+ADD COLUMN     "step2Score" INTEGER,
+ADD COLUMN     "subI" BOOLEAN,
+ADD COLUMN     "visaRequired" BOOLEAN,
+ADD COLUMN     "yearOfGraduation" INTEGER;

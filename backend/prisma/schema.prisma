@@ -419,6 +419,24 @@ model InterviewRejection {
   date      DateTime
   anonymous Boolean  @default(true)
 
+  graduateType         GraduateType?
+  img                  IMGType?
+  geographicPreference Boolean?
+  signal               Boolean?
+  locationState        LocationState?
+  medicalDegree        MedicalDegree?
+  step1ScorePass       Boolean?
+  step1Score           Int?
+  step2Score           Int?
+  comlex1ScorePass     Boolean?
+  comlex2Score         String?
+  visaRequired         Boolean?
+  subI                 Boolean?
+  home                 Boolean?
+  yearOfGraduation     Int?
+  greenCard            Boolean?
+  away                 Boolean?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

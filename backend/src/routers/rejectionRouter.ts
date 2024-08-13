@@ -1,25 +1,44 @@
 import express from "express";
 import prisma from "../prismaClient.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
+import { removeUndefinedValues } from "../utils/various.js";
 
 const router = express.Router();
 
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, date, anonymous } = req.body;
+  const formData = req.body;
   const userId = req.user.id;
 
-  if (!programId || !date) {
-    return res.status(400).json({ error: "Program ID and Date are required" });
-  }
+  const data = removeUndefinedValues({
+    anonymous: formData.anonymous ?? true,
+    programId: formData.programId ? parseInt(formData.programId) : undefined,
+    date: formData.date ? new Date(formData.date) : undefined,
+    signal: formData.signal,
+    geographicPreference: formData.geographicPreference,
+    locationState: formData.locationState,
+    additionalComments: formData.additionalComments,
+    step1ScorePass: formData.step1ScorePass,
+    step1Score: formData.step1Score ? parseInt(formData.step1Score) : undefined,
+    step2Score: formData.step2Score ? parseInt(formData.step2Score) : undefined,
+    comlex1ScorePass: formData.comlex1ScorePass,
+    comlex2Score: formData.comlex2Score,
+    visaRequired: formData.visaRequired,
+    subI: formData.subI,
+    home: formData.home,
+    yearOfGraduation: formData.yearOfGraduation
+      ? parseInt(formData.yearOfGraduation)
+      : undefined,
+    greenCard: formData.greenCard,
+    away: formData.away,
+    graduateType: formData.graduateType,
+    img: formData.img,
+    medicalDegree: formData.medicalDegree,
+    userId,
+  });
 
   try {
     const newInterviewRejection = await prisma.interviewRejection.create({
-      data: {
-        anonymous: anonymous ?? false,
-        programId: Number(programId),
-        userId: Number(userId),
-        date: new Date(date),
-      },
+      data,
     });
 
     res.status(201).json(newInterviewRejection);
