@@ -14,7 +14,7 @@ router.post("/", verifyToken, async (req, res) => {
     ivPlatform,
     openIVDates,
     interviewInviteId,
-    linked = false, // Default to false if not provided
+    anonymous = true, // Default to false if not provided
   } = req.body;
 
   const userId = req.user.id;
@@ -38,7 +38,7 @@ router.post("/", verifyToken, async (req, res) => {
           ? openIVDates.map((date) => new Date(date))
           : [],
         interviewInviteId: Number(interviewInviteId),
-        linked: Boolean(linked), // Ensure linked is a boolean
+        anonymous: Boolean(anonymous), // Ensure anonymous is a boolean
       },
     });
 
@@ -143,9 +143,9 @@ router.post("/search", async (req, res) => {
       },
     });
 
-    // Remove user data if the linked field is not true
+    // Remove user data if the anonymous field is not true
     const processedLogistics = interviewLogistics.map((logistics) => {
-      if (!logistics.linked) {
+      if (logistics.anonymous) {
         logistics.user = undefined; // Remove user data
       }
       return logistics;

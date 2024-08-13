@@ -38,7 +38,7 @@ inviteRouter.post("/", verifyToken, async (req: AuthenticatedRequest, res) => {
     const userId = req.user.id;
 
     const data = removeUndefinedValues({
-      linked: formData.linked ?? false,
+      anonymous: formData.anonymous ?? true,
       programId: formData.programId ? parseInt(formData.programId) : undefined,
       inviteDateTime: formData.inviteDateTime
         ? new Date(formData.inviteDateTime)
@@ -198,7 +198,7 @@ inviteRouter.post("/search", async (req, res) => {
 
     // Process interviewInvites to remove user data if the linked field is false
     interviewInvites = interviewInvites.map((invite) => {
-      if (!invite.linked) {
+      if (invite.anonymous) {
         // Replace 'linked' with the correct field if necessary
         invite.user = undefined; // Remove user data
       }

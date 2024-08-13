@@ -6,7 +6,7 @@ const fameShameRouter = express.Router();
 
 // Create a new FameShameUserInput (protected by verifyToken)
 fameShameRouter.post("/", verifyToken, async (req, res) => {
-  const { fame, shame, programId } = req.body;
+  const { fame, shame, programId, anonymous } = req.body;
   const userId = req.user.id;
 
   if (!fame || !shame || !programId) {
@@ -22,6 +22,7 @@ fameShameRouter.post("/", verifyToken, async (req, res) => {
         shame,
         programId: Number(programId),
         userId: userId,
+        anonymous,
       },
     });
     res.status(201).json(newFameShame);
@@ -68,7 +69,7 @@ fameShameRouter.get("/:id", async (req, res) => {
 fameShameRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const fameShameId = Number(id);
-  const { fame, shame, programId } = req.body;
+  const { fame, shame, programId, anonymous } = req.body;
 
   if (isNaN(fameShameId)) {
     return res.status(400).json({ error: "Invalid fame/shame ID" });
@@ -81,6 +82,7 @@ fameShameRouter.put("/:id", verifyToken, async (req, res) => {
         fame,
         shame,
         programId: programId ? Number(programId) : undefined,
+        anonymous,
       },
     });
 
@@ -153,7 +155,19 @@ fameShameRouter.post("/search", async (req, res) => {
       },
     });
 
-    res.status(200).json({ fameShameInputs, totalCount });
+    // Process fameShameInputs to remove user field if input is anonymous
+    const processedFameShameInputs = fameShameInputs.map((input) => {
+      if (input.anonymous) {
+        // Remove the user field if anonymous
+        const { user, ...rest } = input;
+        return rest;
+      }
+      return input;
+    });
+
+    res
+      .status(200)
+      .json({ fameShameInputs: processedFameShameInputs, totalCount });
   } catch (error) {
     console.error("Error searching fame/shame inputs:", error);
     res.status(500).json({ error: "Internal Server Error" });

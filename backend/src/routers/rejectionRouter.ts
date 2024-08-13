@@ -5,7 +5,7 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, date, linked } = req.body;
+  const { programId, date, anonymous } = req.body;
   const userId = req.user.id;
 
   if (!programId || !date) {
@@ -15,7 +15,7 @@ router.post("/", verifyToken, async (req, res) => {
   try {
     const newInterviewRejection = await prisma.interviewRejection.create({
       data: {
-        linked: linked ?? false,
+        anonymous: anonymous ?? false,
         programId: Number(programId),
         userId: Number(userId),
         date: new Date(date),
@@ -122,7 +122,7 @@ router.post("/search", async (req, res) => {
 
     // Process the interviewRejections to remove user data if linked is not true
     const processedRejections = interviewRejections.map((rejection) => {
-      if (!rejection.linked) {
+      if (rejection.anonymous) {
         rejection.user = undefined;
       }
       return rejection;

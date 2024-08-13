@@ -150,7 +150,7 @@ model InterviewInvite {
   yearOfGraduation     Int?
   greenCard            Boolean?
   away                 Boolean?
-  linked               Boolean        @default(false)
+  anonymous            Boolean        @default(true)
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
@@ -232,7 +232,7 @@ model CityUserInput {
   updatedAt            DateTime @updatedAt
   userId               Int
   cityId               Int
-  linked               Boolean  @default(false)
+  anonymous            Boolean  @default(true)
 
   city City @relation(fields: [cityId], references: [id])
   user User @relation(fields: [userId], references: [id])
@@ -248,7 +248,7 @@ model FameShameUserInput {
   fame      String?
   shame     String?
   programId Int
-  linked    Boolean  @default(false)
+  anonymous Boolean  @default(true)
   program   Program  @relation(fields: [programId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -278,14 +278,14 @@ model Comment {
   TierList              TierList?            @relation(fields: [tierListId], references: [id])
   tierListId            Int?
   parentId              Int?
-  parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id])
+  parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies               Comment[]            @relation("CommentReplies")
   main                  Boolean              @default(false)
   pstp                  Boolean              @default(false)
   report                Boolean              @default(false)
   XorY                  XorY?                @relation(fields: [xorYId], references: [id])
   xorYId                Int?
-  linked                Boolean              @default(false)
+  anonymous             Boolean              @default(true)
 }
 
 model RankList {
@@ -302,7 +302,7 @@ model RankList {
   prioritiesWhenRanking      String?
   hardestPartOfRanking       String?
   comments                   Comment[]
-  linked                     Boolean        @default(false)
+  anonymous                  Boolean        @default(true)
 
   matchedProgramId Int?
   matchedProgram   Program?        @relation("MatchedProgram", fields: [matchedProgramId], references: [id])
@@ -315,7 +315,7 @@ model RankedProgram {
   id         Int      @id @default(autoincrement())
   rank       Int // This field will store the order of the programs
   rankListId Int
-  rankList   RankList @relation(fields: [rankListId], references: [id])
+  rankList   RankList @relation(fields: [rankListId], references: [id], onDelete: Cascade)
   programId  Int
   program    Program  @relation(fields: [programId], references: [id])
 
@@ -334,7 +334,7 @@ model PostIVCommunication {
   rankImpact            String?
   source                String?
   comments              Comment[]
-  linked                Boolean   @default(false)
+  anonymous             Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -370,7 +370,7 @@ model ScheduleDetails {
   food                 String?
   salary               String?
   comments             Comment[]
-  linked               Boolean   @default(false)
+  anonymous            Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -389,7 +389,7 @@ model InterviewLogistics {
   openIVDates       DateTime[]
   interviewInviteId Int?
   interviewInvite   InterviewInvite? @relation(fields: [interviewInviteId], references: [id])
-  linked            Boolean          @default(false)
+  anonymous         Boolean          @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -404,7 +404,7 @@ model SecondLook {
   setting       String?
   date          DateTime?
   bearingOnRank String?
-  linked        Boolean   @default(false)
+  anonymous     Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -417,7 +417,7 @@ model InterviewRejection {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   date      DateTime
-  linked    Boolean  @default(false)
+  anonymous Boolean  @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -431,7 +431,7 @@ model InterviewWithdrawal {
   user      User     @relation(fields: [userId], references: [id])
   date      DateTime
   reason    String?
-  linked    Boolean  @default(false)
+  anonymous Boolean  @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -446,7 +446,7 @@ model M4InternImpression {
   positiveImpression String?
   negativeImpression String?
   comments           Comment[]
-  linked             Boolean   @default(false)
+  anonymous          Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -462,7 +462,7 @@ model Malignant {
   source      String?
   explanation String?
   comments    Comment[]
-  linked      Boolean       @default(false)
+  anonymous   Boolean       @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -489,7 +489,7 @@ model LOIResponse {
   timeBetweenSentAndResponse String?
   mentionedTopChoice         Boolean?
   comments                   Comment[]
-  linked                     Boolean   @default(false)
+  anonymous                  Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -508,7 +508,7 @@ model InterviewImpression {
   gift                       String?
   timeGiftReceived           String?
   comments                   Comment[]
-  linked                     Boolean   @default(false)
+  anonymous                  Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -525,7 +525,7 @@ model Question {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  linked    Boolean  @default(false)
+  anonymous Boolean  @default(true)
 }
 
 model Dropped {
@@ -537,7 +537,7 @@ model Dropped {
   dateDropped              DateTime
   dateOfInterviewCancelled DateTime?
   reason                   String?
-  linked                   Boolean   @default(false)
+  anonymous                Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -551,7 +551,7 @@ model FellowshipMatch {
   userId    Int
   user      User    @relation(fields: [userId], references: [id])
   matchData String
-  linked    Boolean @default(false)
+  anonymous Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -588,7 +588,7 @@ model Suggestion {
   tierList   TierList @relation(fields: [tierListId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  linked     Boolean  @default(false)
+  anonymous  Boolean  @default(true)
 }
 
 model XorY {
@@ -604,5 +604,5 @@ model XorY {
   user       User      @relation(fields: [userId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  linked     Boolean   @default(false)
+  anonymous  Boolean   @default(true)
 }

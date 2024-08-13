@@ -6,7 +6,8 @@ const router = express.Router();
 
 // Create a new M4InternImpression
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, positiveImpression, negativeImpression } = req.body;
+  const { programId, positiveImpression, negativeImpression, anonymous } =
+    req.body;
 
   const userId = req.user.id; // Get userId from the authenticated user
 
@@ -21,6 +22,7 @@ router.post("/", verifyToken, async (req, res) => {
         userId: Number(userId),
         positiveImpression,
         negativeImpression,
+        anonymous,
       },
     });
 
@@ -54,7 +56,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the impression is not linked
-    if (!m4InternImpression.linked) {
+    if (m4InternImpression.anonymous) {
       m4InternImpression.user = undefined;
     }
 
@@ -136,7 +138,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the impression is not linked
     const processedImpressions = m4InternImpressions.map((impression) => {
-      if (!impression.linked) {
+      if (impression.anonymous) {
         impression.user = undefined;
       }
       return impression;

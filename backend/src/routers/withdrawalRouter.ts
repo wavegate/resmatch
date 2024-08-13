@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Create a new InterviewWithdrawal
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, userId, date, reason } = req.body;
+  const { programId, userId, date, reason, anonymous } = req.body;
 
   if (!programId || !userId || !date) {
     return res
@@ -21,6 +21,7 @@ router.post("/", verifyToken, async (req, res) => {
         userId: Number(userId),
         date: new Date(date),
         reason,
+        anonymous,
       },
     });
 
@@ -99,7 +100,6 @@ router.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
-// List Interview Withdrawals with Pagination
 router.post("/search", async (req, res) => {
   try {
     const { pageNum = 1 } = req.body;
@@ -112,14 +112,29 @@ router.post("/search", async (req, res) => {
       take: 10,
       include: {
         program: true,
-        user: true,
+        user: {
+          select: {
+            id: true,
+            alias: true, // Assuming the User model has an 'alias' field
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    res.json({ interviewWithdrawals, totalCount });
+    // Process interviewWithdrawals to remove user field if the withdrawal is anonymous
+    const processedWithdrawals = interviewWithdrawals.map((withdrawal) => {
+      if (withdrawal.anonymous) {
+        // Remove the user field if anonymous
+        const { user, ...rest } = withdrawal;
+        return rest;
+      }
+      return withdrawal;
+    });
+
+    res.json({ interviewWithdrawals: processedWithdrawals, totalCount });
   } catch (error) {
     console.error("Error fetching interview withdrawals:", error);
     res.status(500).json({ error: "Internal Server Error" });

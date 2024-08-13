@@ -6,8 +6,13 @@ const router = express.Router();
 
 // Create a new Dropped record
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, reason, dateDropped, dateOfInterviewCancelled, linked } =
-    req.body;
+  const {
+    programId,
+    reason,
+    dateDropped,
+    dateOfInterviewCancelled,
+    anonymous,
+  } = req.body;
 
   const userId = req.user.id;
 
@@ -27,7 +32,7 @@ router.post("/", verifyToken, async (req, res) => {
         dateOfInterviewCancelled: dateOfInterviewCancelled
           ? new Date(dateOfInterviewCancelled)
           : null,
-        linked: linked ?? false,
+        anonymous: anonymous ?? true,
       },
     });
 
@@ -131,7 +136,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the linked field is not true
     const processedRecords = droppedRecords.map((record) => {
-      if (!record.linked) {
+      if (record.anonymous) {
         record.user = undefined; // Remove user data
       }
       return record;

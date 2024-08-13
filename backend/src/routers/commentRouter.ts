@@ -20,7 +20,7 @@ commentRouter.post("/", verifyToken, async (req, res) => {
     pstp = false,
     report = false,
     main = false,
-    linked = false,
+    anonymous = true,
   } = req.body;
 
   const userId = req.user.id;
@@ -48,7 +48,7 @@ commentRouter.post("/", verifyToken, async (req, res) => {
         pstp,
         report,
         main,
-        linked,
+        anonymous,
       },
     });
 
@@ -82,7 +82,7 @@ commentRouter.get("/:id", async (req, res) => {
     }
 
     // Check if the comment is not linked, if so, remove the user data
-    if (!comment.linked) {
+    if (comment.anonymous) {
       delete comment.user;
     }
 
@@ -215,7 +215,7 @@ commentRouter.post("/search", verifyToken, async (req, res) => {
 
     // Process comments to remove user information if linked is not true
     comments = comments.map((comment) => {
-      if (!comment.linked) {
+      if (comment.anonymous) {
         comment.user = null; // Remove user information
       }
       return comment;

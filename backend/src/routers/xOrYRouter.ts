@@ -10,7 +10,7 @@ xOrYRouter.post("/", verifyToken, async (req, res) => {
     programXId,
     programYId,
     question,
-    linked = false,
+    anonymous = true,
     img = false,
   } = req.body;
   const userId = req.user.id;
@@ -26,7 +26,7 @@ xOrYRouter.post("/", verifyToken, async (req, res) => {
         programYId: Number(programYId),
         question,
         userId: Number(userId),
-        linked,
+        anonymous,
         img, // Add the img field to the data object
       },
     });
@@ -58,7 +58,7 @@ xOrYRouter.get("/:id", async (req, res) => {
     }
 
     // Remove user data if linked is not true
-    if (!xOrY.linked) {
+    if (xOrY.anonymous) {
       xOrY.user = undefined;
     }
 
@@ -72,7 +72,7 @@ xOrYRouter.get("/:id", async (req, res) => {
 // Update an XorY entry by ID
 xOrYRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  const { programXId, programYId, question, linked } = req.body;
+  const { programXId, programYId, question, anonymous } = req.body;
 
   try {
     const updatedXorY = await prisma.xorY.update({
@@ -81,7 +81,7 @@ xOrYRouter.put("/:id", verifyToken, async (req, res) => {
         programXId: programXId ? Number(programXId) : undefined,
         programYId: programYId ? Number(programYId) : undefined,
         question,
-        linked,
+        anonymous,
       },
     });
 
@@ -152,7 +152,7 @@ xOrYRouter.post("/search", async (req, res) => {
 
     // Remove user data if linked is not true
     const processedEntries = xOrYEntries.map((entry) => {
-      if (!entry.linked) {
+      if (entry.anonymous) {
         entry.user = undefined;
       }
       return entry;

@@ -15,7 +15,7 @@ router.post("/", verifyToken, async (req, res) => {
     responseTone,
     timeBetweenSentAndResponse,
     mentionedTopChoice,
-    linked = false, // Default linked to false
+    anonymous = true, // Default linked to false
   } = req.body;
 
   const userId = req.user.id;
@@ -36,7 +36,7 @@ router.post("/", verifyToken, async (req, res) => {
         responseTone,
         timeBetweenSentAndResponse,
         mentionedTopChoice,
-        linked: Boolean(linked), // Ensure linked is stored as a boolean
+        anonymous: Boolean(anonymous), // Ensure linked is stored as a boolean
       },
     });
 
@@ -70,7 +70,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the linked field is not true
-    if (!loiResponse.linked) {
+    if (loiResponse.anonymous) {
       loiResponse.user = undefined;
     }
 
@@ -161,7 +161,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the linked field is not true
     const processedResponses = loiResponses.map((response) => {
-      if (!response.linked) {
+      if (response.anonymous) {
         response.user = undefined; // Remove user data
       }
       return response;

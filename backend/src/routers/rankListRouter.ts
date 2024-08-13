@@ -122,7 +122,7 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
     prioritiesWhenRanking,
     hardestPartOfRanking,
     medicalDegree,
-    linked = false,
+    anonymous = true,
   } = req.body;
 
   if (isNaN(rankListId)) {
@@ -143,7 +143,7 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
         prioritiesWhenRanking,
         hardestPartOfRanking,
         medicalDegree,
-        linked,
+        anonymous,
         RankedProgram: {
           deleteMany: {}, // Clear existing relations
           create: programs.map((program) => ({
@@ -241,7 +241,7 @@ rankListRouter.post("/search", async (req, res) => {
 
     // Remove user data if linked is not true
     const processedRankLists = rankLists.map((rankList) => {
-      if (!rankList.linked) {
+      if (rankList.anonymous) {
         rankList.user = undefined;
       }
       return rankList;

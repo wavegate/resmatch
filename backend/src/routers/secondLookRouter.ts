@@ -6,7 +6,13 @@ const router = express.Router();
 
 // Create a new SecondLook
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, setting, date, bearingOnRank, linked = false } = req.body;
+  const {
+    programId,
+    setting,
+    date,
+    bearingOnRank,
+    anonymous = false,
+  } = req.body;
 
   const userId = req.user.id;
 
@@ -22,7 +28,7 @@ router.post("/", verifyToken, async (req, res) => {
         setting,
         date: date ? new Date(date) : null,
         bearingOnRank,
-        linked: Boolean(linked), // Ensure linked is stored as a boolean
+        anonymous: Boolean(anonymous), // Ensure linked is stored as a boolean
       },
     });
 
@@ -55,7 +61,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the linked field is not true
-    if (!secondLook.linked) {
+    if (secondLook.anonymous) {
       secondLook.user = undefined;
     }
 
@@ -136,7 +142,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the linked field is not true
     const processedSecondLooks = secondLooks.map((secondLook) => {
-      if (!secondLook.linked) {
+      if (secondLook.anonymous) {
         secondLook.user = undefined; // Remove user data
       }
       return secondLook;

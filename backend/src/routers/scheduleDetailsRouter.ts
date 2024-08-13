@@ -30,6 +30,7 @@ router.post("/", verifyToken, async (req, res) => {
     gym,
     food,
     salary,
+    anonymous,
   } = req.body;
 
   const userId = req.user.id;
@@ -67,7 +68,7 @@ router.post("/", verifyToken, async (req, res) => {
         gym,
         food,
         salary,
-        linked: false,
+        anonymous,
       },
     });
 
@@ -99,7 +100,7 @@ router.get("/:id", async (req, res) => {
       return res.status(404).json({ error: "Schedule details not found" });
     }
 
-    if (!scheduleDetails.linked) {
+    if (scheduleDetails.anonymous) {
       scheduleDetails.user = undefined;
     }
 
@@ -179,7 +180,7 @@ router.post("/search", async (req, res) => {
     });
 
     const processedList = scheduleDetailsList.map((details) => {
-      if (!details.linked) {
+      if (details.anonymous) {
         details.user = undefined;
       }
       return details;

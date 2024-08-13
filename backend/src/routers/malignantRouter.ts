@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Create a new Malignant record
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, malignant, source, explanation } = req.body;
+  const { programId, malignant, source, explanation, anonymous } = req.body;
   const userId = req.user.id;
 
   if (!programId || !malignant) {
@@ -23,7 +23,7 @@ router.post("/", verifyToken, async (req, res) => {
         malignant,
         source,
         explanation,
-        linked: false, // Ensures the linked field is set to false by default
+        anonymous: anonymous ?? true, // Ensures the linked field is set to false by default
       },
     });
 
@@ -56,7 +56,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the record is not linked
-    if (!malignant.linked) {
+    if (malignant.anonymous) {
       malignant.user = undefined;
     }
 
@@ -137,7 +137,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the record is not linked
     const processedMalignants = malignants.map((malignant) => {
-      if (!malignant.linked) {
+      if (malignant.anonymous) {
         malignant.user = undefined;
       }
       return malignant;

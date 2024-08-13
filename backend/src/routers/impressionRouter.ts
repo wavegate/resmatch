@@ -13,7 +13,7 @@ router.post("/", verifyToken, async (req, res) => {
     howInterviewDayAffectsRank,
     gift,
     timeGiftReceived,
-    linked = false, // Default to false if not provided
+    anonymous = true, // Default to false if not provided
   } = req.body;
 
   const userId = req.user.id;
@@ -32,7 +32,7 @@ router.post("/", verifyToken, async (req, res) => {
         howInterviewDayAffectsRank,
         gift,
         timeGiftReceived,
-        linked: Boolean(linked), // Ensure linked is stored as a boolean
+        anonymous: Boolean(anonymous), // Ensure linked is stored as a boolean
       },
     });
 
@@ -62,7 +62,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the linked field is not true
-    if (!interviewImpression.linked) {
+    if (interviewImpression.anonymous) {
       interviewImpression.user = undefined;
     }
 
@@ -144,7 +144,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the linked field is not true
     const processedImpressions = interviewImpressions.map((impression) => {
-      if (!impression.linked) {
+      if (impression.anonymous) {
         impression.user = undefined; // Remove user data
       }
       return impression;

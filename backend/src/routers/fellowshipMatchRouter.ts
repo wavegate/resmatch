@@ -6,7 +6,7 @@ const fellowshipMatchRouter = express.Router();
 
 // Create a new Fellowship Match entry
 fellowshipMatchRouter.post("/", verifyToken, async (req, res) => {
-  const { year, programId, matchData } = req.body;
+  const { year, programId, matchData, anonymous } = req.body;
   const userId = req.user.id; // Get userId from the token
 
   if (!year || !programId || !matchData) {
@@ -22,7 +22,7 @@ fellowshipMatchRouter.post("/", verifyToken, async (req, res) => {
         programId: Number(programId),
         userId: Number(userId),
         matchData,
-        linked: false, // Ensure 'linked' is false by default
+        anonymous: anonymous ?? true, // Ensure 'linked' is false by default
       },
     });
     res.status(201).json(newFellowshipMatch);
@@ -54,7 +54,7 @@ fellowshipMatchRouter.get("/:id", async (req, res) => {
     }
 
     // Remove user data if linked is false
-    if (!fellowshipMatch.linked) {
+    if (fellowshipMatch.anonymous) {
       fellowshipMatch.user = undefined;
     }
 
@@ -135,7 +135,7 @@ fellowshipMatchRouter.post("/search", async (req, res) => {
 
     // Remove user data if linked is false
     const processedMatches = fellowshipMatches.map((match) => {
-      if (!match.linked) {
+      if (match.anonymous) {
         match.user = undefined;
       }
       return match;

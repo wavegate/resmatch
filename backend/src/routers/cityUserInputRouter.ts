@@ -16,7 +16,7 @@ cityUserInputRouter.post("/", verifyToken, async (req, res) => {
     lgbtq,
     diversity,
     safetyCrime,
-    linked = false,
+    anonymous = true,
   } = req.body;
 
   const userId = req.user.id;
@@ -38,7 +38,7 @@ cityUserInputRouter.post("/", verifyToken, async (req, res) => {
         lgbtq,
         diversity,
         safetyCrime,
-        linked,
+        anonymous,
       },
     });
 
@@ -66,7 +66,7 @@ cityUserInputRouter.get("/:id", async (req, res) => {
       return res.status(404).json({ error: "CityUserInput not found" });
     }
 
-    if (!cityUserInput.linked && cityUserInput.userId !== req.user.id) {
+    if (cityUserInput.anonymous && cityUserInput.userId !== req.user.id) {
       return res.status(200).json({ id: cityUserInput.id });
     }
 
@@ -90,7 +90,7 @@ cityUserInputRouter.put("/:id", verifyToken, async (req, res) => {
     lgbtq,
     diversity,
     safetyCrime,
-    linked,
+    anonymous,
   } = req.body;
 
   try {
@@ -106,7 +106,7 @@ cityUserInputRouter.put("/:id", verifyToken, async (req, res) => {
         lgbtq,
         diversity,
         safetyCrime,
-        linked,
+        anonymous,
       },
     });
 

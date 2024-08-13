@@ -6,7 +6,7 @@ const suggestionRouter = express.Router();
 
 // Create a new Suggestion
 suggestionRouter.post("/", verifyToken, async (req, res) => {
-  const { content, tierListId } = req.body;
+  const { content, tierListId, anonymous } = req.body;
   const userId = req.user.id; // Assuming the user ID is available from the verified token
 
   if (!content || !tierListId) {
@@ -19,6 +19,7 @@ suggestionRouter.post("/", verifyToken, async (req, res) => {
     const newSuggestion = await prisma.suggestion.create({
       data: {
         content,
+        anonymous,
         tierList: {
           connect: { id: tierListId },
         },
@@ -135,7 +136,17 @@ suggestionRouter.post("/search", async (req, res) => {
       },
     });
 
-    res.json({ suggestions, totalCount });
+    // Process suggestions to remove user field if the suggestion is anonymous
+    const processedSuggestions = suggestions.map((suggestion) => {
+      if (suggestion.anonymous) {
+        // Remove the user field if anonymous
+        const { user, ...rest } = suggestion;
+        return rest;
+      }
+      return suggestion;
+    });
+
+    res.json({ suggestions: processedSuggestions, totalCount });
   } catch (error) {
     console.error("Error fetching Suggestions:", error);
     res.status(500).json({ error: "Internal Server Error" });

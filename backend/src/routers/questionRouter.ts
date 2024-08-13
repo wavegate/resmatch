@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Create a new Question
 router.post("/", verifyToken, async (req, res) => {
-  const { programId, questions, linked = false } = req.body;
+  const { programId, questions, anonymous = true } = req.body;
 
   const userId = req.user.id;
 
@@ -22,7 +22,7 @@ router.post("/", verifyToken, async (req, res) => {
         programId: Number(programId),
         userId: Number(userId),
         questions: questions, // expecting an array of strings
-        linked: Boolean(linked), // Ensure linked is stored as a boolean
+        anonymous: Boolean(anonymous), // Ensure linked is stored as a boolean
       },
     });
 
@@ -55,7 +55,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the linked field is not true
-    if (!question.linked) {
+    if (question.anonymous) {
       question.user = undefined;
     }
 
@@ -136,7 +136,7 @@ router.post("/search", async (req, res) => {
 
     // Remove user data if the linked field is not true
     const processedQuestions = questions.map((question) => {
-      if (!question.linked) {
+      if (question.anonymous) {
         question.user = undefined; // Remove user data
       }
       return question;

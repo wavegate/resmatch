@@ -12,7 +12,7 @@ router.post("/", verifyToken, async (req, res) => {
     thankYouLetterPolicy,
     rankImpact,
     source,
-    linked = false, // Default linked to false
+    anonymous = true, // Default linked to false
   } = req.body;
 
   const userId = req.user.id;
@@ -30,7 +30,7 @@ router.post("/", verifyToken, async (req, res) => {
         thankYouLetterPolicy,
         rankImpact,
         source,
-        linked: Boolean(linked), // Ensure linked is stored as a boolean
+        anonymous: Boolean(anonymous), // Ensure linked is stored as a boolean
       },
     });
 
@@ -64,7 +64,7 @@ router.get("/:id", async (req, res) => {
     }
 
     // Remove user data if the linked field is not true
-    if (!postIVCommunication.linked) {
+    if (postIVCommunication.anonymous) {
       postIVCommunication.user = undefined;
     }
 
@@ -147,7 +147,7 @@ router.post("/search", async (req, res) => {
     // Remove user data if the linked field is not true
     const processedCommunications = postIVCommunications.map(
       (communication) => {
-        if (!communication.linked) {
+        if (communication.anonymous) {
           communication.user = undefined; // Remove user data
         }
         return communication;
