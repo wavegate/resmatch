@@ -1,7 +1,15 @@
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Breadcrumbs, Anchor, Checkbox } from "@mantine/core";
+import {
+  Button,
+  Breadcrumbs,
+  Anchor,
+  Checkbox,
+  Collapse,
+  NumberInput,
+  Select,
+} from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,13 +17,32 @@ import { notifications } from "@mantine/notifications";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
 import rejectionService from "@/services/rejectionService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { removeNulls } from "@/utils/processObjects";
+import { numericNull } from "@/utils/zodHelpers";
+import useUser from "@/hooks/useUser";
+import userService from "@/services/userService";
 
 const formSchema = z.object({
   programId: z.number({ required_error: "Program is required." }),
   date: z.date({ required_error: "A rejection date is required." }),
   anonymous: z.boolean(),
+  signal: z.boolean().optional(),
+  geographicPreference: z.boolean().optional(),
+  locationState: z.string().optional(),
+  step1ScorePass: z.boolean().optional(),
+  step1Score: numericNull,
+  step2Score: numericNull,
+  comlex1ScorePass: z.boolean().optional(),
+  comlex2Score: numericNull,
+  visaRequired: z.boolean().optional(),
+  subI: z.boolean().optional(),
+  home: z.boolean().optional(),
+  yearOfGraduation: numericNull,
+  greenCard: z.boolean().optional(),
+  away: z.boolean().optional(),
+  graduateType: z.string().optional(),
+  img: z.string().optional(),
 });
 
 export default function AddRejection() {
@@ -84,6 +111,27 @@ export default function AddRejection() {
     )
   );
 
+  const [showExtra, setShowExtra] = useState(false);
+
+  const { user } = useUser();
+
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userLoading,
+  } = useQuery({
+    queryKey: ["user", user?.id],
+    queryFn: () => userService.readUser(user.id),
+  });
+
+  const handleImport = () => {
+    if (userData) {
+      const formValues = form.getValues();
+      Object.assign(formValues, removeNulls(userData));
+      form.reset(formValues);
+    }
+  };
+
   return (
     <div className={`flex flex-col gap-4`}>
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
@@ -135,6 +183,253 @@ export default function AddRejection() {
             />
           )}
         />
+
+        <Button onClick={() => setShowExtra((prev) => !prev)} variant="outline">
+          Add Additional Information
+        </Button>
+        <Collapse in={showExtra} className={`flex flex-col gap-4`}>
+          <Button onClick={handleImport}>Import My Profile</Button>
+          <Controller
+            name="signal"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="I signalled to this program."
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
+
+          <Controller
+            name="geographicPreference"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="This program is in a geographically preferred location."
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
+
+          <Controller
+            name="graduateType"
+            control={control}
+            render={({ field }) => (
+              <Select
+                label="Are you a US medical graduate or IMG?"
+                placeholder="Enter graduate type"
+                data={["US", "IMG"]}
+                size="md"
+                {...field}
+              />
+            )}
+          />
+
+          {form.watch("graduateType") === "US" && (
+            <Controller
+              name="medicalDegree"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Are you an MD or DO applicant?"
+                  placeholder="Enter medical degree"
+                  data={["MD", "DO"]}
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+          )}
+
+          {form.watch("graduateType") === "US" && (
+            <Controller
+              name="locationState"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Are you in or out of state for this program?"
+                  placeholder="Enter option"
+                  data={["IS", "OOS"]}
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+          )}
+
+          {form.watch("graduateType") === "US" && (
+            <Controller
+              name="home"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  label="This is my home program."
+                  {...field}
+                  checked={field.value}
+                  size="md"
+                />
+              )}
+            />
+          )}
+          <Controller
+            name="away"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="I completed an away at this program."
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
+          <Controller
+            name="subI"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="I completed a subI at this program."
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
+          {form.watch("graduateType") === "IMG" && (
+            <Controller
+              name="img"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Are you a US IMG or non-US IMG?"
+                  placeholder="Enter option"
+                  data={["USIMG", "nonUSIMG"]}
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+          )}
+
+          {form.watch("graduateType") === "IMG" && (
+            <Controller
+              name="visaRequired"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  label="I require Visa sponsorship."
+                  {...field}
+                  checked={field.value}
+                  size="md"
+                />
+              )}
+            />
+          )}
+          {form.watch("graduateType") === "IMG" && (
+            <Controller
+              name="greenCard"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  label="I have a green card."
+                  {...field}
+                  checked={field.value}
+                  size="md"
+                />
+              )}
+            />
+          )}
+
+          <Controller
+            name="yearOfGraduation"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                label="Year of Graduation"
+                placeholder="Enter year of graduation"
+                {...field}
+                size="md"
+              />
+            )}
+          />
+
+          <Controller
+            name="step1ScorePass"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Have you passed Step 1?"
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
+
+          <Controller
+            name="step1Score"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                description="Ignore this field if you took Step 1 after the transition to
+                    Pass/Fail. Your score will be displayed in a range, such as 25X."
+                label="Step 1 Score"
+                placeholder="Enter Step 1 Score"
+                min={1}
+                max={300}
+                size="md"
+                {...field}
+              />
+            )}
+          />
+
+          <Controller
+            name="step2Score"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                label="Step 2 CK Score"
+                placeholder="Enter Step 2 Score"
+                min={1}
+                max={300}
+                size="md"
+                {...field}
+              />
+            )}
+          />
+          {form.watch("medicalDegree") === "DO" && (
+            <Controller
+              name="comlex1ScorePass"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  label="Have you passed COMLEX 1?"
+                  {...field}
+                  checked={field.value}
+                />
+              )}
+            />
+          )}
+          {form.watch("medicalDegree") === "DO" && (
+            <Controller
+              name="comlex2Score"
+              control={control}
+              render={({ field }) => (
+                <NumberInput
+                  label="COMLEX 2 Score"
+                  placeholder="Enter COMLEX 2 Score"
+                  min={9}
+                  max={999}
+                  {...field}
+                />
+              )}
+            />
+          )}
+        </Collapse>
 
         <Button type="submit">
           {isUpdate ? "Update Rejection" : "Submit Rejection"}
