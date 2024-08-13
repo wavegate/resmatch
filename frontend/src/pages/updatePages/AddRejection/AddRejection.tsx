@@ -15,7 +15,7 @@ import { removeNulls } from "@/utils/processObjects";
 const formSchema = z.object({
   programId: z.number({ required_error: "Program is required." }),
   date: z.date({ required_error: "A rejection date is required." }),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddRejection() {
@@ -25,7 +25,7 @@ export default function AddRejection() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -124,11 +124,11 @@ export default function AddRejection() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this rejection to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

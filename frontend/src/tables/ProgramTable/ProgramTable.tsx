@@ -62,8 +62,7 @@ export default ({ className }: ProgramTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/program/add"
-        shareText="Share Program"
+        noShare
       />
 
       {filtersPresent && (

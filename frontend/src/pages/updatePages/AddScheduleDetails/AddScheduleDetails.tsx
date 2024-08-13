@@ -44,7 +44,7 @@ const formSchema = z.object({
   gym: z.string().optional(),
   food: z.string().optional(),
   salary: z.string().optional(),
-  linked: z.boolean().default(false),
+  anonymous: z.boolean().default(true),
 });
 
 export default function AddScheduleDetails() {
@@ -54,7 +54,7 @@ export default function AddScheduleDetails() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -437,13 +437,13 @@ export default function AddScheduleDetails() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this entry to my profile."
+              label="Post anonymously"
+              {...field}
               checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
               size="md"
             />
           )}

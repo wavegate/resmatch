@@ -18,13 +18,13 @@ export default function ProgramHeader({ item }: ProgramHeaderProps) {
         <Text className="text-xs sm:text-sm">
           {`Location: ${item.institution.city?.name}, ${item.institution.city?.state}`}
         </Text>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Link to={`/program/${item.id}`}>
             <Text c="dimmed" className="text-xs sm:text-sm underline">
               View Program Details
             </Text>
           </Link>
-        </div>
+        </div> */}
       </div>
     </Accordion.Control>
   );

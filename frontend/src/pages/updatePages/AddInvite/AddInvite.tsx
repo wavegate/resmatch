@@ -27,7 +27,7 @@ const formSchema = z.object({
   programId: z.number({ required_error: "Program is required." }),
   inviteDateTime: z.date({ required_error: "An invitation date is required." }),
   signal: z.boolean().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
   geographicPreference: z.boolean().optional(),
   locationState: z.string().optional(),
   step1ScorePass: z.boolean().optional(),
@@ -53,7 +53,7 @@ export default function AddInvite() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -175,11 +175,11 @@ export default function AddInvite() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this invite to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

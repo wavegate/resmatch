@@ -29,7 +29,7 @@ const formSchema = z.object({
   whyNumberOne: z.string().optional(),
   prioritiesWhenRanking: z.string().optional(),
   hardestPartOfRanking: z.string().optional(),
-  linked: z.boolean().default(false),
+  anonymous: z.boolean().default(true),
   programs: z
     .array(z.object({ programId: z.number(), rank: z.number() }))
     .nonempty("At least one program must be selected"),
@@ -43,7 +43,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
       medicalDegree: type === "MD" ? "MD" : type === "DO" ? "DO" : undefined,
       graduateType: type === "IMG" ? "IMG" : "US",
     },
@@ -249,18 +249,17 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this Rank List to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"
             />
           )}
         />
-
         <Button type="submit" loading={isPending}>
           {isUpdate ? "Update Rank List" : "Submit Rank List"}
         </Button>

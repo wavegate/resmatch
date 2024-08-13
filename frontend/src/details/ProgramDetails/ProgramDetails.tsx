@@ -32,7 +32,7 @@ export default function ProgramDetails({ item }) {
 
   return (
     <div>
-      <Group justify="apart">
+      {/* <Group justify="apart">
         <Link to={`/program/${item.id}`}>
           <Button>Update program</Button>
         </Link>
@@ -43,7 +43,7 @@ export default function ProgramDetails({ item }) {
         >
           Delete Program
         </Button>
-      </Group>
+      </Group> */}
       <div>{item.nrmpProgramCode}</div>
       <div>{item.specialty.name}</div>
       <div>{item.institution.city?.name}</div>

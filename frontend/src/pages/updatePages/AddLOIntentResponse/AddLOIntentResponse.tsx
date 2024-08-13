@@ -26,7 +26,7 @@ const formSchema = z.object({
   responseTone: z.string().optional(),
   timeBetweenSentAndResponse: z.string().optional(),
   mentionedTopChoice: z.boolean().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
   intent: z.boolean(),
 });
 
@@ -37,8 +37,8 @@ export default function AddLOIntentResponse() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
-      intent: true, // Default intent to false
+      anonymous: true,
+      intent: true,
     },
   });
 
@@ -200,18 +200,17 @@ export default function AddLOIntentResponse() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this LOI response to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"
             />
           )}
         />
-
         <Button type="submit">
           {isUpdate ? "Update LOI Response" : "Submit LOI Response"}
         </Button>

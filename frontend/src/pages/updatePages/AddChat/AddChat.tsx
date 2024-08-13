@@ -10,7 +10,7 @@ import commentService from "@/services/commentService";
 
 const formSchema = z.object({
   content: z.string().nonempty({ message: "Content is required" }),
-  linked: z.boolean().optional(),
+  anonymous: z.boolean().optional(),
 });
 
 interface AddChatProps {
@@ -23,7 +23,7 @@ export default function AddChat({ type }: AddChatProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -111,11 +111,11 @@ export default function AddChat({ type }: AddChatProps) {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link to my profile"
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

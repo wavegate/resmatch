@@ -25,7 +25,7 @@ const formSchema = z.object({
   howInterviewDayAffectsRank: z.string().optional(),
   gift: z.string().optional(),
   timeGiftReceived: z.string().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddImpression() {
@@ -35,7 +35,7 @@ export default function AddImpression() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -184,11 +184,11 @@ export default function AddImpression() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this impression to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

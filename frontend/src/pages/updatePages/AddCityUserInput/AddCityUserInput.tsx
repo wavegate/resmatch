@@ -21,7 +21,7 @@ const formSchema = z.object({
   lgbtq: z.string().optional(),
   diversity: z.string().optional(),
   safetyCrime: z.string().optional(),
-  linked: z.boolean().default(false),
+  anonymous: z.boolean().default(false),
 });
 
 export default function AddCityUserInput() {
@@ -32,7 +32,7 @@ export default function AddCityUserInput() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -236,13 +236,13 @@ export default function AddCityUserInput() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this entry to my profile."
+              label="Post anonymously"
+              {...field}
               checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
               size="md"
             />
           )}

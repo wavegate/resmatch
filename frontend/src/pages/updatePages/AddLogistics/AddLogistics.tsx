@@ -27,7 +27,7 @@ const formSchema = z.object({
   timeSlots: z.string().optional(),
   ivPlatform: z.string().optional(),
   openIVDates: z.date().array().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddLogistics() {
@@ -37,7 +37,7 @@ export default function AddLogistics() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: false,
     },
   });
 
@@ -195,11 +195,11 @@ export default function AddLogistics() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this logistics entry to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

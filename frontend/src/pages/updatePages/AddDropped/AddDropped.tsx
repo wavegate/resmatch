@@ -17,7 +17,7 @@ const formSchema = z.object({
   dateDropped: z.date({ required_error: "Date dropped is required." }),
   dateOfInterviewCancelled: z.date().optional(),
   reason: z.string().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddDropped() {
@@ -27,7 +27,7 @@ export default function AddDropped() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -158,11 +158,11 @@ export default function AddDropped() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this entry to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

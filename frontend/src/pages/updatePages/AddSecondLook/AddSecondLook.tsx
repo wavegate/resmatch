@@ -25,7 +25,7 @@ const formSchema = z.object({
   setting: z.string().optional(),
   date: z.date().optional(),
   bearingOnRank: z.string().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddSecondLook() {
@@ -35,7 +35,7 @@ export default function AddSecondLook() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false, // Default linked to false
+      anonymous: true, // Default linked to false
     },
   });
 
@@ -161,11 +161,11 @@ export default function AddSecondLook() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this Second Look to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

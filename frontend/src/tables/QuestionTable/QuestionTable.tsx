@@ -20,7 +20,7 @@ export default ({ className }: QuestionTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["questions", selectedProgram, pageNum],
+    queryKey: ["question", selectedProgram, pageNum],
     queryFn: () => {
       return questionService.searchQuestion({
         programId: selectedProgram?.id,

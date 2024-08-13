@@ -15,7 +15,7 @@ const formSchema = z.object({
   programId: z.number({ required_error: "Program is required." }),
   positiveImpression: z.string().optional(),
   negativeImpression: z.string().optional(),
-  linked: z.boolean().default(false),
+  anonymous: z.boolean().default(true),
 });
 
 export default function AddM4InternImpression() {
@@ -25,7 +25,7 @@ export default function AddM4InternImpression() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -132,13 +132,13 @@ export default function AddM4InternImpression() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this impression to my profile."
+              label="Post anonymously"
+              {...field}
               checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
               size="md"
             />
           )}

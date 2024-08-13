@@ -24,7 +24,7 @@ const formSchema = z.object({
   thankYouLetterPolicy: z.string().optional(),
   rankImpact: z.string().optional(),
   source: z.string().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddPostIVCommunication() {
@@ -34,7 +34,7 @@ export default function AddPostIVCommunication() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false, // Default linked to false
+      anonymous: true, // Default linked to false
     },
   });
 
@@ -173,11 +173,11 @@ export default function AddPostIVCommunication() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this Post-IV Communication to my profile."
+              label="Post anonymously"
               {...field}
               checked={field.value}
               size="md"

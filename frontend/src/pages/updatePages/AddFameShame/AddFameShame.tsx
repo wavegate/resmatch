@@ -7,6 +7,7 @@ import {
   Button,
   Breadcrumbs,
   Anchor,
+  Checkbox,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
@@ -20,6 +21,7 @@ const formSchema = z.object({
   fame: z.string().min(1, "Fame is required"),
   shame: z.string().min(1, "Shame is required"),
   programId: z.number().min(1, "Program selection is required"),
+  anonymous: z.boolean(),
 });
 
 export default function AddFameShamePage() {
@@ -33,6 +35,7 @@ export default function AddFameShamePage() {
       fame: "",
       shame: "",
       programId: undefined,
+      anonymous: true,
     },
   });
 
@@ -146,6 +149,19 @@ export default function AddFameShamePage() {
                 </div>
               )}
             </div>
+          )}
+        />
+
+        <Controller
+          name="anonymous"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              label="Post anonymously"
+              {...field}
+              checked={field.value}
+              size="md"
+            />
           )}
         />
 

@@ -26,7 +26,7 @@ const formSchema = z.object({
     .max(new Date().getFullYear(), "Year cannot be in the future"),
   programId: z.number({ required_error: "Program is required." }),
   matchData: z.string().min(1, { message: "Match data is required." }),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddFellowshipMatch() {
@@ -37,7 +37,7 @@ export default function AddFellowshipMatch() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -139,13 +139,13 @@ export default function AddFellowshipMatch() {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this entry to my profile."
+              label="Post anonymously"
+              {...field}
               checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
               size="md"
             />
           )}

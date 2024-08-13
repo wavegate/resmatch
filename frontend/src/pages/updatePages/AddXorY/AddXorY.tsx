@@ -23,7 +23,7 @@ const formSchema = z.object({
   programYId: z.number({ required_error: "Program Y is required." }),
   question: z.string().nonempty({ message: "Question is required" }),
   img: z.boolean().optional(),
-  linked: z.boolean(),
+  anonymous: z.boolean(),
 });
 
 export default function AddXorY({ img = false }: { img?: boolean }) {
@@ -35,7 +35,7 @@ export default function AddXorY({ img = false }: { img?: boolean }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       img,
-      linked: false,
+      anonymous: true,
     },
   });
 
@@ -143,13 +143,13 @@ export default function AddXorY({ img = false }: { img?: boolean }) {
         />
 
         <Controller
-          name="linked"
+          name="anonymous"
           control={control}
           render={({ field }) => (
             <Checkbox
-              label="Link this entry to my profile."
+              label="Post anonymously"
+              {...field}
               checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
               size="md"
             />
           )}

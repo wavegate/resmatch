@@ -21,7 +21,9 @@ export default function XorYDetails({ item }: XorYDetailsProps) {
         withBorder: true,
         color: "green",
       });
-      queryClient.invalidateQueries({ queryKey: ["xOrY"] });
+      queryClient.invalidateQueries({
+        queryKey: [item.img ? "xOrY-img" : "xOrY"],
+      });
     },
     onError: () => {
       notifications.show({

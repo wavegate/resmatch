@@ -20,7 +20,7 @@ export default ({ className }: XorYTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["xOrY-img", selectedProgram, pageNum],
+    queryKey: ["xOrY", selectedProgram, pageNum],
     queryFn: () => {
       return xOrYService.searchXorY({
         programId: selectedProgram?.id,
