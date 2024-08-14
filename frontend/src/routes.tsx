@@ -57,6 +57,7 @@ import RankListMD from "./pages/listPages/RankListMD/RankListMD";
 import RankListDO from "./pages/listPages/RankListDO/RankListDO";
 import RankListIMG from "./pages/listPages/RankListIMG/RankListIMG";
 import AddCityUserInput from "./pages/updatePages/AddCityUserInput/AddCityUserInput";
+import Invitations from "@/pages/Invitations/Invitations";
 
 const routes = [
   {
@@ -406,6 +407,10 @@ const routes = [
       {
         path: "city-user-input/add",
         element: <AddCityUserInput />,
+      },
+      {
+        path: "invitations",
+        element: <Invitations />,
       },
     ],
   },

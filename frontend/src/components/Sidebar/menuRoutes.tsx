@@ -38,6 +38,10 @@ import {
 
 const sidebarRoutes = [
   {
+    link: "invitations",
+    text: "Invitations",
+  },
+  {
     link: "/",
     text: "Welcome",
     icon: <HiHome className="h-5 w-5" />,
