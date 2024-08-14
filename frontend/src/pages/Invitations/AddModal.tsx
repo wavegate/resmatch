@@ -138,7 +138,6 @@ export default function AddModal() {
 
   return (
     <div className={`flex flex-col gap-4`}>
-      <Breadcrumbs separator=">">{items}</Breadcrumbs>
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-6`}>
         <Controller
           name="programId"
@@ -442,8 +441,8 @@ export default function AddModal() {
           )}
         </Collapse>
 
-        <Button type="submit">
-          {isUpdate ? "Update Invite" : "Submit Invite"}
+        <Button type="submit" className={`w-fit self-end`}>
+          {isUpdate ? "Update Invite" : "Add Invitation"}
         </Button>
       </form>
     </div>
