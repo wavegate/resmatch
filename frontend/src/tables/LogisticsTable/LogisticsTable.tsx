@@ -23,7 +23,7 @@ export default ({ className }: LogisticsTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["logistics", selectedProgram, pageNum],
+    queryKey: ["interviewLogistics", selectedProgram, pageNum],
     queryFn: () => {
       return services.interviewLogistics.search({
         programId: selectedProgram?.id,
@@ -93,11 +93,12 @@ export default ({ className }: LogisticsTableProps) => {
         )} */}
         <div className={`flex flex-col gap-4 mt-4`}>
           {data?.items?.length > 0 &&
-            data.items.map((datum) => {
+            data.items.map((datum, i) => {
               return (
                 <DataDisplay
-                  schema={schemas["interviewLogistics"]}
+                  i={i}
                   data={datum}
+                  modelName="interviewLogistics"
                 />
               );
             })}

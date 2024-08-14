@@ -82,7 +82,7 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
     <div className="flex flex-col gap-4">
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
       <FormGenerator
-        schema={schema}
+        modelName={modelName}
         onSubmit={onSubmit}
         resetValues={resetValues}
         isUpdate={isUpdate}

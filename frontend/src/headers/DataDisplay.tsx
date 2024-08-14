@@ -1,13 +1,46 @@
 import React from "react";
-import { Card, Divider, Text, SimpleGrid } from "@mantine/core";
+import { Card, Divider, Text, SimpleGrid, Button, Group } from "@mantine/core";
+import { Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormSchema } from "@/pages/updatePages/schema";
+import { notifications } from "@mantine/notifications";
+import services from "@/services/services";
+import { fieldLabelMap, schemas } from "@/pages/updatePages/schemas";
 
 interface DataDisplayProps {
   data: any;
-  schema: FormSchema;
+  modelName: string; // The name of the model, e.g., "interviewLogistics"
+  i: number;
 }
 
-const DataDisplay: React.FC<DataDisplayProps> = ({ data, schema }) => {
+const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
+  const schema = schemas[modelName];
+  const queryClient = useQueryClient();
+
+  // Mutation for deleting the entry
+  const deleteMutation = useMutation({
+    mutationFn: () => services[modelName].delete(data.id),
+    onSuccess: () => {
+      notifications.show({
+        title: "Success",
+        message: `${modelName} entry deleted successfully`,
+        color: "green",
+      });
+      queryClient.invalidateQueries({ queryKey: [modelName] });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: `Failed to delete the ${modelName} entry`,
+        color: "red",
+      });
+    },
+  });
+
+  const handleDelete = () => {
+    deleteMutation.mutate();
+  };
+
   const filteredFields = Object.keys(schema).filter(
     (fieldName) => fieldName !== "programId" && fieldName !== "anonymous"
   );
@@ -15,19 +48,19 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, schema }) => {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       {/* Display program name */}
-      <Text weight={500} size="lg">
+      <Text w={500} size="lg">
         {data.program
           ? `${data.program.name} at ${data.program.institution.name}`
           : "-"}
       </Text>
 
       {/* Display user alias or 'Anonymous' */}
-      <Text size="sm" color="dimmed">
+      <Text size="sm" c="dimmed">
         {data.anonymous ? "Anonymous" : data.user?.alias || "-"}
       </Text>
 
       {/* Display creation date */}
-      <Text size="sm" color="dimmed">
+      <Text size="sm" c="dimmed">
         Date Created:{" "}
         {data.createdAt ? new Date(data.createdAt).toLocaleString() : "-"}
       </Text>
@@ -57,6 +90,11 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, schema }) => {
                       .join(", ")
                   : "-";
                 break;
+              case "select":
+                displayValue =
+                  fieldLabelMap[fieldName]?.[data[fieldName]] ||
+                  data[fieldName];
+                break;
               default:
                 displayValue = data[fieldName];
             }
@@ -65,17 +103,18 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, schema }) => {
           return (
             <div
               key={fieldName}
-              className={
-                index < filteredFields.length - 1 &&
-                `border-solid border-b pb-4`
-              }
+              className={`${
+                index < filteredFields.length - 1
+                  ? "border-solid border-b pb-4"
+                  : ""
+              } flex flex-col gap-2`}
             >
               <Text size="sm" w={500}>
                 {fieldSchema.label}:
               </Text>
               <Text size="sm">{displayValue}</Text>
-              {fieldSchema.description && (
-                <Text size="xs" color="dimmed">
+              {fieldSchema.description && i === 0 && (
+                <Text size="xs" c="dimmed">
                   {fieldSchema.description}
                 </Text>
               )}
@@ -83,6 +122,22 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, schema }) => {
           );
         })}
       </SimpleGrid>
+
+      <Divider my="sm" />
+
+      {/* Buttons for update and delete */}
+      <Group justify="right" mt="md">
+        <Link to={`/${modelName}/${data.id}`}>
+          <Button>Update {modelName} Entry</Button>
+        </Link>
+        <Button
+          color="red"
+          onClick={handleDelete}
+          loading={deleteMutation.isPending}
+        >
+          Delete {modelName} Entry
+        </Button>
+      </Group>
     </Card>
   );
 };

@@ -6,15 +6,22 @@ export type FieldType =
   | "textarea"
   | "date"
   | "programSearch"
-  | "multipleDates";
+  | "multipleDates"
+  | "select";
+
+export interface Option {
+  label: string;
+  value: string;
+}
 
 export interface FieldSchema {
   type: FieldType;
   label: string;
   description?: string;
-  options?: string[]; // For dropdowns or multi-selects
+  options?: Option[];
   required?: boolean;
   defaultValue?: any;
+  placeholder?: string;
 }
 
 export interface FormSchema {

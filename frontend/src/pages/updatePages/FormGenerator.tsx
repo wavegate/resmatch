@@ -7,11 +7,12 @@ import {
   Textarea,
   Button,
   NumberInput,
+  Select,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
 import { FormSchema } from "./schema";
-import { generateZodSchema } from "./schemas";
+import { fieldLabelMap, generateZodSchema, schemas } from "./schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formComponentMap = {
@@ -23,21 +24,23 @@ const formComponentMap = {
   date: DatePickerInput,
   multipleDates: DatePickerInput,
   programSearch: ProgramSearch,
+  select: Select, // For single selection
 };
 
 interface FormGeneratorProps {
-  schema: FormSchema;
+  modelName: string;
   onSubmit: (values: any) => void;
   resetValues?: any;
   isUpdate?: boolean;
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
-  schema,
+  modelName,
   onSubmit,
   resetValues,
   isUpdate = false,
 }) => {
+  const schema = schemas[modelName];
   // Generate the Zod schema within the component
   const zodSchema = generateZodSchema(schema);
 
@@ -47,8 +50,6 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
     }
     return acc;
   }, {} as Record<string, any>);
-
-  console.log(defaultValues);
 
   // Use the zodResolver with the generated Zod schema
   const form = useForm({
@@ -81,6 +82,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 description: fieldSchema.description,
                 error: fieldState.error?.message,
                 size: "md",
+                placeholder: fieldSchema.placeholder || "", // Handle placeholder
                 ...field,
               };
 
@@ -135,6 +137,25 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     value={field.value}
                     onChange={(date) => field.onChange(date)}
                     placeholder="Pick a date"
+                  />
+                );
+              }
+
+              // Handle Select field type
+              if (fieldSchema.type === "select") {
+                const options = Object.keys(fieldLabelMap[fieldName] || {}).map(
+                  (value) => ({
+                    label: fieldLabelMap[fieldName][value],
+                    value,
+                  })
+                );
+
+                return (
+                  <Component
+                    {...commonProps}
+                    data={options}
+                    value={field.value}
+                    onChange={field.onChange}
                   />
                 );
               }
