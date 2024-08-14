@@ -1,78 +1,85 @@
-import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Button,
-  Breadcrumbs,
-  Anchor,
-  Checkbox,
-  Textarea,
-  TextInput,
-  MultiSelect,
-} from "@mantine/core";
-import { DatePicker, DatePickerInput } from "@mantine/dates";
-import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
+import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
-import logisticsService from "@/services/logisticsService";
-import { useEffect } from "react";
+import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
+import { FormSchema } from "../schema";
+import FormGenerator from "../FormGenerator";
+import { Anchor, Breadcrumbs } from "@mantine/core";
 
-const formSchema = z.object({
-  programId: z.number({ required_error: "Program is required." }),
-  schedulerPlatform: z.string().optional(),
-  ivFormat: z.string().optional(),
-  timeSlots: z.string().optional(),
-  ivPlatform: z.string().optional(),
-  openIVDates: z.date().array().optional(),
-  anonymous: z.boolean(),
-});
+const logisticsFormSchema: FormSchema = {
+  programId: {
+    type: "programSearch",
+    label: "Program",
+    description: "Select the program for which this logistics applies.",
+    required: true,
+  },
+  schedulerPlatform: {
+    type: "string",
+    label: "Scheduler Platform",
+    description: "Enter the platform used for scheduling.",
+  },
+  ivFormat: {
+    type: "string",
+    label: "Interview Format",
+    description: "Enter the format of the interview.",
+  },
+  timeSlots: {
+    type: "string",
+    label: "Time Slots",
+    description: "Specify the available time slots.",
+  },
+  ivPlatform: {
+    type: "string",
+    label: "Interview Platform",
+    description: "Enter the platform used for the interview.",
+  },
+  openIVDates: {
+    type: "multipleDates",
+    label: "Open Interview Dates",
+    description: "Pick the dates when interviews are available.",
+    defaultValue: [],
+  },
+  anonymous: {
+    type: "boolean",
+    label: "Post Anonymously",
+    description: "Should this post be anonymous?",
+    defaultValue: false,
+  },
+};
 
 export default function AddLogistics() {
   useAuthGuard();
-  const { id } = useParams<{ id: string }>(); // Use the ID from the URL params
-  const isUpdate = !!id; // Check if this is an update operation
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      anonymous: false,
-    },
-  });
+  const { id } = useParams<{ id: string }>();
+  const isUpdate = !!id;
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [resetValues, setResetValues] = useState({});
 
-  const { control, handleSubmit } = form;
+  const service = services["interviewLogistics"];
 
   const { mutateAsync } = useMutation({
     mutationFn: (values) =>
-      isUpdate
-        ? logisticsService.updateLogistics(id, values)
-        : logisticsService.createLogistics(values),
+      isUpdate ? service.update(id, values) : service.create(values),
   });
 
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  const { data: logisticsData, isLoading } = useQuery({
-    queryKey: ["logistics", id],
-    queryFn: () => logisticsService.readLogistics(id),
+  const { data: modelData, isLoading } = useQuery({
+    queryKey: ["interviewLogistics", id],
+    queryFn: () => service.read(id),
     enabled: isUpdate,
   });
 
   useEffect(() => {
-    if (logisticsData) {
-      const transformedData = {
-        ...logisticsData,
-        openIVDates: logisticsData.openIVDates
-          ? logisticsData.openIVDates.map((date) => new Date(date))
-          : [],
-      };
-
-      form.reset(removeNulls(transformedData));
+    if (modelData) {
+      // const transformedData = transformData(modelData, logisticsFormSchema);
+      const transformedData = modelData;
+      setResetValues(removeNulls(transformedData));
     }
-  }, [logisticsData, form]);
+  }, [modelData]);
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: any) {
     await mutateAsync(values).then(() => {
       notifications.show({
         message: isUpdate
@@ -80,8 +87,8 @@ export default function AddLogistics() {
           : "Interview Logistics added successfully!",
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["logistics"] });
-      navigate("/logistics");
+      queryClient.invalidateQueries({ queryKey: ["interviewLogistics"] });
+      navigate("/interviewLogistics");
     });
   }
 
@@ -99,118 +106,15 @@ export default function AddLogistics() {
   );
 
   return (
-    <div className={`flex flex-col gap-4`}>
+    <div className="flex flex-col gap-4">
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
-        <Controller
-          name="programId"
-          control={control}
-          render={({ field: { onChange, value }, fieldState }) => (
-            <div>
-              <ProgramSearch
-                required
-                selected={value}
-                onChange={onChange}
-                label="Which program is this logistics for?"
-              />
-              {fieldState.error && (
-                <div style={{ color: "red", fontSize: "12px" }}>
-                  {fieldState.error.message}
-                </div>
-              )}
-            </div>
-          )}
-        />
-
-        <Controller
-          name="schedulerPlatform"
-          control={control}
-          render={({ field, fieldState }) => (
-            <TextInput
-              label="Scheduler Platform"
-              placeholder="Enter scheduler platform"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          name="ivFormat"
-          control={control}
-          render={({ field, fieldState }) => (
-            <TextInput
-              label="Interview Format"
-              placeholder="Enter interview format"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          name="timeSlots"
-          control={control}
-          render={({ field, fieldState }) => (
-            <TextInput
-              label="Time Slots"
-              placeholder="Enter time slots"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          name="ivPlatform"
-          control={control}
-          render={({ field, fieldState }) => (
-            <TextInput
-              label="Interview Platform"
-              placeholder="Enter interview platform"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          name="openIVDates"
-          control={control}
-          render={({ field, fieldState }) => (
-            <DatePickerInput
-              type="multiple"
-              label="Open Interview Dates"
-              placeholder="Pick dates"
-              value={field.value}
-              onChange={(dates) => field.onChange(dates)}
-              error={fieldState.error?.message}
-              size="md"
-            />
-          )}
-        />
-
-        <Controller
-          name="anonymous"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="Post anonymously"
-              {...field}
-              checked={field.value}
-              size="md"
-            />
-          )}
-        />
-
-        <Button type="submit">
-          {isUpdate ? "Update Logistics" : "Submit Logistics"}
-        </Button>
-      </form>
+      <FormGenerator
+        schema={logisticsFormSchema}
+        onSubmit={onSubmit}
+        defaultValues={{ anonymous: false }}
+        resetValues={resetValues}
+        isUpdate={isUpdate}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import apiClient from "@/apiClient";
 
-const route = "/logistics";
+const route = "/interviewLogistics";
 
 interface Logistics {
   id: string | number;

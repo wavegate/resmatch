@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import logisticsService from "@/services/logisticsService";
 import { notifications } from "@mantine/notifications";
+import services from "@/services/services";
 
 export default function LogisticsDetails({ item }) {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: () => logisticsService.deleteLogistics(item.id),
+    mutationFn: () => services.interviewLogistics.delete(item.id),
     onSuccess: () => {
       notifications.show({
         title: "Success",
@@ -33,7 +34,7 @@ export default function LogisticsDetails({ item }) {
   return (
     <div>
       <Group justify="apart">
-        <Link to={`/logistics/${item.id}`}>
+        <Link to={`/interviewLogistics/${item.id}`}>
           <Button>Update Logistics Entry</Button>
         </Link>
         <Button

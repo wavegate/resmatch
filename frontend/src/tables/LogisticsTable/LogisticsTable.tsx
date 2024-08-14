@@ -10,6 +10,9 @@ import Filters from "@/components/Filters/Filters";
 import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
 import LogisticsDetails from "@/details/LogsiticsDetails/LogisticsDetails";
+import services from "@/services/services";
+import DataDisplay from "@/headers/DataDisplay";
+import { schemas } from "@/pages/updatePages/schemas";
 
 interface LogisticsTableProps {
   className?: string;
@@ -22,7 +25,7 @@ export default ({ className }: LogisticsTableProps) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["logistics", selectedProgram, pageNum],
     queryFn: () => {
-      return logisticsService.searchLogistics({
+      return services.interviewLogistics.search({
         programId: selectedProgram?.id,
         pageNum,
       });
@@ -62,7 +65,7 @@ export default ({ className }: LogisticsTableProps) => {
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        shareUrl="/logistics/add"
+        shareUrl="/interviewLogistics/add"
         shareText="Share Logistics"
       />
 
@@ -78,19 +81,28 @@ export default ({ className }: LogisticsTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.interviewLogistics?.length > 0 && (
+        {/* {data?.items?.length > 0 && (
           <Accordion>
-            {data.interviewLogistics.map((item: any) => (
+            {data.items.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <LogisticsHeader item={item} />
                 <LogisticsDetails item={item} />
               </Accordion.Item>
             ))}
           </Accordion>
-        )}
-        {data?.interviewLogistics && data.interviewLogistics.length === 0 && (
-          <NoRecords />
-        )}
+        )} */}
+        <div className={`flex flex-col gap-4 mt-4`}>
+          {data?.items?.length > 0 &&
+            data.items.map((datum) => {
+              return (
+                <DataDisplay
+                  schema={schemas["interviewLogistics"]}
+                  data={datum}
+                />
+              );
+            })}
+        </div>
+        {data?.items && data.items.length === 0 && <NoRecords />}
       </div>
     </div>
   );

@@ -58,6 +58,8 @@ import RankListDO from "./pages/listPages/RankListDO/RankListDO";
 import RankListIMG from "./pages/listPages/RankListIMG/RankListIMG";
 import AddCityUserInput from "./pages/updatePages/AddCityUserInput/AddCityUserInput";
 import Invitations from "@/pages/Invitations/Invitations";
+import AddLogistics2 from "./pages/updatePages/AddLogistics2/AddLogistics2";
+import AddPage from "./pages/updatePages/AddPage";
 
 const routes = [
   {
@@ -193,12 +195,16 @@ const routes = [
         element: <Logistics />,
       },
       {
-        path: "logistics/add",
-        element: <AddLogistics />,
+        path: "interviewLogistics",
+        element: <Logistics />,
       },
       {
-        path: "logistics/:id",
-        element: <AddLogistics />,
+        path: "interviewLogistics/add",
+        element: <AddPage modelName="interviewLogistics" />,
+      },
+      {
+        path: "interviewLogistics/:id",
+        element: <AddPage modelName="interviewLogistics" />,
       },
       {
         path: "lointerest-response",

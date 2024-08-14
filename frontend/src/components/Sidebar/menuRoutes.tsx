@@ -39,7 +39,7 @@ import {
 const sidebarRoutes = [
   {
     link: "invitations",
-    text: "Invitations",
+    text: "Invitations (Preview)",
   },
   {
     link: "/",
