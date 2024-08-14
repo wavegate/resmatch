@@ -28,6 +28,7 @@ import commentRouter from "./routers/commentRouter.js";
 import fellowshipMatchRouter from "./routers/fellowshipMatchRouter.js";
 import xOrYRouter from "./routers/xOrYRouter.js";
 import cityUserInputRouter from "./routers/cityUserInputRouter.js";
+import { createAllRouters } from "./routers/generateRouters.js";
 
 dotenv.config();
 
@@ -39,6 +40,16 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+const modelNames = ["interviewLogistics"];
+
+// Create routers for all models
+const routers = createAllRouters(modelNames);
+
+// Use the generated routers in your Express app
+Object.keys(routers).forEach((modelName) => {
+  app.use(`/${modelName}`, routers[modelName]);
+});
+
 app.use("/user", userRouter);
 app.use("/invite", inviteRouter);
 app.use("/program", programRouter);
@@ -48,7 +59,7 @@ app.use("/fame-shame", fameShameRouter);
 app.use("/rank-list", rankListRouter);
 app.use("/dropped", droppedRouter);
 app.use("/impression", impressionRouter);
-app.use("/logistics", logisticsRouter);
+// app.use("/logistics", logisticsRouter);
 app.use("/loi-response", loiResponseRouter);
 app.use("/m4-intern-impression", m4InternImpressionRouter);
 app.use("/malignant", malignantRouter);
