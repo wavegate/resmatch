@@ -42,7 +42,7 @@ const Invitations = () => {
         <div className={`flex flex-col gap-2`}>
           <div className={`flex justify-between items-center`}>
             <div className={`font-medium text-3xl text-black`}>
-              Interview Invitations
+              Interview Invitations (Preview)
             </div>
             <Button
               size="sm"
