@@ -2,10 +2,10 @@ import React from "react";
 import { Card, Divider, Text, SimpleGrid, Button, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FormSchema } from "@/pages/updatePages/schema";
 import { notifications } from "@mantine/notifications";
 import services from "@/services/services";
-import { fieldLabelMap, schemas } from "@/pages/updatePages/schemas";
+import { schemas } from "@/schemas/schemas";
+import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 
 interface DataDisplayProps {
   data: any;
@@ -71,7 +71,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
       <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
         {filteredFields.map((fieldName, index) => {
           const fieldSchema = schema[fieldName];
-          let displayValue = "-";
+          let displayValue: React.ReactNode = "-";
 
           if (data[fieldName] !== undefined && data[fieldName] !== null) {
             switch (fieldSchema.type) {
@@ -94,6 +94,22 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
                 displayValue =
                   fieldLabelMap[fieldName]?.[data[fieldName]] ||
                   data[fieldName];
+                break;
+              case "array":
+                if (
+                  fieldSchema.of === "string" &&
+                  Array.isArray(data[fieldName])
+                ) {
+                  displayValue = (
+                    <ul>
+                      {data[fieldName].map((item: string, idx: number) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  );
+                } else {
+                  displayValue = data[fieldName].join(", ");
+                }
                 break;
               default:
                 displayValue = data[fieldName];

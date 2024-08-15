@@ -6,7 +6,7 @@ import useAuthGuard from "@/hooks/useAuthGuard";
 import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
 import { Anchor, Breadcrumbs, Loader } from "@mantine/core";
-import { schemas } from "./schemas";
+import { schemas } from "../../schemas/schemas";
 import FormGenerator from "./FormGenerator";
 
 const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {

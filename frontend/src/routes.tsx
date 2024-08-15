@@ -61,6 +61,7 @@ import Invitations from "@/pages/Invitations/Invitations";
 import AddLogistics2 from "./pages/updatePages/AddLogistics2/AddLogistics2";
 import AddPage from "./pages/updatePages/AddPage";
 import ListPage from "./pages/listPages/ListPage";
+import { modelNames } from "./services/services";
 
 const routes = [
   {
@@ -119,18 +120,18 @@ const routes = [
         path: "main",
         element: <Chat />,
       },
-      {
-        path: "fame-shame",
-        element: <FameShame />,
-      },
-      {
-        path: "fame-shame/add",
-        element: <AddFameShame />,
-      },
-      {
-        path: "fame-shame/:id",
-        element: <AddFameShame />,
-      },
+      // {
+      //   path: "fame-shame",
+      //   element: <FameShame />,
+      // },
+      // {
+      //   path: "fame-shame/add",
+      //   element: <AddFameShame />,
+      // },
+      // {
+      //   path: "fame-shame/:id",
+      //   element: <AddFameShame />,
+      // },
       {
         path: "rank-list-md",
         element: <RankListMD />,
@@ -167,54 +168,73 @@ const routes = [
         path: "rank-list-img/:id",
         element: <AddRankList type="IMG" />,
       },
-      {
-        path: "dropped",
-        element: <Dropped />,
-      },
-      {
-        path: "dropped/add",
-        element: <AddDropped />,
-      },
-      {
-        path: "dropped/:id",
-        element: <AddDropped />,
-      },
-      {
-        path: "impression",
-        element: <Impression />,
-      },
-      {
-        path: "impression/add",
-        element: <AddImpression />,
-      },
-      {
-        path: "impression/:id",
-        element: <AddImpression />,
-      },
-      {
-        path: "interviewLogistics",
-        element: <ListPage modelName="interviewLogistics" />,
-      },
-      {
-        path: "interviewLogistics/add",
-        element: <AddPage modelName="interviewLogistics" />,
-      },
-      {
-        path: "interviewLogistics/:id",
-        element: <AddPage modelName="interviewLogistics" />,
-      },
-      {
-        path: "lointerest-response",
-        element: <LOInterestResponse />,
-      },
-      {
-        path: "lointerest-response/add",
-        element: <AddLOInterestResponse />,
-      },
-      {
-        path: "lointerest-response/:id",
-        element: <AddLOInterestResponse />,
-      },
+      // {
+      //   path: "dropped",
+      //   element: <Dropped />,
+      // },
+      // {
+      //   path: "dropped/add",
+      //   element: <AddDropped />,
+      // },
+      // {
+      //   path: "dropped/:id",
+      //   element: <AddDropped />,
+      // },
+      ...modelNames
+        .map((modelName) => {
+          return [
+            {
+              path: modelName,
+              element: <ListPage modelName={modelName} />,
+            },
+            {
+              path: `${modelName}/add`,
+              element: <AddPage modelName={modelName} />,
+            },
+            {
+              path: `${modelName}/:id`,
+              element: <AddPage modelName={modelName} />,
+            },
+          ];
+        })
+        .flat(),
+
+      // {
+      //   path: "impression",
+      //   element: <Impression />,
+      // },
+      // {
+      //   path: "impression/add",
+      //   element: <AddImpression />,
+      // },
+      // {
+      //   path: "impression/:id",
+      //   element: <AddImpression />,
+      // },
+      // {
+      //   path: "interviewLogistics",
+      //   element: <ListPage modelName="interviewLogistics" />,
+      // },
+      // {
+      //   path: "interviewLogistics/add",
+      //   element: <AddPage modelName="interviewLogistics" />,
+      // },
+      // {
+      //   path: "interviewLogistics/:id",
+      //   element: <AddPage modelName="interviewLogistics" />,
+      // },
+      // {
+      //   path: "lointerest-response",
+      //   element: <LOInterestResponse />,
+      // },
+      // {
+      //   path: "lointerest-response/add",
+      //   element: <AddLOInterestResponse />,
+      // },
+      // {
+      //   path: "lointerest-response/:id",
+      //   element: <AddLOInterestResponse />,
+      // },
       {
         path: "lointent-response",
         element: <LOIntentResponse />,
@@ -227,30 +247,30 @@ const routes = [
         path: "lointent-response/:id",
         element: <AddLOIntentResponse />,
       },
-      {
-        path: "m4-intern-impression",
-        element: <M4InternImpression />,
-      },
-      {
-        path: "m4-intern-impression/add",
-        element: <AddM4InternImpression />,
-      },
-      {
-        path: "m4-intern-impression/:id",
-        element: <AddM4InternImpression />,
-      },
-      {
-        path: "malignant",
-        element: <Malignant />,
-      },
-      {
-        path: "malignant/:id",
-        element: <AddMalignant />,
-      },
-      {
-        path: "malignant/add",
-        element: <AddMalignant />,
-      },
+      // {
+      //   path: "m4-intern-impression",
+      //   element: <M4InternImpression />,
+      // },
+      // {
+      //   path: "m4-intern-impression/add",
+      //   element: <AddM4InternImpression />,
+      // },
+      // {
+      //   path: "m4-intern-impression/:id",
+      //   element: <AddM4InternImpression />,
+      // },
+      // {
+      //   path: "malignant",
+      //   element: <Malignant />,
+      // },
+      // {
+      //   path: "malignant/:id",
+      //   element: <AddMalignant />,
+      // },
+      // {
+      //   path: "malignant/add",
+      //   element: <AddMalignant />,
+      // },
       {
         path: "post-iv-communication",
         element: <PostIVCommunication />,
@@ -263,18 +283,26 @@ const routes = [
         path: "post-iv-communication/:id",
         element: <AddPostIVCommunication />,
       },
-      {
-        path: "question",
-        element: <Question />,
-      },
-      {
-        path: "question/add",
-        element: <AddQuestion />,
-      },
-      {
-        path: "question/:id",
-        element: <AddQuestion />,
-      },
+      // {
+      //   path: "question",
+      //   element: <ListPage modelName="question" />,
+      // },
+      // {
+      //   path: "question/add",
+      //   element: <AddPage modelName="question" />,
+      // },
+      // {
+      //   path: "question/:id",
+      //   element: <AddPage modelName="question" />,
+      // },
+      // {
+      //   path: "question/add",
+      //   element: <AddQuestion />,
+      // },
+      // {
+      //   path: "question/:id",
+      //   element: <AddQuestion />,
+      // },
       {
         path: "rejection",
         element: <Rejection />,
@@ -287,54 +315,54 @@ const routes = [
         path: "rejection/:id",
         element: <AddRejection />,
       },
-      {
-        path: "schedule-details",
-        element: <ScheduleDetails />,
-      },
-      {
-        path: "schedule-details/add",
-        element: <AddScheduleDetails />,
-      },
-      {
-        path: "schedule-details/:id",
-        element: <AddScheduleDetails />,
-      },
-      {
-        path: "second-look",
-        element: <SecondLook />,
-      },
-      {
-        path: "second-look/:id",
-        element: <AddSecondLook />,
-      },
-      {
-        path: "second-look/add",
-        element: <AddSecondLook />,
-      },
-      {
-        path: "withdrawal",
-        element: <Withdrawal />,
-      },
-      {
-        path: "rank-tally",
-        element: <RankTally />,
-      },
+      // {
+      //   path: "schedule-details",
+      //   element: <ScheduleDetails />,
+      // },
+      // {
+      //   path: "schedule-details/add",
+      //   element: <AddScheduleDetails />,
+      // },
+      // {
+      //   path: "schedule-details/:id",
+      //   element: <AddScheduleDetails />,
+      // },
+      // {
+      //   path: "second-look",
+      //   element: <SecondLook />,
+      // },
+      // {
+      //   path: "second-look/:id",
+      //   element: <AddSecondLook />,
+      // },
+      // {
+      //   path: "second-look/add",
+      //   element: <AddSecondLook />,
+      // },
+      // {
+      //   path: "withdrawal",
+      //   element: <Withdrawal />,
+      // },
       {
         path: "rank-tally",
         element: <RankTally />,
       },
       {
-        path: "fellowship-match",
-        element: <FellowshipMatch />,
+        path: "rank-tally",
+        element: <RankTally />,
       },
-      {
-        path: "fellowship-match/add",
-        element: <AddFellowshipMatch />,
-      },
-      {
-        path: "fellowship-match/:id",
-        element: <AddFellowshipMatch />,
-      },
+      // {
+      //   path: "fellowship-match",
+      //   element: <FellowshipMatch />,
+      // },
+      // {
+      //   path: "fellowship-match/add",
+      //   element: <AddFellowshipMatch />,
+      // },
+      // {
+      //   path: "fellowship-match/:id",
+      //   element: <AddFellowshipMatch />,
+      // },
       {
         path: "pstp",
         element: <PSTP />,

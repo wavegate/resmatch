@@ -95,12 +95,12 @@ const sidebarRoutes = [
         icon: <FaQuestionCircle className="h-5 w-5" />,
       },
       {
-        link: "/impression",
+        link: "/interviewImpression",
         text: "IV Impressions",
         icon: <FaThumbsUp className="h-5 w-5" />,
       },
       {
-        link: "/lointerest-response",
+        link: "/lOIResponse",
         text: "LOInterest Response",
         icon: <FaEnvelopeOpenText className="h-5 w-5" />,
       },
@@ -110,12 +110,12 @@ const sidebarRoutes = [
         icon: <FaEnvelope className="h-5 w-5" />,
       },
       {
-        link: "/post-iv-communication",
+        link: "/postIVCommunication",
         text: "Post-IV Communication",
         icon: <FaComments className="h-5 w-5" />,
       },
       {
-        link: "/second-look",
+        link: "/secondLook",
         text: "Second Look",
         icon: <FaEye className="h-5 w-5" />,
       },
@@ -150,12 +150,12 @@ const sidebarRoutes = [
         icon: <FaInfoCircle className="h-5 w-5" />, // Represents informational content
       },
       {
-        link: "/fame-shame",
+        link: "/fameShame",
         text: "Name Fame/Shame",
         icon: <FaMedal className="h-5 w-5" />,
       },
       {
-        link: "/m4-intern-impression",
+        link: "/m4InternImpression",
         text: "M4/Intern Impressions",
         icon: <FaClipboardList className="h-5 w-5" />,
       },
@@ -165,12 +165,12 @@ const sidebarRoutes = [
         icon: <FaSkullCrossbones className="h-5 w-5" />,
       },
       {
-        link: "/schedule-details",
+        link: "/scheduleDetails",
         text: "Program Schedule/Details",
         icon: <FaCalendarAlt className="h-5 w-5" />,
       },
       {
-        link: "/fellowship-match",
+        link: "/fellowshipMatch",
         text: "Fellowship Match",
         icon: <FaHandshake className="h-5 w-5" />,
       },

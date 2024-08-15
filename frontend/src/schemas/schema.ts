@@ -7,7 +7,8 @@ export type FieldType =
   | "date"
   | "programSearch"
   | "multipleDates"
-  | "select";
+  | "select"
+  | "comments";
 
 export interface Option {
   label: string;
@@ -17,6 +18,7 @@ export interface Option {
 export interface FieldSchema {
   type: FieldType;
   label: string;
+  of?: string;
   description?: string;
   options?: Option[];
   required?: boolean;

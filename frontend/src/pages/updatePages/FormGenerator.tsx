@@ -11,20 +11,21 @@ import {
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
-import { FormSchema } from "./schema";
-import { fieldLabelMap, generateZodSchema, schemas } from "./schemas";
+import { generateZodSchema, schemas } from "../../schemas/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import GenericList from "@/components/List";
+import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 
 const formComponentMap = {
   string: TextInput,
   number: NumberInput,
   boolean: Checkbox,
-  array: MultiSelect,
+  array: MultiSelect, // We will override this for arrays of strings
   textarea: Textarea,
   date: DatePickerInput,
   multipleDates: DatePickerInput,
   programSearch: ProgramSearch,
-  select: Select, // For single selection
+  select: Select,
 };
 
 interface FormGeneratorProps {
@@ -41,7 +42,6 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   isUpdate = false,
 }) => {
   const schema = schemas[modelName];
-  // Generate the Zod schema within the component
   const zodSchema = generateZodSchema(schema);
 
   const defaultValues = Object.keys(schema).reduce((acc, key) => {
@@ -51,7 +51,6 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
     return acc;
   }, {} as Record<string, any>);
 
-  // Use the zodResolver with the generated Zod schema
   const form = useForm({
     defaultValues,
     resolver: zodResolver(zodSchema),
@@ -69,6 +68,10 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {Object.keys(schema).map((fieldName) => {
         const fieldSchema = schema[fieldName];
+
+        if (fieldName === "comments") {
+          return null;
+        }
         const Component = formComponentMap[fieldSchema.type] || TextInput;
 
         return (
@@ -82,7 +85,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 description: fieldSchema.description,
                 error: fieldState.error?.message,
                 size: "md",
-                placeholder: fieldSchema.placeholder || "", // Handle placeholder
+                placeholder: fieldSchema.placeholder || "",
                 ...field,
               };
 
@@ -99,6 +102,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 );
               }
 
+              // Handle ProgramSearch component
               if (Component === ProgramSearch) {
                 return (
                   <div>
@@ -117,8 +121,8 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 );
               }
 
+              // Handle DatePickerInput component
               if (Component === DatePickerInput) {
-                // Check if it's a multiple date picker
                 if (fieldSchema.type === "multipleDates") {
                   return (
                     <DatePickerInput
@@ -157,6 +161,30 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     value={field.value}
                     onChange={field.onChange}
                     placeholder={commonProps.placeholder || "Click to select"}
+                  />
+                );
+              }
+
+              // Handle array of strings with GenericList
+              if (fieldSchema.type === "array" && fieldSchema.of === "string") {
+                return (
+                  <GenericList<string>
+                    initialItems={field.value || []}
+                    onItemsChange={field.onChange}
+                    getItemId={(item) => item}
+                    renderItem={(item, index, removeItem) => (
+                      <>
+                        <div>{item}</div>
+                        <Button
+                          size="xs"
+                          variant="outline"
+                          color="red"
+                          onClick={() => removeItem(item)}
+                        >
+                          Remove
+                        </Button>
+                      </>
+                    )}
                   />
                 );
               }

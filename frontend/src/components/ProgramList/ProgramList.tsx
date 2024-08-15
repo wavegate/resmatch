@@ -67,8 +67,6 @@ export default function ProgramList({
     ); // Update form state with reordered ranks
   };
 
-  console.log(programs);
-
   const items = programs.map((program, index) => (
     <Draggable
       key={program.programId}

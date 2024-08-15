@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
 import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
-import { FormSchema } from "../schema";
+import { FormSchema } from "../../../schemas/schema";
 import FormGenerator from "../FormGenerator";
 import { Anchor, Breadcrumbs } from "@mantine/core";
 
