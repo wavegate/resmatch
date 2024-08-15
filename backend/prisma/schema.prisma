@@ -377,22 +377,46 @@ model ScheduleDetails {
 }
 
 model InterviewLogistics {
-  id                Int              @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   userId            Int
-  user              User             @relation(fields: [userId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
   programId         Int
-  program           Program          @relation(fields: [programId], references: [id])
-  schedulerPlatform String?
+  program           Program            @relation(fields: [programId], references: [id])
+  schedulerPlatform SchedulerPlatform?
   ivFormat          String?
   timeSlots         String?
-  ivPlatform        String?
+  ivPlatform        IVPlatform?
+  dateOfferSent     DateTime?
   openIVDates       DateTime[]
   interviewInviteId Int?
-  interviewInvite   InterviewInvite? @relation(fields: [interviewInviteId], references: [id])
-  anonymous         Boolean          @default(true)
+  interviewInvite   InterviewInvite?   @relation(fields: [interviewInviteId], references: [id])
+  anonymous         Boolean            @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum SchedulerPlatform {
+  THALAMUS
+  ERAS
+  IV_BROKER
+  INTERVIEW_BROKER
+  PROGRAM_EMAIL
+  ZOOM
+  REZRATE
+  PROGRAM_WEBSITE
+  COORDINATOR
+}
+
+enum IVPlatform {
+  ZOOM
+  THALAMUS
+  WEBEX
+  IN_PERSON
+  MICROSOFT_TEAMS
+  REZRATE
+  PANORAMAMD
+  GOOGLE_MEET
 }
 
 model SecondLook {

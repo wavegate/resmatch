@@ -2,6 +2,7 @@ import prisma from "../prismaClient.js";
 import { handleError } from "../utils/errorHandler.js";
 
 export const createCrudHandlers = (modelName) => ({
+  //check
   create: async (req, res) => {
     try {
       const userId = req.user.id;
