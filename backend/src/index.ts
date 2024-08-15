@@ -40,7 +40,21 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-const modelNames = ["interviewLogistics"];
+const modelNames = [
+  "interviewLogistics",
+  "question",
+  "interviewImpression",
+  "lOIResponse",
+  "postIVCommunication",
+  "secondLook",
+  "dropped",
+  "fameShame",
+  "m4InternImpression",
+  "malignant",
+  "scheduleDetails",
+  "fellowshipMatch",
+  // "xorY",
+];
 
 // Create routers for all models
 const routers = createAllRouters(modelNames);
@@ -55,20 +69,20 @@ app.use("/invite", inviteRouter);
 app.use("/program", programRouter);
 app.use("/auth", authRouter);
 app.use("/city", cityRouter);
-app.use("/fame-shame", fameShameRouter);
+// app.use("/fame-shame", fameShameRouter);
 app.use("/rank-list", rankListRouter);
-app.use("/dropped", droppedRouter);
-app.use("/impression", impressionRouter);
+// app.use("/dropped", droppedRouter);
+// app.use("/impression", impressionRouter);
 // app.use("/logistics", logisticsRouter);
-app.use("/loi-response", loiResponseRouter);
+// app.use("/loi-response", loiResponseRouter);
 app.use("/m4-intern-impression", m4InternImpressionRouter);
 app.use("/malignant", malignantRouter);
-app.use("/post-iv-communication", postIVCommunicationRouter);
-app.use("/question", questionRouter);
+// app.use("/post-iv-communication", postIVCommunicationRouter);
+// app.use("/question", questionRouter);
 app.use("/rejection", rejectionRouter);
 app.use("/schedule-details", scheduleDetailsRouter);
-app.use("/second-look", secondLookRouter);
-app.use("/withdrawal", withdrawalRouter);
+// app.use("/second-look", secondLookRouter);
+// app.use("/withdrawal", withdrawalRouter);
 app.use("/tier-list", tierListRouter);
 app.use("/suggestion", suggestionRouter);
 app.use("/bin", binRouter);

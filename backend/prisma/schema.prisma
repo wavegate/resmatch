@@ -56,7 +56,7 @@ model User {
   numWaitlisted           Int?
   applicationYear         Int?
   public                  Boolean               @default(false)
-  FameShameUserInput      FameShameUserInput[]
+  fameShames              FameShame[]
   comments                Comment[]
   rankLists               RankList[]
   PostIVCommunication     PostIVCommunication[]
@@ -107,7 +107,7 @@ model Program {
   matchedInLists      RankList[]            @relation("MatchedProgram")
   interviewInvites    InterviewInvite[]
   image               String?
-  FameShameUserInput  FameShameUserInput[]
+  fameShames          FameShame[]
   PostIVCommunication PostIVCommunication[]
   ScheduleDetails     ScheduleDetails[]
   InterviewLogistics  InterviewLogistics[]
@@ -241,7 +241,7 @@ model CityUserInput {
   @@index([userId])
 }
 
-model FameShameUserInput {
+model FameShame {
   id        Int      @id @default(autoincrement())
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
@@ -324,20 +324,41 @@ model RankedProgram {
 }
 
 model PostIVCommunication {
-  id                    Int       @id @default(autoincrement())
+  id                    Int                   @id @default(autoincrement())
   userId                Int
-  user                  User      @relation(fields: [userId], references: [id])
+  user                  User                  @relation(fields: [userId], references: [id])
   programId             Int
-  program               Program   @relation(fields: [programId], references: [id])
+  program               Program               @relation(fields: [programId], references: [id])
   communicationReceived String?
-  thankYouLetterPolicy  String?
-  rankImpact            String?
-  source                String?
+  thankYouLetterPolicy  ThankYouLetterPolicy?
+  rankImpact            Boolean?
+  source                Source?
   comments              Comment[]
-  anonymous             Boolean   @default(true)
+  anonymous             Boolean               @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum ThankYouLetterPolicy {
+  DO_NOT_SEND
+  STRONGLY_DISCOURAGED
+  DISCOURAGED
+  NOT_EXPECTED
+  NOT_REQUIRED
+  WELCOMED_BUT_NOT_EXPECTED
+  WELCOMED
+  POSITIVE_RESPONSE
+}
+
+enum Source {
+  PD
+  PC
+  SELECTION_COMMITTEE
+  RESIDENT
+  WEBSITE
+  STATEMENT_OF_MATCH_INTEGRITY
+  INTERVIEWER
 }
 
 model ScheduleDetails {
@@ -350,10 +371,10 @@ model ScheduleDetails {
   longOvernightCall    String?
   scheduleContinuity   String?
   locations            String?
-  emr                  String?
+  emr                  EMR?
   startDateOrientation DateTime?
-  visaInfo             String?
-  union                String?
+  visaInfo             VisaInfo?
+  union                Boolean?
   midlevel             String?
   ancillary            String?
   teamRatios           String?
@@ -374,6 +395,32 @@ model ScheduleDetails {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum EMR {
+  EPIC
+  CERNER
+  MEDITECH
+  CPRS
+  ALLSCRIPTS
+  ORCHID
+  SOARIAN
+  SUNRISE
+  PARAGON
+  POWER_CHART
+  OMR
+  ICENTRA
+  CITRIX
+  OPTIMUM
+  MEDHOST
+  EPIC_CPRS
+}
+
+enum VisaInfo {
+  J1
+  H1B
+  NO_VISAS
+  ACCEPTS_VISA
 }
 
 model InterviewLogistics {
@@ -425,13 +472,19 @@ model SecondLook {
   user          User      @relation(fields: [userId], references: [id])
   programId     Int
   program       Program   @relation(fields: [programId], references: [id])
-  setting       String?
+  setting       Setting?
   date          DateTime?
   bearingOnRank String?
   anonymous     Boolean   @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Setting {
+  IN_PERSON
+  VIRTUAL
+  BOTH
 }
 
 model InterviewRejection {
@@ -524,17 +577,34 @@ model LOIResponse {
   program   Program @relation(fields: [programId], references: [id])
 
   intent                     Boolean?
-  sentTo                     String?
+  sentTo                     LOIResponseRecipient?
   dateSent                   DateTime?
   response                   Boolean?
-  responseTone               String?
+  responseTone               ResponseTone?
   timeBetweenSentAndResponse String?
   mentionedTopChoice         Boolean?
   comments                   Comment[]
-  anonymous                  Boolean   @default(true)
+  anonymous                  Boolean               @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum LOIResponseRecipient {
+  PROGRAM_EMAIL
+  PC
+  PD
+  PD_PC
+  EMAIL_ON_ERAS
+  RESIDENCY_EXPLORER_EMAIL
+}
+
+enum ResponseTone {
+  POSITIVE
+  GENERIC
+  NEUTRAL
+  NEGATIVE
+  AUTOMATED
 }
 
 model InterviewImpression {
@@ -546,7 +616,7 @@ model InterviewImpression {
 
   positives                  String?
   negatives                  String?
-  howInterviewDayAffectsRank String?
+  howInterviewDayAffectsRank Change?
   gift                       String?
   timeGiftReceived           String?
   comments                   Comment[]
@@ -556,6 +626,16 @@ model InterviewImpression {
   updatedAt DateTime @updatedAt
 }
 
+enum Change {
+  MUCH_LOWER
+  LOWER
+  SLIGHTLY_LOWER
+  NO_CHANGE
+  SLIGHTLY_HIGHER
+  HIGHER
+  MUCH_HIGHER
+}
+
 model Question {
   id        Int     @id @default(autoincrement())
   userId    Int
@@ -563,7 +643,7 @@ model Question {
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
-  questions String[] @default([]) // A list of strings to store questions
+  questions String[] @default([])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
