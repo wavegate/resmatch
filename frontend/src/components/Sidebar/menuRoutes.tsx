@@ -85,7 +85,7 @@ const sidebarRoutes = [
         icon: <FaRegCalendarMinus className="h-5 w-5" />,
       },
       {
-        link: "/logistics",
+        link: "/interviewLogistics",
         text: "IV Logistics/Open Spots",
         icon: <FaMapSigns className="h-5 w-5" />,
       },

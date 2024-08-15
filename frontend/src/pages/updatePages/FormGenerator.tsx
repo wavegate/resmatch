@@ -156,6 +156,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     data={options}
                     value={field.value}
                     onChange={field.onChange}
+                    placeholder={commonProps.placeholder || "Click to select"}
                   />
                 );
               }

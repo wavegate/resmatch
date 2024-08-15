@@ -60,6 +60,7 @@ import AddCityUserInput from "./pages/updatePages/AddCityUserInput/AddCityUserIn
 import Invitations from "@/pages/Invitations/Invitations";
 import AddLogistics2 from "./pages/updatePages/AddLogistics2/AddLogistics2";
 import AddPage from "./pages/updatePages/AddPage";
+import ListPage from "./pages/listPages/ListPage";
 
 const routes = [
   {
@@ -191,12 +192,8 @@ const routes = [
         element: <AddImpression />,
       },
       {
-        path: "logistics",
-        element: <Logistics />,
-      },
-      {
         path: "interviewLogistics",
-        element: <Logistics />,
+        element: <ListPage modelName="interviewLogistics" />,
       },
       {
         path: "interviewLogistics/add",

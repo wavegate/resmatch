@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
 import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
-import { Anchor, Breadcrumbs } from "@mantine/core";
+import { Anchor, Breadcrumbs, Loader } from "@mantine/core";
 import { schemas } from "./schemas";
 import FormGenerator from "./FormGenerator";
 
@@ -81,12 +81,18 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   return (
     <div className="flex flex-col gap-4">
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <FormGenerator
-        modelName={modelName}
-        onSubmit={onSubmit}
-        resetValues={resetValues}
-        isUpdate={isUpdate}
-      />
+      {isLoading ? (
+        <div className={`flex flex-col items-center`}>
+          <Loader color="blue" className={`mt-12`} />
+        </div>
+      ) : (
+        <FormGenerator
+          modelName={modelName}
+          onSubmit={onSubmit}
+          resetValues={resetValues}
+          isUpdate={isUpdate}
+        />
+      )}
     </div>
   );
 };
