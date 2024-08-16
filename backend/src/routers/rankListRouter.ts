@@ -18,7 +18,7 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
     prioritiesWhenRanking,
     hardestPartOfRanking,
     medicalDegree,
-    linked = false,
+    anonymous = false,
   } = req.body;
 
   const userId = req.user.id;
@@ -37,7 +37,7 @@ rankListRouter.post("/", verifyToken, async (req, res) => {
         hardestPartOfRanking,
         medicalDegree,
         userId,
-        linked,
+        anonymous,
         RankedProgram: {
           create: programs.map((program, index) => ({
             rank: program.rank,
@@ -95,7 +95,7 @@ rankListRouter.get("/:id", async (req, res) => {
     }
 
     // Remove user data if linked is not true
-    if (!rankList.linked) {
+    if (rankList.anonymous) {
       rankList.user = undefined;
     }
 

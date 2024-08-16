@@ -53,6 +53,8 @@ const modelNames = [
   "malignant",
   "scheduleDetails",
   "fellowshipMatch",
+  "interviewInvite",
+  "interviewRejection",
   // "xorY",
 ];
 

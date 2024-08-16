@@ -44,6 +44,11 @@ model User {
   aoa                     Boolean?
   sigmaSigmaPhi           Boolean?
   goldHumanism            Boolean?
+  honors                  Int?
+  highPass                Int?
+  pass                    Int?
+  fail                    Int?
+  pstp                    Boolean?
   numPublications         Int?
   numWorkExperiences      Int?
   numVolunteerExperiences Int?
@@ -137,7 +142,7 @@ model InterviewInvite {
   inviteDateTime       DateTime
   geographicPreference Boolean?
   signal               Boolean?
-  locationState        LocationState?
+  inState              Boolean?
   medicalDegree        MedicalDegree?
   step1ScorePass       Boolean?
   step1Score           Int?
@@ -147,6 +152,11 @@ model InterviewInvite {
   visaRequired         Boolean?
   subI                 Boolean?
   home                 Boolean?
+  pstp                 Boolean?
+  honors               Int?
+  highPass             Int?
+  pass                 Int?
+  fail                 Int?
   yearOfGraduation     Int?
   greenCard            Boolean?
   away                 Boolean?
@@ -158,9 +168,8 @@ model InterviewInvite {
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  InterviewLogistics InterviewLogistics[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum GraduateType {
@@ -169,13 +178,8 @@ enum GraduateType {
 }
 
 enum IMGType {
-  nonUSIMG
+  NONUSIMG
   USIMG
-}
-
-enum LocationState {
-  IS
-  OOS
 }
 
 enum MedicalDegree {
@@ -184,27 +188,27 @@ enum MedicalDegree {
 }
 
 enum SchoolRanking {
-  top20
-  top50
-  mid
-  low
-  unranked
+  TOP20
+  TOP50
+  MID
+  LOW
+  UNRANKED
 }
 
 enum ClassRanking {
-  top10
-  top25
-  top50
-  bottom50
+  QUARTILE1 // Top 25%
+  QUARTILE2 // Second 25%
+  QUARTILE3 // Third 25%
+  QUARTILE4 // Bottom 25%
 }
 
 enum Pathway {
-  Pathway1
-  Pathway2
-  Pathway3
-  Pathway4
-  Pathway5
-  Pathway6
+  PATHWAY1
+  PATHWAY2
+  PATHWAY3
+  PATHWAY4
+  PATHWAY5
+  PATHWAY6
 }
 
 model City {
@@ -435,8 +439,6 @@ model InterviewLogistics {
   ivPlatform        IVPlatform?
   dateOfferSent     DateTime?
   openIVDates       DateTime[]
-  interviewInviteId Int?
-  interviewInvite   InterviewInvite?   @relation(fields: [interviewInviteId], references: [id])
   anonymous         Boolean            @default(true)
 
   createdAt DateTime @default(now())
@@ -500,7 +502,7 @@ model InterviewRejection {
   img                  IMGType?
   geographicPreference Boolean?
   signal               Boolean?
-  locationState        LocationState?
+  inState              Boolean?
   medicalDegree        MedicalDegree?
   step1ScorePass       Boolean?
   step1Score           Int?
@@ -510,9 +512,14 @@ model InterviewRejection {
   visaRequired         Boolean?
   subI                 Boolean?
   home                 Boolean?
+  pstp                 Boolean?
   yearOfGraduation     Int?
   greenCard            Boolean?
   away                 Boolean?
+  honors               Int?
+  highPass             Int?
+  pass                 Int?
+  fail                 Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

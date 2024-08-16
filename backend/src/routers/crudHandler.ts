@@ -73,7 +73,13 @@ export const createCrudHandlers = (modelName) => ({
 
   listWithPagination: async (req, res) => {
     try {
-      const { pageNum = 1, pageSize = 10, programId, userId } = req.body;
+      const {
+        pageNum = 1,
+        pageSize = 10,
+        programId,
+        userId,
+        ...extraConditions
+      } = req.body;
       const offset = (pageNum - 1) * pageSize;
 
       // Constructing the where clause dynamically
@@ -86,6 +92,14 @@ export const createCrudHandlers = (modelName) => ({
       if (userId) {
         whereClause.userId = Number(userId); // Ensure userId is a number
       }
+
+      // Add extra conditions to the where clause
+      Object.keys(extraConditions).forEach((key) => {
+        const value = extraConditions[key];
+        if (value !== undefined && value !== null) {
+          whereClause[key] = value;
+        }
+      });
 
       const totalCount = await prisma[modelName].count({
         where: whereClause,
