@@ -116,6 +116,7 @@ export const createCrudHandlers = (modelName) => ({
             },
           },
           user: true,
+          comments: true,
         },
         orderBy: {
           createdAt: "desc",

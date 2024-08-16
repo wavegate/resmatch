@@ -161,6 +161,7 @@ model InterviewInvite {
   greenCard            Boolean?
   away                 Boolean?
   anonymous            Boolean        @default(true)
+  comments             Comment[]
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
@@ -246,16 +247,17 @@ model CityUserInput {
 }
 
 model FameShame {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   fame      String?
   shame     String?
   programId Int
-  anonymous Boolean  @default(true)
-  program   Program  @relation(fields: [programId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  anonymous Boolean   @default(true)
+  program   Program   @relation(fields: [programId], references: [id])
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Comment {
@@ -267,19 +269,19 @@ model Comment {
   rankListId            Int?
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
-  PostIVCommunication   PostIVCommunication? @relation(fields: [postIVCommunicationId], references: [id])
+  PostIVCommunication   PostIVCommunication? @relation(fields: [postIVCommunicationId], references: [id], onDelete: Cascade)
   postIVCommunicationId Int?
-  ScheduleDetails       ScheduleDetails?     @relation(fields: [scheduleDetailsId], references: [id])
+  ScheduleDetails       ScheduleDetails?     @relation(fields: [scheduleDetailsId], references: [id], onDelete: Cascade)
   scheduleDetailsId     Int?
-  M4InternImpression    M4InternImpression?  @relation(fields: [m4InternImpressionId], references: [id])
+  M4InternImpression    M4InternImpression?  @relation(fields: [m4InternImpressionId], references: [id], onDelete: Cascade)
   m4InternImpressionId  Int?
-  Malignant             Malignant?           @relation(fields: [malignantId], references: [id])
+  Malignant             Malignant?           @relation(fields: [malignantId], references: [id], onDelete: Cascade)
   malignantId           Int?
-  LOIResponse           LOIResponse?         @relation(fields: [lOIResponseId], references: [id])
+  LOIResponse           LOIResponse?         @relation(fields: [lOIResponseId], references: [id], onDelete: Cascade)
   lOIResponseId         Int?
-  InterviewImpression   InterviewImpression? @relation(fields: [interviewImpressionId], references: [id])
+  InterviewImpression   InterviewImpression? @relation(fields: [interviewImpressionId], references: [id], onDelete: Cascade)
   interviewImpressionId Int?
-  TierList              TierList?            @relation(fields: [tierListId], references: [id])
+  TierList              TierList?            @relation(fields: [tierListId], references: [id], onDelete: Cascade)
   tierListId            Int?
   parentId              Int?
   parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
@@ -287,9 +289,25 @@ model Comment {
   main                  Boolean              @default(false)
   pstp                  Boolean              @default(false)
   report                Boolean              @default(false)
-  XorY                  XorY?                @relation(fields: [xorYId], references: [id])
+  XorY                  XorY?                @relation(fields: [xorYId], references: [id], onDelete: Cascade)
   xorYId                Int?
   anonymous             Boolean              @default(true)
+  InterviewInvite       InterviewInvite?     @relation(fields: [interviewInviteId], references: [id], onDelete: Cascade)
+  interviewInviteId     Int?
+  FameShame             FameShame?           @relation(fields: [fameShameId], references: [id], onDelete: Cascade)
+  fameShameId           Int?
+  InterviewLogistics    InterviewLogistics?  @relation(fields: [interviewLogisticsId], references: [id], onDelete: Cascade)
+  interviewLogisticsId  Int?
+  SecondLook            SecondLook?          @relation(fields: [secondLookId], references: [id], onDelete: Cascade)
+  secondLookId          Int?
+  InterviewRejection    InterviewRejection?  @relation(fields: [interviewRejectionId], references: [id], onDelete: Cascade)
+  interviewRejectionId  Int?
+  Question              Question?            @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId            Int?
+  Dropped               Dropped?             @relation(fields: [droppedId], references: [id], onDelete: Cascade)
+  droppedId             Int?
+  FellowshipMatch       FellowshipMatch?     @relation(fields: [fellowshipMatchId], references: [id], onDelete: Cascade)
+  fellowshipMatchId     Int?
 }
 
 model RankList {
@@ -439,6 +457,7 @@ model InterviewLogistics {
   ivPlatform        IVPlatform?
   dateOfferSent     DateTime?
   openIVDates       DateTime[]
+  comments          Comment[]
   anonymous         Boolean            @default(true)
 
   createdAt DateTime @default(now())
@@ -477,6 +496,7 @@ model SecondLook {
   setting       Setting?
   date          DateTime?
   bearingOnRank String?
+  comments      Comment[]
   anonymous     Boolean   @default(true)
 
   createdAt DateTime @default(now())
@@ -490,13 +510,14 @@ enum Setting {
 }
 
 model InterviewRejection {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   programId Int
-  program   Program  @relation(fields: [programId], references: [id])
+  program   Program   @relation(fields: [programId], references: [id])
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   date      DateTime
-  anonymous Boolean  @default(true)
+  anonymous Boolean   @default(true)
+  comments  Comment[]
 
   graduateType         GraduateType?
   img                  IMGType?
@@ -644,11 +665,12 @@ enum Change {
 }
 
 model Question {
-  id        Int     @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   programId Int
-  program   Program @relation(fields: [programId], references: [id])
+  program   Program   @relation(fields: [programId], references: [id])
+  comments  Comment[]
 
   questions String[] @default([])
 
@@ -667,20 +689,22 @@ model Dropped {
   dateOfInterviewCancelled DateTime?
   reason                   String?
   anonymous                Boolean   @default(true)
+  comments                 Comment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model FellowshipMatch {
-  id        Int     @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   year      Int
   programId Int
-  program   Program @relation(fields: [programId], references: [id])
+  program   Program   @relation(fields: [programId], references: [id])
   userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   matchData String
-  anonymous Boolean @default(true)
+  anonymous Boolean   @default(true)
+  comments  Comment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

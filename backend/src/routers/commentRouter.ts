@@ -6,50 +6,18 @@ const commentRouter = express.Router();
 
 // Create a new comment
 commentRouter.post("/", verifyToken, async (req, res) => {
-  const {
-    content,
-    parentId,
-    rankListId,
-    postIVCommunicationId,
-    scheduleDetailsId,
-    m4InternImpressionId,
-    malignantId,
-    lOIResponseId,
-    interviewImpressionId,
-    tierListId,
-    pstp = false,
-    report = false,
-    main = false,
-    anonymous = true,
-  } = req.body;
-
   const userId = req.user.id;
 
   try {
+    // Extract all values from req.body and add userId to the data object
+    const data = {
+      ...req.body,
+      userId: Number(userId),
+    };
+
+    // Create a new comment with the dynamically constructed data object
     const newComment = await prisma.comment.create({
-      data: {
-        content,
-        userId: Number(userId),
-        parentId: parentId ? Number(parentId) : null,
-        rankListId: rankListId ? Number(rankListId) : null,
-        postIVCommunicationId: postIVCommunicationId
-          ? Number(postIVCommunicationId)
-          : null,
-        scheduleDetailsId: scheduleDetailsId ? Number(scheduleDetailsId) : null,
-        m4InternImpressionId: m4InternImpressionId
-          ? Number(m4InternImpressionId)
-          : null,
-        malignantId: malignantId ? Number(malignantId) : null,
-        lOIResponseId: lOIResponseId ? Number(lOIResponseId) : null,
-        interviewImpressionId: interviewImpressionId
-          ? Number(interviewImpressionId)
-          : null,
-        tierListId: tierListId ? Number(tierListId) : null,
-        pstp,
-        report,
-        main,
-        anonymous,
-      },
+      data,
     });
 
     res.status(201).json(newComment);
@@ -136,72 +104,31 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 commentRouter.post("/search", verifyToken, async (req, res) => {
-  const {
-    main = false,
-    pstp = false,
-    report = false,
-    rankListId,
-    postIVCommunicationId,
-    scheduleDetailsId,
-    m4InternImpressionId,
-    malignantId,
-    lOIResponseId,
-    interviewImpressionId,
-    tierListId,
-    pageNum = 1,
-  } = req.body;
+  const { pageNum = 1 } = req.body;
   const PAGE_SIZE = 10; // Example page size
 
   try {
+    // Construct the where clause dynamically using req.body
+    const whereClause = {
+      parentId: null,
+      ...req.body, // Spread all properties from req.body
+    };
+
+    // Convert specific fields to numbers if needed
+    for (const key in whereClause) {
+      if (typeof whereClause[key] === "string" && !isNaN(whereClause[key])) {
+        whereClause[key] = Number(whereClause[key]);
+      }
+    }
+
     const totalCount = await prisma.comment.count({
-      where: {
-        parentId: null,
-        main,
-        pstp,
-        report,
-        rankListId: rankListId ? Number(rankListId) : undefined,
-        postIVCommunicationId: postIVCommunicationId
-          ? Number(postIVCommunicationId)
-          : undefined,
-        scheduleDetailsId: scheduleDetailsId
-          ? Number(scheduleDetailsId)
-          : undefined,
-        m4InternImpressionId: m4InternImpressionId
-          ? Number(m4InternImpressionId)
-          : undefined,
-        malignantId: malignantId ? Number(malignantId) : undefined,
-        lOIResponseId: lOIResponseId ? Number(lOIResponseId) : undefined,
-        interviewImpressionId: interviewImpressionId
-          ? Number(interviewImpressionId)
-          : undefined,
-        tierListId: tierListId ? Number(tierListId) : undefined,
-      },
+      where: whereClause,
     });
 
     let comments = await prisma.comment.findMany({
-      where: {
-        parentId: null,
-        main,
-        pstp,
-        report,
-        rankListId: rankListId ? Number(rankListId) : undefined,
-        postIVCommunicationId: postIVCommunicationId
-          ? Number(postIVCommunicationId)
-          : undefined,
-        scheduleDetailsId: scheduleDetailsId
-          ? Number(scheduleDetailsId)
-          : undefined,
-        m4InternImpressionId: m4InternImpressionId
-          ? Number(m4InternImpressionId)
-          : undefined,
-        malignantId: malignantId ? Number(malignantId) : undefined,
-        lOIResponseId: lOIResponseId ? Number(lOIResponseId) : undefined,
-        interviewImpressionId: interviewImpressionId
-          ? Number(interviewImpressionId)
-          : undefined,
-        tierListId: tierListId ? Number(tierListId) : undefined,
-      },
+      where: whereClause,
       include: {
         replies: true,
         user: true,
@@ -213,7 +140,7 @@ commentRouter.post("/search", verifyToken, async (req, res) => {
       take: PAGE_SIZE,
     });
 
-    // Process comments to remove user information if linked is not true
+    // Process comments to remove user information if anonymous is true
     comments = comments.map((comment) => {
       if (comment.anonymous) {
         comment.user = null; // Remove user information
