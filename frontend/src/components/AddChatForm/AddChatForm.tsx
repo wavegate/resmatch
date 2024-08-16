@@ -9,12 +9,7 @@ export default function AddChatForm({
   setRepliesOpened,
   setReplyOpened,
 }) {
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      content: "",
-      linked: false,
-    },
-  });
+  const { control, handleSubmit, reset } = useForm({});
 
   const queryClient = useQueryClient();
 
@@ -55,12 +50,12 @@ export default function AddChatForm({
         )}
       />
       <Controller
-        name="linked"
+        name="anonymous"
         control={control}
         render={({ field }) => (
           <Checkbox
             {...field}
-            label="Link to my profile"
+            label="Post anonymously?"
             size="md"
             checked={field.value}
           />

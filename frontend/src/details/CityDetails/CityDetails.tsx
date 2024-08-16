@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Card, Group, SimpleGrid, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import cityService from "@/services/cityService";
@@ -30,101 +30,60 @@ export default function CityDetails({ item }) {
     deleteMutation.mutate();
   };
 
+  const fields = [
+    { label: "Pros", value: item.userInputs.pros },
+    { label: "Cons", value: item.userInputs.cons },
+    {
+      label: "Public Transportation",
+      value: item.userInputs.publicTransportation,
+    },
+    { label: "Weather", value: item.userInputs.weather },
+    { label: "Dating", value: item.userInputs.dating },
+    { label: "LGBTQ+", value: item.userInputs.lgbtq },
+    { label: "Diversity", value: item.userInputs.diversity },
+    { label: "Safety & Crime", value: item.userInputs.safetyCrime },
+  ];
+
   return (
-    <div>
-      <Group justify="apart">
-        <Link to={`/city/${item.id}`}>
-          <Button>Update City</Button>
-        </Link>
-        <Button
-          color="red"
-          onClick={handleDelete}
-          loading={deleteMutation.isPending}
-        >
-          Delete City
-        </Button>
-      </Group>
-      <div>
-        <Text size="lg" weight={500}>
-          {item.name}
-        </Text>
-        <Text color="dimmed">{item.state}</Text>
+    <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <div className="grid grid-cols-[1fr] gap-4">
+        <div className="flex flex-col gap-1">
+          <Text className="text-sm sm:text-md md:text-lg font-medium">
+            {`${item.name}, ${item.state}`}
+          </Text>
+          <div className="flex items-center gap-2">
+            {item.user && (
+              <Link to={`/user/${item.user.id}`}>
+                <Text c="dimmed" className="text-xs sm:text-sm underline">
+                  {item.user.alias}
+                </Text>
+              </Link>
+            )}
+          </div>
+        </div>
       </div>
+      <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
+        {fields.map((field, index) => {
+          let displayValue = "-";
 
-      {/* Display the aggregated CityUserInput data */}
-      <div className="mt-4">
-        {item.userInputs.pros.length > 0 && (
-          <div>
-            <Text weight={500}>Pros</Text>
-            {item.userInputs.pros.map((pro, index) => (
-              <Text key={index}>&#8226; {pro}</Text>
-            ))}
-          </div>
-        )}
+          if (Array.isArray(field.value) && field.value.length > 0) {
+            displayValue = (
+              <ul>
+                {field.value.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            );
+          }
 
-        {item.userInputs.cons.length > 0 && (
-          <div>
-            <Text weight={500}>Cons</Text>
-            {item.userInputs.cons.map((con, index) => (
-              <Text key={index}>&#8226; {con}</Text>
-            ))}
-          </div>
-        )}
-
-        {item.userInputs.publicTransportation.length > 0 && (
-          <div>
-            <Text weight={500}>Public Transportation</Text>
-            {item.userInputs.publicTransportation.map((transport, index) => (
-              <Text key={index}>&#8226; {transport}</Text>
-            ))}
-          </div>
-        )}
-
-        {item.userInputs.weather.length > 0 && (
-          <div>
-            <Text weight={500}>Weather</Text>
-            {item.userInputs.weather.map((weather, index) => (
-              <Text key={index}>&#8226; {weather}</Text>
-            ))}
-          </div>
-        )}
-
-        {item.userInputs.dating.length > 0 && (
-          <div>
-            <Text weight={500}>Dating</Text>
-            {item.userInputs.dating.map((dating, index) => (
-              <Text key={index}>&#8226; {dating}</Text>
-            ))}
-          </div>
-        )}
-
-        {item.userInputs.lgbtq.length > 0 && (
-          <div>
-            <Text weight={500}>LGBTQ+</Text>
-            {item.userInputs.lgbtq.map((lgbtq, index) => (
-              <Text key={index}>&#8226; {lgbtq}</Text>
-            ))}
-          </div>
-        )}
-
-        {item.userInputs.diversity.length > 0 && (
-          <div>
-            <Text weight={500}>Diversity</Text>
-            {item.userInputs.diversity.map((diversity, index) => (
-              <Text key={index}>&#8226; {diversity}</Text>
-            ))}
-          </div>
-        )}
-
-        {item.userInputs.safetyCrime.length > 0 && (
-          <div>
-            <Text weight={500}>Safety & Crime</Text>
-            {item.userInputs.safetyCrime.map((safety, index) => (
-              <Text key={index}>&#8226; {safety}</Text>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+          return (
+            <div key={index} className="flex flex-col gap-2">
+              <Text w={500}>{field.label}:</Text>
+              <Text size="sm">{displayValue}</Text>
+            </div>
+          );
+        })}
+      </SimpleGrid>
+    </Card>
   );
 }

@@ -13,24 +13,15 @@ const formSchema = z.object({
   anonymous: z.boolean().optional(),
 });
 
-interface AddCommentProps {
+interface AddChatProps {
   type: "main" | "pstp" | "report";
-  parameterName: string; // The parameter name to associate the comment with
-  parameterValue: number | string; // The value for the parameter (e.g., questionId)
 }
 
-export default function AddComment({
-  type,
-  parameterName,
-  parameterValue,
-}: AddCommentProps) {
+export default function AddChat({ type }: AddChatProps) {
   useAuthGuard();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      anonymous: true,
-    },
   });
 
   const { control, handleSubmit } = form;
@@ -38,11 +29,7 @@ export default function AddComment({
   const navigate = useNavigate();
 
   const { mutateAsync } = useMutation({
-    mutationFn: (values) =>
-      commentService.createComment({
-        ...values,
-        [parameterName]: parameterValue,
-      }),
+    mutationFn: (values) => commentService.createComment(values),
     onSuccess: () => {
       notifications.show({
         message: `${
@@ -62,7 +49,7 @@ export default function AddComment({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutateAsync(values);
+    mutateAsync({ ...values, [type]: true });
   };
 
   const items = [
@@ -104,10 +91,10 @@ export default function AddComment({
             <Textarea
               label={`${
                 type === "main"
-                  ? "Thread Content"
+                  ? "Chat Thread"
                   : type === "pstp"
-                  ? "PSTP Content"
-                  : "Report Content"
+                  ? "PSTP Thread"
+                  : "Report Thread"
               }`}
               placeholder={`Enter the ${
                 type === "main" ? "thread" : type === "pstp" ? "PSTP" : "report"
