@@ -29,7 +29,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
           </Text>
         )}
       </header>
-      <Table modelName={modelName} />
+      <Table modelName={modelName} key={modelName} />
     </div>
   );
 };

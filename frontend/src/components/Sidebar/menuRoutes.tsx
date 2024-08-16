@@ -70,12 +70,12 @@ const sidebarRoutes = [
     heading: "Interview Info",
     items: [
       {
-        link: "/invite",
+        link: "/interviewInvite",
         text: "IV Offers",
         icon: <FaRegCalendarCheck className="h-5 w-5" />,
       },
       {
-        link: "/rejection",
+        link: "/interviewRejection",
         text: "IV Rejections",
         icon: <FaTimesCircle className="h-5 w-5" />,
       },
@@ -105,7 +105,7 @@ const sidebarRoutes = [
         icon: <FaEnvelopeOpenText className="h-5 w-5" />,
       },
       {
-        link: "/lointent-response",
+        link: "/lOIntentResponse",
         text: "LOIntent Response",
         icon: <FaEnvelope className="h-5 w-5" />,
       },

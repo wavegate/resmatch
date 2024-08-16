@@ -24,6 +24,7 @@ export interface FieldSchema {
   required?: boolean;
   defaultValue?: any;
   placeholder?: string;
+  conditions?: any;
 }
 
 export interface FormSchema {

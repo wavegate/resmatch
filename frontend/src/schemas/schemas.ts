@@ -15,12 +15,15 @@ import malignantFormSchema from "./malignantFormSchema";
 import scheduleDetailsFormSchema from "./scheduleDetailsFormSchema";
 import fellowshipMatchFormSchema from "./fellowshipMatchFormSchema";
 import XorYFormSchema from "./xorYFormSchema";
+import interviewInviteFormSchema from "./interviewInviteFormSchema";
+import interviewRejectionFormSchema from "./interviewRejectionFormSchema";
 
 export const schemas: { [key: string]: FormSchema } = {
   interviewLogistics: logisticsFormSchema,
   question: questionFormSchema,
   interviewImpression: interviewImpressionFormSchema,
   lOIResponse: lOIResponseFormSchema,
+  lOIntentResponse: lOIResponseFormSchema,
   postIVCommunication: postIVCommunicationFormSchema,
   secondLook: secondLookFormSchema,
   dropped: droppedFormSchema,
@@ -30,6 +33,8 @@ export const schemas: { [key: string]: FormSchema } = {
   scheduleDetails: scheduleDetailsFormSchema,
   fellowshipMatch: fellowshipMatchFormSchema,
   xorY: XorYFormSchema,
+  interviewInvite: interviewInviteFormSchema,
+  interviewRejection: interviewRejectionFormSchema,
   // Add other schemas here with their corresponding model names as keys
 };
 

@@ -43,12 +43,11 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      anonymous: true,
+      anonymous: false,
       medicalDegree: type === "MD" ? "MD" : type === "DO" ? "DO" : undefined,
       graduateType: type === "IMG" ? "IMG" : "US",
     },
   });
-  console.log(form.formState.errors);
 
   const [initialPrograms, setInitialPrograms] = useState([]);
 
@@ -115,9 +114,6 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
     mutateAsync(values);
   };
 
-  console.log(form.formState.errors);
-  console.log(form.getValues("programs"));
-
   const items = [
     {
       title:
@@ -167,6 +163,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
             <NumberInput
               label="Number of Programs Applied"
               placeholder="Enter the number"
+              size="md"
               {...field}
             />
           )}
@@ -179,6 +176,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
             <NumberInput
               label="Number of Invites"
               placeholder="Enter the number"
+              size="md"
               {...field}
             />
           )}
@@ -191,6 +189,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
             <NumberInput
               label="Number of Interviews Attended"
               placeholder="Enter the number"
+              size="md"
               {...field}
             />
           )}
@@ -217,6 +216,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
               label="Why Number One?"
               placeholder="Why did you rank this program number one?"
               error={fieldState.error?.message}
+              size="md"
               {...field}
             />
           )}
@@ -230,6 +230,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
               label="Priorities When Ranking"
               placeholder="What were your priorities when ranking?"
               error={fieldState.error?.message}
+              size="md"
               {...field}
             />
           )}
@@ -243,6 +244,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
               label="Hardest Part of Ranking"
               placeholder="What was the hardest part of ranking?"
               error={fieldState.error?.message}
+              size="md"
               {...field}
             />
           )}

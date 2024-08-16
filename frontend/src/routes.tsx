@@ -80,18 +80,18 @@ const routes = [
         path: "sign-up",
         element: <SignUp />,
       },
-      {
-        path: "invite",
-        element: <Invite />,
-      },
-      {
-        path: "invite/add",
-        element: <AddInvite />,
-      },
-      {
-        path: "invite/:id",
-        element: <AddInvite />,
-      },
+      // {
+      //   path: "invite",
+      //   element: <Invite />,
+      // },
+      // {
+      //   path: "invite/add",
+      //   element: <AddInvite />,
+      // },
+      // {
+      //   path: "invite/:id",
+      //   element: <AddInvite />,
+      // },
       {
         path: "program",
         element: <Program />,
@@ -303,18 +303,18 @@ const routes = [
       //   path: "question/:id",
       //   element: <AddQuestion />,
       // },
-      {
-        path: "rejection",
-        element: <Rejection />,
-      },
-      {
-        path: "rejection/add",
-        element: <AddRejection />,
-      },
-      {
-        path: "rejection/:id",
-        element: <AddRejection />,
-      },
+      // {
+      //   path: "rejection",
+      //   element: <Rejection />,
+      // },
+      // {
+      //   path: "rejection/add",
+      //   element: <AddRejection />,
+      // },
+      // {
+      //   path: "rejection/:id",
+      //   element: <AddRejection />,
+      // },
       // {
       //   path: "schedule-details",
       //   element: <ScheduleDetails />,

@@ -98,5 +98,38 @@ export const fieldLabelMap: Record<string, Record<string, string>> = {
     NO_VISAS: "No Visa Sponsorship",
     ACCEPTS_VISA: "Accepts Visa",
   },
+  graduateType: {
+    US: "US",
+    IMG: "IMG",
+  },
+  img: {
+    NONUSIMG: "Non-US IMG",
+    USIMG: "US IMG",
+  },
+  medicalDegree: {
+    MD: "MD",
+    DO: "DO",
+  },
+  schoolRanking: {
+    TOP20: "Top 20",
+    TOP50: "Top 50",
+    MID: "Mid",
+    LOW: "Low",
+    UNRANKED: "Unranked",
+  },
+  classRanking: {
+    QUARTILE1: "Top 25%",
+    QUARTILE2: "Second 25%",
+    QUARTILE3: "Third 25%",
+    QUARTILE4: "Bottom 25%",
+  },
+  pathway: {
+    PATHWAY1: "Pathway 1",
+    PATHWAY2: "Pathway 2",
+    PATHWAY3: "Pathway 3",
+    PATHWAY4: "Pathway 4",
+    PATHWAY5: "Pathway 5",
+    PATHWAY6: "Pathway 6",
+  },
   // Add more mappings as needed for other fields...
 };

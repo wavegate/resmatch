@@ -10,6 +10,7 @@ export const modelNames = [
   "question",
   "interviewImpression",
   "lOIResponse",
+  "lOIntentResponse",
   "postIVCommunication",
   "secondLook",
   "fameShame",
@@ -17,6 +18,9 @@ export const modelNames = [
   "malignant",
   "scheduleDetails",
   "fellowshipMatch",
+  "interviewInvite",
+  "interviewRejection",
+
   // "xorY",
 ];
 

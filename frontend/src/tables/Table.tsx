@@ -19,6 +19,9 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
+  console.log(selectedProgram);
+  console.log(modelName);
+
   const { data, error, isLoading } = useQuery({
     queryKey: [modelName, selectedProgram, pageNum],
     queryFn: () => {

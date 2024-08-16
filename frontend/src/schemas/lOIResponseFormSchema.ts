@@ -7,11 +7,6 @@ const lOIResponseFormSchema: FormSchema = {
     description: "The program to which this LOI response applies.",
     required: true,
   },
-  intent: {
-    type: "boolean",
-    label: "Letter of Intent",
-    description: "Did you send a Letter of Intent?",
-  },
   sentTo: {
     type: "select",
     label: "Sent To",
@@ -53,7 +48,7 @@ const lOIResponseFormSchema: FormSchema = {
     type: "boolean",
     label: "Post Anonymously",
     description: "An anonymous post is not linked to your user profile.",
-    defaultValue: true,
+    defaultValue: false,
   },
 };
 

@@ -8,6 +8,7 @@ import {
   Button,
   NumberInput,
   Select,
+  Text,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
@@ -15,6 +16,11 @@ import { generateZodSchema, schemas } from "../../schemas/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GenericList from "@/components/List";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import { useQuery } from "@tanstack/react-query";
+import useUser from "@/hooks/useUser";
+import services from "@/services/services";
+import { removeNulls } from "@/utils/processObjects";
+import { Link } from "react-router-dom";
 
 const formComponentMap = {
   string: TextInput,
@@ -29,6 +35,7 @@ const formComponentMap = {
 };
 
 interface FormGeneratorProps {
+  userData: any;
   modelName: string;
   onSubmit: (values: any) => void;
   resetValues?: any;
@@ -36,6 +43,7 @@ interface FormGeneratorProps {
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
+  userData,
   modelName,
   onSubmit,
   resetValues,
@@ -43,6 +51,14 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
 }) => {
   const schema = schemas[modelName];
   const zodSchema = generateZodSchema(schema);
+
+  const handleImport = () => {
+    if (userData) {
+      const formValues = form.getValues();
+      Object.assign(formValues, removeNulls(userData));
+      form.reset(formValues);
+    }
+  };
 
   const defaultValues = Object.keys(schema).reduce((acc, key) => {
     if (schema[key].defaultValue !== undefined) {
@@ -56,7 +72,8 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
     resolver: zodResolver(zodSchema),
   });
 
-  const { control, handleSubmit, reset } = form;
+  const { control, handleSubmit, reset, watch } = form;
+  const watchAllFields = watch();
 
   useEffect(() => {
     if (resetValues) {
@@ -64,15 +81,42 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
     }
   }, [resetValues, reset]);
 
+  const checkConditions = (conditions: Record<string, any>) => {
+    if (!conditions) return true;
+    return Object.keys(conditions).every(
+      (key) => watchAllFields[key] === conditions[key]
+    );
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {Object.keys(schema).map((fieldName) => {
         const fieldSchema = schema[fieldName];
 
-        if (fieldName === "comments") {
+        if (
+          fieldName === "comments" ||
+          !checkConditions(fieldSchema.conditions)
+        ) {
           return null;
         }
         const Component = formComponentMap[fieldSchema.type] || TextInput;
+
+        if (fieldName === "import") {
+          return (
+            <div>
+              <Button onClick={handleImport} variant="outline">
+                Import My Profile
+              </Button>
+              <Text size="sm" mt="sm">
+                To avoid having to reenter your stats every time, please{" "}
+                <Link to="/profile" style={{ color: "#1A73E8" }}>
+                  update your profile
+                </Link>
+                , and you can import it instead.
+              </Text>
+            </div>
+          );
+        }
 
         return (
           <Controller
@@ -98,6 +142,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     onChange={(event) =>
                       field.onChange(event.currentTarget.checked)
                     }
+                    required={fieldSchema.required}
                   />
                 );
               }
@@ -131,6 +176,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                       value={field.value}
                       onChange={(dates) => field.onChange(dates)}
                       placeholder="Pick multiple dates"
+                      required={fieldSchema.required}
                     />
                   );
                 }
@@ -141,6 +187,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     value={field.value}
                     onChange={(date) => field.onChange(date)}
                     placeholder="Pick a date"
+                    required={fieldSchema.required}
                   />
                 );
               }
@@ -161,6 +208,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     value={field.value}
                     onChange={field.onChange}
                     placeholder={commonProps.placeholder || "Click to select"}
+                    required={fieldSchema.required}
                   />
                 );
               }
@@ -172,6 +220,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     initialItems={field.value || []}
                     onItemsChange={field.onChange}
                     getItemId={(item) => item}
+                    required={fieldSchema.required}
                     renderItem={(item, index, removeItem) => (
                       <>
                         <div>{item}</div>

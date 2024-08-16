@@ -42,7 +42,10 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
   };
 
   const filteredFields = Object.keys(schema).filter(
-    (fieldName) => fieldName !== "programId" && fieldName !== "anonymous"
+    (fieldName) =>
+      fieldName !== "programId" &&
+      fieldName !== "anonymous" &&
+      fieldName !== "import"
   );
 
   return (
@@ -114,32 +117,24 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
               default:
                 displayValue = data[fieldName];
             }
+          } else {
+            return false;
           }
 
           return (
-            <div
-              key={fieldName}
-              className={`${
-                index < filteredFields.length - 1
-                  ? "border-solid border-b pb-4"
-                  : ""
-              } flex flex-col gap-2`}
-            >
+            <div key={fieldName} className={`flex flex-col gap-2`}>
               <Text size="sm" w={500}>
                 {fieldSchema.label}:
               </Text>
               <Text size="sm">{displayValue}</Text>
-              {fieldSchema.description && i === 0 && (
-                <Text size="xs" c="dimmed">
-                  {fieldSchema.description}
-                </Text>
-              )}
+
+              <Text size="xs" c="dimmed">
+                {fieldSchema.description}
+              </Text>
             </div>
           );
         })}
       </SimpleGrid>
-
-      <Divider my="sm" />
 
       {/* Buttons for update and delete */}
       <Group justify="right" mt="md">

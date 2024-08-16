@@ -8,6 +8,8 @@ import { removeNulls } from "@/utils/processObjects";
 import { Anchor, Breadcrumbs, Loader } from "@mantine/core";
 import { schemas } from "../../schemas/schemas";
 import FormGenerator from "./FormGenerator";
+import useUser from "@/hooks/useUser";
+import userService from "@/services/userService";
 
 const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   useAuthGuard();
@@ -78,15 +80,27 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
     )
   );
 
+  const { user } = useUser();
+
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userLoading,
+  } = useQuery({
+    queryKey: ["user", user?.id],
+    queryFn: () => userService.readUser(user.id),
+  });
+
   return (
     <div className="flex flex-col gap-4">
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      {isLoading ? (
+      {isLoading || userLoading ? (
         <div className={`flex flex-col items-center`}>
           <Loader color="blue" className={`mt-12`} />
         </div>
       ) : (
         <FormGenerator
+          userData={userData}
           modelName={modelName}
           onSubmit={onSubmit}
           resetValues={resetValues}
