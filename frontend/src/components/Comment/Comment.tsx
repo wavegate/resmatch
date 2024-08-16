@@ -83,7 +83,7 @@ export default function Comment({ id, queryKey }: CommentProps) {
   if (error) {
     return <Text>Error loading comment.</Text>;
   }
-  // bump
+  //bump
 
   return (
     <div className={`border-solid border-l-2 pl-4`}>
