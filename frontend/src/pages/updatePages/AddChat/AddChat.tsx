@@ -13,11 +13,17 @@ const formSchema = z.object({
   anonymous: z.boolean().optional(),
 });
 
-interface AddChatProps {
+interface AddCommentProps {
   type: "main" | "pstp" | "report";
+  parameterName: string; // The parameter name to associate the comment with
+  parameterValue: number | string; // The value for the parameter (e.g., questionId)
 }
 
-export default function AddChat({ type }: AddChatProps) {
+export default function AddComment({
+  type,
+  parameterName,
+  parameterValue,
+}: AddCommentProps) {
   useAuthGuard();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -32,7 +38,11 @@ export default function AddChat({ type }: AddChatProps) {
   const navigate = useNavigate();
 
   const { mutateAsync } = useMutation({
-    mutationFn: (values) => commentService.createComment(values),
+    mutationFn: (values) =>
+      commentService.createComment({
+        ...values,
+        [parameterName]: parameterValue,
+      }),
     onSuccess: () => {
       notifications.show({
         message: `${
@@ -52,7 +62,7 @@ export default function AddChat({ type }: AddChatProps) {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutateAsync({ ...values, [type]: true });
+    mutateAsync(values);
   };
 
   const items = [

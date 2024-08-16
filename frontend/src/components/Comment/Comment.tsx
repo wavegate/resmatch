@@ -10,9 +10,10 @@ import { notifications } from "@mantine/notifications";
 
 interface CommentProps {
   id: number;
+  queryKey: any;
 }
 
-export default function Comment({ id }: CommentProps) {
+export default function Comment({ id, queryKey }: CommentProps) {
   const [replyOpened, setReplyOpened] = useState(false);
   const [repliesOpened, setRepliesOpened] = useState(false);
   const queryClient = useQueryClient();
@@ -54,6 +55,9 @@ export default function Comment({ id }: CommentProps) {
         queryClient.invalidateQueries({
           queryKey: ["report"],
         });
+      }
+      if (queryKey) {
+        queryClient.invalidateQueries({ queryKey });
       }
     },
     onError: () => {

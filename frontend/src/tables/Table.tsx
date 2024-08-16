@@ -19,11 +19,10 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
-  console.log(selectedProgram);
-  console.log(modelName);
+  const queryKey = [modelName, selectedProgram, pageNum];
 
   const { data, error, isLoading } = useQuery({
-    queryKey: [modelName, selectedProgram, pageNum],
+    queryKey,
     queryFn: () => {
       return services[modelName].search({
         programId: selectedProgram?.id,
@@ -86,6 +85,7 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
             data.items.map((datum: any, i: number) => {
               return (
                 <DataDisplay
+                  queryKey={queryKey}
                   key={datum.id}
                   i={i}
                   data={datum}

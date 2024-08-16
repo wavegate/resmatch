@@ -6,14 +6,23 @@ import { notifications } from "@mantine/notifications";
 import services from "@/services/services";
 import { schemas } from "@/schemas/schemas";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import Comment from "@/components/Comment/Comment";
+import AddComment from "@/pages/updatePages/AddChat/AddChat";
+import AddCommentField from "@/components/AddCommentField";
 
 interface DataDisplayProps {
   data: any;
   modelName: string; // The name of the model, e.g., "interviewLogistics"
   i: number;
+  queryKey: any;
 }
 
-const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
+const DataDisplay: React.FC<DataDisplayProps> = ({
+  data,
+  modelName,
+  i,
+  queryKey,
+}) => {
   const schema = schemas[modelName];
   const queryClient = useQueryClient();
 
@@ -45,7 +54,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
     (fieldName) =>
       fieldName !== "programId" &&
       fieldName !== "anonymous" &&
-      fieldName !== "import"
+      fieldName !== "import" &&
+      fieldName !== "comments"
   );
 
   return (
@@ -149,6 +159,15 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ data, modelName, i }) => {
           Delete {modelName} Entry
         </Button>
       </Group>
+      {/* Display comments field */}
+      {data.comments && (
+        <div className={`flex flex-col gap-4`}>
+          {data.comments.map((item: any) => (
+            <Comment id={item.id} key={item.id} queryKey={queryKey} />
+          ))}
+        </div>
+      )}
+      <AddCommentField queryKey={queryKey} modelName={modelName} id={data.id} />
     </Card>
   );
 };
