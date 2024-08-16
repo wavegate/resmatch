@@ -1,17 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { Text, Group, Title, Divider, Button } from "@mantine/core";
+import { Text, Group, Title, Divider, Button, SimpleGrid } from "@mantine/core";
 import userService from "@/services/userService";
 import useUser from "@/hooks/useUser";
 import { Link } from "react-router-dom";
+import DataDisplay from "@/headers/DataDisplay";
+import userProfileFormSchema from "@/schemas/userProfileFormSchema";
+import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 
 export default function Profile() {
   const { user } = useUser();
 
-  const {
-    data: userDetails,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["user", user?.id],
     queryFn: () => userService.readUser(user?.id),
     enabled: !!user,
@@ -25,9 +24,11 @@ export default function Profile() {
     return <Text>Error loading profile</Text>;
   }
 
+  const schema = userProfileFormSchema;
+
   return (
     <div>
-      {userDetails && (
+      {data && (
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <Title order={2}>Profile</Title>
@@ -40,176 +41,72 @@ export default function Profile() {
             </Button>
           </div>
           <Divider />
+          <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
+            {Object.keys(schema).map((fieldName, index) => {
+              const fieldSchema = schema[fieldName];
+              let displayValue: React.ReactNode = "-";
 
-          <Group>
-            <Text w={500}>Alias:</Text>
-            <Text>{userDetails.alias || "N/A"}</Text>
-          </Group>
+              if (data[fieldName] !== undefined && data[fieldName] !== null) {
+                switch (fieldSchema.type) {
+                  case "boolean":
+                    displayValue = data[fieldName] ? "Yes" : "No";
+                    break;
+                  case "date":
+                    displayValue = new Date(
+                      data[fieldName]
+                    ).toLocaleDateString();
+                    break;
+                  case "multipleDates":
+                    displayValue = Array.isArray(data[fieldName])
+                      ? data[fieldName]
+                          .map((date: string) =>
+                            new Date(date).toLocaleDateString()
+                          )
+                          .join(", ")
+                      : "-";
+                    break;
+                  case "select":
+                    displayValue =
+                      fieldLabelMap[fieldName]?.[data[fieldName]] ||
+                      data[fieldName];
+                    break;
+                  case "array":
+                    if (
+                      fieldSchema.of === "string" &&
+                      Array.isArray(data[fieldName])
+                    ) {
+                      displayValue = (
+                        <ul>
+                          {data[fieldName].map((item: string, idx: number) => (
+                            <li key={idx}>{item}</li>
+                          ))}
+                        </ul>
+                      );
+                    } else {
+                      displayValue = data[fieldName].join(", ");
+                    }
+                    break;
+                  default:
+                    displayValue = data[fieldName];
+                }
+              } else {
+                return false;
+              }
 
-          <Group>
-            <Text w={500}>Email:</Text>
-            <Text>{userDetails.email}</Text>
-          </Group>
+              return (
+                <div key={fieldName} className={`flex flex-col gap-2`}>
+                  <Text size="sm" w={500}>
+                    {fieldSchema.label}:
+                  </Text>
+                  <Text size="sm">{displayValue}</Text>
 
-          <Group>
-            <Text w={500}>Green Card:</Text>
-            <Text>{userDetails.greenCard ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Step 2 CS Pathway:</Text>
-            <Text>{userDetails.step2CSPathway || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Year of Graduation:</Text>
-            <Text>{userDetails.yearOfGraduation || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Months of USCE:</Text>
-            <Text>{userDetails.monthsOfUSCE || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>ECFMG Certified:</Text>
-            <Text>{userDetails.ecfmgCertified ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Visa Required:</Text>
-            <Text>{userDetails.visaRequired ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Graduate Type:</Text>
-            <Text>{userDetails.graduateType || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Medical Degree:</Text>
-            <Text>{userDetails.medicalDegree || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>IMG Type:</Text>
-            <Text>{userDetails.img || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Step 1 Score Pass:</Text>
-            <Text>{userDetails.step1ScorePass ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Step 1 Score:</Text>
-            <Text>{userDetails.step1Score || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Step 2 Score:</Text>
-            <Text>{userDetails.step2Score || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Step 3 Score:</Text>
-            <Text>{userDetails.step3Score || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>COMLEX 1 Score Pass:</Text>
-            <Text>{userDetails.comlex1ScorePass ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>COMLEX 2 Score:</Text>
-            <Text>{userDetails.comlex2Score || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Red Flags:</Text>
-            <Text>{userDetails.redFlags ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Red Flags Explanation:</Text>
-            <Text>{userDetails.redFlagsExplanation || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>AOA:</Text>
-            <Text>{userDetails.aoa ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Sigma Sigma Phi:</Text>
-            <Text>{userDetails.sigmaSigmaPhi ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Gold Humanism:</Text>
-            <Text>{userDetails.goldHumanism ? "Yes" : "No"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Publications:</Text>
-            <Text>{userDetails.numPublications || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Work Experiences:</Text>
-            <Text>{userDetails.numWorkExperiences || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Volunteer Experiences:</Text>
-            <Text>{userDetails.numVolunteerExperiences || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Class Rank:</Text>
-            <Text>{userDetails.classRank || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Other Degrees:</Text>
-            <Text>{userDetails.otherDegrees || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Applications:</Text>
-            <Text>{userDetails.numApplications || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Interviews:</Text>
-            <Text>{userDetails.numInterviews || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Withdrawn Applications:</Text>
-            <Text>{userDetails.numWithdrawn || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Rejections:</Text>
-            <Text>{userDetails.numRejected || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Number of Waitlists:</Text>
-            <Text>{userDetails.numWaitlisted || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Application Year:</Text>
-            <Text>{userDetails.applicationYear || "N/A"}</Text>
-          </Group>
-
-          <Group>
-            <Text w={500}>Public Profile:</Text>
-            <Text>{userDetails.public ? "Yes" : "No"}</Text>
-          </Group>
+                  <Text size="xs" c="dimmed">
+                    {fieldSchema.description}
+                  </Text>
+                </div>
+              );
+            })}
+          </SimpleGrid>
         </div>
       )}
     </div>

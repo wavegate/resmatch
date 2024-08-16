@@ -22,7 +22,7 @@ import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
 import { Link } from "react-router-dom";
 
-const formComponentMap = {
+export const formComponentMap = {
   string: TextInput,
   number: NumberInput,
   boolean: Checkbox,

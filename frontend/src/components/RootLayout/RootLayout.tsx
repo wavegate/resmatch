@@ -1,48 +1,7 @@
-import {
-  Anchor,
-  AppShell,
-  Burger,
-  Button,
-  LoadingOverlay,
-  Menu,
-} from "@mantine/core";
+import { AppShell, Burger, Button, LoadingOverlay } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { RiMentalHealthLine } from "react-icons/ri";
-import { FaRegCalendarCheck } from "react-icons/fa6";
-import { HiOutlineChat, HiOutlineHome } from "react-icons/hi";
-import { PiHospital } from "react-icons/pi";
-import {
-  FaBalanceScale,
-  FaBalanceScaleLeft,
-  FaCalendarAlt,
-  FaChartBar,
-  FaCity,
-  FaClipboardList,
-  FaComments,
-  FaEnvelope,
-  FaEnvelopeOpenText,
-  FaEye,
-  FaHandshake,
-  FaInfoCircle,
-  FaListOl,
-  FaListUl,
-  FaMapSigns,
-  FaMedal,
-  FaMicroscope,
-  FaQuestionCircle,
-  FaRegCalendarMinus,
-  FaSkullCrossbones,
-  FaSortAmountUp,
-  FaSortNumericDown,
-  FaSortNumericDownAlt,
-  FaThumbsUp,
-  FaTimesCircle,
-  FaUserFriends,
-  FaUserGraduate,
-  FaUserMd,
-} from "react-icons/fa";
-import { BiMap } from "react-icons/bi";
 import useUser from "@/hooks/useUser";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
@@ -71,6 +30,7 @@ export default () => {
               onClick={toggle}
               hiddenFrom="sm"
               size="sm"
+              className={`burger`}
             />
             <Link className={`items-center flex gap-3`} to={"/"}>
               <RiMentalHealthLine size={24} />

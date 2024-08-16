@@ -20,7 +20,6 @@ interface DataDisplayProps {
 const DataDisplay: React.FC<DataDisplayProps> = ({
   data,
   modelName,
-  i,
   queryKey,
 }) => {
   const schema = schemas[modelName];
