@@ -239,7 +239,7 @@ model CityUserInput {
   cityId               Int
   anonymous            Boolean  @default(true)
 
-  city City @relation(fields: [cityId], references: [id])
+  city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id])
 
   @@index([cityId])

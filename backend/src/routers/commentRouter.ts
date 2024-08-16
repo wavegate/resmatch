@@ -106,14 +106,14 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
 });
 
 commentRouter.post("/search", verifyToken, async (req, res) => {
-  const { pageNum = 1 } = req.body;
+  const { pageNum = 1, ...queryParams } = req.body;
   const PAGE_SIZE = 10; // Example page size
 
   try {
     // Construct the where clause dynamically using req.body
     const whereClause = {
       parentId: null,
-      ...req.body, // Spread all properties from req.body
+      ...queryParams, // Spread all properties from req.body
     };
 
     // Convert specific fields to numbers if needed
