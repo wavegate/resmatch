@@ -9,6 +9,7 @@ import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import Comment from "@/components/Comment/Comment";
 import AddComment from "@/pages/updatePages/AddChat/AddChat";
 import AddCommentField from "@/components/AddCommentField";
+import useUser from "@/hooks/useUser";
 
 interface DataDisplayProps {
   data: any;
@@ -57,6 +58,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       fieldName !== "comments"
   );
 
+  const { user } = useUser();
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       {/* Display program name */}
@@ -68,7 +70,13 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
 
       {/* Display user alias or 'Anonymous' */}
       <Text size="sm" c="dimmed">
-        {data.anonymous ? "Anonymous" : data.user?.alias || "-"}
+        {data.anonymous ? (
+          "Anonymous"
+        ) : (
+          <Link to={`/user/${data.user.id}`} className={`underline`}>
+            {data.user?.alias || "-"}
+          </Link>
+        )}
       </Text>
 
       {/* Display creation date */}
@@ -146,18 +154,20 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       </SimpleGrid>
 
       {/* Buttons for update and delete */}
-      <Group justify="right" mt="md">
-        <Link to={`/${modelName}/${data.id}`}>
-          <Button>Update {modelName} Entry</Button>
-        </Link>
-        <Button
-          color="red"
-          onClick={handleDelete}
-          loading={deleteMutation.isPending}
-        >
-          Delete {modelName} Entry
-        </Button>
-      </Group>
+      {user?.id === data.userId && (
+        <Group justify="right" mt="md">
+          <Link to={`/${modelName}/${data.id}`}>
+            <Button>Update {modelName} Entry</Button>
+          </Link>
+          <Button
+            color="red"
+            onClick={handleDelete}
+            loading={deleteMutation.isPending}
+          >
+            Delete {modelName} Entry
+          </Button>
+        </Group>
+      )}
       {/* Display comments field */}
       {data.comments && (
         <div className={`flex flex-col gap-4`}>

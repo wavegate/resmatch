@@ -1,21 +1,20 @@
+const { id } = useParams<{ id: string }>();
+
+const {
+  data: userDetails,
+  isLoading,
+  error,
+} = useQuery({
+  queryKey: ["user", id],
+  queryFn: () => userService.readUser(id),
+  enabled: !!id,
+});
 import { useQuery } from "@tanstack/react-query";
 import { Text, Group, Title, Divider, Button } from "@mantine/core";
 import userService from "@/services/userService";
 import { Link, useParams } from "react-router-dom";
 
 export default function UserProfile() {
-  const { id } = useParams<{ id: string }>();
-
-  const {
-    data: userDetails,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["user", id],
-    queryFn: () => userService.readUser(id),
-    enabled: !!id,
-  });
-
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
@@ -29,7 +28,7 @@ export default function UserProfile() {
       {userDetails?.public ? (
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
-            <Title order={2}>User Profile</Title>
+            <Title order={2}>{userDetails.alias}'s User Profile</Title>
           </div>
           <Divider />
 

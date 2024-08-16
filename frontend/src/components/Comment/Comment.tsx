@@ -7,6 +7,7 @@ import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import commentService from "@/services/commentService";
 import AddChatForm from "@/components/AddChatForm/AddChatForm";
 import { notifications } from "@mantine/notifications";
+import useUser from "@/hooks/useUser";
 
 interface CommentProps {
   id: number;
@@ -73,6 +74,8 @@ export default function Comment({ id, queryKey }: CommentProps) {
     deleteMutation.mutate();
   };
 
+  const { user } = useUser();
+
   if (isLoading) {
     return <Loader size="sm" />;
   }
@@ -106,15 +109,17 @@ export default function Comment({ id, queryKey }: CommentProps) {
             <Button size="xs" variant="subtle" onClick={toggleReplyForm}>
               {replyOpened ? "Cancel Reply" : "Reply"}
             </Button>
-            <Button
-              size="xs"
-              variant="subtle"
-              color="red"
-              onClick={handleDelete}
-              loading={deleteMutation.isPending}
-            >
-              Delete
-            </Button>
+            {user?.id === comment.userId && (
+              <Button
+                size="xs"
+                variant="subtle"
+                color="red"
+                onClick={handleDelete}
+                loading={deleteMutation.isPending}
+              >
+                Delete
+              </Button>
+            )}
             {comment.replies.length > 0 && (
               <Button
                 variant="subtle"

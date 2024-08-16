@@ -2,19 +2,24 @@ import { useQuery } from "@tanstack/react-query";
 import { Text, Group, Title, Divider, Button, SimpleGrid } from "@mantine/core";
 import userService from "@/services/userService";
 import useUser from "@/hooks/useUser";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DataDisplay from "@/headers/DataDisplay";
 import userProfileFormSchema from "@/schemas/userProfileFormSchema";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 
 export default function Profile() {
   const { user } = useUser();
+  const { id } = useParams<{ id: string }>();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["user", user?.id],
-    queryFn: () => userService.readUser(user?.id),
-    enabled: !!user,
+    queryKey: ["user", id ? id : user?.id],
+    queryFn: () => userService.readUser(id ? id : user?.id),
+    enabled: !!(user || id),
   });
+
+  if (data && !data.public) {
+    return <div>This user's profile is not public.</div>;
+  }
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -31,14 +36,18 @@ export default function Profile() {
       {data && (
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
-            <Title order={2}>Profile</Title>
-            <Button
-              component={Link}
-              to={`/user/add/${user.id}`}
-              variant="outline"
-            >
-              Update Profile
-            </Button>
+            <Title order={2}>
+              {id ? `${data.alias}'s Public Profile` : "My Profile"}
+            </Title>
+            {!id && (
+              <Button
+                component={Link}
+                to={`/user/add/${user.id}`}
+                variant="outline"
+              >
+                Update Profile
+              </Button>
+            )}
           </div>
           <Divider />
           <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>

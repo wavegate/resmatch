@@ -27,7 +27,7 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      anonymous: true,
+      anonymous: false,
     },
   });
 

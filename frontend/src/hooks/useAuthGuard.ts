@@ -1,16 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import useUser from "./useUser";
 import { useEffect } from "react";
+import { notifications } from "@mantine/notifications";
 
-export default () => {
+interface UseAuthGuardProps {
+  id?: number;
+}
+
+export default ({ id }: UseAuthGuardProps = {}) => {
   const { user, isLoading } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && !user) {
-      navigate("/login");
+    if (!isLoading) {
+      if (!user) {
+        navigate("/login");
+      } else if (id && user.id !== id) {
+        notifications.show({
+          title: "Permission Denied",
+          message: "You do not have permission to access this resource.",
+          color: "red",
+        });
+        navigate("/"); // Navigate to home page if the id doesn't match
+      }
     }
-  }, [user, isLoading, navigate]);
+  }, [user, isLoading, id, navigate]);
 
   return { user, isLoading };
 };

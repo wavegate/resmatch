@@ -417,7 +417,7 @@ const routes = [
       },
       {
         path: "user/:id",
-        element: <UserProfile />,
+        element: <Profile />,
       },
       {
         path: "user/add/:id",

@@ -35,8 +35,8 @@ import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 export default function AddUser() {
   const schema = userProfileFormSchema;
   const formSchema = generateZodSchema(schema);
-  useAuthGuard();
   const { id } = useParams();
+  useAuthGuard({ id: Number(id) });
   const isUpdate = !!id;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
