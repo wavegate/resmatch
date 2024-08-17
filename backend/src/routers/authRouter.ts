@@ -174,4 +174,81 @@ authRouter.get("/confirm-email", async (req, res) => {
   }
 });
 
+// Reset Password Endpoint
+authRouter.post("/reset-password", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Check if the user exists
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: "User with this email does not exist" });
+    }
+
+    // Generate a reset token
+    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
+      expiresIn: "1h", // Token expires in 1 hour
+    });
+
+    // Send reset password email
+    const resetUrl = `${FRONTEND_URL}/reset-password?token=${token}`;
+    mg.messages
+      .create("mail.residencymatch.net", {
+        from: "admin@mail.residencymatch.net",
+        to: [email],
+        subject: "Reset Your Password",
+        text: `Click the link to reset your password: ${resetUrl}`,
+        html: `<h1>Reset Your Password</h1><p>Click the link to reset your password: <a href="${resetUrl}">${resetUrl}</a></p>`,
+      })
+      .then((msg) => console.log("Password reset email sent:", msg))
+      .catch((err) => console.error("Error sending email:", err));
+
+    res.status(200).json({
+      message:
+        "Password reset email sent successfully. Please check your inbox.",
+    });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Update Password Endpoint
+authRouter.post("/update-password", async (req, res) => {
+  const { token, password } = req.body;
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    // Find the user by ID
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update the user's password
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedPassword },
+    });
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 export default authRouter;

@@ -69,7 +69,6 @@ model User {
   InterviewLogistics      InterviewLogistics[]
   SecondLook              SecondLook[]
   InterviewRejection      InterviewRejection[]
-  InterviewWithdrawal     InterviewWithdrawal[]
   M4InternImpression      M4InternImpression[]
   Malignant               Malignant[]
   LOIResponse             LOIResponse[]
@@ -118,7 +117,6 @@ model Program {
   InterviewLogistics  InterviewLogistics[]
   SecondLook          SecondLook[]
   InterviewRejection  InterviewRejection[]
-  InterviewWithdrawal InterviewWithdrawal[]
   M4InternImpression  M4InternImpression[]
   Malignant           Malignant[]
   LOIResponse         LOIResponse[]
@@ -139,7 +137,7 @@ model InterviewInvite {
   id                   Int            @id @default(autoincrement())
   graduateType         GraduateType?
   img                  IMGType?
-  inviteDateTime       DateTime
+  date                 DateTime
   geographicPreference Boolean?
   signal               Boolean?
   inState              Boolean?
@@ -546,20 +544,6 @@ model InterviewRejection {
   updatedAt DateTime @updatedAt
 }
 
-model InterviewWithdrawal {
-  id        Int      @id @default(autoincrement())
-  programId Int
-  program   Program  @relation(fields: [programId], references: [id])
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  date      DateTime
-  reason    String?
-  anonymous Boolean  @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model M4InternImpression {
   id                 Int       @id @default(autoincrement())
   userId             Int
@@ -685,7 +669,7 @@ model Dropped {
   user                     User      @relation(fields: [userId], references: [id])
   programId                Int
   program                  Program   @relation(fields: [programId], references: [id])
-  dateDropped              DateTime
+  date                     DateTime
   dateOfInterviewCancelled DateTime?
   reason                   String?
   anonymous                Boolean   @default(false)

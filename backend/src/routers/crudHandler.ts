@@ -78,6 +78,8 @@ export const createCrudHandlers = (modelName) => ({
         pageSize = 10,
         programId,
         userId,
+        startDate,
+        endDate,
         ...extraConditions
       } = req.body;
       const offset = (pageNum - 1) * pageSize;
@@ -91,6 +93,16 @@ export const createCrudHandlers = (modelName) => ({
 
       if (userId) {
         whereClause.userId = Number(userId); // Ensure userId is a number
+      }
+
+      if (startDate || endDate) {
+        whereClause.date = {};
+        if (startDate) {
+          whereClause.date.gte = new Date(startDate);
+        }
+        if (endDate) {
+          whereClause.date.lte = new Date(endDate);
+        }
       }
 
       // Add extra conditions to the where clause

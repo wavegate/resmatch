@@ -13,11 +13,11 @@ inviteRouter.get("/total-invites-over-time", async (req, res) => {
   try {
     const rawData = await prisma.$queryRaw`
       SELECT
-        DATE("inviteDateTime") AS date,
+        DATE("date") AS date,
         COUNT(*)::bigint AS totalInvites
       FROM "InterviewInvite"
-      GROUP BY DATE("inviteDateTime")
-      ORDER BY DATE("inviteDateTime");
+      GROUP BY DATE("date")
+      ORDER BY DATE("date");
     `;
 
     const formattedData = rawData.map((entry) => ({
