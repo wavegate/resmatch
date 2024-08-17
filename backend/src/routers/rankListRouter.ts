@@ -4,6 +4,64 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const rankListRouter = express.Router();
 
+// Get a tally of ranks for all programs across all RankLists
+rankListRouter.get("/program-rank-tally", async (req, res) => {
+  try {
+    // Fetch all rank lists with their ranked programs
+    const rankLists = await prisma.rankList.findMany({
+      include: {
+        RankedProgram: {
+          include: {
+            program: {
+              include: {
+                institution: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Initialize a tally object
+    const programRankTally = {};
+
+    rankLists.forEach((rankList) => {
+      rankList.RankedProgram.forEach((rankedProgram) => {
+        const programId = rankedProgram.program.id;
+        let rank = rankedProgram.rank;
+        if (rank >= 6) {
+          rank = 6;
+        }
+
+        if (!programRankTally[programId]) {
+          programRankTally[programId] = {
+            program: rankedProgram.program,
+            rankTally: {},
+            totalRankLists: 0,
+          };
+        }
+
+        // Tally the rank for this program
+        if (!programRankTally[programId].rankTally[rank]) {
+          programRankTally[programId].rankTally[rank] = 0;
+        }
+        programRankTally[programId].rankTally[rank]++;
+
+        // Increment the total number of rank lists this program appears in
+        programRankTally[programId].totalRankLists++;
+      });
+    });
+
+    // Convert the result into an array of objects
+    const result = Object.values(programRankTally);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching program rank tally:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Create a new RankList (protected by verifyToken)
 rankListRouter.post("/", verifyToken, async (req, res) => {
   const {
