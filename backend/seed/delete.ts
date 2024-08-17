@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function deleteAllReplies() {
-  await prisma.city.deleteMany();
+  await prisma.bin.deleteMany();
   console.log("All replies have been deleted.");
 }
 
