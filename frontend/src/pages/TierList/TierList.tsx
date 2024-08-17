@@ -13,6 +13,7 @@ import tierListService from "@/services/tierListService";
 import suggestionService from "@/services/suggestionService";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { notifications } from "@mantine/notifications";
+import useUser from "@/hooks/useUser";
 
 export default function TierListDetails() {
   const [suggestion, setSuggestion] = useState("");
@@ -33,6 +34,8 @@ export default function TierListDetails() {
     queryKey: ["suggestion", 1], // Hardcoding ID 1 for now
     queryFn: () => suggestionService.searchSuggestion({ tierListId: 1 }),
   });
+
+  const { user } = useUser();
 
   // Mutation to add a new suggestion
   const { mutate: addSuggestion, isPending: isAdding } = useMutation({
@@ -59,6 +62,27 @@ export default function TierListDetails() {
     },
   });
 
+  // Mutation to delete a suggestion
+  const { mutate: deleteSuggestion } = useMutation({
+    mutationFn: (suggestionId) =>
+      suggestionService.deleteSuggestion(suggestionId),
+    onSuccess: () => {
+      notifications.show({
+        title: "Success",
+        message: "Suggestion deleted successfully",
+        color: "green",
+      });
+      queryClient.invalidateQueries({ queryKey: ["suggestion", 1] });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: "Failed to delete suggestion",
+        color: "red",
+      });
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center">
@@ -72,7 +96,7 @@ export default function TierListDetails() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <header>
         <Title
           order={2}
@@ -81,9 +105,21 @@ export default function TierListDetails() {
         >
           {tierListData.title}
         </Title>
+        <Text
+          c="dimmed"
+          mb={{ base: "xs", md: "sm" }}
+          className="text-sm sm:text-base md:text-lg"
+        >
+          Community program tier list.
+        </Text>
       </header>
 
-      <Accordion>
+      <Accordion
+        multiple
+        defaultValue={[
+          ...tierListData.bins.slice(0, 2).map((bin) => String(bin.id)),
+        ]}
+      >
         {tierListData.bins.map((bin: any) => (
           <Accordion.Item key={bin.id} value={bin.id.toString()}>
             <Accordion.Control>
@@ -133,6 +169,15 @@ export default function TierListDetails() {
             {suggestionsData.suggestions.map((suggestion: any) => (
               <li key={suggestion.id}>
                 <Text>{suggestion.content}</Text>
+                {suggestion.userId === user?.id && (
+                  <Button
+                    onClick={() => deleteSuggestion(suggestion.id)}
+                    color="red"
+                    size="xs"
+                  >
+                    Delete
+                  </Button>
+                )}
               </li>
             ))}
           </ul>

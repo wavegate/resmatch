@@ -1,16 +1,13 @@
 import userService from "@/services/userService";
-import { Accordion, Drawer, Loader, SimpleGrid, Text } from "@mantine/core";
+import { Drawer, Loader, SimpleGrid, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import UserHeader from "@/headers/UserHeader/UserHeader";
-import UserDetails from "@/details/UserDetails/UserDetails";
 import { PAGE_SIZE } from "@/constants";
 import Filters from "@/components/Filters/Filters";
 import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
-import DataDisplay from "@/headers/DataDisplay";
 import userProfileFormSchema from "@/schemas/userProfileFormSchema";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 

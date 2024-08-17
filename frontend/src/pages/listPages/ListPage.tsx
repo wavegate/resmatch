@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, Title } from "@mantine/core";
 import Table from "@/tables/Table";
+import { pageDescription } from "@/schemas/pageDescription";
 
 interface ListPageProps {
   modelName: string;
@@ -17,7 +18,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          {modelName}
+          {pageDescription[modelName].name}
         </Title>
         {modelName && (
           <Text
@@ -25,7 +26,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
             mb={{ base: "xs", md: "sm" }}
             className="text-sm sm:text-base md:text-lg"
           >
-            {modelName}
+            {pageDescription[modelName].description}
           </Text>
         )}
       </header>
