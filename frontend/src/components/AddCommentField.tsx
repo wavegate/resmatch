@@ -65,11 +65,12 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
         control={control}
         render={({ field, fieldState }) => (
           <Textarea
-            label="Comment"
+            label="New Comment"
             placeholder="Enter your comment"
             required
             error={fieldState.error?.message}
             minRows={4}
+            size="md"
             {...field}
           />
         )}
@@ -88,7 +89,9 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
         )}
       />
 
-      <Button type="submit">Submit Comment</Button>
+      <Button type="submit" className={`w-fit`}>
+        Submit Comment
+      </Button>
     </form>
   );
 };

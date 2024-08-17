@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Drawer, Loader } from "@mantine/core";
+import { Accordion, Avatar, Drawer, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import NoRecords from "@/components/NoRecords/NoRecords";
@@ -10,6 +10,12 @@ import Badges from "@/components/Badges/Badges";
 import DataDisplay from "@/headers/DataDisplay";
 import services from "@/services/services";
 import { pageDescription } from "@/schemas/pageDescription";
+import programName from "@/utils/programName";
+import { generateGravatarUrl } from "@/utils/utils";
+import dayjs from "dayjs";
+import { Link } from "react-router-dom";
+import Details from "@/components/Details";
+import Header from "@/components/Header";
 
 interface TableProps {
   modelName: string;
@@ -98,20 +104,33 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        <div className={`flex flex-col gap-4 mt-4`}>
+        <Accordion variant="separated" className={`mt-6`}>
           {data?.items?.length > 0 &&
             data.items.map((datum: any, i: number) => {
               return (
-                <DataDisplay
-                  queryKey={queryKey}
-                  key={datum.id}
-                  i={i}
-                  data={datum}
-                  modelName={modelName}
-                />
+                <Accordion.Item key={datum.id} value={datum.id.toString()}>
+                  <Accordion.Control className={`bg-primary bg-opacity-10`}>
+                    <Header
+                      queryKey={queryKey}
+                      key={datum.id}
+                      i={i}
+                      data={datum}
+                      modelName={modelName}
+                    />
+                  </Accordion.Control>
+                  <Accordion.Panel>
+                    <Details
+                      queryKey={queryKey}
+                      key={datum.id}
+                      i={i}
+                      data={datum}
+                      modelName={modelName}
+                    />
+                  </Accordion.Panel>
+                </Accordion.Item>
               );
             })}
-        </div>
+        </Accordion>
         {data?.items && data.items.length === 0 && <NoRecords />}
       </div>
     </div>

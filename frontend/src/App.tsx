@@ -6,6 +6,7 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Notifications } from "@mantine/notifications";
+import { ModalsProvider } from "@mantine/modals";
 
 import routes from "@/routes";
 
@@ -23,7 +24,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
         <Notifications position="top-center" zIndex={1000} />
-        <RouterProvider router={router}></RouterProvider>
+        <ModalsProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </ModalsProvider>
       </MantineProvider>
     </QueryClientProvider>
   );

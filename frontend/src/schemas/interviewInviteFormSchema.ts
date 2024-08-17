@@ -10,7 +10,7 @@ const interviewInviteFormSchema: FormSchema = {
   },
   date: {
     type: "date",
-    label: "Invite Date & Time",
+    label: "Invite Date",
     description: "When did you receive the interview invite?",
     placeholder: "Select the date and time",
     required: true,

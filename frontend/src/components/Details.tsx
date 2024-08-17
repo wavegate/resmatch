@@ -15,7 +15,6 @@ import services from "@/services/services";
 import { schemas } from "@/schemas/schemas";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import Comment from "@/components/Comment/Comment";
-import AddComment from "@/pages/updatePages/AddChat/AddChat";
 import AddCommentField from "@/components/AddCommentField";
 import useUser from "@/hooks/useUser";
 import { pageDescription } from "@/schemas/pageDescription";
@@ -30,13 +29,11 @@ interface DataDisplayProps {
   queryKey: any;
 }
 
-const DataDisplay: React.FC<DataDisplayProps> = ({
-  data,
-  modelName,
-  queryKey,
-}) => {
+const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
   const schema = schemas[modelName];
   const queryClient = useQueryClient();
+
+  const labels = pageDescription[modelName];
 
   // Mutation for deleting the entry
   const deleteMutation = useMutation({
@@ -44,7 +41,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     onSuccess: () => {
       notifications.show({
         title: "Success",
-        message: `${modelName} entry deleted successfully`,
+        message: `${labels.singular} entry deleted successfully`,
         color: "green",
       });
       queryClient.invalidateQueries({ queryKey: [modelName] });
@@ -52,15 +49,11 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     onError: () => {
       notifications.show({
         title: "Error",
-        message: `Failed to delete the ${modelName} entry`,
+        message: `Failed to delete the ${labels.singular} entry`,
         color: "red",
       });
     },
   });
-
-  const handleDelete = () => {
-    deleteMutation.mutate();
-  };
 
   const filteredFields = Object.keys(schema).filter(
     (fieldName) =>
@@ -70,36 +63,12 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       fieldName !== "comments"
   );
 
-  const { user } = useUser();
-
-  const labels = pageDescription[modelName];
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
-      {/* Display program name */}
-
-      {programName(data.program)}
-
-      {/* Display user alias or 'Anonymous' */}
-      <div className={`text-sm text-gray-500 flex gap-1.5 items-center`}>
-        {data.anonymous ? (
-          "Anonymous"
-        ) : (
-          <Link
-            to={`/user/${data.user.id}`}
-            className={`underline flex gap-2 items-center inline`}
-          >
-            <Avatar size="14" src={generateGravatarUrl(data.user?.email, 40)} />
-            <div>{data.user?.alias || "-"}</div>
-          </Link>
-        )}
-        <div>·</div>
-        <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
-      </div>
-
-      <Divider my="sm" />
-
+    <div className={`flex flex-col gap-4 py-4`}>
       {/* Display fields in a responsive grid */}
-      <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
+      <div
+        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-[auto_1fr] gap-4 border border-solid rounded-sm p-4`}
+      >
         {filteredFields.map((fieldName, index) => {
           const fieldSchema = schema[fieldName];
           let displayValue: React.ReactNode = "-";
@@ -150,36 +119,21 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
           }
 
           return (
-            <div key={fieldName} className={`flex flex-col gap-2`}>
-              <Text size="sm" w={500}>
-                {fieldSchema.label}:
-              </Text>
-              <Text size="xs" c="dimmed">
-                {fieldSchema.description}
-              </Text>
-              <Text size="sm">{displayValue}</Text>
+            <div
+              key={fieldName}
+              className={`grid col-span-2 grid-cols-subgrid`}
+            >
+              <div className={`font-medium`}>{fieldSchema.label}:</div>
+              {/* <div>{fieldSchema.description}</div> */}
+              <div className={`text-gray-600`}>{displayValue}</div>
             </div>
           );
         })}
-      </SimpleGrid>
+      </div>
 
-      {/* Buttons for update and delete */}
-      {user?.id === data.userId && (
-        <Group justify="right" mt="md">
-          <Link to={`/${modelName}/${data.id}`}>
-            <Button>Update {labels.singular} Entry</Button>
-          </Link>
-          <Button
-            color="red"
-            onClick={handleDelete}
-            loading={deleteMutation.isPending}
-          >
-            Delete {labels.singular} Entry
-          </Button>
-        </Group>
-      )}
       {/* Display comments field */}
-      {data.comments && (
+
+      {data.comments?.length > 0 && (
         <div className={`flex flex-col gap-4`}>
           {data.comments.map((item: any) => (
             <Comment id={item.id} key={item.id} queryKey={queryKey} />
@@ -187,8 +141,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         </div>
       )}
       <AddCommentField queryKey={queryKey} modelName={modelName} id={data.id} />
-    </Card>
+    </div>
   );
 };
 
-export default DataDisplay;
+export default Details;

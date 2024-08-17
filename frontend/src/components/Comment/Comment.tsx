@@ -8,6 +8,7 @@ import commentService from "@/services/commentService";
 import AddChatForm from "@/components/AddChatForm/AddChatForm";
 import { notifications } from "@mantine/notifications";
 import useUser from "@/hooks/useUser";
+import UserLink from "../UserLink";
 
 interface CommentProps {
   id: number;
@@ -89,21 +90,16 @@ export default function Comment({ id, queryKey }: CommentProps) {
     <div className={`border-solid border-l-2 pl-4`}>
       {comment && (
         <>
-          <Text className="text-xs sm:text-sm md:text-md font-medium">
-            {comment.content}
-          </Text>
-
-          <div className={`flex items-center gap-2`}>
-            {comment.user && (
-              <Link to={`/user/${comment.user.id}`}>
-                <Text c="dimmed" className="text-xs sm:text-sm underline">
-                  {comment.user.alias}
-                </Text>
-              </Link>
-            )}
-            <Text c="dimmed" className="text-xs sm:text-sm">
-              {dayjs(comment.createdAt).format("MMM D, YYYY")}
+          <div className={`flex flex-col gap-2`}>
+            <Text className="text-sm sm:text-sm md:text-md">
+              {comment.content}
             </Text>
+            <div
+              className={`flex items-center flex-wrap text-gray-500 gap-2 text-xs sm:text-sm`}
+            >
+              <UserLink data={comment} />
+              <div>{dayjs(comment.createdAt).format("M/D/YYYY [at] ha")}</div>
+            </div>
           </div>
 
           <div className="flex gap-2 mt-2">
