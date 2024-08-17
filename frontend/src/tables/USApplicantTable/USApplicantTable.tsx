@@ -1,5 +1,5 @@
 import userService from "@/services/userService";
-import { Accordion, Drawer, Loader } from "@mantine/core";
+import { Accordion, Drawer, Loader, SimpleGrid, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
@@ -10,6 +10,9 @@ import { PAGE_SIZE } from "@/constants";
 import Filters from "@/components/Filters/Filters";
 import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
+import DataDisplay from "@/headers/DataDisplay";
+import userProfileFormSchema from "@/schemas/userProfileFormSchema";
+import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 
 interface UserTableProps {
   className?: string;
@@ -80,16 +83,83 @@ export default ({ className }: UserTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        {data?.users?.length > 0 && (
-          <Accordion>
-            {data.users.map((item: any) => (
-              <Accordion.Item key={item.id} value={item.id.toString()}>
-                <UserHeader item={item} />
-                <UserDetails item={item} />
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        )}
+
+        {data?.users?.length > 0 &&
+          data.users.map((item: any) => {
+            return (
+              <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }} key={item.id}>
+                {Object.keys(userProfileFormSchema).map((fieldName, index) => {
+                  const fieldSchema = userProfileFormSchema[fieldName];
+                  let displayValue: React.ReactNode = "-";
+
+                  if (
+                    item[fieldName] !== undefined &&
+                    item[fieldName] !== null
+                  ) {
+                    switch (fieldSchema.type) {
+                      case "boolean":
+                        displayValue = item[fieldName] ? "Yes" : "No";
+                        break;
+                      case "date":
+                        displayValue = new Date(
+                          item[fieldName]
+                        ).toLocaleDateString();
+                        break;
+                      case "multipleDates":
+                        displayValue = Array.isArray(item[fieldName])
+                          ? item[fieldName]
+                              .map((date: string) =>
+                                new Date(date).toLocaleDateString()
+                              )
+                              .join(", ")
+                          : "-";
+                        break;
+                      case "select":
+                        displayValue =
+                          fieldLabelMap[fieldName]?.[item[fieldName]] ||
+                          item[fieldName];
+                        break;
+                      case "array":
+                        if (
+                          fieldSchema.of === "string" &&
+                          Array.isArray(item[fieldName])
+                        ) {
+                          displayValue = (
+                            <ul>
+                              {item[fieldName].map(
+                                (item: string, idx: number) => (
+                                  <li key={idx}>{item}</li>
+                                )
+                              )}
+                            </ul>
+                          );
+                        } else {
+                          displayValue = item[fieldName].join(", ");
+                        }
+                        break;
+                      default:
+                        displayValue = item[fieldName];
+                    }
+                  } else {
+                    return false;
+                  }
+
+                  return (
+                    <div key={fieldName} className={`flex flex-col gap-2`}>
+                      <Text size="sm" w={500}>
+                        {fieldSchema.label}:
+                      </Text>
+                      <Text size="sm">{displayValue}</Text>
+
+                      <Text size="xs" c="dimmed">
+                        {fieldSchema.description}
+                      </Text>
+                    </div>
+                  );
+                })}
+              </SimpleGrid>
+            );
+          })}
         {data?.users && data.users.length === 0 && <NoRecords />}
       </div>
     </div>

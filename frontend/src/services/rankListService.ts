@@ -85,10 +85,16 @@ const searchRankList = async ({
   return data;
 };
 
+const getProgramRankTally = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/program-rank-tally`);
+  return data;
+};
+
 export default {
   createRankList,
   readRankList,
   updateRankList,
   deleteRankList,
   searchRankList,
+  getProgramRankTally,
 };
