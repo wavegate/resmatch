@@ -31,7 +31,6 @@ const XorYFormSchema: FormSchema = {
     type: "boolean",
     label: "Post Anonymously",
     description: "Post this comparison anonymously.",
-    defaultValue: true,
   },
 };
 

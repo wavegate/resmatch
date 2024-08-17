@@ -62,6 +62,8 @@ import AddLogistics2 from "./pages/updatePages/AddLogistics2/AddLogistics2";
 import AddPage from "./pages/updatePages/AddPage";
 import ListPage from "./pages/listPages/ListPage";
 import { modelNames } from "./services/services";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const routes = [
   {
@@ -75,6 +77,14 @@ const routes = [
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
       {
         path: "sign-up",

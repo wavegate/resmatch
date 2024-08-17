@@ -10,6 +10,7 @@ import Comment from "@/components/Comment/Comment";
 import AddComment from "@/pages/updatePages/AddChat/AddChat";
 import AddCommentField from "@/components/AddCommentField";
 import useUser from "@/hooks/useUser";
+import { pageDescription } from "@/schemas/pageDescription";
 
 interface DataDisplayProps {
   data: any;
@@ -59,6 +60,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   );
 
   const { user } = useUser();
+
+  const labels = pageDescription[modelName];
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       {/* Display program name */}
@@ -157,14 +160,14 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       {user?.id === data.userId && (
         <Group justify="right" mt="md">
           <Link to={`/${modelName}/${data.id}`}>
-            <Button>Update {modelName} Entry</Button>
+            <Button>Update {labels.singular} Entry</Button>
           </Link>
           <Button
             color="red"
             onClick={handleDelete}
             loading={deleteMutation.isPending}
           >
-            Delete {modelName} Entry
+            Delete {labels.singular} Entry
           </Button>
         </Group>
       )}

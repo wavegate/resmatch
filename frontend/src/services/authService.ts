@@ -44,9 +44,24 @@ const confirmEmail = async (token: string): Promise<string> => {
   return data.message;
 };
 
+const resetPassword = async (formData): Promise<string> => {
+  const { data } = await apiClient.post(`${route}/reset-password`, formData);
+  return data.message;
+};
+
+const updatePassword = async (formData: {
+  token: string;
+  password: string;
+}): Promise<string> => {
+  const { data } = await apiClient.post(`${route}/update-password`, formData);
+  return data.message;
+};
+
 export default {
   login,
   register,
   getCurrentUser,
   confirmEmail,
+  resetPassword,
+  updatePassword,
 };

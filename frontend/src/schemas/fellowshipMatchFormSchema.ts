@@ -26,7 +26,6 @@ const fellowshipMatchFormSchema: FormSchema = {
     type: "boolean",
     label: "Post Anonymously",
     description: "Post this information anonymously.",
-    defaultValue: true,
   },
 };
 

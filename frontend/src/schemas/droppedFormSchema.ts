@@ -7,7 +7,7 @@ const droppedFormSchema: FormSchema = {
     description: "The program from which you dropped out.",
     required: true,
   },
-  dateDropped: {
+  date: {
     type: "date",
     label: "Date Dropped",
     description: "The date you dropped out of the program.",
@@ -29,7 +29,6 @@ const droppedFormSchema: FormSchema = {
     type: "boolean",
     label: "Post Anonymously",
     description: "An anonymous post is not linked to your user profile.",
-    defaultValue: true,
   },
 };
 

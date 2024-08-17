@@ -9,6 +9,7 @@ import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
 import DataDisplay from "@/headers/DataDisplay";
 import services from "@/services/services";
+import { pageDescription } from "@/schemas/pageDescription";
 
 interface TableProps {
   modelName: string;
@@ -17,21 +18,27 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = ({ modelName, className }) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
-  const queryKey = [modelName, selectedProgram, pageNum];
+  const queryKey = [modelName, selectedProgram, startDate, endDate, pageNum];
 
   const { data, error, isLoading } = useQuery({
     queryKey,
     queryFn: () => {
       return services[modelName].search({
         programId: selectedProgram?.id,
+        startDate: startDate ? startDate.toISOString() : undefined,
+        endDate: endDate ? endDate.toISOString() : undefined,
         pageNum,
       });
     },
   });
 
   const clearFilters = () => {
+    setStartDate(null);
+    setEndDate(null);
     setSelectedProgram(null);
     setPageNum(1);
   };
@@ -46,16 +53,23 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return !!selectedProgram;
-  }, [selectedProgram]);
+    return startDate || endDate || selectedProgram;
+  }, [startDate, endDate, selectedProgram]);
+
+  const labels = pageDescription[modelName];
 
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
         <Filters
+          modelName={modelName}
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
           clearFilters={clearFilters}
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
         />
       </Drawer>
 
@@ -65,12 +79,16 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
         totalPages={totalPages}
         openFilters={open}
         shareUrl={`/${modelName}/add`}
-        shareText={`Share ${modelName}`}
+        shareText={`Share ${labels.singular}`}
       />
 
       {filtersPresent && (
         <Badges
+          startDate={startDate}
+          endDate={endDate}
           selectedProgram={selectedProgram}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
           setSelectedProgram={setSelectedProgram}
         />
       )}

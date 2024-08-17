@@ -67,7 +67,6 @@ export default function AddLOIntentResponse() {
   }, [loiResponseData, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     await mutateAsync(values).then(() => {
       notifications.show({
         message: isUpdate

@@ -10,6 +10,7 @@ import { schemas } from "../../schemas/schemas";
 import FormGenerator from "./FormGenerator";
 import useUser from "@/hooks/useUser";
 import userService from "@/services/userService";
+import { pageDescription } from "@/schemas/pageDescription";
 
 const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   useAuthGuard();
@@ -19,6 +20,7 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   const navigate = useNavigate();
   const [resetValues, setResetValues] = useState({});
 
+  const labels = pageDescription[modelName];
   const schema = schemas[modelName]; // Retrieve the schema based on modelName
   const service = services[modelName];
 
@@ -58,8 +60,8 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
     await mutateAsync(values).then(() => {
       notifications.show({
         message: isUpdate
-          ? `${modelName} updated successfully!`
-          : `${modelName} added successfully!`,
+          ? `${labels.singular} updated successfully!`
+          : `${labels.singular} added successfully!`,
         withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: [modelName] });
@@ -68,8 +70,8 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   }
 
   const items = [
-    { title: modelName, to: `/${modelName}` },
-    { title: isUpdate ? `Edit ${modelName}` : `Add ${modelName}` },
+    { title: labels.name, to: `/${modelName}` },
+    { title: isUpdate ? `Edit ${labels.singular}` : `Add ${labels.singular}` },
   ].map((item, index) =>
     item.to ? (
       <Link to={item.to} key={index}>

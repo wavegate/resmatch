@@ -38,6 +38,12 @@ export const schemas: { [key: string]: FormSchema } = {
   // Add other schemas here with their corresponding model names as keys
 };
 
+export const filtersMap = {
+  interviewInvite: ["program", "startDate", "endDate"],
+  interviewRejection: ["program", "startDate", "endDate"],
+  dropped: ["program", "startDate", "endDate"],
+};
+
 export function generateZodSchema(schema: FormSchema): ZodSchema<any> {
   const zodShape: any = {};
 

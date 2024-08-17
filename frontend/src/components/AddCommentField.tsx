@@ -23,10 +23,10 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
   id,
   queryKey,
 }) => {
-  console.log(queryKey);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      content: "",
       anonymous: false,
     },
   });

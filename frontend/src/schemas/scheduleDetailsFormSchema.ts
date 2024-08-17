@@ -143,7 +143,6 @@ const scheduleDetailsFormSchema: FormSchema = {
     type: "boolean",
     label: "Post Anonymously",
     description: "An anonymous post is not linked to your user profile.",
-    defaultValue: true,
   },
 };
 

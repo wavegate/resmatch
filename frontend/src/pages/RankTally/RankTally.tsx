@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Table, Loader, Center } from "@mantine/core";
+import { Table, Loader, Center, Title, Text } from "@mantine/core";
 import rankListService from "@/services/rankListService";
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,36 +19,55 @@ const RankTallyPage = () => {
   }
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Program</th>
-          <th>Institution</th>
-          <th>Rank 1</th>
-          <th>Rank 2</th>
-          <th>Rank 3</th>
-          <th>Rank 4</th>
-          <th>Rank 5</th>
-          <th>Rank 6+</th>
-          {/* Add more columns as needed */}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((entry) => (
-          <tr key={entry.id}>
-            <td>{entry.program.name}</td>
-            <td>{entry.program.institution.name}</td>
-            <td>{entry.rankTally[1] || 0}</td>
-            <td>{entry.rankTally[2] || 0}</td>
-            <td>{entry.rankTally[3] || 0}</td>
-            <td>{entry.rankTally[4] || 0}</td>
-            <td>{entry.rankTally[5] || 0}</td>
-            <td>{entry.rankTally[6] || 0}</td>
-            {/* Add more cells as needed */}
+    <div className={`flex flex-col gap-2`}>
+      <header>
+        <Title
+          order={2}
+          mb={{ base: "xs", md: "sm" }}
+          className="text-lg sm:text-xl md:text-2xl"
+        >
+          Rank Tally
+        </Title>
+
+        <Text
+          c="dimmed"
+          mb={{ base: "xs", md: "sm" }}
+          className="text-sm sm:text-base md:text-lg"
+        >
+          A tally of the cumulative amount of rankings from the rank lists.
+        </Text>
+      </header>
+      <Table>
+        <thead>
+          <tr>
+            <th>Program</th>
+            <th>Institution</th>
+            <th>Rank 1</th>
+            <th>Rank 2</th>
+            <th>Rank 3</th>
+            <th>Rank 4</th>
+            <th>Rank 5</th>
+            <th>Rank 6+</th>
+            {/* Add more columns as needed */}
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {data.map((entry) => (
+            <tr key={entry.id}>
+              <td>{entry.program.name}</td>
+              <td>{entry.program.institution.name}</td>
+              <td>{entry.rankTally[1] || 0}</td>
+              <td>{entry.rankTally[2] || 0}</td>
+              <td>{entry.rankTally[3] || 0}</td>
+              <td>{entry.rankTally[4] || 0}</td>
+              <td>{entry.rankTally[5] || 0}</td>
+              <td>{entry.rankTally[6] || 0}</td>
+              {/* Add more cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
   );
 };
 
