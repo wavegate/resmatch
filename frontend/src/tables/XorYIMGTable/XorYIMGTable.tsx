@@ -19,8 +19,9 @@ export default ({ className }: XorYTableProps) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
 
+  const queryKey = ["xOrY-img", selectedProgram, pageNum];
   const { data, error, isLoading } = useQuery({
-    queryKey: ["xOrY-img", selectedProgram, pageNum],
+    queryKey,
     queryFn: () => {
       return xOrYService.searchXorY({
         programId: selectedProgram?.id,
@@ -80,11 +81,11 @@ export default ({ className }: XorYTableProps) => {
           </div>
         )}
         {data?.xOrYEntries?.length > 0 && (
-          <Accordion>
+          <Accordion variant="separated" className={`mt-6`}>
             {data.xOrYEntries.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
-                <XorYHeader item={item} />
-                <XorYDetails item={item} />
+                <XorYHeader item={item} queryKey={queryKey} />
+                <XorYDetails item={item} queryKey={queryKey} />
               </Accordion.Item>
             ))}
           </Accordion>

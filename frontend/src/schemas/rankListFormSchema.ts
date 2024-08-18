@@ -18,19 +18,19 @@ const rankListFormSchema: FormSchema = {
   },
   numberOfProgramsApplied: {
     type: "number",
-    label: "Number of Programs Applied",
+    label: "# of Programs Applied",
     description: "Enter the number of programs you applied to.",
     placeholder: "Enter the number of programs",
   },
   numberOfInvites: {
     type: "number",
-    label: "Number of Invites",
+    label: "# of Invites",
     description: "Enter the number of interview invites you received.",
     placeholder: "Enter the number of invites",
   },
   numberOfInterviewsAttended: {
     type: "number",
-    label: "Number of Interviews Attended",
+    label: "# of Interviews Attended",
     description: "Enter the number of interviews you attended.",
     placeholder: "Enter the number of interviews",
   },
@@ -41,7 +41,7 @@ const rankListFormSchema: FormSchema = {
   },
   whyNumberOne: {
     type: "textarea",
-    label: "Why is This Program Your Number One?",
+    label: "Why Number One?",
     description: "Describe why this program is your top choice.",
     placeholder: "Enter your reason",
   },

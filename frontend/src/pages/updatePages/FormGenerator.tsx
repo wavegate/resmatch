@@ -43,6 +43,7 @@ interface FormGeneratorProps {
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
+  isPending,
   userData,
   modelName,
   onSubmit,
@@ -130,6 +131,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 error: fieldState.error?.message,
                 size: "md",
                 placeholder: fieldSchema.placeholder || "",
+                required: fieldSchema.required,
                 ...field,
               };
 
@@ -244,7 +246,9 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
         );
       })}
 
-      <Button type="submit">{isUpdate ? "Update" : "Submit"}</Button>
+      <Button type="submit" loading={isPending}>
+        {isUpdate ? "Update" : "Submit"}
+      </Button>
     </form>
   );
 };

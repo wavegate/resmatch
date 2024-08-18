@@ -42,7 +42,7 @@ export default ({ className }: ChatTableProps) => {
         shareText="New Thread"
       />
 
-      <div className={`mt-2`}>
+      <div className={`mt-6`}>
         {isLoading && (
           <div className={`flex flex-col items-center`}>
             <Loader color="blue" className={`mt-12`} />

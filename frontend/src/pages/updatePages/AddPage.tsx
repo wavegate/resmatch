@@ -23,7 +23,7 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   const schema = schemas[modelName]; // Retrieve the schema based on modelName
   const service = services[modelName];
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: (values) =>
       isUpdate ? service.update(id, values) : service.create(values),
   });
@@ -102,6 +102,7 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
         </div>
       ) : (
         <FormGenerator
+          isPending={isPending}
           userData={userData}
           modelName={modelName}
           onSubmit={onSubmit}

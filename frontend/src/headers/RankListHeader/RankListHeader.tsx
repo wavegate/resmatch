@@ -55,8 +55,6 @@ export default function RankListHeader({
       },
     });
 
-  console.log(data);
-
   return (
     <Accordion.Control className="bg-primary bg-opacity-10">
       {/* <div className="flex flex-col gap-2">

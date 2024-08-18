@@ -41,10 +41,10 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
   );
 
   return (
-    <div className={`flex flex-col gap-4 py-4`}>
+    <div className={`flex flex-col gap-4 py-4 max-sm:py-2`}>
       {/* Display fields in a responsive grid */}
       <div
-        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-[auto_1fr] gap-4 border border-solid rounded-sm p-4`}
+        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4 border border-solid rounded-sm p-4`}
       >
         {filteredFields.map((fieldName, index) => {
           const fieldSchema = schema[fieldName];
@@ -98,7 +98,7 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
           return (
             <div
               key={fieldName}
-              className={`grid col-span-2 grid-cols-subgrid`}
+              className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}
             >
               <div className={`font-medium`}>{fieldSchema.label}:</div>
               {/* <div>{fieldSchema.description}</div> */}

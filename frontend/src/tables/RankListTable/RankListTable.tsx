@@ -19,14 +19,14 @@ interface RankListTableProps {
 export default ({ className, type }: RankListTableProps) => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [pageNum, setPageNum] = useState(1);
-
+  const queryKey = [
+    `rankList-${type.toLowerCase()}`,
+    selectedProgram,
+    pageNum,
+    type,
+  ];
   const { data, error, isLoading } = useQuery({
-    queryKey: [
-      `rankList-${type.toLowerCase()}`,
-      selectedProgram,
-      pageNum,
-      type,
-    ],
+    queryKey,
     queryFn: () => {
       const filters: any = {
         programId: selectedProgram?.id,
@@ -113,7 +113,7 @@ export default ({ className, type }: RankListTableProps) => {
             {data.rankLists.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <RankListHeader type={type} item={item} />
-                <RankListDetails type={type} item={item} />
+                <RankListDetails queryKey={queryKey} type={type} item={item} />
               </Accordion.Item>
             ))}
           </Accordion>

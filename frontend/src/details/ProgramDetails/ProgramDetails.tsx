@@ -44,8 +44,8 @@ export default function ProgramDetails({ item }) {
           Delete Program
         </Button>
       </Group> */}
-      <div>{item.nrmpProgramCode}</div>
-      <div>{item.specialty.name}</div>
+      <div>NRMP Program Code: {item.nrmpProgramCode}</div>
+      {/* <div>{item.specialty.name}</div> */}
       <div>{item.institution.city?.name}</div>
       <div>{item.institution.city?.state}</div>
     </div>

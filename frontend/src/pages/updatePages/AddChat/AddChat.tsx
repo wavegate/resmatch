@@ -102,6 +102,7 @@ export default function AddChat({ type }: AddChatProps) {
               required
               error={fieldState.error?.message}
               minRows={4}
+              size="md"
               {...field}
             />
           )}

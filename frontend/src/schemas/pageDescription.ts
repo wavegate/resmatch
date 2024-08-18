@@ -9,10 +9,10 @@ export const pageDescription: Record<
     singular: "Interview Invite",
   },
   dropped: {
-    name: "Dropped Programs",
+    name: "Dropped Interviews",
     description:
       "Keep track of the programs you have decided not to pursue further. Share your reasons and see what others have decided.",
-    singular: "Dropped Program",
+    singular: "Dropped Interview",
   },
   fameShame: {
     name: "Fame/Shame",
@@ -48,13 +48,13 @@ export const pageDescription: Record<
     name: "Letter of Interest Responses",
     description:
       "Track and share the responses to your Letters of Interest. Understand how programs react to expressions of interest.",
-    singular: "Letter of Interest Response",
+    singular: "LOI Response",
   },
   lOIntentResponse: {
     name: "Letter of Intent Responses",
     description:
       "Document the responses to your Letters of Intent. Learn how programs respond to your intention to rank them highly.",
-    singular: "Letter of Intent Response",
+    singular: "LOI Response",
   },
   m4InternImpression: {
     name: "M4 & Intern Impressions",
@@ -72,7 +72,7 @@ export const pageDescription: Record<
     name: "Post-Interview Communication",
     description:
       "Record and view communications you've had with programs after interviews. Gain insights into post-interview dynamics.",
-    singular: "Post-Interview Communication",
+    singular: "Post-IV Comms",
   },
   question: {
     name: "Interview Questions",

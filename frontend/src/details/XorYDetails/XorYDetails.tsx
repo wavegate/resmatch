@@ -1,89 +1,41 @@
-import CommentHeader from "@/headers/CommentHeader/CommentHeader";
-import { Accordion, Text, Button, Group } from "@mantine/core";
-import CommentDetails from "../CommentDetails/CommentDetails";
-import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
-import xOrYService from "@/services/xOrYService";
+import { Accordion } from "@mantine/core";
+import Comment from "@/components/Comment/Comment";
+import AddCommentField from "@/components/AddCommentField";
 
 interface XorYDetailsProps {
   item: any; // Replace with the correct type if available
 }
 
-export default function XorYDetails({ item }: XorYDetailsProps) {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: () => xOrYService.deleteXorY(item.id),
-    onSuccess: () => {
-      notifications.show({
-        message: "Comparison deleted successfully!",
-        withBorder: true,
-        color: "green",
-      });
-      queryClient.invalidateQueries({
-        queryKey: [item.img ? "xOrY-img" : "xOrY"],
-      });
-    },
-    onError: () => {
-      notifications.show({
-        message: "Failed to delete comparison.",
-        withBorder: true,
-        color: "red",
-      });
-    },
-  });
-
-  const handleDelete = () => {
-    deleteMutation.mutate();
-  };
-
+export default function XorYDetails({
+  item: data,
+  queryKey,
+}: XorYDetailsProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <Text className="text-sm sm:text-md md:text-lg font-medium">
-        Comparison Details
-      </Text>
-      <div className="flex flex-col gap-1">
-        <Text>
-          <strong>Program X:</strong> {item.programX.name} at{" "}
-          {item.programX.institution.name}
-        </Text>
-        <Text>
-          <strong>Program Y:</strong> {item.programY.name} at{" "}
-          {item.programY.institution.name}
-        </Text>
-        <Text>
-          <strong>Question:</strong> {item.question}
-        </Text>
-      </div>
+    <Accordion.Panel>
+      <div className={`flex flex-col gap-4 py-4`}>
+        {/* Display fields in a responsive grid */}
+        <div
+          className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4 border border-solid rounded-sm p-4`}
+        >
+          <div
+            className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}
+          >
+            <div className={`font-medium`}>Question:</div>
+            <div className={`text-gray-600`}>{data.question}</div>
+          </div>
+        </div>
 
-      <Group justify="apart" className="mt-4">
-        <Link to={item.img ? `/x-or-y-img/${item.id}` : `/x-or-y/${item.id}`}>
-          <Button variant="outline" size="xs">
-            Update Comparison
-          </Button>
-        </Link>
-        <Button variant="outline" size="xs" color="red" onClick={handleDelete}>
-          Delete Comparison
-        </Button>
-      </Group>
+        {/* Display comments field */}
 
-      <div className="mt-4">
-        <Text className="text-sm sm:text-md md:text-lg font-medium">
-          Comments
-        </Text>
-        {/* Uncomment when comments are available */}
-        {/* <Accordion>
-          {item.comments.map((comment: any) => (
-            <Accordion.Item key={comment.id} value={comment.id.toString()}>
-              <CommentHeader item={comment} />
-              <Accordion.Panel>
-                <CommentDetails item={comment} />
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion> */}
+        {data.comments?.length > 0 && (
+          <div className={`flex flex-col gap-4`}>
+            {data.comments.map((item: any) => (
+              <Comment id={item.id} key={item.id} queryKey={queryKey} />
+            ))}
+          </div>
+        )}
+        <AddCommentField queryKey={queryKey} modelName={"xorY"} id={data.id} />
       </div>
-    </div>
+    </Accordion.Panel>
   );
 }

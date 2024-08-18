@@ -91,6 +91,7 @@ export default function TierListDetails() {
       </header>
 
       <Accordion
+        variant="separated"
         multiple
         defaultValue={[...tierListData.bins.map((bin) => String(bin.id))]}
       >

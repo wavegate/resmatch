@@ -8,6 +8,7 @@ import {
   Breadcrumbs,
   Anchor,
   Switch,
+  Loader,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -23,7 +24,7 @@ const formSchema = z.object({
   programYId: z.number({ required_error: "Program Y is required." }),
   question: z.string().nonempty({ message: "Question is required" }),
   img: z.boolean().optional(),
-  anonymous: z.boolean(),
+  anonymous: z.boolean().optional(),
 });
 
 export default function AddXorY({ img = false }: { img?: boolean }) {
@@ -35,7 +36,6 @@ export default function AddXorY({ img = false }: { img?: boolean }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       img,
-      anonymous: true,
     },
   });
 
@@ -57,7 +57,7 @@ export default function AddXorY({ img = false }: { img?: boolean }) {
           programYId: xorYData.programYId,
           question: xorYData.question,
           img: xorYData.img,
-          linked: xorYData.linked,
+          anonymous: xorYData.anonymous,
         })
       );
     }
@@ -98,67 +98,75 @@ export default function AddXorY({ img = false }: { img?: boolean }) {
   return (
     <div className={`flex flex-col gap-4`}>
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
-        <Controller
-          name="programXId"
-          control={control}
-          render={({ field, fieldState }) => (
-            <ProgramSearch
-              required
-              selected={field.value}
-              onChange={field.onChange}
-              label="Select Program X"
-              error={fieldState.error?.message}
-            />
-          )}
-        />
+      {isLoading ? (
+        <Loader className={`mt-12 flex w-full justify-center`} />
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`flex flex-col gap-4`}
+        >
+          <Controller
+            name="programXId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <ProgramSearch
+                required
+                selected={field.value}
+                onChange={field.onChange}
+                label="Select Program X"
+                error={fieldState.error?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name="programYId"
-          control={control}
-          render={({ field, fieldState }) => (
-            <ProgramSearch
-              required
-              selected={field.value}
-              onChange={field.onChange}
-              label="Select Program Y"
-              error={fieldState.error?.message}
-            />
-          )}
-        />
+          <Controller
+            name="programYId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <ProgramSearch
+                required
+                selected={field.value}
+                onChange={field.onChange}
+                label="Select Program Y"
+                error={fieldState.error?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name="question"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Textarea
-              label="Question"
-              placeholder="Enter your question"
-              required
-              error={fieldState.error?.message}
-              minRows={3}
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="question"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Textarea
+                label="Question"
+                placeholder="Enter your question"
+                required
+                error={fieldState.error?.message}
+                minRows={3}
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="anonymous"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="Post anonymously"
-              {...field}
-              checked={field.value}
-              size="md"
-            />
-          )}
-        />
+          <Controller
+            name="anonymous"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Post anonymously"
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
 
-        <Button type="submit" loading={isPending}>
-          {isUpdate ? "Update XorY" : "Submit XorY"}
-        </Button>
-      </form>
+          <Button type="submit" loading={isPending}>
+            {isUpdate ? "Update XorY" : "Submit XorY"}
+          </Button>
+        </form>
+      )}
     </div>
   );
 }

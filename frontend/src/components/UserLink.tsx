@@ -26,7 +26,7 @@ const UserLink: React.FC<UserLinkProps> = ({ data }) => {
       to={`/user/${data.user?.id}`}
       className="underline flex gap-2 items-center"
     >
-      <Avatar size="14" src={generateGravatarUrl(data.user?.email || "", 40)} />
+      <Avatar size="18" src={generateGravatarUrl(data.user?.email || "", 40)} />
       <div>{data.user?.alias || "-"}</div>
     </Link>
   );
