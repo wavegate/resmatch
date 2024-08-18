@@ -17,6 +17,10 @@ export default function Profile() {
     enabled: !!(user || id),
   });
 
+  if (!user) {
+    return <div>Please log in to view your profile.</div>;
+  }
+
   if (data && !data.public) {
     return <div>This user's profile is not public.</div>;
   }
