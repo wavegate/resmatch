@@ -144,6 +144,7 @@ xOrYRouter.post("/search", async (req, res) => {
         programX: { include: { institution: true } },
         programY: { include: { institution: true } },
         user: true,
+        comments: true,
       },
       orderBy: {
         createdAt: "desc",

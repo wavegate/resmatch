@@ -285,6 +285,7 @@ rankListRouter.post("/search", async (req, res) => {
             },
           },
         },
+        comments: true,
         matchedProgram: {
           include: {
             institution: true,
