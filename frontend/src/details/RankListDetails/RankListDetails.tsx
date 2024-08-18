@@ -1,119 +1,122 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Accordion, Button, Group, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import rankListService from "@/services/rankListService";
 import { notifications } from "@mantine/notifications";
 import { useMemo } from "react";
+import rankListFormSchema from "@/schemas/rankListFormSchema";
+import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import AddCommentField from "@/components/AddCommentField";
 
-export default function RankListDetails({ item }) {
-  const queryClient = useQueryClient();
+export default function RankListDetails({ item: data, type }) {
+  const schema = rankListFormSchema;
 
-  const deleteMutation = useMutation({
-    mutationFn: () => rankListService.deleteRankList(item.id),
-    onSuccess: () => {
-      notifications.show({
-        title: "Success",
-        message: "Rank List deleted successfully",
-        color: "green",
-      });
-
-      // Invalidate specific rankList queries based on graduateType and medicalDegree
-      if (item.graduateType === "IMG") {
-        queryClient.invalidateQueries({ queryKey: ["rankList-img"] });
-      } else if (item.medicalDegree === "MD") {
-        queryClient.invalidateQueries({ queryKey: ["rankList-md"] });
-      } else if (item.medicalDegree === "DO") {
-        queryClient.invalidateQueries({ queryKey: ["rankList-do"] });
-      }
-    },
-    onError: () => {
-      notifications.show({
-        title: "Error",
-        message: "Failed to delete the Rank List",
-        color: "red",
-      });
-    },
-  });
-
-  const type = useMemo(() => {
-    if (item.graduateType === "IMG") {
-      return "img";
-    } else if (item.medicalDegree === "MD") {
-      return "md";
-    } else if (item.medicalDegree === "DO") {
-      return "do";
-    }
-  }, [item]);
-
-  const handleDelete = () => {
-    deleteMutation.mutate();
-  };
+  const filteredFields = Object.keys(schema).filter(
+    (fieldName) =>
+      fieldName !== "programId" &&
+      fieldName !== "anonymous" &&
+      fieldName !== "import" &&
+      fieldName !== "comments"
+  );
 
   return (
-    <div>
-      <Group justify="apart">
-        <Link to={`/rank-list-${type}/${item.id}`}>
-          <Button>Update Rank List</Button>
-        </Link>
-        <Button
-          color="red"
-          onClick={handleDelete}
-          loading={deleteMutation.isPending}
+    <Accordion.Panel>
+      <div className={`flex flex-col gap-4 py-4`}>
+        {/* Display fields in a responsive grid */}
+        <div
+          className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-[auto_1fr] gap-4 border border-solid rounded-sm p-4`}
         >
-          Delete Rank List
-        </Button>
-      </Group>
-      <Text>
-        <strong>Graduate Type:</strong> {item.graduateType}
-      </Text>
-      <Text>
-        <strong>Medical Degree:</strong> {item.medicalDegree}
-      </Text>
-      <Text>
-        <strong>Number of Programs Applied:</strong>{" "}
-        {item.numberOfProgramsApplied}
-      </Text>
-      <Text>
-        <strong>Number of Invites:</strong> {item.numberOfInvites}
-      </Text>
-      <Text>
-        <strong>Number of Interviews Attended:</strong>{" "}
-        {item.numberOfInterviewsAttended}
-      </Text>
-      <Text>
-        <strong>Done With Interviews:</strong>{" "}
-        {item.doneWithInterviews ? "Yes" : "No"}
-      </Text>
-      <Text>
-        <strong>Why Number One:</strong> {item.whyNumberOne}
-      </Text>
-      <Text>
-        <strong>Priorities When Ranking:</strong> {item.prioritiesWhenRanking}
-      </Text>
-      <Text>
-        <strong>Hardest Part Of Ranking:</strong> {item.hardestPartOfRanking}
-      </Text>
-      <Text>
-        <strong>Matched Program:</strong> {item.matchedProgram?.name}
-      </Text>
+          {filteredFields.map((fieldName, index) => {
+            const fieldSchema = schema[fieldName];
+            let displayValue: React.ReactNode = "-";
 
-      <Text mt="lg" w={500} size="lg">
-        Ranked Programs:
-      </Text>
-      {item.RankedProgram?.length > 0 ? (
-        <div>
-          {item.RankedProgram.sort((a, b) => a.rank - b.rank).map(
+            if (data[fieldName] !== undefined && data[fieldName] !== null) {
+              switch (fieldSchema.type) {
+                case "boolean":
+                  displayValue = data[fieldName] ? "Yes" : "No";
+                  break;
+                case "date":
+                  displayValue = new Date(data[fieldName]).toLocaleDateString();
+                  break;
+                case "multipleDates":
+                  displayValue = Array.isArray(data[fieldName])
+                    ? data[fieldName]
+                        .map((date: string) =>
+                          new Date(date).toLocaleDateString()
+                        )
+                        .join(", ")
+                    : "-";
+                  break;
+                case "select":
+                  displayValue =
+                    fieldLabelMap[fieldName]?.[data[fieldName]] ||
+                    data[fieldName];
+                  break;
+                case "array":
+                  if (
+                    fieldSchema.of === "string" &&
+                    Array.isArray(data[fieldName])
+                  ) {
+                    displayValue = (
+                      <ul>
+                        {data[fieldName].map((item: string, idx: number) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ul>
+                    );
+                  } else {
+                    displayValue = data[fieldName].join(", ");
+                  }
+                  break;
+                default:
+                  displayValue = data[fieldName];
+              }
+            } else {
+              return false;
+            }
+
+            return (
+              <div
+                key={fieldName}
+                className={`grid col-span-2 grid-cols-subgrid`}
+              >
+                <div className={`font-medium`}>{fieldSchema.label}:</div>
+                {/* <div>{fieldSchema.description}</div> */}
+                <div className={`text-gray-600`}>{displayValue}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Display comments field */}
+
+        {data.comments?.length > 0 && (
+          <div className={`flex flex-col gap-4`}>
+            {data.comments.map((item: any) => (
+              <Comment id={item.id} key={item.id} queryKey={queryKey} />
+            ))}
+          </div>
+        )}
+        {/* <AddCommentField
+          queryKey={queryKey}
+          modelName={modelName}
+          id={data.id}
+        /> */}
+      </div>
+      {data.RankedProgram?.length > 0 ? (
+        <ol className={`list-decimal pl-6 indent-1.5 flex flex-col gap-1`}>
+          {data.RankedProgram.sort((a, b) => a.rank - b.rank).map(
             (rankedProgram) => (
-              <Text key={rankedProgram.id}>
-                {rankedProgram.rank}. {rankedProgram.program.name} at{" "}
+              <li key={rankedProgram.id}>
+                {rankedProgram.program.name} at{" "}
                 {rankedProgram.program.institution.name}
-              </Text>
+              </li>
             )
           )}
-        </div>
+        </ol>
       ) : (
         <Text>No programs ranked.</Text>
       )}
-    </div>
+    </Accordion.Panel>
   );
 }

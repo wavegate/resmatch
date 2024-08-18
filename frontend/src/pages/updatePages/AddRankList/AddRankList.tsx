@@ -9,6 +9,7 @@ import {
   Select,
   Breadcrumbs,
   Anchor,
+  Loader,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -36,7 +37,6 @@ const formSchema = z.object({
 });
 
 export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
-  useAuthGuard();
   const { id } = useParams<{ id: string }>();
   const isUpdate = !!id;
 
@@ -60,6 +60,8 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
     queryFn: () => rankListService.readRankList(id!),
     enabled: isUpdate,
   });
+
+  useAuthGuard({ id: rankListData?.user?.id });
 
   useEffect(() => {
     if (rankListData) {
@@ -143,129 +145,136 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
   return (
     <div className={`flex flex-col gap-4`}>
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
-        <Controller
-          name="programs"
-          control={control}
-          render={({ field }) => (
-            <ProgramList
-              initialPrograms={initialPrograms}
-              selectedPrograms={field.value}
-              onProgramsChange={field.onChange}
-            />
-          )}
-        />
+      {isLoading ? (
+        <Loader className={`flex w-full justify-center mt-12`} />
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`flex flex-col gap-4`}
+        >
+          <Controller
+            name="programs"
+            control={control}
+            render={({ field }) => (
+              <ProgramList
+                initialPrograms={initialPrograms}
+                selectedPrograms={field.value}
+                onProgramsChange={field.onChange}
+              />
+            )}
+          />
 
-        <Controller
-          name="numberOfProgramsApplied"
-          control={control}
-          render={({ field }) => (
-            <NumberInput
-              label="Number of Programs Applied"
-              placeholder="Enter the number"
-              size="md"
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="numberOfProgramsApplied"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                label="Number of Programs Applied"
+                placeholder="Enter the number"
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="numberOfInvites"
-          control={control}
-          render={({ field }) => (
-            <NumberInput
-              label="Number of Invites"
-              placeholder="Enter the number"
-              size="md"
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="numberOfInvites"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                label="Number of Invites"
+                placeholder="Enter the number"
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="numberOfInterviewsAttended"
-          control={control}
-          render={({ field }) => (
-            <NumberInput
-              label="Number of Interviews Attended"
-              placeholder="Enter the number"
-              size="md"
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="numberOfInterviewsAttended"
+            control={control}
+            render={({ field }) => (
+              <NumberInput
+                label="Number of Interviews Attended"
+                placeholder="Enter the number"
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="doneWithInterviews"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="Done with Interviews"
-              {...field}
-              checked={field.value}
-              size="md"
-            />
-          )}
-        />
+          <Controller
+            name="doneWithInterviews"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Done with Interviews"
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
 
-        <Controller
-          name="whyNumberOne"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Textarea
-              label="Why Number One?"
-              placeholder="Why did you rank this program number one?"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="whyNumberOne"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Textarea
+                label="Why Number One?"
+                placeholder="Why did you rank this program number one?"
+                error={fieldState.error?.message}
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="prioritiesWhenRanking"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Textarea
-              label="Priorities When Ranking"
-              placeholder="What were your priorities when ranking?"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="prioritiesWhenRanking"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Textarea
+                label="Priorities When Ranking"
+                placeholder="What were your priorities when ranking?"
+                error={fieldState.error?.message}
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="hardestPartOfRanking"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Textarea
-              label="Hardest Part of Ranking"
-              placeholder="What was the hardest part of ranking?"
-              error={fieldState.error?.message}
-              size="md"
-              {...field}
-            />
-          )}
-        />
+          <Controller
+            name="hardestPartOfRanking"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Textarea
+                label="Hardest Part of Ranking"
+                placeholder="What was the hardest part of ranking?"
+                error={fieldState.error?.message}
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="anonymous"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="Post anonymously"
-              {...field}
-              checked={field.value}
-              size="md"
-            />
-          )}
-        />
-        <Button type="submit" loading={isPending}>
-          {isUpdate ? "Update Rank List" : "Submit Rank List"}
-        </Button>
-      </form>
+          <Controller
+            name="anonymous"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Post anonymously"
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
+          <Button type="submit" loading={isPending}>
+            {isUpdate ? "Update Rank List" : "Submit Rank List"}
+          </Button>
+        </form>
+      )}
     </div>
   );
 }

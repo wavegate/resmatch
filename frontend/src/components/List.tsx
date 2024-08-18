@@ -87,8 +87,11 @@ export default function GenericList<T>({
           value={newItem}
           onChange={(e) => setNewItem(e.currentTarget.value)}
           placeholder={addItemPlaceholder}
+          size="md"
         />
-        <Button onClick={handleAddItem}>Add</Button>
+        <Button onClick={handleAddItem} size="md">
+          Add
+        </Button>
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="items-list" direction="vertical">

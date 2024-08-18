@@ -81,9 +81,19 @@ export default function TierListDetails() {
         >
           {tierListData.title}
         </Title>
+        <Text
+          c="dimmed"
+          mb={{ base: "xs", md: "sm" }}
+          className="text-sm sm:text-base md:text-lg"
+        >
+          IMG applicants program tier list.
+        </Text>
       </header>
 
-      <Accordion>
+      <Accordion
+        multiple
+        defaultValue={[...tierListData.bins.map((bin) => String(bin.id))]}
+      >
         {tierListData.bins.map((bin: any) => (
           <Accordion.Item key={bin.id} value={bin.id.toString()}>
             <Accordion.Control>

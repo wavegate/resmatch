@@ -13,7 +13,6 @@ import userService from "@/services/userService";
 import { pageDescription } from "@/schemas/pageDescription";
 
 const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
-  useAuthGuard();
   const { id } = useParams<{ id: string }>();
   const isUpdate = !!id;
   const queryClient = useQueryClient();
@@ -34,6 +33,7 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
     queryFn: () => service.read(id),
     enabled: isUpdate,
   });
+  useAuthGuard({ id: modelData?.user?.id });
 
   useEffect(() => {
     if (modelData) {

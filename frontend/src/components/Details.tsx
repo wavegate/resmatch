@@ -31,29 +31,6 @@ interface DataDisplayProps {
 
 const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
   const schema = schemas[modelName];
-  const queryClient = useQueryClient();
-
-  const labels = pageDescription[modelName];
-
-  // Mutation for deleting the entry
-  const deleteMutation = useMutation({
-    mutationFn: () => services[modelName].delete(data.id),
-    onSuccess: () => {
-      notifications.show({
-        title: "Success",
-        message: `${labels.singular} entry deleted successfully`,
-        color: "green",
-      });
-      queryClient.invalidateQueries({ queryKey: [modelName] });
-    },
-    onError: () => {
-      notifications.show({
-        title: "Error",
-        message: `Failed to delete the ${labels.singular} entry`,
-        color: "red",
-      });
-    },
-  });
 
   const filteredFields = Object.keys(schema).filter(
     (fieldName) =>

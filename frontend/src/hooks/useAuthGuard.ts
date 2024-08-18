@@ -16,6 +16,7 @@ export default ({ id }: UseAuthGuardProps = {}) => {
       if (!user) {
         navigate("/login");
       } else if (id && user.id !== id) {
+        console.log(id, user.id);
         notifications.show({
           title: "Permission Denied",
           message: "You do not have permission to access this resource.",

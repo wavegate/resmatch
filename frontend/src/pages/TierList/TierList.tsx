@@ -110,15 +110,13 @@ export default function TierListDetails() {
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Community program tier list.
+          US applicants program tier list.
         </Text>
       </header>
 
       <Accordion
         multiple
-        defaultValue={[
-          ...tierListData.bins.slice(0, 2).map((bin) => String(bin.id)),
-        ]}
+        defaultValue={[...tierListData.bins.map((bin) => String(bin.id))]}
       >
         {tierListData.bins.map((bin: any) => (
           <Accordion.Item key={bin.id} value={bin.id.toString()}>

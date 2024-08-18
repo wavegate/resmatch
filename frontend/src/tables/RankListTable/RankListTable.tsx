@@ -109,11 +109,11 @@ export default ({ className, type }: RankListTableProps) => {
           </div>
         )}
         {data?.rankLists?.length > 0 && (
-          <Accordion>
+          <Accordion variant="separated" className={`mt-6`}>
             {data.rankLists.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
-                <RankListHeader item={item} />
-                <RankListDetails item={item} />
+                <RankListHeader type={type} item={item} />
+                <RankListDetails type={type} item={item} />
               </Accordion.Item>
             ))}
           </Accordion>

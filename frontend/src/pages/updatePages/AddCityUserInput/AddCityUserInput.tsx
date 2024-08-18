@@ -132,6 +132,7 @@ export default function AddCityUserInput() {
               placeholder="Enter pros of the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -146,6 +147,7 @@ export default function AddCityUserInput() {
               placeholder="Enter cons of the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -160,6 +162,7 @@ export default function AddCityUserInput() {
               placeholder="Describe public transportation in the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -174,6 +177,7 @@ export default function AddCityUserInput() {
               placeholder="Describe the weather in the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -188,6 +192,7 @@ export default function AddCityUserInput() {
               placeholder="Describe the dating scene in the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -202,6 +207,7 @@ export default function AddCityUserInput() {
               placeholder="Describe the LGBTQ+ friendliness of the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -216,6 +222,7 @@ export default function AddCityUserInput() {
               placeholder="Describe the diversity in the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
@@ -230,6 +237,7 @@ export default function AddCityUserInput() {
               placeholder="Describe the safety and crime levels in the city"
               error={fieldState.error?.message}
               minRows={3}
+              size="md"
               {...field}
             />
           )}
