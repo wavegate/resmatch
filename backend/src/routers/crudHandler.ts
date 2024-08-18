@@ -1,3 +1,4 @@
+import { intersectFields, userFields } from "../fields.js";
 import prisma from "../prismaClient.js";
 import { handleError } from "../utils/errorHandler.js";
 
@@ -6,12 +7,36 @@ export const createCrudHandlers = (modelName) => ({
   create: async (req, res) => {
     try {
       const userId = req.user.id;
+      const { save, ...data } = req.body;
+
+      if (modelName === "interviewInvite" && save) {
+        // Find fields that are common between the data and userFields
+        const profileFieldsToUpdate = intersectFields(
+          Object.keys(data),
+          userFields
+        );
+        const profileData = profileFieldsToUpdate.reduce((obj, key) => {
+          obj[key] = data[key];
+          return obj;
+        }, {});
+
+        // Update the user's profile with the filtered data
+        if (Object.keys(profileData).length > 0) {
+          await prisma.user.update({
+            where: { id: Number(req.user.id) },
+            data: profileData,
+          });
+        }
+      }
+
+      // Create the new item in the interviewInvite model, excluding the `save` field
       const newItem = await prisma[modelName].create({
         data: {
-          ...req.body,
+          ...data,
           userId: Number(userId), // Ensure the userId is stored as a number
         },
       });
+
       res.status(201).json(newItem);
     } catch (error) {
       handleError(res, error, `Error creating ${modelName}`);
@@ -41,7 +66,27 @@ export const createCrudHandlers = (modelName) => ({
   updateById: async (req, res) => {
     try {
       // Remove the id from the request body if it exists
-      const { id, ...data } = req.body;
+      const { id, save, ...data } = req.body;
+
+      if (modelName === "interviewInvite" && save) {
+        // Find fields that are common between the data and userFields
+        const profileFieldsToUpdate = intersectFields(
+          Object.keys(data),
+          userFields
+        );
+        const profileData = profileFieldsToUpdate.reduce((obj, key) => {
+          obj[key] = data[key];
+          return obj;
+        }, {});
+
+        // Update the user's profile with the filtered data
+        if (Object.keys(profileData).length > 0) {
+          await prisma.user.update({
+            where: { id: Number(req.user.id) },
+            data: profileData,
+          });
+        }
+      }
 
       const updatedItem = await prisma[modelName].update({
         where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
