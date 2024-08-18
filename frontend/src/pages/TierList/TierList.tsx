@@ -13,7 +13,7 @@ import tierListService from "@/services/tierListService";
 import suggestionService from "@/services/suggestionService";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { notifications } from "@mantine/notifications";
-import useUser from "@/hooks/useUser";
+import Suggestion from "./Suggestion";
 
 export default function TierListDetails() {
   const [suggestion, setSuggestion] = useState("");
@@ -35,8 +35,6 @@ export default function TierListDetails() {
     queryFn: () => suggestionService.searchSuggestion({ tierListId: 1 }),
   });
 
-  const { user } = useUser();
-
   // Mutation to add a new suggestion
   const { mutate: addSuggestion, isPending: isAdding } = useMutation({
     mutationFn: (newSuggestion) =>
@@ -57,27 +55,6 @@ export default function TierListDetails() {
       notifications.show({
         title: "Error",
         message: "Failed to add suggestion",
-        color: "red",
-      });
-    },
-  });
-
-  // Mutation to delete a suggestion
-  const { mutate: deleteSuggestion } = useMutation({
-    mutationFn: (suggestionId) =>
-      suggestionService.deleteSuggestion(suggestionId),
-    onSuccess: () => {
-      notifications.show({
-        title: "Success",
-        message: "Suggestion deleted successfully",
-        color: "green",
-      });
-      queryClient.invalidateQueries({ queryKey: ["suggestion", 1] });
-    },
-    onError: () => {
-      notifications.show({
-        title: "Error",
-        message: "Failed to delete suggestion",
         color: "red",
       });
     },
@@ -164,20 +141,9 @@ export default function TierListDetails() {
         </form>
 
         {suggestionsData?.suggestions?.length > 0 ? (
-          <ul className="mt-4">
+          <ul className="mt-4 list-disc list-inside">
             {suggestionsData.suggestions.map((suggestion: any) => (
-              <li key={suggestion.id}>
-                <Text>{suggestion.content}</Text>
-                {suggestion.userId === user?.id && (
-                  <Button
-                    onClick={() => deleteSuggestion(suggestion.id)}
-                    color="red"
-                    size="xs"
-                  >
-                    Delete
-                  </Button>
-                )}
-              </li>
+              <Suggestion suggestion={suggestion} />
             ))}
           </ul>
         ) : (

@@ -35,6 +35,12 @@ export default function Comment({ id, queryKey }: CommentProps) {
     queryFn: () => commentService.readComment(id),
   });
 
+  useEffect(() => {
+    if (comment) {
+      setEditContent(comment.content);
+    }
+  }, [comment]);
+
   const deleteMutation = useMutation({
     mutationFn: () => commentService.deleteComment(id),
     onSuccess: () => {
@@ -164,7 +170,7 @@ export default function Comment({ id, queryKey }: CommentProps) {
             )}
           </div>
 
-          <div className="flex gap-2 mt-2">
+          <div className="flex gap-2 mt-2 flex-wrap">
             <Button size="xs" variant="subtle" onClick={toggleReplyForm}>
               {replyOpened ? "Cancel Reply" : "Reply"}
             </Button>
