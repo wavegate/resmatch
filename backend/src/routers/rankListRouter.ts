@@ -274,11 +274,7 @@ rankListRouter.post("/search", async (req, res) => {
         createdAt: "desc",
       },
       include: {
-        user: {
-          select: {
-            alias: true,
-          },
-        },
+        user: true,
         RankedProgram: {
           orderBy: { rank: "asc" }, // Ensure programs are ordered
           include: {
