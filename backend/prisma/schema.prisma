@@ -18,7 +18,7 @@ model User {
   email                   String                @unique
   password                String
   isConfirmed             Boolean               @default(false)
-  alias                   String
+  alias                   String                @unique
   createdAt               DateTime              @default(now())
   updatedAt               DateTime              @updatedAt
   interviewInvites        InterviewInvite[]

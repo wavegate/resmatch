@@ -1,10 +1,13 @@
 import express from "express";
 import prisma from "../prismaClient.js";
-import { verifyToken } from "../middleware/authMiddleware.js";
+import {
+  optionalVerifyToken,
+  verifyToken,
+} from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/:id", async (req, res) => {
+userRouter.get("/:id", optionalVerifyToken, async (req, res) => {
   const { id } = req.params;
   const currentUserId = req.user?.id;
 
@@ -33,12 +36,24 @@ userRouter.get("/:id", async (req, res) => {
 
 userRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  const formData = req.body;
+  const { alias, ...formData } = req.body;
 
   try {
+    // Check if alias already exists in another user
+    if (alias) {
+      const existingUser = await prisma.user.findUnique({
+        where: { alias },
+      });
+
+      if (existingUser && existingUser.id !== Number(id)) {
+        return res.status(400).json({ error: "Alias already in use" });
+      }
+    }
+
+    // Update the user with the provided formData
     const updatedUser = await prisma.user.update({
       where: { id: Number(id) },
-      data: formData,
+      data: { alias, ...formData },
     });
 
     res.json(updatedUser);
@@ -52,7 +67,6 @@ userRouter.put("/:id", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 userRouter.delete("/:id", verifyToken, (req, res) => {
   const { id } = req.params;
   res.send(`User with ID: ${id} deleted`);
@@ -85,7 +99,7 @@ userRouter.post("/search", async (req, res) => {
     const usersWithPassword = await prisma.user.findMany({
       where: whereClause,
       skip: offset,
-      take: 10,
+      take: 1000,
     });
 
     // Remove password from results

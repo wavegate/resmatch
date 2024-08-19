@@ -76,8 +76,30 @@ authRouter.post("/register", async (req, res) => {
             from: "admin@mail.residencymatch.net",
             to: [email],
             subject: "Confirm Your Email",
-            text: `Click the link to confirm your email: ${confirmationUrl}`,
-            html: `<h1>Confirm Your Email</h1><p>Click the link to confirm your email: <a href="${confirmationUrl}">${confirmationUrl}</a></p>`,
+            text: `Click the link to confirm your email: ${confirmationUrl}. Please note that this link will expire in 1 day.`,
+            html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+        <h1 style="color: #333; text-align: center;">Confirm Your Email</h1>
+        <p style="font-size: 16px; color: #555;">Hello,</p>
+        <p style="font-size: 16px; color: #555;">
+          Thank you for signing up for Residency Match! To complete your registration, please confirm your email address by clicking the link below:
+        </p>
+        <p style="text-align: center; margin: 30px 0;">
+          <a href="${confirmationUrl}" style="display: inline-block; background-color: #1a73e8; color: white; padding: 10px 20px; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 5px;">
+            Confirm Email
+          </a>
+        </p>
+        <p style="font-size: 16px; color: #555;">
+          Please note that this link will expire in 1 day.
+        </p>
+        <p style="font-size: 14px; color: #999; text-align: center;">
+          If you did not create an account, please disregard this email.
+        </p>
+        <p style="font-size: 14px; color: #999; text-align: center;">
+          Residency Match
+        </p>
+      </div>
+    `,
           })
           .then((msg) => console.log("Email sent:", msg))
           .catch((err) => console.error("Error sending email:", err));
@@ -113,8 +135,30 @@ authRouter.post("/register", async (req, res) => {
         from: "admin@mail.residencymatch.net",
         to: [email],
         subject: "Confirm Your Email",
-        text: `Click the link to confirm your email: ${confirmationUrl}`,
-        html: `<h1>Confirm Your Email</h1><p>Click the link to confirm your email: <a href="${confirmationUrl}">${confirmationUrl}</a></p>`,
+        text: `Click the link to confirm your email: ${confirmationUrl}. Please note that this link will expire in 1 day.`,
+        html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+        <h1 style="color: #333; text-align: center;">Confirm Your Email</h1>
+        <p style="font-size: 16px; color: #555;">Hello,</p>
+        <p style="font-size: 16px; color: #555;">
+          Thank you for signing up for Residency Match! To complete your registration, please confirm your email address by clicking the link below:
+        </p>
+        <p style="text-align: center; margin: 30px 0;">
+          <a href="${confirmationUrl}" style="display: inline-block; background-color: #1a73e8; color: white; padding: 10px 20px; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 5px;">
+            Confirm Email
+          </a>
+        </p>
+        <p style="font-size: 16px; color: #555;">
+          Please note that this link will expire in 1 day.
+        </p>
+        <p style="font-size: 14px; color: #999; text-align: center;">
+          If you did not create an account, please disregard this email.
+        </p>
+        <p style="font-size: 14px; color: #999; text-align: center;">
+          Residency Match
+        </p>
+      </div>
+    `,
       })
       .then((msg) => console.log("Email sent:", msg))
       .catch((err) => console.error("Error sending email:", err));
