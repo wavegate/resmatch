@@ -18,7 +18,7 @@ export default function Profile() {
     enabled: !!(user || id),
   });
 
-  // useAuthGuard();
+  useAuthGuard({ guard: !id });
 
   if (data && !data.public && data.id !== user.id) {
     return <div>This user's profile is not public.</div>;

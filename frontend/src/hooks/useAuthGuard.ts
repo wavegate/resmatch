@@ -7,12 +7,12 @@ interface UseAuthGuardProps {
   id?: number;
 }
 
-export default ({ id }: UseAuthGuardProps = {}) => {
+export default ({ id, guard = true }: UseAuthGuardProps = {}) => {
   const { user, isLoading } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading) {
+    if (guard && !isLoading) {
       if (!user) {
         navigate("/login");
       } else if (id && user.id !== id) {
@@ -25,7 +25,7 @@ export default ({ id }: UseAuthGuardProps = {}) => {
         navigate("/"); // Navigate to home page if the id doesn't match
       }
     }
-  }, [user, isLoading, id, navigate]);
+  }, [user, isLoading, id, navigate, guard]);
 
   return { user, isLoading };
 };
