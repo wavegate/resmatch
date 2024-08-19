@@ -11,6 +11,7 @@ const useUser = () => {
     queryKey: ["currentUser"],
     queryFn: authService.getCurrentUser,
     retry: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   const signOut = () => {

@@ -55,6 +55,7 @@ const sidebarRoutes = [
     link: "/profile",
     text: "Profile",
     icon: <HiOutlineUserCircle className="h-5 w-5" />,
+    auth: "signedIn",
   },
   {
     link: "/main",

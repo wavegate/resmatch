@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import DataDisplay from "@/headers/DataDisplay";
 import userProfileFormSchema from "@/schemas/userProfileFormSchema";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import useAuthGuard from "@/hooks/useAuthGuard";
 
 export default function Profile() {
   const { user } = useUser();
@@ -17,9 +18,7 @@ export default function Profile() {
     enabled: !!(user || id),
   });
 
-  if (!user) {
-    return <div>Please log in to view your profile.</div>;
-  }
+  useAuthGuard();
 
   if (data && !data.public) {
     return <div>This user's profile is not public.</div>;
