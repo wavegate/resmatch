@@ -34,7 +34,7 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
   const { control, handleSubmit, reset } = form;
   const queryClient = useQueryClient();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: (values) =>
       commentService.createComment({ ...values, [`${modelName}Id`]: id }),
     onSuccess: () => {
@@ -89,7 +89,7 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
         )}
       />
 
-      <Button type="submit" className={`w-fit`}>
+      <Button type="submit" className={`w-fit`} loading={isPending}>
         Submit Comment
       </Button>
     </form>

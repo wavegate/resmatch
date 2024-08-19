@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import authService from "@/services/authService";
+import { notifications } from "@mantine/notifications";
 
 const EmailConfirmation = () => {
   const [message, setMessage] = useState("");
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const confirmEmail = async () => {
@@ -15,6 +18,12 @@ const EmailConfirmation = () => {
         try {
           const responseMessage = await authService.confirmEmail(token);
           setMessage(responseMessage);
+          notifications.show({
+            message: "Email confirmed! You may now log in.",
+            withBorder: true,
+            color: "green",
+          });
+          navigate("/login");
         } catch (error) {
           setMessage("Error confirming email. Please try again.");
         }
@@ -24,7 +33,7 @@ const EmailConfirmation = () => {
     };
 
     confirmEmail();
-  }, [location]);
+  }, []);
 
   return (
     <div className={`flex flex-col gap-2`}>

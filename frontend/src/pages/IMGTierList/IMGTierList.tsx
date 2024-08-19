@@ -13,6 +13,8 @@ import tierListService from "@/services/tierListService";
 import suggestionService from "@/services/suggestionService";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { notifications } from "@mantine/notifications";
+import Suggestion from "../TierList/Suggestion";
+import IMGSuggestion from "./IMGSuggestion";
 
 export default function TierListDetails() {
   const [suggestion, setSuggestion] = useState("");
@@ -140,11 +142,9 @@ export default function TierListDetails() {
         </form>
 
         {suggestionsData?.suggestions?.length > 0 ? (
-          <ul className="mt-4">
+          <ul className="mt-4 list-disc list-inside">
             {suggestionsData.suggestions.map((suggestion: any) => (
-              <li key={suggestion.id}>
-                <Text>{suggestion.content}</Text>
-              </li>
+              <IMGSuggestion suggestion={suggestion} key={suggestion.id} />
             ))}
           </ul>
         ) : (

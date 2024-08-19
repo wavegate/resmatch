@@ -10,11 +10,8 @@ import {
 } from "@mantine/core";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "./schema"; // Import the schema
+import { signupSchema } from "./schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { API_URL } from "@/constants";
-import apiClient from "@/apiClient";
 import { notifications } from "@mantine/notifications";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "@/services/authService";
@@ -32,11 +29,6 @@ export default function Signup() {
     formState: { errors },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
-    defaultValues: {
-      email: "cc.frankee+01@gmail.com",
-      password: "testtest",
-      confirmPassword: "testtest",
-    },
   });
 
   const queryClient = useQueryClient();
@@ -45,14 +37,15 @@ export default function Signup() {
   const mutation = useMutation({
     mutationFn: (values) => authService.register(values),
     onSuccess: (data) => {
-      console.log("Signup successful:", data);
-      localStorage.setItem("token", data.token);
       notifications.show({
-        message: "Signup successful",
+        message:
+          "User registered successfully. Please check your email to confirm your registration.",
         withBorder: true,
+        color: "green",
       });
+
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      navigate("/");
+      navigate("/login");
     },
     onError: (error: any) => {
       console.error("Signup error:", error);
@@ -83,7 +76,7 @@ export default function Signup() {
             render={({ field }) => (
               <TextInput
                 label="Email"
-                placeholder="residency@match.com"
+                placeholder="Your email"
                 error={errors.email?.message}
                 required
                 size="md"
@@ -121,7 +114,7 @@ export default function Signup() {
               />
             )}
           />
-          <Button fullWidth mt="xl" type="submit">
+          <Button fullWidth mt="xl" type="submit" loading={mutation.isPending}>
             Sign up
           </Button>
         </form>

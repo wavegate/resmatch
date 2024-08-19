@@ -1,7 +1,6 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
@@ -17,7 +16,6 @@ import { notifications } from "@mantine/notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "./schema";
 import authService from "@/services/authService";
-import { useEffect } from "react";
 
 interface LoginFormValues {
   email: string;
@@ -47,17 +45,17 @@ export default function Login() {
       notifications.show({
         message: "Login successful",
         withBorder: true,
+        color: "green",
       });
       queryClient.resetQueries({ queryKey: ["currentUser"] });
       navigate("/");
     },
     onError: (error: any) => {
-      notifications.show({
-        message: "Login failed",
-        color: "red",
-        withBorder: true,
-      });
-      console.error("Login error:", error);
+      // notifications.show({
+      //   message: "Login failed",
+      //   color: "red",
+      //   withBorder: true,
+      // });
     },
   });
 

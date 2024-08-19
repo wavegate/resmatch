@@ -143,7 +143,7 @@ export default function TierListDetails() {
         {suggestionsData?.suggestions?.length > 0 ? (
           <ul className="mt-4 list-disc list-inside">
             {suggestionsData.suggestions.map((suggestion: any) => (
-              <Suggestion suggestion={suggestion} />
+              <Suggestion suggestion={suggestion} key={suggestion.id} />
             ))}
           </ul>
         ) : (

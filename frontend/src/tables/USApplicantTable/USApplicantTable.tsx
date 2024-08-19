@@ -13,6 +13,8 @@ import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import { DataTable } from "mantine-datatable";
 import { showNotification } from "@mantine/notifications";
 import { Link } from "react-router-dom";
+import { columnDefs, columns } from "./columns";
+import { AgGridReact } from "ag-grid-react";
 
 interface UserTableProps {
   className?: string;
@@ -51,78 +53,6 @@ export default ({ className }: UserTableProps) => {
     return !!selectedProgram;
   }, [selectedProgram]);
 
-  // Example columns array for the Mantine DataTable
-  const columns = [
-    {
-      accessor: "alias",
-      title: "Alias",
-      render: ({ id, alias }) => (
-        <Link to={`/user/${id}`} className={`underline`}>
-          {alias}
-        </Link>
-      ),
-    },
-    // { accessor: "graduateType", title: "Graduate Type" },
-    // { accessor: "img", title: "IMG Type" },
-    { accessor: "medicalDegree", title: "Medical Degree" },
-    {
-      accessor: "schoolRanking",
-      title: "School Ranking",
-      render: ({ schoolRanking }) => {
-        return fieldLabelMap["schoolRanking"][schoolRanking];
-      },
-    },
-    {
-      accessor: "classRank",
-      title: "Class Rank",
-      render: ({ classRank }) => {
-        return fieldLabelMap["classRank"][classRank];
-      },
-    },
-    // {
-    //   accessor: "visaRequired",
-    //   title: "Visa Required",
-    // },
-    // {
-    //   accessor: "greenCard",
-    //   title: "Green Card",
-    // },
-    // { accessor: "monthsOfUSCE", title: "Months of USCE" },
-    // {
-    //   accessor: "ecfmgCertified",
-    //   title: "ECFMG Certified",
-    // },
-
-    // { accessor: "step1ScorePass", title: "Step 1 Score Pass" },
-    // { accessor: "step1Score", title: "Step 1 Score" },
-    { accessor: "step2Score", title: "Step 2 Score" },
-    // { accessor: "comlex1ScorePass", title: "COMLEX 1 Score Pass" },
-    { accessor: "comlex2Score", title: "COMLEX 2 Score" },
-    { accessor: "redFlags", title: "Red Flags" },
-    { accessor: "redFlagsExplanation", title: "Red Flags Explanation" },
-    { accessor: "honors", title: "Honors" },
-    { accessor: "highPass", title: "High Pass" },
-    { accessor: "pass", title: "Pass" },
-    { accessor: "fail", title: "Fail" },
-    { accessor: "aoa" },
-    { accessor: "sigmaSigmaPhi" },
-    { accessor: "goldHumanism" },
-    { accessor: "yearOfGraduation", title: "Year of Graduation" },
-    { accessor: "numPublications", title: "# Publications" },
-    { accessor: "numWorkExperiences", title: "# Work Experiences" },
-    {
-      accessor: "numVolunteerExperiences",
-      title: "Number of Volunteer Experiences",
-    },
-    { accessor: "otherDegrees", title: "Other Degrees" },
-    { accessor: "pstp", title: "PSTP" },
-    { accessor: "numApplications", title: "# Applications" },
-    { accessor: "numInterviews", title: "# Interviews" },
-    { accessor: "numWithdrawn", title: "# Withdrawn Applications" },
-    { accessor: "numRejected", title: "# Rejections" },
-    { accessor: "numWaitlisted", title: "# Waitlisted Programs" },
-    { accessor: "applicationYear", title: "Application Year" },
-  ];
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
@@ -133,7 +63,7 @@ export default ({ className }: UserTableProps) => {
         />
       </Drawer>
 
-      <Controls
+      {/* <Controls
         noFilters
         noShare
         pageNum={pageNum}
@@ -142,7 +72,7 @@ export default ({ className }: UserTableProps) => {
         openFilters={open}
         shareUrl="/user/add"
         shareText="Share User"
-      />
+      /> */}
 
       {filtersPresent && (
         <Badges
@@ -156,19 +86,24 @@ export default ({ className }: UserTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-
-        <DataTable
-          withTableBorder
+        <div
+          className="ag-theme-quartz" // applying the Data Grid theme
+          style={{ height: 500 }} // the Data Grid will fill the size of the parent container
+        >
+          <AgGridReact rowData={data?.users} columnDefs={columnDefs} />
+        </div>
+        {/* <DataTable
+          // withTableBorder
           borderRadius="sm"
           withColumnBorders
           striped
-          highlightOnHover
+          // highlightOnHover
           // provide data
           records={data?.users}
           // define columns
           columns={columns}
           // execute this callback when a row is clicked
-        />
+        /> */}
         {/* {data?.users?.length > 0 &&
           data.users.map((item: any) => {
             return (

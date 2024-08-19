@@ -81,7 +81,10 @@ export default function ForgotPassword() {
 
           <Group position="center" mt="lg">
             <Text size="sm">
-              Remember your password? <Link to="/login">Login</Link>
+              Remember your password?{" "}
+              <Link to="/login" className={`text-blue-500 underline`}>
+                Login
+              </Link>
             </Text>
           </Group>
         </form>

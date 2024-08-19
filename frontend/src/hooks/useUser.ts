@@ -12,7 +12,7 @@ const useUser = () => {
     queryFn: authService.getCurrentUser,
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    enabled: !!token,
+    // enabled: !!token,
   });
 
   const signOut = () => {
@@ -21,6 +21,7 @@ const useUser = () => {
     notifications.show({
       message: "Sign out successful",
       withBorder: true,
+      color: "green",
     });
   };
 

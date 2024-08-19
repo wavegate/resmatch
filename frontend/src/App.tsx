@@ -3,8 +3,10 @@ import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/core/styles.layer.css";
-import "mantine-datatable/styles.layer.css";
-import "./layout.css";
+// import "mantine-datatable/styles.layer.css";
+// import "./layout.css";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";

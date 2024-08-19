@@ -1,26 +1,8 @@
 import React from "react";
-import {
-  Card,
-  Divider,
-  Text,
-  SimpleGrid,
-  Button,
-  Group,
-  Avatar,
-} from "@mantine/core";
-import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
-import services from "@/services/services";
 import { schemas } from "@/schemas/schemas";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
-import useUser from "@/hooks/useUser";
-import { pageDescription } from "@/schemas/pageDescription";
-import programName from "@/utils/programName";
-import { generateGravatarUrl } from "@/utils/utils";
-import dayjs from "dayjs";
 
 interface DataDisplayProps {
   data: any;

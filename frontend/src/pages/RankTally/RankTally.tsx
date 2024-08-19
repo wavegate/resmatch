@@ -52,8 +52,8 @@ const RankTallyPage = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((entry) => (
-            <tr key={entry.id}>
+          {data.map((entry, index) => (
+            <tr key={index}>
               <td>{entry.program.name}</td>
               <td>{entry.program.institution.name}</td>
               <td>{entry.rankTally[1] || 0}</td>
