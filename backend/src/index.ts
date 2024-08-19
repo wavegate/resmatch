@@ -29,6 +29,7 @@ import fellowshipMatchRouter from "./routers/fellowshipMatchRouter.js";
 import xOrYRouter from "./routers/xOrYRouter.js";
 import cityUserInputRouter from "./routers/cityUserInputRouter.js";
 import { createAllRouters } from "./routers/generateRouters.js";
+import removePasswordMiddleware from "./middleware/removePasswordMiddleware.js";
 
 dotenv.config();
 
@@ -39,6 +40,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(removePasswordMiddleware);
 
 const modelNames = [
   "interviewLogistics",
