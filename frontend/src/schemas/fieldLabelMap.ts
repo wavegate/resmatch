@@ -117,13 +117,13 @@ export const fieldLabelMap: Record<string, Record<string, string>> = {
     LOW: "Low",
     UNRANKED: "Unranked",
   },
-  classRanking: {
+  classRank: {
     QUARTILE1: "Top 25%",
     QUARTILE2: "Second 25%",
     QUARTILE3: "Third 25%",
     QUARTILE4: "Bottom 25%",
   },
-  pathway: {
+  step2CSPathway: {
     PATHWAY1: "Pathway 1",
     PATHWAY2: "Pathway 2",
     PATHWAY3: "Pathway 3",

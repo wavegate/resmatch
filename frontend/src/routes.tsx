@@ -64,6 +64,7 @@ import ListPage from "./pages/listPages/ListPage";
 import { modelNames } from "./services/services";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Page404 from "./pages/Page404";
 
 const routes = [
   {
@@ -417,10 +418,10 @@ const routes = [
         path: "x-or-y-img",
         element: <XorY />,
       },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
+      // {
+      //   path: "dashboard",
+      //   element: <Dashboard />,
+      // },
       {
         path: "profile",
         element: <Profile />,
@@ -449,9 +450,13 @@ const routes = [
         path: "city-user-input/add",
         element: <AddCityUserInput />,
       },
+      // {
+      //   path: "invitations",
+      //   element: <Invitations />,
+      // },
       {
-        path: "invitations",
-        element: <Invitations />,
+        path: "*",
+        element: <Page404 />,
       },
     ],
   },

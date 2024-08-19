@@ -3,10 +3,8 @@ import { Title, List } from "@mantine/core";
 export default () => {
   return (
     <div>
-      <Title order={4} className="font-medium mt-4 mb-2">
-        Links to Past Spreadsheets
-      </Title>
-      <List spacing="xs" size="sm" icon="•">
+      <h4 className="font-medium mb-2 text-xl">Past Year Spreadsheets</h4>
+      <List spacing="xs" icon="•">
         <List.Item>
           <a
             href="https://docs.google.com/spreadsheets/d/1nZFNdyiVo9CoFsC0QMy_8WNSF-ZPm8DxXIC8Vfj5OWQ/edit#gid=617331436"

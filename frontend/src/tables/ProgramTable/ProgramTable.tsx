@@ -78,7 +78,7 @@ export default ({ className }: ProgramTableProps) => {
           </div>
         )}
         {data?.programs?.length > 0 && (
-          <Accordion>
+          <Accordion variant="separated" className={`mt-6`}>
             {data.programs.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
                 <ProgramHeader item={item} />

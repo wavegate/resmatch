@@ -171,9 +171,11 @@ export default function Comment({ id, queryKey }: CommentProps) {
           </div>
 
           <div className="flex gap-2 mt-2 flex-wrap">
-            <Button size="xs" variant="subtle" onClick={toggleReplyForm}>
-              {replyOpened ? "Cancel Reply" : "Reply"}
-            </Button>
+            {user && (
+              <Button size="xs" variant="subtle" onClick={toggleReplyForm}>
+                {replyOpened ? "Cancel Reply" : "Reply"}
+              </Button>
+            )}
             {user?.id === comment.userId && (
               <>
                 <Button

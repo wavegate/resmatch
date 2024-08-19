@@ -81,6 +81,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
             programId: program.program.id,
             rank: program.rank,
           })),
+          anonymous: rankListData.anonymous,
         })
       );
       const transformedData = rankListData.RankedProgram?.map((item) => ({

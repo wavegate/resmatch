@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import authService from "@/services/authService";
 
 const EmailConfirmation = () => {
@@ -27,9 +27,12 @@ const EmailConfirmation = () => {
   }, [location]);
 
   return (
-    <div>
-      <h1>Email Confirmation</h1>
+    <div className={`flex flex-col gap-2`}>
+      <h1 className={`font-bold text-xl`}>Email Confirmation</h1>
       <p>{message}</p>
+      <Link to="/login" className={`text-blue-500 underline`}>
+        Click here to return to log in page
+      </Link>
     </div>
   );
 };

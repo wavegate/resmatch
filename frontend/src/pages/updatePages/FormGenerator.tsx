@@ -223,6 +223,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     onItemsChange={field.onChange}
                     getItemId={(item) => item}
                     required={fieldSchema.required}
+                    label={fieldSchema.label}
                     renderItem={(item, index, removeItem) => (
                       <>
                         <div>{item}</div>

@@ -10,7 +10,7 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-lg sm:text-xl md:text-2xl"
         >
-          PSTP Discussion Forum
+          PSTP Discussion
         </Title>
         <Text
           c="dimmed"

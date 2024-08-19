@@ -2,6 +2,10 @@ import "./App.scss";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/core/styles.layer.css";
+import "mantine-datatable/styles.layer.css";
+import "./layout.css";
+
 import { createTheme, MantineProvider } from "@mantine/core";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

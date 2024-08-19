@@ -12,6 +12,7 @@ const useUser = () => {
     queryFn: authService.getCurrentUser,
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
+    enabled: !!token,
   });
 
   const signOut = () => {

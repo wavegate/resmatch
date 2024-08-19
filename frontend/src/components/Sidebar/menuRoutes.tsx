@@ -37,23 +37,23 @@ import {
 } from "react-icons/hi";
 
 const sidebarRoutes = [
-  {
-    link: "invitations",
-    text: "Invitations (Preview)",
-  },
+  // {
+  //   link: "invitations",
+  //   text: "Invitations (Preview)",
+  // },
   {
     link: "/",
     text: "Welcome",
     icon: <HiHome className="h-5 w-5" />,
   },
-  {
-    link: "/dashboard",
-    text: "Dashboard",
-    icon: <HiOutlineViewGrid className="h-5 w-5" />,
-  },
+  // {
+  //   link: "/dashboard",
+  //   text: "Dashboard",
+  //   icon: <HiOutlineViewGrid className="h-5 w-5" />,
+  // },
   {
     link: "/profile",
-    text: "Profile",
+    text: "My Profile",
     icon: <HiOutlineUserCircle className="h-5 w-5" />,
     auth: "signedIn",
   },

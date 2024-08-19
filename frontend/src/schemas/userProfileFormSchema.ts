@@ -34,6 +34,18 @@ const userProfileFormSchema: FormSchema = {
     conditions: { graduateType: "US" },
     placeholder: "Select your medical degree",
   },
+  schoolRanking: {
+    type: "select",
+    label: "School Ranking",
+    description: "What's the rank of your school?",
+    placeholder: "Select a school ranking",
+  },
+  classRank: {
+    type: "select",
+    label: "Class Rank",
+    description: "What's your rank within your class?",
+    placeholder: "Select a class rank",
+  },
   visaRequired: {
     type: "boolean",
     label: "Visa Required",
@@ -82,6 +94,20 @@ const userProfileFormSchema: FormSchema = {
     description: "Enter your Step 2 score.",
     placeholder: "Enter your Step 2 score",
   },
+  step2CSPathway: {
+    type: "select",
+    label: "Step 2 CS Pathway",
+    description: "Which pathway are you for ECFMG certification?",
+    conditions: {
+      graduateType: "IMG",
+    },
+  },
+  step3Score: {
+    type: "number",
+    label: "Step 3 Score",
+    description: "Enter your Step 3 score.",
+    placeholder: "Enter your Step 3 score",
+  },
   comlex1ScorePass: {
     type: "boolean",
     label: "COMLEX 1 Score Pass",
@@ -106,6 +132,30 @@ const userProfileFormSchema: FormSchema = {
     description: "Please explain any red flags in your application.",
     conditions: { redFlags: true },
     placeholder: "Enter your explanation for red flags",
+  },
+  aoa: {
+    type: "boolean",
+    label: "AOA",
+    description: "Are you part of Alpha Omega Alpha?",
+    conditions: {
+      graduateType: "US",
+    },
+  },
+  sigmaSigmaPhi: {
+    type: "boolean",
+    label: "Sigma Sigma Phi",
+    description: "Are you part of Sigma Sigma Phi?",
+    conditions: {
+      medicalDegree: "DO",
+    },
+  },
+  goldHumanism: {
+    type: "boolean",
+    label: "Gold Humanism",
+    description: "Are you part of Gold Humanism Honor Society?",
+    conditions: {
+      graduateType: "US",
+    },
   },
   honors: {
     type: "number",

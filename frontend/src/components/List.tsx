@@ -22,6 +22,7 @@ export default function GenericList<T>({
   renderItem,
   getItemId,
   addItemPlaceholder = "Add a new item",
+  label,
 }: GenericListProps<T>) {
   const [items, handlers] = useListState<T>([]);
   const [newItem, setNewItem] = useState("");
@@ -82,11 +83,12 @@ export default function GenericList<T>({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-end">
         <TextInput
           value={newItem}
           onChange={(e) => setNewItem(e.currentTarget.value)}
           placeholder={addItemPlaceholder}
+          label={label}
           size="md"
         />
         <Button onClick={handleAddItem} size="md">

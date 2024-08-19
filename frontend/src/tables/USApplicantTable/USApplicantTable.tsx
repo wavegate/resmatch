@@ -1,5 +1,5 @@
 import userService from "@/services/userService";
-import { Drawer, Loader, SimpleGrid, Text } from "@mantine/core";
+import { Drawer, Loader, SimpleGrid, Text, Box } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
@@ -10,6 +10,9 @@ import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
 import userProfileFormSchema from "@/schemas/userProfileFormSchema";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import { DataTable } from "mantine-datatable";
+import { showNotification } from "@mantine/notifications";
+import { Link } from "react-router-dom";
 
 interface UserTableProps {
   className?: string;
@@ -48,6 +51,78 @@ export default ({ className }: UserTableProps) => {
     return !!selectedProgram;
   }, [selectedProgram]);
 
+  // Example columns array for the Mantine DataTable
+  const columns = [
+    {
+      accessor: "alias",
+      title: "Alias",
+      render: ({ id, alias }) => (
+        <Link to={`/user/${id}`} className={`underline`}>
+          {alias}
+        </Link>
+      ),
+    },
+    // { accessor: "graduateType", title: "Graduate Type" },
+    // { accessor: "img", title: "IMG Type" },
+    { accessor: "medicalDegree", title: "Medical Degree" },
+    {
+      accessor: "schoolRanking",
+      title: "School Ranking",
+      render: ({ schoolRanking }) => {
+        return fieldLabelMap["schoolRanking"][schoolRanking];
+      },
+    },
+    {
+      accessor: "classRank",
+      title: "Class Rank",
+      render: ({ classRank }) => {
+        return fieldLabelMap["classRank"][classRank];
+      },
+    },
+    // {
+    //   accessor: "visaRequired",
+    //   title: "Visa Required",
+    // },
+    // {
+    //   accessor: "greenCard",
+    //   title: "Green Card",
+    // },
+    // { accessor: "monthsOfUSCE", title: "Months of USCE" },
+    // {
+    //   accessor: "ecfmgCertified",
+    //   title: "ECFMG Certified",
+    // },
+
+    // { accessor: "step1ScorePass", title: "Step 1 Score Pass" },
+    // { accessor: "step1Score", title: "Step 1 Score" },
+    { accessor: "step2Score", title: "Step 2 Score" },
+    // { accessor: "comlex1ScorePass", title: "COMLEX 1 Score Pass" },
+    { accessor: "comlex2Score", title: "COMLEX 2 Score" },
+    { accessor: "redFlags", title: "Red Flags" },
+    { accessor: "redFlagsExplanation", title: "Red Flags Explanation" },
+    { accessor: "honors", title: "Honors" },
+    { accessor: "highPass", title: "High Pass" },
+    { accessor: "pass", title: "Pass" },
+    { accessor: "fail", title: "Fail" },
+    { accessor: "aoa" },
+    { accessor: "sigmaSigmaPhi" },
+    { accessor: "goldHumanism" },
+    { accessor: "yearOfGraduation", title: "Year of Graduation" },
+    { accessor: "numPublications", title: "# Publications" },
+    { accessor: "numWorkExperiences", title: "# Work Experiences" },
+    {
+      accessor: "numVolunteerExperiences",
+      title: "Number of Volunteer Experiences",
+    },
+    { accessor: "otherDegrees", title: "Other Degrees" },
+    { accessor: "pstp", title: "PSTP" },
+    { accessor: "numApplications", title: "# Applications" },
+    { accessor: "numInterviews", title: "# Interviews" },
+    { accessor: "numWithdrawn", title: "# Withdrawn Applications" },
+    { accessor: "numRejected", title: "# Rejections" },
+    { accessor: "numWaitlisted", title: "# Waitlisted Programs" },
+    { accessor: "applicationYear", title: "Application Year" },
+  ];
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
@@ -59,6 +134,7 @@ export default ({ className }: UserTableProps) => {
       </Drawer>
 
       <Controls
+        noFilters
         noShare
         pageNum={pageNum}
         setPageNum={setPageNum}
@@ -74,14 +150,26 @@ export default ({ className }: UserTableProps) => {
           setSelectedProgram={setSelectedProgram}
         />
       )}
-      <div className={`mt-2`}>
+      <div className={`mt-4`}>
         {isLoading && (
           <div className={`flex flex-col items-center`}>
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
 
-        {data?.users?.length > 0 &&
+        <DataTable
+          withTableBorder
+          borderRadius="sm"
+          withColumnBorders
+          striped
+          highlightOnHover
+          // provide data
+          records={data?.users}
+          // define columns
+          columns={columns}
+          // execute this callback when a row is clicked
+        />
+        {/* {data?.users?.length > 0 &&
           data.users.map((item: any) => {
             return (
               <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }} key={item.id}>
@@ -156,7 +244,7 @@ export default ({ className }: UserTableProps) => {
                 })}
               </SimpleGrid>
             );
-          })}
+          })} */}
         {data?.users && data.users.length === 0 && <NoRecords />}
       </div>
     </div>

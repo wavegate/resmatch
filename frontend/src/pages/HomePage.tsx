@@ -26,109 +26,136 @@ export default () => {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Group align="center" spacing="sm" className="mb-4">
-          <Avatar
-            src="https://media.thv11.com/assets/CCT/images/ee7b830e-7693-4dd9-9902-f0f72cc59b00/ee7b830e-7693-4dd9-9902-f0f72cc59b00_750x422.jpg"
-            alt="Haunting_Welder"
-            radius="xl"
-            size="lg"
-          />
-          <div>
-            <Title order={2} className="font-medium">
-              Welcome Internal Medicine Class of 2025!
-            </Title>
-            <Text size="sm" c="dimmed">
-              Haunting_Welder
-            </Text>
+    <div className={`flex flex-col gap-4`}>
+      <div className={`flex flex-col gap-4`}>
+        <h1 className={`font-medium text-3xl max-sm:text-xl`}>
+          Welcome Internal Medicine Class of 2025!
+        </h1>
+        <div className={``}>
+          <h4 className="font-medium">Urgent Questions or Concerns?</h4>
+          <div className="mb-4">
+            Message <strong>@dingo5071</strong> on Discord or{" "}
+            <a
+              href="https://www.reddit.com/user/Haunting_Welder/"
+              className="text-blue-600"
+            >
+              Haunting_Welder on Reddit
+            </a>
+            .
           </div>
-        </Group>
-        <Text className="mb-4">
-          The traditional residency application spreadsheets are often stressful
-          due to sabotage and ownership issues. I experienced this firsthand as
-          a member of the Class of 2021. Inspired by my peers, I created this
-          user-friendly and secure platform to enhance the residency application
-          process.
-        </Text>
+        </div>
+      </div>
+      <div className={`grid grid-cols-[2fr_1fr] gap-4 max-sm:grid-cols-1`}>
+        <div className={`flex flex-col gap-4 max-sm:hidden`}>
+          <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
+            <h4 className={`font-medium text-xl`}>
+              Total Interview Invites This Cycle
+            </h4>
+            <TimeRangeChart />
+          </Card>
 
-        {/* Key Features Section */}
-        <Title order={3} className="font-medium mt-4 mb-2">
-          Key Features
-        </Title>
-        <List spacing="xs" size="sm" icon="•">
-          <List.Item>
-            <Text size="sm">
+          <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
+            <h3 className={`font-medium text-xl`}>About Residency Match</h3>
+            <ul className={`list-disc pl-6 flex flex-col gap-4`}>
+              <li>
+                <strong>Authentication:</strong> Only moderators can edit other
+                users' data. This prevents sabotage and keeps information
+                secure.
+              </li>
+              <li>
+                <strong>Anonymity:</strong> The app is designed to encourage
+                information sharing and free access to information. However,
+                every input has an option to be anonymous if there is concern
+                for privacy. The Malignant and Fame/Shame tabs are anonymous by
+                default.
+              </li>
+              <li>
+                <strong>Decentralized ownership:</strong> I will backup data
+                every few days. Upon request, I can provide an Excel spreadsheet
+                with personal information desanitized available for download.
+              </li>
+              <li>
+                <strong>Stability:</strong> I am happy to maintain this
+                application year to year, as well as can extend to other
+                specialties if things work out. The code is also open-source, so
+                if something happens to me, other people can jump in and keep
+                the application running.
+              </li>
+              <li>
+                <strong>Extensibility:</strong> I will improve the application
+                over time. Your feedback (see{" "}
+                <Link className={`text-blue-500 underline`} to="/mod-report">
+                  Mod Reports
+                </Link>
+                ) will be super useful for this.
+              </li>
+            </ul>
+          </Card>
+        </div>
+        <div className={`flex flex-col gap-4`}>
+          <Card shadow="sm" withBorder className={`flex flex-col gap-2`}>
+            <div className={`text-xl font-medium`}>Match Day In</div>
+            <div className={`flex flex-col items-center gap-2`}>
+              <div className={`flex gap-2 items-end`}>
+                <div className={`text-4xl font-medium`}>214</div>
+                <div className={`text-xl font-medium`}>Days</div>
+              </div>
+              <div className={`font-medium`}>Until 3/21/2025</div>
+            </div>
+          </Card>
+          <Card shadow="sm" withBorder>
+            <PastSpreadsheets />
+          </Card>
+
+          <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
+            <h4 className={`font-medium text-xl`}>Announcements</h4>
+            <div className={`flex flex-col gap-1`}>
+              <div className={`font-medium`}>8/19/2024</div>
+              <div>Application launched!</div>
+            </div>
+          </Card>
+        </div>
+        <Card
+          shadow="sm"
+          withBorder
+          className={`flex-col gap-4 hidden max-sm:flex`}
+        >
+          <h3 className={`font-medium text-xl`}>About Residency Match</h3>
+          <ul className={`list-disc pl-6 flex flex-col gap-4`}>
+            <li>
               <strong>Authentication:</strong> Only moderators can edit other
               users' data. This prevents sabotage and keeps information secure.
-            </Text>
-          </List.Item>
-          <List.Item>
-            <Text size="sm">
-              <strong>Anonymity:</strong> All information you provide will be
-              anonymous by default, which means it cannot be visibly tied to
-              your account. You can, however, link your profile to your
-              information if you like.
-            </Text>
-          </List.Item>
-          <List.Item>
-            <Text size="sm">
+            </li>
+            <li>
+              <strong>Anonymity:</strong> The app is designed to encourage
+              information sharing and free access to information. However, every
+              input has an option to be anonymous if there is concern for
+              privacy. The Malignant and Fame/Shame tabs are anonymous by
+              default.
+            </li>
+            <li>
               <strong>Decentralized ownership:</strong> I will backup data every
-              few days, and will release a Excel spreadsheet with all data every
-              few weeks, free to download.
-            </Text>
-          </List.Item>
-          <List.Item>
-            <Text size="sm">
+              few days. Upon request, I can provide an Excel spreadsheet with
+              personal information desanitized available for download.
+            </li>
+            <li>
               <strong>Stability:</strong> I am happy to maintain this
               application year to year, as well as can extend to other
               specialties if things work out. The code is also open-source, so
               if something happens to me, other people can jump in and keep the
               application running.
-            </Text>
-          </List.Item>
-          <List.Item>
-            <Text size="sm">
+            </li>
+            <li>
               <strong>Extensibility:</strong> I will improve the application
               over time. Your feedback (see{" "}
               <Link className={`text-blue-500 underline`} to="/mod-report">
                 Mod Reports
               </Link>
               ) will be super useful for this.
-            </Text>
-          </List.Item>
-        </List>
-
-        <SimpleGrid cols={{ sm: 2 }} spacing="lg" className="mt-8">
-          {/* Countdown Section */}
-          <div>
-            <Title order={3} className="font-medium mb-2">
-              Countdown to Match Day
-            </Title>
-            <Text className="mb-4">
-              Only <strong>{daysUntilMatch}</strong> days until Match Day!
-            </Text>
-          </div>
-
-          {/* Past Spreadsheets Component */}
-          <PastSpreadsheets />
-        </SimpleGrid>
-
-        {/* Urgent Questions Section */}
-        <Title order={3} className="font-medium mt-4 mb-2">
-          Urgent Questions or Concerns?
-        </Title>
-        <Text className="mb-4">
-          Message <strong>@dingo5071</strong> on Discord or{" "}
-          <a
-            href="https://www.reddit.com/user/Haunting_Welder/"
-            className="text-blue-600"
-          >
-            Haunting_Welder on Reddit
-          </a>
-          .
-        </Text>
-      </Card>
+            </li>
+          </ul>
+        </Card>
+      </div>
     </div>
   );
 };

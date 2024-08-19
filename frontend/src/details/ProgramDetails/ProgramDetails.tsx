@@ -1,4 +1,4 @@
-import { Button, Group } from "@mantine/core";
+import { Accordion, Button, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import programService from "@/services/programService";
@@ -31,7 +31,7 @@ export default function ProgramDetails({ item }) {
   };
 
   return (
-    <div>
+    <Accordion.Panel>
       {/* <Group justify="apart">
         <Link to={`/program/${item.id}`}>
           <Button>Update program</Button>
@@ -44,10 +44,17 @@ export default function ProgramDetails({ item }) {
           Delete Program
         </Button>
       </Group> */}
-      <div>NRMP Program Code: {item.nrmpProgramCode}</div>
+      <div
+        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4 border border-solid rounded-sm p-4`}
+      >
+        <div className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}>
+          <div className={`font-medium`}>NRMP Program Code:</div>
+          <div className={`text-gray-600`}>{item.nrmpProgramCode}</div>
+        </div>
+      </div>
       {/* <div>{item.specialty.name}</div> */}
-      <div>{item.institution.city?.name}</div>
-      <div>{item.institution.city?.state}</div>
-    </div>
+      {/* <div>{item.institution.city?.name}</div>
+      <div>{item.institution.city?.state}</div> */}
+    </Accordion.Panel>
   );
 }

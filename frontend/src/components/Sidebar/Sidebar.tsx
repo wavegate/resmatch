@@ -62,7 +62,7 @@ const Sidebar = ({ toggle, isLoading, signOut }) => {
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleSection(group.heading)}
             >
-              <h3 className="text-md font-semibold text-gray-800">
+              <h3 className="text-md font-semibold text-gray-800 mt-2">
                 {group.heading}
               </h3>
               <div className="text-gray-600">
