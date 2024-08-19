@@ -97,7 +97,7 @@ export default () => {
             <div className={`text-xl font-medium`}>Match Day In</div>
             <div className={`flex flex-col items-center gap-2`}>
               <div className={`flex gap-2 items-end`}>
-                <div className={`text-4xl font-medium`}>214</div>
+                <div className={`text-4xl font-medium`}>{daysUntilMatch}</div>
                 <div className={`text-xl font-medium`}>Days</div>
               </div>
               <div className={`font-medium`}>Until 3/21/2025</div>
