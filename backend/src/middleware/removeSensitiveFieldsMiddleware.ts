@@ -1,4 +1,4 @@
-function removePasswordMiddleware(req, res, next) {
+function removeSensitiveFieldsMiddleware(req, res, next) {
   const originalSend = res.send;
 
   res.send = function (data) {
@@ -12,23 +12,26 @@ function removePasswordMiddleware(req, res, next) {
       }
     }
 
-    // Recursively remove password fields from the response data
-    const removePassword = (obj) => {
+    // Recursively remove password and email fields from the response data
+    const removeSensitiveFields = (obj) => {
       if (Array.isArray(obj)) {
-        return obj.map(removePassword);
+        return obj.map(removeSensitiveFields);
       } else if (obj !== null && typeof obj === "object") {
         Object.keys(obj).forEach((key) => {
-          if (key.toLowerCase().includes("password")) {
+          if (
+            key.toLowerCase().includes("password") ||
+            key.toLowerCase().includes("email")
+          ) {
             delete obj[key];
           } else if (typeof obj[key] === "object") {
-            obj[key] = removePassword(obj[key]);
+            obj[key] = removeSensitiveFields(obj[key]);
           }
         });
       }
       return obj;
     };
 
-    data = removePassword(data);
+    data = removeSensitiveFields(data);
 
     // Convert back to JSON if it was originally a string
     return originalSend.call(this, JSON.stringify(data));
@@ -37,4 +40,4 @@ function removePasswordMiddleware(req, res, next) {
   next();
 }
 
-export default removePasswordMiddleware;
+export default removeSensitiveFieldsMiddleware;

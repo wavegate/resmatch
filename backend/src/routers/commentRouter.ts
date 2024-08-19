@@ -105,7 +105,7 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
-commentRouter.post("/search", verifyToken, async (req, res) => {
+commentRouter.post("/search", async (req, res) => {
   const { pageNum = 1, ...queryParams } = req.body;
   const PAGE_SIZE = 10; // Example page size
 

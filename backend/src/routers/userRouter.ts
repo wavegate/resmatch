@@ -4,9 +4,9 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/:id", verifyToken, async (req, res) => {
+userRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
-  const currentUserId = req.user.id;
+  const currentUserId = req.user?.id;
 
   try {
     const user = await prisma.user.findUnique({
@@ -31,7 +31,7 @@ userRouter.get("/:id", verifyToken, async (req, res) => {
   }
 });
 
-userRouter.put("/:id", async (req, res) => {
+userRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const formData = req.body;
 
@@ -53,7 +53,7 @@ userRouter.put("/:id", async (req, res) => {
   }
 });
 
-userRouter.delete("/:id", (req, res) => {
+userRouter.delete("/:id", verifyToken, (req, res) => {
   const { id } = req.params;
   res.send(`User with ID: ${id} deleted`);
 });
