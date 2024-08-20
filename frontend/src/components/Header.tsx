@@ -71,34 +71,52 @@ const Header: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
       },
     });
 
-  return (
-    <div className={`flex flex-col gap-1`}>
-      <div className={`font-medium text-lg`}>{programName(data.program)}</div>
+  const dateModels = ["interviewInvite", "interviewRejection", "dropped"];
 
-      {/* Display user alias or 'Anonymous' */}
-      <div
-        className={`text-sm text-gray-500 flex gap-1.5 items-center flex-wrap`}
-      >
-        <UserLink data={data} />
-        <div>·</div>
-        <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
-        {/* Buttons for update and delete */}
-        {user?.id === data.userId && (
-          <div className={`ml-4 flex gap-4 items-center`}>
-            <Link
-              to={`/${modelName}/${data.id}`}
-              className={`text-sm underline text-gray-500`}
-            >
-              Edit
-            </Link>
-            <div
-              className={`text-sm underline text-red-500`}
-              onClick={openDeleteModal}
-            >
-              Delete
+  return (
+    <div
+      className={`${
+        dateModels.includes(modelName) && `grid grid-cols-[80px,1fr] gap-4`
+      }`}
+    >
+      {dateModels.includes(modelName) && (
+        <div className="flex flex-col justify-center items-center text-gray-700 bg-white border border-solid rounded">
+          <Text className="text-lg font-medium">
+            {dayjs(data.date).format("MMM D")}
+          </Text>
+          <Text c="dimmed" className="text-xs">
+            {dayjs(data.date).format("YYYY")}
+          </Text>
+        </div>
+      )}
+
+      <div className={`flex flex-col gap-1`}>
+        <div className={`font-medium text-lg`}>{programName(data.program)}</div>
+        {/* Display user alias or 'Anonymous' */}
+        <div
+          className={`text-sm text-gray-500 flex gap-1.5 items-center flex-wrap`}
+        >
+          <UserLink data={data} />
+          <div>·</div>
+          <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
+          {/* Buttons for update and delete */}
+          {user?.id === data.userId && (
+            <div className={`ml-4 flex gap-4 items-center`}>
+              <Link
+                to={`/${modelName}/${data.id}`}
+                className={`text-sm underline text-gray-500`}
+              >
+                Edit
+              </Link>
+              <div
+                className={`text-sm underline text-red-500`}
+                onClick={openDeleteModal}
+              >
+                Delete
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
