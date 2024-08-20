@@ -84,7 +84,7 @@ export default ({ className }: XorYTableProps) => {
           <Accordion variant="separated" className={`mt-6`}>
             {data.xOrYEntries.map((item: any) => (
               <Accordion.Item key={item.id} value={item.id.toString()}>
-                <XorYHeader item={item} queryKey={queryKey} />
+                <XorYHeader item={item} queryKey={queryKey} img />
                 <XorYDetails item={item} queryKey={queryKey} />
               </Accordion.Item>
             ))}

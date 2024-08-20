@@ -58,6 +58,7 @@ export default ({ className }: ProgramTableProps) => {
       </Drawer>
 
       <Controls
+        noFilters
         pageNum={pageNum}
         setPageNum={setPageNum}
         totalPages={totalPages}

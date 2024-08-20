@@ -29,10 +29,6 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "cc.frankee@gmail.com",
-      password: "testtest",
-    },
   });
 
   const navigate = useNavigate();

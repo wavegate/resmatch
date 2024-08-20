@@ -13,7 +13,11 @@ interface XorYHeaderProps {
   item: any; // Replace with the correct type if available
 }
 
-export default function XorYHeader({ item: data, queryKey }: XorYHeaderProps) {
+export default function XorYHeader({
+  item: data,
+  queryKey,
+  img,
+}: XorYHeaderProps) {
   const queryClient = useQueryClient();
   // Mutation for deleting the entry
   const deleteMutation = useMutation({
@@ -69,7 +73,7 @@ export default function XorYHeader({ item: data, queryKey }: XorYHeaderProps) {
           {user?.id === data.userId && (
             <div className={`ml-4 flex gap-4 items-center`}>
               <Link
-                to={`/x-or-y/${data.id}`}
+                to={`/x-or-y${img ? "-img" : ""}/${data.id}`}
                 className={`text-sm underline text-gray-500`}
               >
                 Edit

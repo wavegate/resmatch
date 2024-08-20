@@ -28,7 +28,6 @@ const formSchema = z.object({
 });
 
 export default function AddXorY({ img = false }: { img?: boolean }) {
-  useAuthGuard();
   const { id } = useParams<{ id: string }>();
   const isUpdate = !!id;
 
@@ -48,7 +47,7 @@ export default function AddXorY({ img = false }: { img?: boolean }) {
     queryFn: () => xOrYService.readXorY(id!),
     enabled: isUpdate,
   });
-
+  useAuthGuard({ id: xorYData?.userId });
   useEffect(() => {
     if (xorYData) {
       reset(
