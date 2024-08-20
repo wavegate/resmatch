@@ -45,6 +45,7 @@ export default function AddChatForm({
             {...field}
             placeholder="Write your reply..."
             required
+            size="md"
             minRows={3}
           />
         )}
