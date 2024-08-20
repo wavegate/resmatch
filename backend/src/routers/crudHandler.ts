@@ -68,6 +68,23 @@ export const createCrudHandlers = (modelName) => ({
       // Remove the id from the request body if it exists
       const { id, save, ...data } = req.body;
 
+      // Fetch the item to verify ownership
+      const item = await prisma[modelName].findUnique({
+        where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+        select: { userId: true }, // Adjust based on your model's fields
+      });
+
+      if (!item) {
+        return res.status(404).json({ error: `${modelName} not found` });
+      }
+
+      // Check if the current user is the owner of the item
+      if (item.userId !== req.user.id) {
+        return res
+          .status(403)
+          .json({ error: "You do not have permission to update this item" });
+      }
+
       if (modelName === "interviewInvite" && save) {
         // Find fields that are common between the data and userFields
         const profileFieldsToUpdate = intersectFields(
@@ -103,6 +120,22 @@ export const createCrudHandlers = (modelName) => ({
   },
 
   deleteById: async (req, res) => {
+    // Fetch the item to verify ownership
+    const item = await prisma[modelName].findUnique({
+      where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+      select: { userId: true }, // Adjust based on your model's fields
+    });
+
+    if (!item) {
+      return res.status(404).json({ error: `${modelName} not found` });
+    }
+
+    // Check if the current user is the owner of the item
+    if (item.userId !== req.user.id) {
+      return res
+        .status(403)
+        .json({ error: "You do not have permission to update this item" });
+    }
     try {
       await prisma[modelName].delete({
         where: { id: Number(req.params.id) },

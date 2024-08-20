@@ -74,6 +74,23 @@ xOrYRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const { programXId, programYId, question, anonymous } = req.body;
 
+  // Fetch the item to verify ownership
+  const item = await prisma.xorY.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `xorY not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
+
   try {
     const updatedXorY = await prisma.xorY.update({
       where: { id: Number(id) },
@@ -100,6 +117,23 @@ xOrYRouter.put("/:id", verifyToken, async (req, res) => {
 // Delete an XorY entry by ID
 xOrYRouter.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
+
+  // Fetch the item to verify ownership
+  const item = await prisma.xorY.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `xorY not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
 
   try {
     await prisma.xorY.delete({

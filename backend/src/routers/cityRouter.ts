@@ -3,23 +3,23 @@ import prisma from "../prismaClient.js";
 
 const cityRouter = express.Router();
 
-// Create a new city
-cityRouter.post("/", async (req, res) => {
-  const { name, state } = req.body;
+// // Create a new city
+// cityRouter.post("/", async (req, res) => {
+//   const { name, state } = req.body;
 
-  try {
-    const newCity = await prisma.city.create({
-      data: {
-        name,
-        state,
-      },
-    });
-    res.status(201).json(newCity);
-  } catch (error) {
-    console.error("Error creating city:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//   try {
+//     const newCity = await prisma.city.create({
+//       data: {
+//         name,
+//         state,
+//       },
+//     });
+//     res.status(201).json(newCity);
+//   } catch (error) {
+//     console.error("Error creating city:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 // Get a city by ID
 cityRouter.get("/:id", async (req, res) => {
@@ -50,58 +50,58 @@ cityRouter.get("/:id", async (req, res) => {
   }
 });
 
-// Update a city by ID
-cityRouter.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const cityId = Number(id);
-  const { name, state } = req.body;
+// // Update a city by ID
+// cityRouter.put("/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const cityId = Number(id);
+//   const { name, state } = req.body;
 
-  if (isNaN(cityId)) {
-    return res.status(400).json({ error: "Invalid city ID" });
-  }
+//   if (isNaN(cityId)) {
+//     return res.status(400).json({ error: "Invalid city ID" });
+//   }
 
-  try {
-    const updatedCity = await prisma.city.update({
-      where: { id: cityId },
-      data: {
-        name,
-        state,
-      },
-    });
+//   try {
+//     const updatedCity = await prisma.city.update({
+//       where: { id: cityId },
+//       data: {
+//         name,
+//         state,
+//       },
+//     });
 
-    if (!updatedCity) {
-      return res.status(404).json({ error: "City not found" });
-    }
+//     if (!updatedCity) {
+//       return res.status(404).json({ error: "City not found" });
+//     }
 
-    res.status(200).json(updatedCity);
-  } catch (error) {
-    console.error("Error updating city:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     res.status(200).json(updatedCity);
+//   } catch (error) {
+//     console.error("Error updating city:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
-// Delete a city by ID
-cityRouter.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-  const cityId = Number(id);
+// // Delete a city by ID
+// cityRouter.delete("/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const cityId = Number(id);
 
-  if (isNaN(cityId)) {
-    return res.status(400).json({ error: "Invalid city ID" });
-  }
+//   if (isNaN(cityId)) {
+//     return res.status(400).json({ error: "Invalid city ID" });
+//   }
 
-  try {
-    const deletedCity = await prisma.city.delete({
-      where: { id: cityId },
-    });
+//   try {
+//     const deletedCity = await prisma.city.delete({
+//       where: { id: cityId },
+//     });
 
-    res
-      .status(200)
-      .json({ message: `City with ID: ${deletedCity.id} deleted` });
-  } catch (error) {
-    console.error("Error deleting city:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     res
+//       .status(200)
+//       .json({ message: `City with ID: ${deletedCity.id} deleted` });
+//   } catch (error) {
+//     console.error("Error deleting city:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 cityRouter.post("/search", async (req, res) => {
   try {

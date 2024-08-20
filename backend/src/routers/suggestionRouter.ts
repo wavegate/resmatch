@@ -67,6 +67,22 @@ suggestionRouter.get("/:id", async (req, res) => {
 // Update a Suggestion by ID
 suggestionRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
+  // Fetch the item to verify ownership
+  const item = await prisma.suggestion.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `suggestion not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
   const { content } = req.body;
 
   if (!content) {
@@ -94,6 +110,22 @@ suggestionRouter.put("/:id", verifyToken, async (req, res) => {
 // Delete a Suggestion by ID
 suggestionRouter.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
+
+  const item = await prisma.suggestion.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `suggestion not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
 
   try {
     await prisma.suggestion.delete({

@@ -183,6 +183,22 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
     anonymous = true,
   } = req.body;
 
+  const item = await prisma.rankList.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `rank list not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
+
   if (isNaN(rankListId)) {
     return res.status(400).json({ error: "Invalid RankList ID" });
   }
@@ -222,6 +238,22 @@ rankListRouter.put("/:id", verifyToken, async (req, res) => {
 // Delete a RankList by ID (protected by verifyToken)
 rankListRouter.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
+
+  const item = await prisma.rankList.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `rank list not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
 
   try {
     const rankListId = Number(id);

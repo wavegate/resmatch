@@ -87,77 +87,77 @@ tierListRouter.get("/:id", async (req, res) => {
 });
 
 // Update a Tier List by ID
-tierListRouter.put("/:id", verifyToken, async (req, res) => {
-  const { id } = req.params;
-  const { title, img, bins, comments } = req.body;
+// tierListRouter.put("/:id", verifyToken, async (req, res) => {
+//   const { id } = req.params;
+//   const { title, img, bins, comments } = req.body;
 
-  try {
-    const updatedTierList = await prisma.tierList.update({
-      where: { id: Number(id) },
-      data: {
-        title,
-        img: Boolean(img),
-        bins: {
-          deleteMany: {},
-          create: bins.map((bin) => ({
-            name: bin.name,
-            programs: {
-              connect: bin.programs.map((programId) => ({ id: programId })),
-            },
-          })),
-        },
-        comments: {
-          deleteMany: {},
-          create: comments.map((comment) => ({
-            content: comment.content,
-            user: {
-              connect: { id: comment.userId },
-            },
-          })),
-        },
-      },
-      include: {
-        bins: {
-          include: {
-            programs: true,
-          },
-        },
-        comments: true,
-      },
-    });
+//   try {
+//     const updatedTierList = await prisma.tierList.update({
+//       where: { id: Number(id) },
+//       data: {
+//         title,
+//         img: Boolean(img),
+//         bins: {
+//           deleteMany: {},
+//           create: bins.map((bin) => ({
+//             name: bin.name,
+//             programs: {
+//               connect: bin.programs.map((programId) => ({ id: programId })),
+//             },
+//           })),
+//         },
+//         comments: {
+//           deleteMany: {},
+//           create: comments.map((comment) => ({
+//             content: comment.content,
+//             user: {
+//               connect: { id: comment.userId },
+//             },
+//           })),
+//         },
+//       },
+//       include: {
+//         bins: {
+//           include: {
+//             programs: true,
+//           },
+//         },
+//         comments: true,
+//       },
+//     });
 
-    res.json(updatedTierList);
-  } catch (error) {
-    console.error("Error updating Tier List:", error);
+//     res.json(updatedTierList);
+//   } catch (error) {
+//     console.error("Error updating Tier List:", error);
 
-    if (error.code === "P2025") {
-      return res.status(404).json({ error: "Tier List not found" });
-    }
+//     if (error.code === "P2025") {
+//       return res.status(404).json({ error: "Tier List not found" });
+//     }
 
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 // Delete a Tier List by ID
-tierListRouter.delete("/:id", verifyToken, async (req, res) => {
-  const { id } = req.params;
+// tierListRouter.delete("/:id", verifyToken, async (req, res) => {
+//   const { id } = req.params;
 
-  try {
-    await prisma.tierList.delete({
-      where: { id: Number(id) },
-    });
+//   try {
+//     await prisma.tierList.delete({
+//       where: { id: Number(id) },
+//     });
 
-    res.json({ message: `Tier List with ID: ${id} deleted` });
-  } catch (error) {
-    console.error("Error deleting Tier List:", error);
+//     res.json({ message: `Tier List with ID: ${id} deleted` });
+//   } catch (error) {
+//     console.error("Error deleting Tier List:", error);
 
-    if (error.code === "P2025") {
-      return res.status(404).json({ error: "Tier List not found" });
-    }
+//     if (error.code === "P2025") {
+//       return res.status(404).json({ error: "Tier List not found" });
+//     }
 
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 // List Tier Lists with Pagination
 tierListRouter.post("/search", async (req, res) => {

@@ -38,6 +38,13 @@ userRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const { alias, ...formData } = req.body;
 
+  // Check if the current user is the owner of the item
+  if (Number(id) !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
+
   try {
     // Check if alias already exists in another user
     if (alias) {
@@ -69,6 +76,12 @@ userRouter.put("/:id", verifyToken, async (req, res) => {
 });
 userRouter.delete("/:id", verifyToken, (req, res) => {
   const { id } = req.params;
+  // Check if the current user is the owner of the item
+  if (id !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
   res.send(`User with ID: ${id} deleted`);
 });
 

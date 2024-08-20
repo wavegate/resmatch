@@ -3,9 +3,9 @@ import prisma from "../prismaClient.js";
 
 const programRouter = express.Router();
 
-programRouter.post("/", (req, res) => {
-  res.send("Program created");
-});
+// programRouter.post("/", (req, res) => {
+//   res.send("Program created");
+// });
 
 programRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -34,40 +34,40 @@ programRouter.get("/:id", async (req, res) => {
   }
 });
 
-programRouter.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const programId = Number(id);
-  const { name, image, cityId } = req.body;
+// programRouter.put("/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const programId = Number(id);
+//   const { name, image, cityId } = req.body;
 
-  if (isNaN(programId)) {
-    return res.status(400).json({ error: "Invalid program ID" });
-  }
+//   if (isNaN(programId)) {
+//     return res.status(400).json({ error: "Invalid program ID" });
+//   }
 
-  try {
-    const updatedProgram = await prisma.program.update({
-      where: { id: programId },
-      data: {
-        name,
-        image,
-        cityId: cityId ? Number(cityId) : undefined,
-      },
-    });
+//   try {
+//     const updatedProgram = await prisma.program.update({
+//       where: { id: programId },
+//       data: {
+//         name,
+//         image,
+//         cityId: cityId ? Number(cityId) : undefined,
+//       },
+//     });
 
-    if (!updatedProgram) {
-      return res.status(404).json({ error: "Program not found" });
-    }
+//     if (!updatedProgram) {
+//       return res.status(404).json({ error: "Program not found" });
+//     }
 
-    res.status(200).json(updatedProgram);
-  } catch (error) {
-    console.error("Error updating program:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     res.status(200).json(updatedProgram);
+//   } catch (error) {
+//     console.error("Error updating program:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
-programRouter.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Program with ID: ${id} deleted`);
-});
+// programRouter.delete("/:id", (req, res) => {
+//   const { id } = req.params;
+//   res.send(`Program with ID: ${id} deleted`);
+// });
 
 programRouter.post("/search", async (req, res) => {
   try {

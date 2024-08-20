@@ -66,6 +66,23 @@ commentRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const { content } = req.body;
 
+  // Fetch the item to verify ownership
+  const item = await prisma.comment.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `comment not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
+
   try {
     const updatedComment = await prisma.comment.update({
       where: { id: Number(id) },
@@ -87,6 +104,23 @@ commentRouter.put("/:id", verifyToken, async (req, res) => {
 // Delete a comment by ID
 commentRouter.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
+
+  // Fetch the item to verify ownership
+  const item = await prisma.comment.findUnique({
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
+  });
+
+  if (!item) {
+    return res.status(404).json({ error: `comment not found` });
+  }
+
+  // Check if the current user is the owner of the item
+  if (item.userId !== req.user.id) {
+    return res
+      .status(403)
+      .json({ error: "You do not have permission to update this item" });
+  }
 
   try {
     await prisma.comment.delete({
