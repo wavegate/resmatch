@@ -172,7 +172,12 @@ export const createCrudHandlers = (modelName) => ({
               institution: true,
             },
           },
-          user: true,
+          user: {
+            select: {
+              id: true,
+              alias: true,
+            },
+          },
           comments: true,
         },
         orderBy: {
