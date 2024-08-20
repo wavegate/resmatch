@@ -99,7 +99,22 @@ export default function Profile() {
                     }
                     break;
                   default:
-                    displayValue = data[fieldName];
+                    // Bin the score values by 5s for specific fields
+                    if (
+                      [
+                        "step2Score",
+                        "step1Score",
+                        "comlex2Score",
+                        "step3Score",
+                      ].includes(fieldName)
+                    ) {
+                      const score = data[fieldName];
+                      const lowerBound = Math.floor(score / 5) * 5;
+                      const upperBound = lowerBound + 4;
+                      displayValue = `${lowerBound}-${upperBound}`;
+                    } else {
+                      displayValue = data[fieldName];
+                    }
                 }
               } else {
                 return false;

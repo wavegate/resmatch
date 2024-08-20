@@ -96,13 +96,14 @@ const interviewInviteFormSchema: FormSchema = {
     type: "number",
     label: "Step 1 Score",
     description:
-      "Enter your Step 1 score. Ignore this field if you took Step 1 after the transition to Pass/Fail. Your score will be displayed in a range, such as 25X.",
+      "Enter your Step 1 score. Ignore this field if you took Step 1 after the transition to Pass/Fail. Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
     placeholder: "Enter your Step 1 score",
   },
   step2Score: {
     type: "number",
     label: "Step 2 Score",
-    description: "Enter your Step 2 score.",
+    description:
+      "Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
     placeholder: "Enter your Step 2 score",
   },
   comlex1ScorePass: {
@@ -114,7 +115,8 @@ const interviewInviteFormSchema: FormSchema = {
   comlex2Score: {
     type: "number",
     label: "COMLEX 2 Score",
-    description: "Enter your COMLEX 2 score.",
+    description:
+      "Please enter an approximate score. Your score will be displayed as a bin (eg. 532 will be displayed as 530-534).",
     conditions: { medicalDegree: "DO" },
     placeholder: "Enter your COMLEX 2 score",
   },
