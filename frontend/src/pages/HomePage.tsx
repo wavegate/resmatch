@@ -84,7 +84,7 @@ export default () => {
               <li>
                 <strong>Extensibility:</strong> I will improve the application
                 over time. Your feedback (see{" "}
-                <Link className={`text-blue-500 underline`} to="/mod-report">
+                <Link className={`text-blue-500 underline`} to="/report">
                   Mod Reports
                 </Link>
                 ) will be super useful for this.
