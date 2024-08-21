@@ -43,6 +43,14 @@ export default () => {
             </a>
             .
           </div>
+
+          <Link
+            to="https://discord.com/channels/1004464530610470942/1036473611776708638/1163669143829098527"
+            target="_blank"
+            className={`text-blue-500 hover:underline font-medium text-lg`}
+          >
+            2025 IM Discord
+          </Link>
         </div>
       </div>
       <div className={`grid grid-cols-[2fr_1fr] gap-4 max-sm:grid-cols-1`}>
