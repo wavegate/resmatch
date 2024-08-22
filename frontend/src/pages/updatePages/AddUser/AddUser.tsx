@@ -8,6 +8,7 @@ import {
   Breadcrumbs,
   Text,
   Anchor,
+  Loader,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
@@ -106,121 +107,127 @@ export default function AddUser() {
   return (
     <div className={`flex flex-col gap-4`}>
       <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        {Object.keys(schema).map((fieldName) => {
-          const fieldSchema = schema[fieldName];
+      {isLoading ? (
+        <Loader className={`w-full flex justify-center mt-12`} />
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          {Object.keys(schema).map((fieldName) => {
+            const fieldSchema = schema[fieldName];
 
-          if (
-            fieldName === "comments" ||
-            !checkConditions(fieldSchema.conditions)
-          ) {
-            return null;
-          }
-          const Component = formComponentMap[fieldSchema.type] || TextInput;
+            if (
+              fieldName === "comments" ||
+              !checkConditions(fieldSchema.conditions)
+            ) {
+              return null;
+            }
+            const Component = formComponentMap[fieldSchema.type] || TextInput;
 
-          return (
-            <Controller
-              key={fieldName}
-              name={fieldName}
-              control={control}
-              render={({ field, fieldState }) => {
-                const commonProps = {
-                  label: fieldSchema.label,
-                  description: fieldSchema.description,
-                  error: fieldState.error?.message,
-                  size: "md",
-                  placeholder: fieldSchema.placeholder || "",
-                  ...field,
-                };
+            return (
+              <Controller
+                key={fieldName}
+                name={fieldName}
+                control={control}
+                render={({ field, fieldState }) => {
+                  const commonProps = {
+                    label: fieldSchema.label,
+                    description: fieldSchema.description,
+                    error: fieldState.error?.message,
+                    size: "md",
+                    placeholder: fieldSchema.placeholder || "",
+                    ...field,
+                  };
 
-                // Special handling for Checkbox (boolean)
-                if (Component === Checkbox) {
-                  return (
-                    <Checkbox
-                      {...commonProps}
-                      checked={field.value}
-                      onChange={(event) =>
-                        field.onChange(event.currentTarget.checked)
-                      }
-                      required={fieldSchema.required}
-                    />
-                  );
-                }
-
-                // Handle ProgramSearch component
-                if (Component === ProgramSearch) {
-                  return (
-                    <div>
-                      <ProgramSearch
-                        {...commonProps}
-                        selected={field.value}
-                        onChange={field.onChange}
-                        required={fieldSchema.required}
-                      />
-                      {fieldState.error && (
-                        <div style={{ color: "red", fontSize: "12px" }}>
-                          {fieldState.error.message}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                // Handle DatePickerInput component
-                if (Component === DatePickerInput) {
-                  if (fieldSchema.type === "multipleDates") {
+                  // Special handling for Checkbox (boolean)
+                  if (Component === Checkbox) {
                     return (
-                      <DatePickerInput
+                      <Checkbox
                         {...commonProps}
-                        type="multiple"
-                        value={field.value}
-                        onChange={(dates) => field.onChange(dates)}
-                        placeholder="Pick multiple dates"
+                        checked={field.value}
+                        onChange={(event) =>
+                          field.onChange(event.currentTarget.checked)
+                        }
                         required={fieldSchema.required}
                       />
                     );
                   }
 
-                  return (
-                    <DatePickerInput
-                      {...commonProps}
-                      value={field.value}
-                      onChange={(date) => field.onChange(date)}
-                      placeholder="Pick a date"
-                      required={fieldSchema.required}
-                    />
-                  );
-                }
+                  // Handle ProgramSearch component
+                  if (Component === ProgramSearch) {
+                    return (
+                      <div>
+                        <ProgramSearch
+                          {...commonProps}
+                          selected={field.value}
+                          onChange={field.onChange}
+                          required={fieldSchema.required}
+                        />
+                        {fieldState.error && (
+                          <div style={{ color: "red", fontSize: "12px" }}>
+                            {fieldState.error.message}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
 
-                // Handle Select field type
-                if (fieldSchema.type === "select") {
-                  const options = Object.keys(
-                    fieldLabelMap[fieldName] || {}
-                  ).map((value) => ({
-                    label: fieldLabelMap[fieldName][value],
-                    value,
-                  }));
+                  // Handle DatePickerInput component
+                  if (Component === DatePickerInput) {
+                    if (fieldSchema.type === "multipleDates") {
+                      return (
+                        <DatePickerInput
+                          {...commonProps}
+                          type="multiple"
+                          value={field.value}
+                          onChange={(dates) => field.onChange(dates)}
+                          placeholder="Pick multiple dates"
+                          required={fieldSchema.required}
+                        />
+                      );
+                    }
 
-                  return (
-                    <Component
-                      {...commonProps}
-                      data={options}
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder={commonProps.placeholder || "Click to select"}
-                      required={fieldSchema.required}
-                    />
-                  );
-                }
+                    return (
+                      <DatePickerInput
+                        {...commonProps}
+                        value={field.value}
+                        onChange={(date) => field.onChange(date)}
+                        placeholder="Pick a date"
+                        required={fieldSchema.required}
+                      />
+                    );
+                  }
 
-                return <Component {...commonProps} />;
-              }}
-            />
-          );
-        })}
+                  // Handle Select field type
+                  if (fieldSchema.type === "select") {
+                    const options = Object.keys(
+                      fieldLabelMap[fieldName] || {}
+                    ).map((value) => ({
+                      label: fieldLabelMap[fieldName][value],
+                      value,
+                    }));
 
-        <Button type="submit">Update</Button>
-      </form>
+                    return (
+                      <Component
+                        {...commonProps}
+                        data={options}
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder={
+                          commonProps.placeholder || "Click to select"
+                        }
+                        required={fieldSchema.required}
+                      />
+                    );
+                  }
+
+                  return <Component {...commonProps} />;
+                }}
+              />
+            );
+          })}
+
+          <Button type="submit">Update</Button>
+        </form>
+      )}
     </div>
   );
 }

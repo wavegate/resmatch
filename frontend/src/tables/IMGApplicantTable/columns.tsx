@@ -1,4 +1,5 @@
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import { convertToBinnedValue } from "@/utils/utils";
 import { Link } from "react-router-dom";
 
 // Example columns array for the Mantine DataTable
@@ -116,7 +117,11 @@ export const columnDefs = [
   },
   // { headerName: "Step 1 Score Pass", field: "step1ScorePass" },
   // { headerName: "Step 1 Score", field: "step1Score" },
-  { headerName: "Step 2 Score", field: "step2Score" },
+  {
+    headerName: "Step 2 Score",
+    field: "step2Score",
+    valueFormatter: ({ value }) => convertToBinnedValue(value),
+  },
   // { headerName: "COMLEX 1 Score Pass", field: "comlex1ScorePass" },
   // { headerName: "COMLEX 2 Score", field: "comlex2Score" },
   { headerName: "Red Flags", field: "redFlags" },

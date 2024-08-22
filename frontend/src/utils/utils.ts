@@ -27,3 +27,22 @@ export function generateGravatarUrl(
 
   return gravatarUrl;
 }
+
+export function convertToYesNo(value) {
+  return value === true ? "Yes" : value === false ? "No" : "";
+}
+
+export function convertToBinnedValue(value) {
+  // Attempt to parse the value as a number
+  const numericValue = parseFloat(value);
+
+  // Check if the parsed value is a valid number
+  if (!isNaN(numericValue)) {
+    const lowerBound = Math.floor(numericValue / 5) * 5;
+    const upperBound = lowerBound + 4;
+    return `${lowerBound}-${upperBound}`;
+  }
+
+  // Return the original string if it's not a number
+  return value;
+}
