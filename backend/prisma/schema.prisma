@@ -78,6 +78,15 @@ model User {
   FellowshipMatch         FellowshipMatch[]
   Suggestion              Suggestion[]
   XorY                    XorY[]
+  discordLink             String?
+  redditLink              String?
+  role                    Role?
+}
+
+enum Role {
+  MOD
+  ADMIN
+  USER
 }
 
 model Specialty {
