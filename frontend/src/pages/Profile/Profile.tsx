@@ -221,7 +221,7 @@ export default function Profile() {
     records: imgInfo,
   };
 
-  if (data && !data.public && data.id !== user.id) {
+  if (data && !data.public && data.id !== user?.id) {
     return <div>This user's profile is not public.</div>;
   }
 
