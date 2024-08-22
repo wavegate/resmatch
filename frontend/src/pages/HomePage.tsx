@@ -116,7 +116,11 @@ export default () => {
           </Card>
 
           <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
-            <h4 className={`font-medium text-xl`}>Announcements</h4>
+            <h4 className={`font-medium text-xl`}>Changelog</h4>
+            <div className={`flex flex-col gap-1`}>
+              <div className={`font-medium`}>8/21/2024</div>
+              <div>Updated profile page</div>
+            </div>
             <div className={`flex flex-col gap-1`}>
               <div className={`font-medium`}>8/19/2024</div>
               <div>Application launched!</div>
