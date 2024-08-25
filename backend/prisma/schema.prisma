@@ -155,7 +155,7 @@ model InterviewInvite {
   step1Score           Int?
   step2Score           Int?
   comlex1ScorePass     Boolean?
-  comlex2Score         String?
+  comlex2Score         Int?
   visaRequired         Boolean?
   subI                 Boolean?
   home                 Boolean?
@@ -536,7 +536,7 @@ model InterviewRejection {
   step1Score           Int?
   step2Score           Int?
   comlex1ScorePass     Boolean?
-  comlex2Score         String?
+  comlex2Score         Int?
   visaRequired         Boolean?
   subI                 Boolean?
   home                 Boolean?
