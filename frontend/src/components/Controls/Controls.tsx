@@ -35,7 +35,7 @@ export default function Controls({
             Filters
           </Button>
         )}
-        {user && (
+        {user && !noShare && (
           <Button
             className={`sm:hidden`}
             onClick={() => navigate(shareUrl)}
