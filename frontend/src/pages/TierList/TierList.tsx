@@ -14,6 +14,7 @@ import suggestionService from "@/services/suggestionService";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { notifications } from "@mantine/notifications";
 import Suggestion from "./Suggestion";
+import programName from "@/utils/programName";
 
 export default function TierListDetails() {
   const [suggestion, setSuggestion] = useState("");
@@ -104,9 +105,7 @@ export default function TierListDetails() {
             <Accordion.Panel>
               <ul>
                 {bin.programs.map((program: any) => (
-                  <li key={program.id}>
-                    {program.name} at {program.institution.name}
-                  </li>
+                  <li key={program.id}>{programName(program)}</li>
                 ))}
               </ul>
             </Accordion.Panel>
