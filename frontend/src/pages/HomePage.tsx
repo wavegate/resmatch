@@ -39,9 +39,9 @@ export default () => {
               href="https://www.reddit.com/user/Haunting_Welder/"
               className="text-blue-600"
             >
-              Haunting_Welder on Reddit
-            </a>
-            .
+              Haunting_Welder
+            </a>{" "}
+            on Reddit .
           </div>
 
           <Link
@@ -115,8 +115,16 @@ export default () => {
             <PastSpreadsheets />
           </Card>
 
-          <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
+          <Card
+            shadow="sm"
+            withBorder
+            className={`flex flex-col gap-4 max-h-[500px] overflow-y-auto`}
+          >
             <h4 className={`font-medium text-xl`}>Changelog</h4>
+            <div className={`flex flex-col gap-1`}>
+              <div className={`font-medium`}>8/26/2024</div>
+              <div>Missing programs imported, connected to cities</div>
+            </div>
             <div className={`flex flex-col gap-1`}>
               <div className={`font-medium`}>8/21/2024</div>
               <div>Updated profile page</div>

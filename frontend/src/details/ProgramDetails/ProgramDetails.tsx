@@ -48,8 +48,18 @@ export default function ProgramDetails({ item }) {
         className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4 border border-solid rounded-sm p-4`}
       >
         <div className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}>
+          <div className={`font-medium`}>Location:</div>
+          <div className={`text-gray-600`}>
+            {item.city?.name}, {item.city?.state}
+          </div>
+        </div>
+        <div className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}>
           <div className={`font-medium`}>NRMP Program Code:</div>
           <div className={`text-gray-600`}>{item.nrmpProgramCode}</div>
+        </div>
+        <div className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}>
+          <div className={`font-medium`}>ACGME Code:</div>
+          <div className={`text-gray-600`}>{item.acgmeCode}</div>
         </div>
       </div>
       {/* <div>{item.specialty.name}</div> */}
