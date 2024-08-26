@@ -7,7 +7,8 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default () => {
   const { user, signOut, isLoading } = useUser();
-  const [opened, { toggle }] = useDisclosure();
+  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
+  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
   return (
     <AppShell
@@ -15,7 +16,7 @@ export default () => {
       navbar={{
         width: 300,
         breakpoint: "sm",
-        collapsed: { mobile: !opened },
+        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
       padding={{ base: "16", sm: "32" }}
       className={`text-gray-900`}
@@ -26,9 +27,16 @@ export default () => {
         >
           <div className={`flex gap-4`}>
             <Burger
-              opened={opened}
-              onClick={toggle}
+              opened={mobileOpened}
+              onClick={toggleMobile}
               hiddenFrom="sm"
+              size="sm"
+              className={`burger`}
+            />
+            <Burger
+              opened={desktopOpened}
+              onClick={toggleDesktop}
+              visibleFrom="sm"
               size="sm"
               className={`burger`}
             />
@@ -64,7 +72,7 @@ export default () => {
         className={`flex flex-col gap-4  overflow-y-auto`}
       >
         <Sidebar
-          toggle={toggle}
+          toggleMobile={toggleMobile}
           isLoading={isLoading}
           user={user}
           signOut={signOut}

@@ -11,7 +11,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Icons for collap
 import menuRoutes from "./menuRoutes";
 import useUser from "@/hooks/useUser"; // Import the useUser hook
 
-const Sidebar = ({ toggle, isLoading, signOut }) => {
+const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
   const { user } = useUser(); // Get the user from the useUser hook
   const [collapsedSections, setCollapsedSections] = useState({});
 
@@ -33,12 +33,12 @@ const Sidebar = ({ toggle, isLoading, signOut }) => {
         />
         {!user && (
           <>
-            <Link to="/login" onClick={toggle}>
+            <Link to="/login" onClick={toggleMobile}>
               <Button variant="default" size="sm">
                 Log in
               </Button>
             </Link>
-            <Link to="/sign-up" onClick={toggle}>
+            <Link to="/sign-up" onClick={toggleMobile}>
               <Button size="sm">Sign up</Button>
             </Link>
           </>
@@ -92,7 +92,7 @@ const Sidebar = ({ toggle, isLoading, signOut }) => {
                             : "text-gray-600"
                         } text-base`
                       }
-                      onClick={toggle}
+                      onClick={toggleMobile}
                     >
                       <div>{route.icon}</div>
                       <div>{route.text}</div>
@@ -114,7 +114,7 @@ const Sidebar = ({ toggle, isLoading, signOut }) => {
                   : "text-gray-600"
               } text-base`
             }
-            onClick={toggle}
+            onClick={toggleMobile}
           >
             <div>{group.icon}</div>
             <div>{group.text}</div>
