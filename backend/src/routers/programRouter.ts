@@ -92,6 +92,7 @@ programRouter.post("/search", async (req, res) => {
         p.name AS program_name, 
         p.image AS program_image,
         p."nrmpProgramCode" AS nrmp_program_code,
+        p."acgmeCode" AS acgme_code,
         i.id AS institution_id, 
         i.name AS institution_name,
         s.name AS specialty_name,
@@ -100,7 +101,7 @@ programRouter.post("/search", async (req, res) => {
       FROM "Program" p
       JOIN "Institution" i ON p."institutionId" = i.id
       JOIN "Specialty" s ON p."specialtyId" = s.id
-      LEFT JOIN "City" c ON i."cityId" = c.id
+      LEFT JOIN "City" c ON p."cityId" = c.id
       WHERE CONCAT(p.name, ' at ', i.name) ILIKE ${"%" + searchTerm + "%"}
       ORDER BY i.name ASC 
       LIMIT 10 OFFSET ${offset}
@@ -111,18 +112,17 @@ programRouter.post("/search", async (req, res) => {
       name: program.program_name,
       image: program.program_image,
       nrmpProgramCode: program.nrmp_program_code,
+      acgmeCode: program.acgme_code,
       institution: {
         id: program.institution_id,
         name: program.institution_name,
-        city: program.city_name
-          ? {
-              name: program.city_name,
-              state: program.city_state,
-            }
-          : null,
       },
       specialty: {
         name: program.specialty_name,
+      },
+      city: {
+        name: program.city_name,
+        state: program.city_state,
       },
     }));
 

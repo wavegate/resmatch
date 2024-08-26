@@ -106,13 +106,14 @@ model Institution {
 }
 
 model Program {
-  id              Int    @id @default(autoincrement())
+  id              Int     @id @default(autoincrement())
   name            String
   institutionId   Int
   specialtyId     Int
   rankListId      Int?
   cityId          Int?
-  nrmpProgramCode String @unique
+  nrmpProgramCode String  @unique
+  acgmeCode       String?
 
   institution         Institution           @relation(fields: [institutionId], references: [id])
   specialty           Specialty             @relation(fields: [specialtyId], references: [id])
@@ -138,8 +139,6 @@ model Program {
   asProgramX          XorY[]                @relation("ProgramXRelation")
   asProgramY          XorY[]                @relation("ProgramYRelation")
   RankedProgram       RankedProgram[]
-
-  @@unique([institutionId, specialtyId, name])
 }
 
 model InterviewInvite {
