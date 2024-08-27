@@ -1,8 +1,15 @@
 import userService from "@/services/userService";
-import { Drawer, Loader, SimpleGrid, Text, Box } from "@mantine/core";
+import {
+  Drawer,
+  Loader,
+  SimpleGrid,
+  Text,
+  Box,
+  TextInput,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { PAGE_SIZE } from "@/constants";
 import Filters from "@/components/Filters/Filters";
@@ -53,6 +60,15 @@ export default ({ className }: UserTableProps) => {
     return !!selectedProgram;
   }, [selectedProgram]);
 
+  const [searchText, setSearchText] = useState("");
+  const gridRef = useRef(null);
+
+  const onFilterTextBoxChanged = (value) => {
+    if (gridRef.current) {
+      gridRef.current.api.setGridOption("quickFilterText", value);
+    }
+  };
+
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
@@ -86,11 +102,25 @@ export default ({ className }: UserTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
+        <TextInput
+          size="md"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.currentTarget.value);
+            onFilterTextBoxChanged(e.currentTarget.value);
+          }}
+          className={`mb-2`}
+        />
         <div
           className="ag-theme-quartz" // applying the Data Grid theme
           style={{ height: 500 }} // the Data Grid will fill the size of the parent container
         >
-          <AgGridReact rowData={data?.users} columnDefs={columnDefs} />
+          <AgGridReact
+            rowData={data?.users}
+            columnDefs={columnDefs}
+            ref={gridRef}
+          />
         </div>
         {/* <DataTable
           // withTableBorder
