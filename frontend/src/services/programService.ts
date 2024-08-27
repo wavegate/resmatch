@@ -49,11 +49,18 @@ const deleteProgram = async (id: string | number): Promise<void> => {
 const searchProgram = async ({
   searchTerm,
   pageNum,
+  state,
 }: SearchParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     searchTerm,
     pageNum,
+    state,
   });
+  return data;
+};
+
+const getAllPrograms = async (): Promise<Program[]> => {
+  const { data } = await apiClient.get(route);
   return data;
 };
 
@@ -63,4 +70,5 @@ export default {
   updateProgram,
   deleteProgram,
   searchProgram,
+  getAllPrograms,
 };

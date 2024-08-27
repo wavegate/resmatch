@@ -58,10 +58,20 @@ const searchCity = async ({
   return data;
 };
 
+interface State {
+  state: string;
+}
+
+const getStates = async (): Promise<State[]> => {
+  const { data } = await apiClient.get(`${route}/states`);
+  return data;
+};
+
 export default {
   createCity,
   readCity,
   updateCity,
   deleteCity,
   searchCity,
+  getStates,
 };

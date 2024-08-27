@@ -3,6 +3,7 @@ import Comment from "@/components/Comment/Comment";
 import rankListFormSchema from "@/schemas/rankListFormSchema";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import AddCommentField from "@/components/AddCommentField";
+import programName from "@/utils/programName";
 
 export default function RankListDetails({ item: data, type, queryKey }) {
   const schema = rankListFormSchema;
@@ -23,8 +24,7 @@ export default function RankListDetails({ item: data, type, queryKey }) {
             {data.RankedProgram.sort((a, b) => a.rank - b.rank).map(
               (rankedProgram) => (
                 <li key={rankedProgram.id}>
-                  {rankedProgram.program.name} at{" "}
-                  {rankedProgram.program.institution.name}
+                  {programName(rankedProgram.program)}
                 </li>
               )
             )}

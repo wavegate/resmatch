@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useListState } from "@mantine/hooks";
 import { MdDragIndicator } from "react-icons/md";
 import { useEffect } from "react";
+import programName from "@/utils/programName";
 
 export default function ProgramList({
   onProgramsChange,
@@ -28,6 +29,7 @@ export default function ProgramList({
         programId: program.id,
         name: program.name,
         institution: program.institution,
+        nrmpProgramCode: program.nrmpProgramCode,
         rank: programs.length + 1,
       };
       handlers.append(newProgram);
@@ -84,9 +86,7 @@ export default function ProgramList({
           <div {...provided.dragHandleProps} className="cursor-pointer">
             <MdDragIndicator />
           </div>
-          <Text>
-            {program.name} at {program.institution.name}
-          </Text>
+          <Text>{programName(program)}</Text>
           <Button
             size="xs"
             variant="outline"

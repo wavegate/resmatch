@@ -20,6 +20,7 @@ export default function Filters({
   setEndDate,
   modelName,
   clearFilters,
+  setPageNum,
 }: FiltersProps) {
   const filters = filtersMap[modelName];
   return (
@@ -30,7 +31,10 @@ export default function Filters({
           label="Pick start date"
           placeholder="Pick start date"
           value={startDate}
-          onChange={setStartDate}
+          onChange={(value) => {
+            setStartDate(value);
+            setPageNum(1);
+          }}
           clearable
           size="md"
           leftSection={<FaRegCalendarAlt />}
@@ -42,7 +46,10 @@ export default function Filters({
           label="Pick end date"
           placeholder="Pick end date"
           value={endDate}
-          onChange={setEndDate}
+          onChange={(value) => {
+            setEndDate(value);
+            setPageNum(1);
+          }}
           clearable
           size="md"
           leftSection={<FaRegCalendarAlt />}
@@ -52,6 +59,7 @@ export default function Filters({
       <ProgramSearch
         onProgramSelect={(value) => {
           setSelectedProgram(value);
+          setPageNum(1);
         }}
         selected={selectedProgram?.id}
       />

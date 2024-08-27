@@ -76,6 +76,7 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
+          setPageNum={setPageNum}
         />
       </Drawer>
 

@@ -1,36 +1,42 @@
 import programService from "@/services/programService";
 import { Accordion, Drawer, Loader } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import ProgramHeader from "@/headers/ProgramHeader/ProgramHeader";
 import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
 import { PAGE_SIZE } from "@/constants";
-import Filters from "@/components/Filters/Filters";
-import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
+import ProgramControls from "@/controls/ProgramControls/ProgramControls";
+import ProgramFilters from "@/filters/ProgramFilters/ProgramFilters";
+import ProgramBadges from "@/badges/ProgramBadges/ProgramBadges";
 
 interface ProgramTableProps {
   className?: string;
 }
 
 export default ({ className }: ProgramTableProps) => {
-  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm] = useDebouncedValue(searchInput, 200);
+  const [state, setState] = useState(null);
+
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["programs", selectedProgram, pageNum],
+    queryKey: ["programs", searchTerm, state, pageNum],
     queryFn: () => {
       return programService.searchProgram({
-        programId: selectedProgram?.id,
+        searchTerm,
         pageNum,
+        state,
       });
     },
   });
 
   const clearFilters = () => {
-    setSelectedProgram(null);
+    setState(null);
+    setSearchInput("");
     setPageNum(1);
   };
 
@@ -44,32 +50,35 @@ export default ({ className }: ProgramTableProps) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return !!selectedProgram;
-  }, [selectedProgram]);
+    return !!searchTerm || state;
+  }, [searchTerm, state]);
 
   return (
     <div className={`${className}`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
-          selectedProgram={selectedProgram}
-          setSelectedProgram={setSelectedProgram}
+        <ProgramFilters
+          state={state}
+          setState={setState}
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
           clearFilters={clearFilters}
+          setPageNum={setPageNum}
         />
       </Drawer>
 
-      <Controls
-        noFilters
+      <ProgramControls
         pageNum={pageNum}
         setPageNum={setPageNum}
         totalPages={totalPages}
         openFilters={open}
-        noShare
       />
 
       {filtersPresent && (
-        <Badges
-          selectedProgram={selectedProgram}
-          setSelectedProgram={setSelectedProgram}
+        <ProgramBadges
+          searchTerm={searchTerm}
+          setSearchInput={setSearchInput}
+          state={state}
+          setState={setState}
         />
       )}
       <div className={`mt-2`}>

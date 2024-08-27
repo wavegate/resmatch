@@ -59,7 +59,7 @@ export default function XorYHeader({
     <Accordion.Control className="bg-primary bg-opacity-10">
       <div className={`flex flex-col gap-1`}>
         <div className={`font-medium text-lg`}>
-          {data.programX.institution.name} vs {data.programY.institution.name}
+          {programName(data.programX)} vs {programName(data.programY)}
         </div>
 
         {/* Display user alias or 'Anonymous' */}

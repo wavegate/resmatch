@@ -17,9 +17,17 @@ export default function ProgramSearch({
   const [search] = useDebouncedValue(searchInput, 200);
   const [initialProgram, setInitialProgram] = useState(null);
 
+  console.log(search);
+
+  // Fetch the list of programs based on the search input
   const { data, error, isLoading } = useQuery({
-    queryKey: ["allPrograms"],
-    queryFn: programService.getAllPrograms,
+    queryKey: ["programSearch", search],
+    queryFn: () => {
+      return programService.searchProgram({
+        searchTerm: search,
+        pageNum: 1,
+      });
+    },
   });
 
   // // Fetch the program details if a selected programId exists and the initialProgram is not set
@@ -40,7 +48,7 @@ export default function ProgramSearch({
 
   const programsData = useMemo(() => {
     const programs =
-      data?.map((program) => ({
+      data?.programs.map((program) => ({
         value: program.id.toString(),
         label: programName(program),
       })) || [];
@@ -56,36 +64,35 @@ export default function ProgramSearch({
     // }
 
     return programs;
-  }, [data]);
+  }, [data, initialProgram]);
 
   // console.log(programsData);
 
   return (
     <Select
       leftSection={<IoIosSearch />}
-      limit={10}
       required={required}
       label={label}
-      placeholder="Search program"
+      placeholder="Enter institution name here"
       value={String(selected)}
       data={programsData}
       searchable
       clearable
       searchValue={searchInput}
       onSearchChange={(value) => {
+        console.log(value);
         setSearchInput(value);
       }}
       onChange={(value) => {
         onProgramSelect &&
           onProgramSelect(
-            data?.find((program) => {
+            data?.programs.find((program) => {
               return program.id === Number(value);
             })
           );
         onChange && onChange(Number(value));
       }}
       size="md"
-      disabled={isLoading || error}
     />
   );
 }
