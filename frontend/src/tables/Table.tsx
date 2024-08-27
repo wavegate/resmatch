@@ -7,13 +7,8 @@ import { PAGE_SIZE } from "@/constants";
 import Filters from "@/components/Filters/Filters";
 import Controls from "@/components/Controls/Controls";
 import Badges from "@/components/Badges/Badges";
-import DataDisplay from "@/headers/DataDisplay";
 import services from "@/services/services";
 import { pageDescription } from "@/schemas/pageDescription";
-import programName from "@/utils/programName";
-import { generateGravatarUrl } from "@/utils/utils";
-import dayjs from "dayjs";
-import { Link } from "react-router-dom";
 import Details from "@/components/Details";
 import Header from "@/components/Header";
 
