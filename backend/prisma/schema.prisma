@@ -134,11 +134,12 @@ model Program {
   Question            Question[]
   Dropped             Dropped[]
   FellowshipMatch     FellowshipMatch[]
-  Bin                 Bin?                  @relation(fields: [binId], references: [id])
+  Bin                 Bin?                  @relation(fields: [binId], references: [id], onDelete: SetNull)
   binId               Int?
   asProgramX          XorY[]                @relation("ProgramXRelation")
   asProgramY          XorY[]                @relation("ProgramYRelation")
   RankedProgram       RankedProgram[]
+  binAssignments      BinAssignment[]
 }
 
 model InterviewInvite {
@@ -714,14 +715,28 @@ model TierList {
 }
 
 model Bin {
-  id         Int       @id @default(autoincrement())
+  id         Int             @id @default(autoincrement())
   name       String
   order      Int
-  programs   Program[]
+  programs   BinAssignment[]
   tierListId Int
-  tierList   TierList  @relation(fields: [tierListId], references: [id])
+  tierList   TierList        @relation(fields: [tierListId], references: [id])
+  Program    Program[]
 
   @@unique([tierListId, order])
+}
+
+model BinAssignment {
+  id        Int @id @default(autoincrement())
+  binId     Int
+  programId Int
+  rank      Int
+
+  bin     Bin     @relation(fields: [binId], references: [id], onDelete: Cascade)
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@unique([binId, programId])
+  @@unique([binId, rank])
 }
 
 model Suggestion {

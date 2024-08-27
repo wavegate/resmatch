@@ -62,7 +62,14 @@ tierListRouter.get("/:id", async (req, res) => {
           include: {
             programs: {
               include: {
-                institution: true,
+                program: {
+                  include: {
+                    institution: true,
+                  },
+                },
+              },
+              orderBy: {
+                rank: "asc", // Ensure programs are ordered by rank within each bin
               },
             },
           },
