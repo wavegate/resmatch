@@ -105,9 +105,9 @@ export default function TierListDetails() {
             </Accordion.Control>
             <Accordion.Panel>
               <ul>
-                {bin.programs.map((program: any) => (
-                  <li key={program.id}>
-                    <li key={program.id}>{programName(program)}</li>
+                {bin.programs.map((binAssignment: any) => (
+                  <li key={binAssignment.program.id}>
+                    {programName(binAssignment.program)}
                   </li>
                 ))}
               </ul>
