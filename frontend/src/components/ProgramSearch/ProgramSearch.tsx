@@ -58,8 +58,6 @@ export default function ProgramSearch({
     return programs;
   }, [data]);
 
-  // console.log(programsData);
-
   return (
     <Select
       leftSection={<IoIosSearch />}
@@ -67,7 +65,7 @@ export default function ProgramSearch({
       required={required}
       label={label}
       placeholder="Search program"
-      value={String(selected)}
+      value={selected ? String(selected) : null}
       data={programsData}
       searchable
       clearable

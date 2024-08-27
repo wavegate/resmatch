@@ -54,6 +54,7 @@ export default ({ className }: CitiesTableProps) => {
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
           clearFilters={clearFilters}
+          setPageNum={setPageNum}
         />
       </Drawer>
 
@@ -70,6 +71,7 @@ export default ({ className }: CitiesTableProps) => {
         <Badges
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
+          setPageNum={setPageNum}
         />
       )}
       <div className={`mt-2`}>

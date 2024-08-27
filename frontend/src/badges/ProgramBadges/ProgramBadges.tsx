@@ -6,16 +6,35 @@ export default function ProgramBadges({
   setSearchInput,
   state,
   setState,
+  setPageNum,
 }) {
   return (
     <div className="inline-flex gap-1 mt-2">
       {searchTerm && (
-        <Badge rightSection={<IoMdClose onClick={() => setSearchInput("")} />}>
+        <Badge
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setSearchInput("");
+                setPageNum(1);
+              }}
+            />
+          }
+        >
           {searchTerm}
         </Badge>
       )}
       {state && (
-        <Badge rightSection={<IoMdClose onClick={() => setState(null)} />}>
+        <Badge
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setState(null);
+                setPageNum(1);
+              }}
+            />
+          }
+        >
           {state}
         </Badge>
       )}

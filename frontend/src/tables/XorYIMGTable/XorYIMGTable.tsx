@@ -56,6 +56,7 @@ export default ({ className }: XorYTableProps) => {
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
           clearFilters={clearFilters}
+          setPageNum={setPageNum}
         />
       </Drawer>
 
@@ -72,6 +73,7 @@ export default ({ className }: XorYTableProps) => {
         <Badges
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
+          setPageNum={setPageNum}
         />
       )}
       <div className={`mt-2`}>

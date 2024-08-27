@@ -79,6 +79,7 @@ export default ({ className }: ProgramTableProps) => {
           setSearchInput={setSearchInput}
           state={state}
           setState={setState}
+          setPageNum={setPageNum}
         />
       )}
       <div className={`mt-2`}>

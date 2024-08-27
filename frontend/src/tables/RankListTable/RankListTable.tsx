@@ -84,6 +84,7 @@ export default ({ className, type }: RankListTableProps) => {
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
           clearFilters={clearFilters}
+          setPageNum={setPageNum}
         />
       </Drawer>
 
@@ -100,6 +101,7 @@ export default ({ className, type }: RankListTableProps) => {
         <Badges
           selectedProgram={selectedProgram}
           setSelectedProgram={setSelectedProgram}
+          setPageNum={setPageNum}
         />
       )}
       <div className={`mt-2`}>

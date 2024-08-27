@@ -97,6 +97,7 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
           setStartDate={setStartDate}
           setEndDate={setEndDate}
           setSelectedProgram={setSelectedProgram}
+          setPageNum={setPageNum}
         />
       )}
       <div className={`mt-2`}>

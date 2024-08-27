@@ -9,16 +9,35 @@ export default function Badges({
   setStartDate,
   setEndDate,
   setSelectedProgram,
+  setPageNum,
 }) {
   return (
     <div className="inline-flex gap-1 mt-2">
       {startDate && !endDate && (
-        <Badge rightSection={<IoMdClose onClick={() => setStartDate(null)} />}>
+        <Badge
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setStartDate(null);
+                setPageNum(1);
+              }}
+            />
+          }
+        >
           {`After ${dayjs(startDate).format("M/DD/YYYY")}`}
         </Badge>
       )}
       {!startDate && endDate && (
-        <Badge rightSection={<IoMdClose onClick={() => setEndDate(null)} />}>
+        <Badge
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setEndDate(null);
+                setPageNum(1);
+              }}
+            />
+          }
+        >
           {`Before ${dayjs(endDate).format("M/DD/YYYY")}`}
         </Badge>
       )}
@@ -29,6 +48,7 @@ export default function Badges({
               onClick={() => {
                 setStartDate(null);
                 setEndDate(null);
+                setPageNum(1);
               }}
             />
           }
@@ -40,7 +60,14 @@ export default function Badges({
       )}
       {selectedProgram && (
         <Badge
-          rightSection={<IoMdClose onClick={() => setSelectedProgram(null)} />}
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setSelectedProgram(null);
+                setPageNum(1);
+              }}
+            />
+          }
         >
           {`${selectedProgram.name} at ${selectedProgram.institution.name}`}
         </Badge>
