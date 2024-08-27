@@ -10,7 +10,7 @@ xOrYRouter.post("/", verifyToken, async (req, res) => {
     programXId,
     programYId,
     question,
-    anonymous = true,
+    anonymous = false,
     img = false,
   } = req.body;
   const userId = req.user.id;

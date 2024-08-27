@@ -195,6 +195,16 @@ export const createCrudHandlers = (modelName) => ({
         where: whereClause,
       });
 
+      // Determine the orderBy clause based on the modelName
+      let orderByClause;
+      if (
+        ["interviewInvite", "interviewRejection", "dropped"].includes(modelName)
+      ) {
+        orderByClause = { date: "desc" }; // Sort by date descending
+      } else {
+        orderByClause = { createdAt: "desc" }; // Sort by createdAt descending
+      }
+
       const items = await prisma[modelName].findMany({
         skip: offset,
         take: pageSize,
@@ -213,9 +223,7 @@ export const createCrudHandlers = (modelName) => ({
           },
           comments: true,
         },
-        orderBy: {
-          createdAt: "desc",
-        },
+        orderBy: orderByClause,
       });
 
       const processedItems = items.map((item) => {
