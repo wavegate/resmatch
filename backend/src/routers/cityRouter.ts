@@ -21,6 +21,26 @@ const cityRouter = express.Router();
 //   }
 // });
 
+cityRouter.get("/states", async (req, res) => {
+  try {
+    // Fetch distinct states from the City model
+    const states = await prisma.city.findMany({
+      distinct: ["state"],
+      select: {
+        state: true,
+      },
+      orderBy: {
+        state: "asc", // Optional: order states alphabetically
+      },
+    });
+
+    res.json(states);
+  } catch (error) {
+    console.error("Error fetching states:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Get a city by ID
 cityRouter.get("/:id", async (req, res) => {
   const { id } = req.params;

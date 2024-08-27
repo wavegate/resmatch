@@ -7,6 +7,33 @@ const programRouter = express.Router();
 //   res.send("Program created");
 // });
 
+programRouter.get("/", async (req, res) => {
+  try {
+    const programs = await prisma.program.findMany({
+      select: {
+        id: true,
+        name: true,
+        nrmpProgramCode: true,
+        institution: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        institution: {
+          name: "asc",
+        },
+      },
+    });
+
+    res.status(200).json(programs);
+  } catch (error) {
+    console.error("Error fetching programs:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 programRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -71,59 +98,71 @@ programRouter.get("/:id", async (req, res) => {
 
 programRouter.post("/search", async (req, res) => {
   try {
-    const { searchTerm = "", pageNum = 1 } = req.body;
+    const { searchTerm = "", pageNum = 1, state = "" } = req.body;
 
-    const offset = (pageNum - 1) * 10;
+    const PAGE_SIZE = 10;
+    const offset = (pageNum - 1) * PAGE_SIZE;
 
-    // Count total number of programs matching the search term
-    const totalCountResult = await prisma.$queryRaw`
-      SELECT COUNT(*) FROM "Program" p
-      JOIN "Institution" i ON p."institutionId" = i.id
-      LEFT JOIN "City" c ON i."cityId" = c.id
-      WHERE CONCAT(p.name, ' at ', i.name) ILIKE ${"%" + searchTerm + "%"}
-    `;
+    // Construct the query filters
+    const filters = {
+      institution: {
+        name: {
+          contains: searchTerm,
+          mode: "insensitive", // Case-insensitive search
+        },
+      },
+    };
 
-    const totalCount = Number(totalCountResult[0].count);
+    if (state) {
+      filters["city"] = {
+        state: {
+          contains: state,
+          mode: "insensitive",
+        },
+      };
+    }
+
+    // Count total number of programs matching the search term and state
+    const totalCount = await prisma.program.count({
+      where: filters,
+    });
 
     // Fetch programs with sorting by institution name and including city information
-    const programs = await prisma.$queryRaw`
-      SELECT 
-        p.id AS program_id, 
-        p.name AS program_name, 
-        p.image AS program_image,
-        p."nrmpProgramCode" AS nrmp_program_code,
-        p."acgmeCode" AS acgme_code,
-        i.id AS institution_id, 
-        i.name AS institution_name,
-        s.name AS specialty_name,
-        c.name AS city_name,
-        c.state AS city_state
-      FROM "Program" p
-      JOIN "Institution" i ON p."institutionId" = i.id
-      JOIN "Specialty" s ON p."specialtyId" = s.id
-      LEFT JOIN "City" c ON p."cityId" = c.id
-      WHERE CONCAT(p.name, ' at ', i.name) ILIKE ${"%" + searchTerm + "%"}
-      ORDER BY i.name ASC 
-      LIMIT 10 OFFSET ${offset}
-    `;
+    const programs = await prisma.program.findMany({
+      where: filters,
+      orderBy: {
+        institution: {
+          name: "asc",
+        },
+      },
+      skip: offset,
+      take: PAGE_SIZE,
+      include: {
+        institution: true,
+        specialty: true,
+        city: true,
+      },
+    });
 
     const formattedPrograms = programs.map((program) => ({
-      id: program.program_id,
-      name: program.program_name,
-      image: program.program_image,
-      nrmpProgramCode: program.nrmp_program_code,
-      acgmeCode: program.acgme_code,
+      id: program.id,
+      name: program.name,
+      image: program.image,
+      nrmpProgramCode: program.nrmpProgramCode,
+      acgmeCode: program.acgmeCode,
       institution: {
-        id: program.institution_id,
-        name: program.institution_name,
+        id: program.institution.id,
+        name: program.institution.name,
       },
       specialty: {
-        name: program.specialty_name,
+        name: program.specialty.name,
       },
-      city: {
-        name: program.city_name,
-        state: program.city_state,
-      },
+      city: program.city
+        ? {
+            name: program.city.name,
+            state: program.city.state,
+          }
+        : null,
     }));
 
     res.json({ programs: formattedPrograms, totalCount });
