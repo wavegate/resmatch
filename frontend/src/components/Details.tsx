@@ -3,6 +3,7 @@ import { schemas } from "@/schemas/schemas";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
+import useUser from "@/hooks/useUser";
 
 interface DataDisplayProps {
   data: any;
@@ -21,6 +22,8 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
       fieldName !== "import" &&
       fieldName !== "comments"
   );
+
+  const { user } = useUser();
 
   return (
     <div className={`flex flex-col gap-4 py-4 max-sm:py-2`}>
@@ -114,7 +117,13 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
           ))}
         </div>
       )}
-      <AddCommentField queryKey={queryKey} modelName={modelName} id={data.id} />
+      {user && (
+        <AddCommentField
+          queryKey={queryKey}
+          modelName={modelName}
+          id={data.id}
+        />
+      )}
     </div>
   );
 };

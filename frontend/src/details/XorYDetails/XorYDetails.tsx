@@ -1,6 +1,7 @@
 import { Accordion } from "@mantine/core";
 import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
+import useUser from "@/hooks/useUser";
 
 interface XorYDetailsProps {
   item: any; // Replace with the correct type if available
@@ -10,6 +11,7 @@ export default function XorYDetails({
   item: data,
   queryKey,
 }: XorYDetailsProps) {
+  const { user } = useUser();
   return (
     <Accordion.Panel>
       <div className={`flex flex-col gap-4 py-4`}>
@@ -34,7 +36,13 @@ export default function XorYDetails({
             ))}
           </div>
         )}
-        <AddCommentField queryKey={queryKey} modelName={"xorY"} id={data.id} />
+        {user && (
+          <AddCommentField
+            queryKey={queryKey}
+            modelName={"xorY"}
+            id={data.id}
+          />
+        )}
       </div>
     </Accordion.Panel>
   );

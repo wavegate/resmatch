@@ -4,6 +4,7 @@ import rankListFormSchema from "@/schemas/rankListFormSchema";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import AddCommentField from "@/components/AddCommentField";
 import programName from "@/utils/programName";
+import useUser from "@/hooks/useUser";
 
 export default function RankListDetails({ item: data, type, queryKey }) {
   const schema = rankListFormSchema;
@@ -15,6 +16,8 @@ export default function RankListDetails({ item: data, type, queryKey }) {
       fieldName !== "import" &&
       fieldName !== "comments"
   );
+
+  const { user } = useUser();
 
   return (
     <Accordion.Panel>
@@ -107,11 +110,13 @@ export default function RankListDetails({ item: data, type, queryKey }) {
             ))}
           </div>
         )}
-        <AddCommentField
-          queryKey={queryKey}
-          modelName={"rankList"}
-          id={data.id}
-        />
+        {user && (
+          <AddCommentField
+            queryKey={queryKey}
+            modelName={"rankList"}
+            id={data.id}
+          />
+        )}
       </div>
     </Accordion.Panel>
   );

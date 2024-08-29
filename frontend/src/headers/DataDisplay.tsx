@@ -201,7 +201,13 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
           ))}
         </div>
       )}
-      <AddCommentField queryKey={queryKey} modelName={modelName} id={data.id} />
+      {user && (
+        <AddCommentField
+          queryKey={queryKey}
+          modelName={modelName}
+          id={data.id}
+        />
+      )}
     </Card>
   );
 };
