@@ -45,7 +45,7 @@ export default () => {
           </div>
 
           <Link
-            to="https://discord.com/channels/1004464530610470942/1036473611776708638/1163669143829098527"
+            to="https://discord.com/invite/FnC4TdMHEA"
             target="_blank"
             className={`text-blue-500 hover:underline font-medium text-lg`}
           >
