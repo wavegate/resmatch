@@ -78,9 +78,9 @@ model User {
   FellowshipMatch         FellowshipMatch[]
   Suggestion              Suggestion[]
   XorY                    XorY[]
-  discordLink             String?
-  redditLink              String?
   role                    Role?
+  redditUsername          String?
+  discordUsername         String?
 }
 
 enum Role {
