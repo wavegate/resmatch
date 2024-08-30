@@ -35,7 +35,7 @@ export default function Controls({
             Filters
           </Button>
         )}
-        {user && !noShare && (
+        {!noShare && (
           <Button
             className={`sm:hidden`}
             onClick={() => navigate(shareUrl)}
@@ -52,7 +52,7 @@ export default function Controls({
         />
       </div>
       <div className={`flex gap-2`}>
-        {user && !noShare && (
+        {!noShare && (
           <Button
             className={`max-sm:hidden`}
             onClick={() => navigate(shareUrl)}

@@ -115,6 +115,9 @@ export default ({ className }: UserTableProps) => {
             ref={gridRef}
           />
         </div>
+        <div className={`mt-4`}>
+          Showing {data?.users?.length} of {data?.users?.length} applicants
+        </div>
         {/* <DataTable
           withTableBorder
           borderRadius="sm"
