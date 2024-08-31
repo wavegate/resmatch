@@ -1,0 +1,135 @@
+[
+  {
+    "nrmpProgramCode": "1903140C0",
+    "longOvernightCall": "Yes, non-icu no post call",
+    "scheduleContinuity": "Traditional (1/2 day per week)",
+    "locations": "Majority BIDMC, some VA (mixed with BU, Brigham), occasional option for community, also has rotation at DFCI with Brigham >>Wrong cell??? This should be the comment for BIDMC",
+    "emr": "CERNER",
+    "midlevel": "xf"
+  },
+  {
+    "nrmpProgramCode": "2265140C0",
+    "scheduleContinuity": "traditional no continuity clinic on wards.",
+    "emr": "CERNER"
+  },
+  {
+    "nrmpProgramCode": "2345140C0",
+    "scheduleContinuity": "4 + 1",
+    "emr": "CERNER"
+  },
+  {
+    "nrmpProgramCode": "2132140C0",
+    "longOvernightCall": "no",
+    "scheduleContinuity": "modified 3 +1 currently. transitioning to 4+1.",
+    "emr": "EPIC"
+  },
+  {
+    "nrmpProgramCode": "2271140C0",
+    "longOvernightCall": "no",
+    "scheduleContinuity": "traditional",
+    "emr": "EPIC"
+  },
+  {
+    "nrmpProgramCode": "2947140C0",
+    "emr": "CERNER"
+  },
+  {
+    "nrmpProgramCode": "1007140C0",
+    "scheduleContinuity": "4+4 (PGY 2+3s)  8+4 for interns; Interns no longer have clinic on ward months (changed this year)",
+    "locations": "2 - main hospital and VA",
+    "emr": "CERNER",
+    "midlevel": "NP team in CCU and ICU, rounding is separate",
+    "internCap": "10",
+    "admittingSystem": "Long/short call  q5 for wards  q4 for ICU",
+    "icuHours": "Call days:~6AM - 8PM  Non-call days: leave whenever you are done, usually after afternoon rounds (4-5 PM)",
+    "nightFloat": "Yes",
+    "moonlighting": "Y",
+    "stayUntilSignout": "c",
+    "didactics": "M-F: Morning report (seperate inpatient and ambulatory morning report) and noon conference (M/Tues/Fri are normal noon conference, Wed is grand rounds, Thurs is special track meetings; lunch provided during all noon conferences)",
+    "vacationHolidays": "21 days include 1 wk for xmas or nye",
+    "gym": "No but they are building a new GME lounge that will have a gym",
+    "food": "Lunch provided on Mon/Tues/Fri at conference. Often lunch provided on Thurs at special track meeting. 70% discount in the hospital cafeteria. No stipend at VA but right across the street so can get lunch at UAB. Chick-fil-a, panera, and subway in hospital. Several restauramts walking distance from hospital",
+    "comments": "<- does this mean 2 weeks vacation + a holiday week? If so, that sucks."
+  },
+  {
+    "nrmpProgramCode": "1009140C0",
+    "emr": "CERNER"
+  },
+  {
+    "nrmpProgramCode": "1852140C0",
+    "longOvernightCall": "no",
+    "scheduleContinuity": "4+2",
+    "locations": "USA Health, stanford road clinic",
+    "emr": "CERNER"
+  },
+  {
+    "nrmpProgramCode": "2002140C0",
+    "emr": "CERNER"
+  },
+  {
+    "nrmpProgramCode": "1929140C0",
+    "emr": "EPIC"
+  },
+  {
+    "nrmpProgramCode": "3200140C0",
+    "longOvernightCall": "Never, not even on ICU",
+    "scheduleContinuity": "4+4",
+    "locations": "1 main hospital, clinics at a different site, VA",
+    "emr": "EPIC",
+    "startDateOrientation": "Orientation 6/26/2023",
+    "midlevel": "Midlevels on most consult services and in ICU. Also PA \"fellows\" who sometimes rotate through on the resident teaching teams",
+    "ancillary": "Excellent",
+    "teamRatios": "One senior, two interns",
+    "internCap": "6",
+    "admittingSystem": "Drip system until 3 most days, one team gets \"late\" admission 3-5 PM everyday. Max 2 admissions per team daily",
+    "icuHours": "12-hour shifts, days only",
+    "nightFloat": "Yes",
+    "moonlighting": "Allowed but hard to set up",
+    "stayUntilSignout": "Late team stays until 7 PM, others can leave after 4. Signout in-person to late team senior",
+    "didactics": "Daily morning and noon report. Ambulatory and subspecialties have their own didactics.",
+    "vacationHolidays": "4",
+    "gym": "Yes but small",
+    "food": "Lunch daily at conferences + generous $ loads onto card + 20% discount for residents"
+  },
+  {
+    "nrmpProgramCode": "1011140C0",
+    "longOvernightCall": "no",
+    "scheduleContinuity": "4+4",
+    "locations": "2- main hospital and VA",
+    "emr": "CERNER",
+    "gym": "yes, small"
+  },
+  {
+    "nrmpProgramCode": "1015140C0",
+    "longOvernightCall": "no",
+    "scheduleContinuity": "4+1",
+    "locations": "3 (BUMCT, BUMCS, & VA). some have TMC clinic",
+    "emr": "EPIC",
+    "startDateOrientation": "July 1",
+    "visaInfo": "NO_VISAS",
+    "midlevel": "Have specific roles on CCU and MICU teams (Residents do not report to them and function as a patient adjunct)",
+    "teamRatios": "2 interns, 1 senior, 1 attending on wards. 2 interns, 2 seniors, 1 fellow, 1 attending on ICU",
+    "internCap": "8 at BUMC, 9 at VA",
+    "admittingSystem": "5-0-3 admit system + 2 overnights. 5 days are long days (last admit at 5pm, must stay til 7). 3 days alternate long & short. Short days: last admit at 2pm. Repeat q3 days, code team q6 days.    Recently combined the south campus program and main campus program. South campus is a drip system until team cap, admit until up to 5pm",
+    "icuHours": "6a-6p; night float system",
+    "nightFloat": "Y",
+    "moonlighting": "Y",
+    "stayUntilSignout": "No, can leave once all the work is done (senior dependant)",
+    "didactics": "noon conference M,T,W,F. Academic half day on Thursday (1-4pm)",
+    "vacationHolidays": "4 (2 wk blocks)",
+    "gym": "yes,its actually pretty good",
+    "food": "900$ stipend at BUMC, no stipend at VA",
+    "comments": "Current resident here: my coresidents are very nice, the chief residents are excellent and care about us, and the attendings like to teach. I am happy to be here."
+  },
+  {
+    "nrmpProgramCode": "2250140C0",
+    "emr": "MEDITECH"
+  },
+  {
+    "nrmpProgramCode": "2214140C0",
+    "emr": "MEDITECH",
+    "visaInfo": "J1",
+    "ancillary": "Excellent (as per residents)",
+    "teamRatios": "1 intern one senior"
+  }
+]

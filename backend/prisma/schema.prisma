@@ -78,9 +78,9 @@ model User {
   FellowshipMatch         FellowshipMatch[]
   Suggestion              Suggestion[]
   XorY                    XorY[]
-  discordLink             String?
-  redditLink              String?
   role                    Role?
+  discordUsername         String?
+  redditUsername          String?
 }
 
 enum Role {
@@ -401,7 +401,7 @@ model ScheduleDetails {
   scheduleContinuity   String?
   locations            String?
   emr                  EMR?
-  startDateOrientation DateTime?
+  startDateOrientation String?
   visaInfo             VisaInfo?
   union                Boolean?
   midlevel             String?
@@ -448,6 +448,7 @@ enum EMR {
 enum VisaInfo {
   J1
   H1B
+  J1_H1B
   NO_VISAS
   ACCEPTS_VISA
 }
