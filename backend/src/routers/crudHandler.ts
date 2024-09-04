@@ -165,7 +165,7 @@ export const createCrudHandlers = (modelName) => ({
       // Constructing the where clause dynamically
       const whereClause = {};
 
-      if (programId) {
+      if (programId && modelName !== "cityUserInput") {
         whereClause.programId = Number(programId); // Ensure programId is a number
       }
 
@@ -204,24 +204,32 @@ export const createCrudHandlers = (modelName) => ({
       } else {
         orderByClause = { createdAt: "desc" }; // Sort by createdAt descending
       }
+      if (["cityUserInput"].includes(modelName)) {
+        orderByClause = [{ city: { state: "asc" } }, { city: { name: "asc" } }];
+      }
 
       const items = await prisma[modelName].findMany({
         skip: offset,
         take: pageSize,
         where: whereClause,
         include: {
-          program: {
-            include: {
-              institution: true,
+          ...(modelName !== "cityUserInput" && {
+            program: {
+              include: {
+                institution: true,
+              },
             },
-          },
+            comments: true,
+          }),
+          ...(modelName === "cityUserInput" && {
+            city: true,
+          }),
           user: {
             select: {
               id: true,
               alias: true,
             },
           },
-          comments: true,
         },
         orderBy: orderByClause,
       });

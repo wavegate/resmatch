@@ -231,7 +231,7 @@ model City {
 }
 
 model CityUserInput {
-  id                   Int      @id @default(autoincrement())
+  id                   Int       @id @default(autoincrement())
   pros                 String?
   cons                 String?
   publicTransportation String?
@@ -240,11 +240,12 @@ model CityUserInput {
   lgbtq                String?
   diversity            String?
   safetyCrime          String?
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
   userId               Int
   cityId               Int
-  anonymous            Boolean  @default(false)
+  anonymous            Boolean   @default(false)
+  comments             Comment[]
 
   city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id])
@@ -315,6 +316,8 @@ model Comment {
   droppedId             Int?
   FellowshipMatch       FellowshipMatch?     @relation(fields: [fellowshipMatchId], references: [id], onDelete: Cascade)
   fellowshipMatchId     Int?
+  CityUserInput         CityUserInput?       @relation(fields: [cityUserInputId], references: [id])
+  cityUserInputId       Int?
 }
 
 model RankList {

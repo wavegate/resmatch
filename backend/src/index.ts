@@ -58,6 +58,7 @@ const modelNames = [
   "fellowshipMatch",
   "interviewInvite",
   "interviewRejection",
+  "cityUserInput",
   // "xorY",
 ];
 
@@ -94,7 +95,7 @@ app.use("/bin", binRouter);
 app.use("/comment", commentRouter);
 // app.use("/fellowship-match", fellowshipMatchRouter);
 app.use("/x-or-y", xOrYRouter);
-app.use("/city-user-input", cityUserInputRouter);
+// app.use("/city-user-input", cityUserInputRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

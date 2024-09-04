@@ -102,6 +102,7 @@ programRouter.post("/search", async (req, res) => {
       searchTerm = "",
       pageNum = 1,
       state = "",
+      cityName = "",
       nrmpProgramCode = "",
     } = req.body;
 
@@ -112,12 +113,22 @@ programRouter.post("/search", async (req, res) => {
     const filters = {
       AND: [
         {
-          institution: {
-            name: {
-              contains: searchTerm,
-              mode: "insensitive", // Case-insensitive search
+          OR: [
+            {
+              institution: {
+                name: {
+                  contains: searchTerm,
+                  mode: "insensitive", // Case-insensitive search
+                },
+              },
             },
-          },
+            {
+              name: {
+                contains: searchTerm,
+                mode: "insensitive", // Case-insensitive search
+              },
+            },
+          ],
         },
         {
           nrmpProgramCode: {
@@ -128,16 +139,30 @@ programRouter.post("/search", async (req, res) => {
       ],
     };
 
-    if (state) {
+    if (state || cityName) {
       filters["city"] = {
-        state: {
-          contains: state,
-          mode: "insensitive",
-        },
+        AND: [
+          state
+            ? {
+                state: {
+                  contains: state,
+                  mode: "insensitive",
+                },
+              }
+            : {},
+          cityName
+            ? {
+                name: {
+                  contains: cityName,
+                  mode: "insensitive",
+                },
+              }
+            : {},
+        ],
       };
     }
 
-    // Count total number of programs matching the search term, nrmpProgramCode, and state
+    // Count total number of programs matching the search criteria
     const totalCount = await prisma.program.count({
       where: filters,
     });
