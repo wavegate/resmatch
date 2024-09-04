@@ -43,7 +43,11 @@ export default function RankListDetails({ item: data, type, queryKey }) {
             const fieldSchema = schema[fieldName];
             let displayValue: React.ReactNode = "-";
 
-            if (data[fieldName] !== undefined && data[fieldName] !== null) {
+            if (
+              data[fieldName] !== undefined &&
+              data[fieldName] !== null &&
+              fieldName !== "matchedProgramId"
+            ) {
               switch (fieldSchema.type) {
                 case "boolean":
                   displayValue = data[fieldName] ? "Yes" : "No";
@@ -99,6 +103,17 @@ export default function RankListDetails({ item: data, type, queryKey }) {
               </div>
             );
           })}
+          {data.matchedProgram && (
+            <div
+              className={`grid col-span-2 grid-cols-subgrid max-sm:col-span-1`}
+            >
+              <div className={`font-medium`}>Matched program:</div>
+              {/* <div>{fieldSchema.description}</div> */}
+              <div className={`text-gray-600`}>
+                {programName(data.matchedProgram)}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Display comments field */}

@@ -91,7 +91,11 @@ const Header: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
       )}
 
       <div className={`flex flex-col gap-1`}>
-        <div className={`font-medium text-lg`}>{programName(data.program)}</div>
+        <div className={`font-medium text-lg`}>
+          {modelName === "cityUserInput"
+            ? `${data.city.name}, ${data.city.state}`
+            : programName(data.program)}
+        </div>
         {/* Display user alias or 'Anonymous' */}
         <div
           className={`text-sm text-gray-500 flex gap-1.5 items-center flex-wrap`}

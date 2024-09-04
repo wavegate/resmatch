@@ -50,11 +50,15 @@ const searchProgram = async ({
   searchTerm,
   pageNum,
   state,
+  nrmpProgramCode,
+  cityName,
 }: SearchParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     searchTerm,
     pageNum,
     state,
+    nrmpProgramCode,
+    cityName,
   });
   return data;
 };

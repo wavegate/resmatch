@@ -115,14 +115,14 @@ const routes = [
         path: "applicant-img",
         element: <IMGApplicant />,
       },
-      {
-        path: "city",
-        element: <City />,
-      },
-      {
-        path: "add-city-user-input",
-        element: <AddCityUserInput />,
-      },
+      // {
+      //   path: "city",
+      //   element: <City />,
+      // },
+      // {
+      //   path: "add-city-user-input",
+      //   element: <AddCityUserInput />,
+      // },
       {
         path: "confirm-email",
         element: <ConfirmEmail />,

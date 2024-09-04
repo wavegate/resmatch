@@ -80,12 +80,17 @@ export default ({ className }: CitiesTableProps) => {
             <Loader color="blue" className={`mt-12`} />
           </div>
         )}
-        <div className={`flex flex-col gap-4 mt-4`}>
-          {data?.cities?.length > 0 &&
-            data.cities.map((item: any) => (
-              <CityDetails item={item} key={item.id} />
+
+        {data?.cities?.length > 0 && (
+          <Accordion variant="separated" className={`mt-6`}>
+            {data.cities.map((item: any) => (
+              <Accordion.Item key={item.id} value={item.id.toString()}>
+                {/* <CityHeader item={item} /> */}
+                <CityDetails item={item} />
+              </Accordion.Item>
             ))}
-        </div>
+          </Accordion>
+        )}
         {data?.cities && data.cities.length === 0 && <NoRecords />}
       </div>
     </div>

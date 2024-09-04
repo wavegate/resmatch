@@ -98,4 +98,9 @@ export const pageDescription: Record<
       "Compare two programs side by side based on various criteria. Share your insights and help others make informed decisions.",
     singular: "Program Comparison (X vs Y)",
   },
+  cityUserInput: {
+    name: "Cities",
+    description: "Share information about program cities.",
+    singular: "City Information",
+  },
 };

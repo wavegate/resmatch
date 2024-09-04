@@ -7,6 +7,10 @@ export default function ProgramBadges({
   state,
   setState,
   setPageNum,
+  nrmpProgramCode,
+  cityName,
+  setNRMPSearchInput,
+  setCitySearchInput,
 }) {
   return (
     <div className="inline-flex gap-1 mt-2">
@@ -22,6 +26,34 @@ export default function ProgramBadges({
           }
         >
           {searchTerm}
+        </Badge>
+      )}
+      {nrmpProgramCode && (
+        <Badge
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setNRMPSearchInput("");
+                setPageNum(1);
+              }}
+            />
+          }
+        >
+          {nrmpProgramCode}
+        </Badge>
+      )}
+      {cityName && (
+        <Badge
+          rightSection={
+            <IoMdClose
+              onClick={() => {
+                setCitySearchInput("");
+                setPageNum(1);
+              }}
+            />
+          }
+        >
+          {cityName}
         </Badge>
       )}
       {state && (

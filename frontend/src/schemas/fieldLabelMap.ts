@@ -95,6 +95,7 @@ export const fieldLabelMap: Record<string, Record<string, string>> = {
   visaInfo: {
     J1: "J1 Visa",
     H1B: "H1B Visa",
+    J1_H1B: "J1/H1B Visa",
     NO_VISAS: "No Visa Sponsorship",
     ACCEPTS_VISA: "Accepts Visa",
   },

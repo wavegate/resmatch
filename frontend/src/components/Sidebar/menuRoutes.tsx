@@ -201,7 +201,7 @@ const sidebarRoutes = [
         icon: <FaBalanceScaleLeft className="h-5 w-5" />,
       },
       {
-        link: "/city",
+        link: "/cityUserInput",
         text: "Cities",
         icon: <FaCity className="h-5 w-5" />,
       },

@@ -20,7 +20,7 @@ export const modelNames = [
   "fellowshipMatch",
   "interviewInvite",
   "interviewRejection",
-
+  "cityUserInput",
   // "xorY",
 ];
 

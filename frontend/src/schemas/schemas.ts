@@ -17,6 +17,7 @@ import fellowshipMatchFormSchema from "./fellowshipMatchFormSchema";
 import XorYFormSchema from "./xorYFormSchema";
 import interviewInviteFormSchema from "./interviewInviteFormSchema";
 import interviewRejectionFormSchema from "./interviewRejectionFormSchema";
+import cityUserInputFormSchema from "./cityUserInputFormSchema";
 
 export const schemas: { [key: string]: FormSchema } = {
   interviewLogistics: logisticsFormSchema,
@@ -35,6 +36,7 @@ export const schemas: { [key: string]: FormSchema } = {
   xorY: XorYFormSchema,
   interviewInvite: interviewInviteFormSchema,
   interviewRejection: interviewRejectionFormSchema,
+  cityUserInput: cityUserInputFormSchema,
   // Add other schemas here with their corresponding model names as keys
 };
 

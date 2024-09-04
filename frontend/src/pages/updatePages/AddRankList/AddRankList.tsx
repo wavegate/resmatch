@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { removeNulls } from "@/utils/processObjects";
 import rankListService from "@/services/rankListService";
 import ProgramList from "@/components/ProgramList/ProgramList";
+import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
 
 const formSchema = z.object({
   graduateType: z.string().nonempty({ message: "Graduate Type is required" }),
@@ -34,6 +35,7 @@ const formSchema = z.object({
   programs: z
     .array(z.object({ programId: z.number(), rank: z.number() }))
     .nonempty("At least one program must be selected"),
+  matchedProgramId: z.number().optional(),
 });
 
 export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
@@ -82,6 +84,7 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
             rank: program.rank,
           })),
           anonymous: rankListData.anonymous,
+          matchedProgramId: rankListData.matchedProgramId,
         })
       );
       const transformedData = rankListData.RankedProgram?.map((item) => ({
@@ -256,6 +259,25 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
                 size="md"
                 {...field}
               />
+            )}
+          />
+
+          <Controller
+            name="matchedProgramId"
+            control={control}
+            render={({ field: { onChange, value }, fieldState }) => (
+              <div>
+                <ProgramSearch
+                  selected={value}
+                  onChange={onChange}
+                  label="Matched Program"
+                />
+                {fieldState.error && (
+                  <div style={{ color: "red", fontSize: "12px" }}>
+                    {fieldState.error.message}
+                  </div>
+                )}
+              </div>
             )}
           />
 

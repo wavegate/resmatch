@@ -19,17 +19,30 @@ interface ProgramTableProps {
 export default ({ className }: ProgramTableProps) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm] = useDebouncedValue(searchInput, 200);
+  const [nrmpSearchInput, setNRMPSearchInput] = useState("");
+  const [nrmpProgramCode] = useDebouncedValue(nrmpSearchInput, 200);
+  const [citySearchInput, setCitySearchInput] = useState("");
+  const [cityName] = useDebouncedValue(citySearchInput, 200);
   const [state, setState] = useState(null);
 
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["programs", searchTerm, state, pageNum],
+    queryKey: [
+      "programs",
+      searchTerm,
+      state,
+      nrmpProgramCode,
+      cityName,
+      pageNum,
+    ],
     queryFn: () => {
       return programService.searchProgram({
         searchTerm,
         pageNum,
         state,
+        nrmpProgramCode,
+        cityName,
       });
     },
   });
@@ -37,6 +50,8 @@ export default ({ className }: ProgramTableProps) => {
   const clearFilters = () => {
     setState(null);
     setSearchInput("");
+    setNRMPSearchInput("");
+    setCitySearchInput("");
     setPageNum(1);
   };
 
@@ -50,8 +65,8 @@ export default ({ className }: ProgramTableProps) => {
   }, [data?.totalCount]);
 
   const filtersPresent = useMemo(() => {
-    return !!searchTerm || state;
-  }, [searchTerm, state]);
+    return !!searchTerm || state || !!nrmpProgramCode || !!cityName;
+  }, [searchTerm, state, nrmpProgramCode, cityName]);
 
   return (
     <div className={`${className}`}>
@@ -59,7 +74,11 @@ export default ({ className }: ProgramTableProps) => {
         <ProgramFilters
           state={state}
           setState={setState}
+          citySearchInput={citySearchInput}
+          setCitySearchInput={setCitySearchInput}
           searchInput={searchInput}
+          nrmpSearchInput={nrmpSearchInput}
+          setNRMPSearchInput={setNRMPSearchInput}
           setSearchInput={setSearchInput}
           clearFilters={clearFilters}
           setPageNum={setPageNum}
@@ -80,6 +99,10 @@ export default ({ className }: ProgramTableProps) => {
           state={state}
           setState={setState}
           setPageNum={setPageNum}
+          nrmpProgramCode={nrmpProgramCode}
+          cityName={cityName}
+          setNRMPSearchInput={setNRMPSearchInput}
+          setCitySearchInput={setCitySearchInput}
         />
       )}
       <div className={`mt-2`}>

@@ -20,7 +20,8 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
       fieldName !== "programId" &&
       fieldName !== "anonymous" &&
       fieldName !== "import" &&
-      fieldName !== "comments"
+      fieldName !== "comments" &&
+      fieldName !== "cityId"
   );
 
   const { user } = useUser();
@@ -35,7 +36,11 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
           const fieldSchema = schema[fieldName];
           let displayValue: React.ReactNode = "-";
 
-          if (data[fieldName] !== undefined && data[fieldName] !== null) {
+          if (
+            data[fieldName] !== undefined &&
+            data[fieldName] !== null &&
+            data[fieldName] !== ""
+          ) {
             switch (fieldSchema.type) {
               case "boolean":
                 displayValue = data[fieldName] ? "Yes" : "No";

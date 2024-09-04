@@ -12,10 +12,14 @@ interface ProgramFiltersProps {
 export default function ProgramFilters({
   searchInput,
   setSearchInput,
+  nrmpSearchInput,
+  setNRMPSearchInput,
   clearFilters,
   state,
   setState,
   setPageNum,
+  citySearchInput,
+  setCitySearchInput,
 }: ProgramFiltersProps) {
   const { data: states, isLoading } = useQuery({
     queryKey: ["states"],
@@ -30,11 +34,31 @@ export default function ProgramFilters({
   return (
     <div className="flex flex-col gap-4 p-4">
       <TextInput
-        label="Search Programs"
-        placeholder="Search by institution name"
+        label="Search by institution name"
+        placeholder="eg. Crestwood"
         value={searchInput}
         onChange={(event) => {
           setSearchInput(event.currentTarget.value);
+          setPageNum(1);
+        }}
+        size="md"
+      />
+      <TextInput
+        label="Search by NRMP Program Code"
+        placeholder="eg. 2947"
+        value={nrmpSearchInput}
+        onChange={(event) => {
+          setNRMPSearchInput(event.currentTarget.value);
+          setPageNum(1);
+        }}
+        size="md"
+      />
+      <TextInput
+        label="Search by City name"
+        placeholder="eg. Stanford"
+        value={citySearchInput}
+        onChange={(event) => {
+          setCitySearchInput(event.currentTarget.value);
           setPageNum(1);
         }}
         size="md"
@@ -54,15 +78,13 @@ export default function ProgramFilters({
         clearable
       />
 
-      {searchInput && (
-        <Button
-          variant="outline"
-          leftSection={<IoMdClose />}
-          onClick={clearFilters}
-        >
-          Clear Filters
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        leftSection={<IoMdClose />}
+        onClick={clearFilters}
+      >
+        Clear Filters
+      </Button>
     </div>
   );
 }

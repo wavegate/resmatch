@@ -21,6 +21,7 @@ import useUser from "@/hooks/useUser";
 import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
 import { Link } from "react-router-dom";
+import CitySearch from "@/components/CitySearch/CitySearch";
 
 export const formComponentMap = {
   string: TextInput,
@@ -31,6 +32,7 @@ export const formComponentMap = {
   date: DatePickerInput,
   multipleDates: DatePickerInput,
   programSearch: ProgramSearch,
+  citySearch: CitySearch,
   select: Select,
 };
 
@@ -154,6 +156,24 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 return (
                   <div>
                     <ProgramSearch
+                      {...commonProps}
+                      selected={field.value}
+                      onChange={field.onChange}
+                      required={fieldSchema.required}
+                    />
+                    {fieldState.error && (
+                      <div style={{ color: "red", fontSize: "12px" }}>
+                        {fieldState.error.message}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              // Handle CitySearch component
+              if (Component === CitySearch) {
+                return (
+                  <div>
+                    <CitySearch
                       {...commonProps}
                       selected={field.value}
                       onChange={field.onChange}
