@@ -79,8 +79,8 @@ model User {
   Suggestion              Suggestion[]
   XorY                    XorY[]
   role                    Role?
-  discordUsername         String?
   redditUsername          String?
+  discordUsername         String?
 }
 
 enum Role {
