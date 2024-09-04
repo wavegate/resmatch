@@ -52,7 +52,7 @@ async function createScheduleDetails() {
         });
       }
 
-      console.log(`Created ScheduleDetails with ID ${scheduleDetails.id}`);
+      // console.log(`Created ScheduleDetails with ID ${scheduleDetails.id}`);
     } catch (error) {
       console.error("Error creating ScheduleDetails:", error);
     }

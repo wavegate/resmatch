@@ -189,7 +189,7 @@ Southern Illinois U,Southern Illinois University-IL,2922,2922140C0
 Swedish Covenant,Swedish Covenant Hospital-IL,1159,1159140C0
 U Chicago,University of Chicago Medical Center-IL,1160,1160140C0
 U Chicago NorthShore,University of Chicago NorthShore-IL,1160,1160140C2
-U Illinois Chicago (UIC),University of Illinois Chicago-IL,1150,1150140C1
+U Illinois Chicago (UIC),University of Illinois Chicago-IL,1150,1150140C0
 U Illinois Peoria,University of Illinois Peoria-IL,1175,1175140C0
 Weiss,Weiss Memorial Hospital-IL,1846,1846140C0
 Ascension St. Vincent,Ascension St Vincent Hospital-IN,1189,1189140C0
@@ -233,7 +233,7 @@ Berkshire,Berkshire Med Ctr-MA,1281,1281140C0
 Beth Israel Deaconess (BIDMC),B I Deaconess Med Ctr-MA,1256,1256140C0
 Boston U,Boston Univ Med Ctr-MA,1257,1257140C0
 Brigham & Women's,MGB-Brigham & Womens Hosp-MA,1265,1265140C0
-Cambridge Health Alliance,Cambridge Health Alliance-MA,1268,1268140M0
+Cambridge Health Alliance,Cambridge Health Alliance-MA,1268,1268140C0
 Lahey,Lahey Clinic-MA,3130,3130140C0
 Massachusetts General Hospital (MGH),MGB-Massachusetts Gen Hosp,1261,1261140C0
 MetroWest,MetroWest Med Ctr-Framingham-MA,1812,1812140C0
@@ -344,7 +344,7 @@ Albany Med Ctr,Albany Medical Center-NY,1414,1414140C0
 Arnot Ogden,Arnot Ogden Medical Center-NY,2113,2113140C0
 Bassett,Bassett Medical Center-NY,1442,1442140C0
 Brooklyn Hospital,Brooklyn Hospital Center-NY,1420,1420140C0
-Cayuga Med Ctr,Cayuga Medical Center-NY,2207,2207140M0
+Cayuga Med Ctr,Cayuga Medical Center-NY,2207,2207140C0
 Columbia,Columbia University Medical Center-NY,1409,1994140C0
 Coney Island,Coney Island Hospital-NY,1422,1422140C0
 Cornell,Weill Cornell Medicine-NY,1492,1492140C0
@@ -477,13 +477,13 @@ Temple,Temple University Hospital-PA,1646,1646140C0
 Tower Health,Tower Health/Reading Hospital-PA,1661,1661140C0
 Tower Health Phoenixville,Tower Health/Phoenixville Hospital-PA,2290,2290140C0
 U Penn,University of Pennsylvania Health System-PA,1639,1628140C0
-U Pittsburgh Med Ctr (UPMC),University of Pittsburgh Medical Center (UPMC)-PA,1657,1652140C0
+U Pittsburgh Med Ctr (UPMC),University of Pittsburgh Medical Center (UPMC)-PA,1657,1657140C0
 UPMC Harrisburg,UPMC Harrisburg-PA,1615,1615140C0
 UPMC Lititz,UPMC Lititz-PA,2173,2173140C0
 UPMC McKeesport,UPMC McKeesport-PA,1620,1620140C0
 UPMC Mercy,UPMC Mercy Hospital-PA,1649,1649140C0
 Wellspan York,WellSpan Health York Hospital-PA,1674,1674140C0
-Wright Ctr GME,Wright Center for GME-PA,3056,3056140M0
+Wright Ctr GME,Wright Center for GME-PA,3056,3056140C0
 Damas Hospital,Damas Hospital-PR,2039,2039140C0
 Hospital de la Concepcion,Hospital de la Concepción-PR,1202,1202140C0
 Hospital Episcopal San Lucas,Hospital Episcopal San Lucas-PR,2101,2101140C0

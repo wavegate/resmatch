@@ -82,14 +82,14 @@ async function processTsvFile(programMap) {
   let rowCount = 0;
 
   for await (const line of rl) {
-    if (rowCount >= 30) break; // Process only the first 30 rows
+    // if (rowCount >= 30) break; // Process only the first 30 rows
 
     const values = line.split("\t");
     const programObject = {};
 
     values.forEach((value, index) => {
       const columnName = columns[index];
-      if (value !== "0" && columnName) {
+      if (value !== "0" && value !== "" && columnName) {
         if (columnName === "moonlighting" && programObject[columnName]) {
           // If moonlighting already has a value, append the new value
           programObject[columnName] += `; ${value.trim()}`;
@@ -101,9 +101,9 @@ async function processTsvFile(programMap) {
           }
         } else if (columnName === "union") {
           // Convert union to a boolean
-          if (value.toLowerCase() === "yes") {
+          if (value.toLowerCase() === "true") {
             programObject[columnName] = true;
-          } else if (value.toLowerCase() === "no") {
+          } else if (value.toLowerCase() === "false") {
             programObject[columnName] = false;
           } else {
             programObject[columnName] = value; // Keep as is if not "Yes" or "No"
@@ -114,7 +114,10 @@ async function processTsvFile(programMap) {
       }
     });
 
-    if (hasDataBeyondNrmpCode(programObject)) {
+    if (
+      programObject["nrmpProgramCode"] &&
+      hasDataBeyondNrmpCode(programObject)
+    ) {
       programData.push(programObject);
     }
 
