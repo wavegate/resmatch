@@ -61,7 +61,7 @@ const columns = [
 ];
 
 // Function to check if an object contains any data beyond the nrmpProgramCode
-function hasDataBeyondNrmpCode(programObject) {
+export function hasDataBeyondNrmpCode(programObject) {
   const keys = Object.keys(programObject);
   return (
     keys.length > 1 || (keys.length === 1 && keys[0] !== "nrmpProgramCode")
