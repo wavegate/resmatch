@@ -122,6 +122,10 @@ export default () => {
           >
             <h4 className={`font-medium text-xl`}>Changelog</h4>
             <div className={`flex flex-col gap-1`}>
+              <div className={`font-medium`}>9/4/2024</div>
+              <div>M4/Intern imperssions imported</div>
+            </div>
+            <div className={`flex flex-col gap-1`}>
               <div className={`font-medium`}>9/3/2024</div>
               <div>Schedule details, malignant, fame shame imported</div>
             </div>
