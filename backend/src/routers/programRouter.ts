@@ -3,9 +3,36 @@ import prisma from "../prismaClient.js";
 
 const programRouter = express.Router();
 
-// programRouter.post("/", (req, res) => {
-//   res.send("Program created");
-// });
+programRouter.get("/all", async (req, res) => {
+  try {
+    // Fetch all programs with necessary relations and ordering by state and city
+    const programs = await prisma.program.findMany({
+      orderBy: [
+        {
+          city: {
+            state: "asc",
+          },
+        },
+        {
+          city: {
+            name: "asc",
+          },
+        },
+      ],
+      include: {
+        institution: true,
+        specialty: true,
+        city: true,
+      },
+    });
+
+    // Send response directly
+    res.json({ programs });
+  } catch (error) {
+    console.error("Error fetching programs:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 programRouter.get("/", async (req, res) => {
   try {
