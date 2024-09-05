@@ -18,6 +18,14 @@ programRouter.get("/all", async (req, res) => {
             name: "asc",
           },
         },
+        {
+          institution: {
+            name: "asc",
+          },
+        },
+        {
+          nrmpProgramCode: "asc",
+        },
       ],
       include: {
         institution: true,
