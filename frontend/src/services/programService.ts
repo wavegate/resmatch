@@ -68,6 +68,11 @@ const getAllPrograms = async (): Promise<Program[]> => {
   return data;
 };
 
+const getAllProgramsInfo = async (): Promise<Program[]> => {
+  const { data } = await apiClient.get("/program/all");
+  return data;
+};
+
 export default {
   createProgram,
   readProgram,
@@ -75,4 +80,5 @@ export default {
   deleteProgram,
   searchProgram,
   getAllPrograms,
+  getAllProgramsInfo,
 };

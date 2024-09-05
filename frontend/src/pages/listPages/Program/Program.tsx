@@ -17,9 +17,7 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Find your best fit among internal medicine residency programs across
-          the U.S., with detailed information and unique insights provided by
-          fellow applicants.
+          IM programs for the 2024-2025 cycle.
         </Text>
       </header>
       <ProgramTable />
