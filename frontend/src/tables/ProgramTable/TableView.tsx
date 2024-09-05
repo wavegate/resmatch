@@ -1,18 +1,30 @@
-import { Loader, TextInput } from "@mantine/core";
+import { Loader, Switch, TextInput } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { columnDefs } from "./columns";
 import { AgGridReact } from "ag-grid-react";
 import programService from "@/services/programService";
 
-export default () => {
+export default ({ showAll }: { showAll: boolean }) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["programs", "all"],
     queryFn: () => {
       return programService.getAllProgramsInfo();
     },
   });
+
+  const programs = useMemo(() => {
+    if (data) {
+      if (!showAll) {
+        return data.programs.filter((item: any) =>
+          /C\d$/.test(item.nrmpProgramCode)
+        );
+      }
+      return data.programs;
+    }
+    return [];
+  }, [data, showAll]);
 
   const [searchText, setSearchText] = useState("");
   const gridRef = useRef(null);
@@ -24,12 +36,13 @@ export default () => {
   };
 
   return (
-    <div className={`mt-4`}>
+    <div className={`mt-2`}>
       {isLoading && (
         <div className={`flex flex-col items-center`}>
           <Loader color="blue" className={`mt-12`} />
         </div>
       )}
+
       <TextInput
         size="md"
         placeholder="Search..."
@@ -44,17 +57,12 @@ export default () => {
         className="ag-theme-quartz" // applying the Data Grid theme
         style={{ height: 500 }} // the Data Grid will fill the size of the parent container
       >
-        <AgGridReact
-          rowData={data?.programs}
-          columnDefs={columnDefs}
-          ref={gridRef}
-        />
+        <AgGridReact rowData={programs} columnDefs={columnDefs} ref={gridRef} />
       </div>
       <div className={`mt-4`}>
-        Showing {data?.programs?.length} of {data?.programs?.length} programs
+        Showing {programs?.length} of {programs?.length} programs
       </div>
-
-      {data?.programs && data.programs.length === 0 && <NoRecords />}
+      {programs && programs.length === 0 && <NoRecords />}
     </div>
   );
 };
