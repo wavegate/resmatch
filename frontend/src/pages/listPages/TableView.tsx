@@ -110,7 +110,7 @@ const TableView = forwardRef(({ modelName }, ref) => {
               ensureDomOrder={true}
             />
             <Button
-              className={`absolute bottom-6 right-6 px-3`}
+              className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}
               variant="default"
               onClick={() => setFullScreen((prev) => !prev)}
             >
