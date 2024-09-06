@@ -18,7 +18,7 @@ export default () => {
         breakpoint: "sm",
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
-      padding={{ base: "16", sm: "32" }}
+      padding={{ base: "16", sm: "24" }}
       className={`text-gray-900`}
     >
       <AppShell.Header className={`flex items-center`}>

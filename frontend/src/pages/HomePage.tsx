@@ -9,6 +9,7 @@ import {
   Group,
   SimpleGrid,
   Blockquote,
+  Button,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
@@ -101,6 +102,18 @@ export default () => {
           </Card>
         </div>
         <div className={`flex flex-col gap-4`}>
+          <div className={`sm:hidden flex flex-col items-stretch gap-2`}>
+            <Link to="/applicant-us" className={`w-full`}>
+              <Button className={`w-full`}>View applicants</Button>
+            </Link>
+            {/* <Link to="/interviewInvite" className={`w-full`}>
+              <Button className={`w-full`}>View invites</Button>
+            </Link> */}
+            <Link to="/program" className={`w-full`}>
+              <Button className={`w-full`}>View programs</Button>
+            </Link>
+          </div>
+
           <Card shadow="sm" withBorder className={`flex flex-col gap-2`}>
             <div className={`text-xl font-medium`}>Match Day In</div>
             <div className={`flex flex-col items-center gap-2`}>
@@ -121,6 +134,10 @@ export default () => {
             className={`flex flex-col gap-4 max-h-[500px] overflow-y-auto`}
           >
             <h4 className={`font-medium text-xl`}>Changelog</h4>
+            <div className={`flex flex-col gap-1`}>
+              <div className={`font-medium`}>9/5/2024</div>
+              <div>Program table view</div>
+            </div>
             <div className={`flex flex-col gap-1`}>
               <div className={`font-medium`}>9/4/2024</div>
               <div>M4/Intern imperssions imported</div>

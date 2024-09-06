@@ -1,17 +1,15 @@
-import { Loader, Switch, TextInput } from "@mantine/core";
+import { Loader, TextInput } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useRef, useMemo } from "react";
+import { useState, useMemo, useCallback, forwardRef, useEffect } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { columnDefs } from "./columns";
 import { AgGridReact } from "ag-grid-react";
 import programService from "@/services/programService";
 
-export default ({ showAll }: { showAll: boolean }) => {
+const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["programs", "all"],
-    queryFn: () => {
-      return programService.getAllProgramsInfo();
-    },
+    queryFn: () => programService.getAllProgramsInfo(),
   });
 
   const programs = useMemo(() => {
@@ -27,42 +25,43 @@ export default ({ showAll }: { showAll: boolean }) => {
   }, [data, showAll]);
 
   const [searchText, setSearchText] = useState("");
-  const gridRef = useRef(null);
 
   const onFilterTextBoxChanged = (value) => {
-    if (gridRef.current) {
-      gridRef.current.api.setGridOption("quickFilterText", value);
+    if (ref.current) {
+      ref.current.api.setGridOption("quickFilterText", value);
     }
   };
 
   return (
-    <div className={`mt-2`}>
+    <div className={`mt-2 flex-1`}>
       {isLoading && (
         <div className={`flex flex-col items-center`}>
           <Loader color="blue" className={`mt-12`} />
         </div>
       )}
-
-      <TextInput
-        size="md"
-        placeholder="Search..."
-        value={searchText}
-        onChange={(e) => {
-          setSearchText(e.currentTarget.value);
-          onFilterTextBoxChanged(e.currentTarget.value);
-        }}
-        className={`mb-2`}
-      />
-      <div
-        className="ag-theme-quartz" // applying the Data Grid theme
-        style={{ height: 500 }} // the Data Grid will fill the size of the parent container
-      >
-        <AgGridReact rowData={programs} columnDefs={columnDefs} ref={gridRef} />
-      </div>
-      <div className={`mt-4`}>
-        Showing {programs?.length} of {programs?.length} programs
-      </div>
+      {!!programs?.length && (
+        <div className={`h-full flex flex-col`}>
+          <TextInput
+            size="md"
+            placeholder="Search..."
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.currentTarget.value);
+              onFilterTextBoxChanged(e.currentTarget.value);
+            }}
+            className={`mb-2`}
+          />
+          <div className="ag-theme-quartz flex-1">
+            <AgGridReact rowData={programs} columnDefs={columnDefs} ref={ref} />
+          </div>
+          <div className={`mt-2 text-sm`}>
+            Showing {programs?.length} of {programs?.length} programs
+          </div>
+        </div>
+      )}
       {programs && programs.length === 0 && <NoRecords />}
     </div>
   );
-};
+});
+
+export default TableView;

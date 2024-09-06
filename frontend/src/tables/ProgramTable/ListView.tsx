@@ -68,7 +68,7 @@ export default ({ className }: ProgramTableProps) => {
   }, [searchTerm, state, nrmpProgramCode, cityName]);
 
   return (
-    <div className={`${className}`}>
+    <div className={`${className} mt-2`}>
       <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
         <ProgramFilters
           state={state}

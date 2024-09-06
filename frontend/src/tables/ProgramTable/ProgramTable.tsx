@@ -1,14 +1,20 @@
-import { Switch } from "@mantine/core";
-import { useState } from "react";
+import { Button, Switch } from "@mantine/core";
+import { useCallback, useRef, useState } from "react";
 import ListView from "./ListView";
 import TableView from "./TableView";
 
-export default () => {
-  const [listView, setListView] = useState(false);
+export default ({ listView, setListView }) => {
   const [showAll, setShowAll] = useState(false);
+
+  const gridRef = useRef(null);
+
+  const onBtnExport = useCallback(() => {
+    gridRef.current?.api.exportDataAsCsv();
+  }, [gridRef.current]);
+
   return (
-    <div>
-      <div className={`inline-flex gap-x-6 gap-y-2 flex-wrap`}>
+    <div className={`flex-1 flex flex-col`}>
+      <div className={`inline-flex gap-x-6 gap-y-2 flex-wrap items-center`}>
         <Switch
           className={`text-nowrap`}
           label={"List view"}
@@ -25,10 +31,20 @@ export default () => {
             size="sm"
           />
         )}
+        {!listView && (
+          <Button
+            size="compact-sm"
+            className={`max-sm:hidden font-normal text-gray-800`}
+            variant="subtle"
+            onClick={onBtnExport}
+          >
+            Export as CSV
+          </Button>
+        )}
       </div>
 
       {listView && <ListView />}
-      {!listView && <TableView showAll={showAll} />}
+      {!listView && <TableView showAll={showAll} ref={gridRef} />}
     </div>
   );
 };

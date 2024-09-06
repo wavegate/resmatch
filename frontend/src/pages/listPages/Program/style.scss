@@ -1,0 +1,6 @@
+.program-page {
+  top: calc(var(--app-shell-header-offset, 0rem) + var(--app-shell-padding));
+  bottom: calc(var(--app-shell-footer-offset, 0rem) + var(--app-shell-padding));
+  left: calc(var(--app-shell-navbar-offset, 0rem) + var(--app-shell-padding));
+  right: calc(var(--app-shell-aside-offset, 0rem) + var(--app-shell-padding));
+}
