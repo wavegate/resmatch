@@ -219,11 +219,11 @@ export const createCrudHandlers = (modelName) => ({
                 institution: true,
               },
             },
-            comments: true,
           }),
           ...(modelName === "cityUserInput" && {
             city: true,
           }),
+          comments: true,
           user: {
             select: {
               id: true,
@@ -271,11 +271,11 @@ export const createCrudHandlers = (modelName) => ({
                 institution: true,
               },
             },
-            comments: true,
           }),
           ...(modelName === "cityUserInput" && {
             city: true,
           }),
+          comments: true,
           user: {
             select: {
               id: true,
