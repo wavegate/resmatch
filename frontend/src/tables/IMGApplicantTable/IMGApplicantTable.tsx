@@ -116,7 +116,7 @@ export default ({ className }: UserTableProps) => {
           />
         </div>
         <div className={`mt-4`}>
-          Showing {data?.users?.length} of {data?.users?.length} applicants
+          Showing {data?.users?.length} of {data?.users?.length}
         </div>
         {/* <DataTable
           withTableBorder

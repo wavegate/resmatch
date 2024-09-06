@@ -1,0 +1,217 @@
+import { fieldLabelMap } from "@/schemas/fieldLabelMap";
+import programName from "@/utils/programName";
+import { schemas } from "@/schemas/schemas";
+import { Link } from "react-router-dom";
+import UserLink from "@/components/UserLink";
+import Comment from "@/components/Comment/Comment";
+import AddCommentField from "@/components/AddCommentField";
+import { useState } from "react";
+
+export function columnGenerator(
+  modelName: string,
+  user,
+  openDeleteModal,
+  queryKey
+) {
+  // Get the schema for the provided modelName
+  const formSchema = schemas[modelName];
+
+  // Filter out specific fields
+  const filteredFields = Object.keys(formSchema).filter(
+    (fieldName) =>
+      fieldName !== "programId" &&
+      fieldName !== "anonymous" &&
+      fieldName !== "import" &&
+      fieldName !== "comments" &&
+      fieldName !== "save" &&
+      fieldName !== "cityId"
+  );
+
+  const columns = [];
+
+  // Start with programName as the first column
+  if (modelName === "cityUserInput") {
+    columns.push(
+      {
+        headerName: "City",
+        field: "city.name",
+        filter: true,
+      },
+      {
+        headerName: "State",
+        field: "city.state",
+        filter: true,
+      }
+    );
+  } else {
+    // Add programName as the first column for other models
+    columns.push({
+      headerName: "Program Name",
+      valueGetter: (params) => programName(params.data.program),
+      filter: true, // Add a text filter for program name
+    });
+  }
+
+  // Iterate over the filtered fields in the schema to generate the remaining columns
+  filteredFields.forEach((fieldName) => {
+    const field = formSchema[fieldName];
+    let columnDef: any = {
+      headerName: field.label || fieldName, // Use label from schema or fieldName as fallback
+      field: fieldName,
+      filter: true,
+    };
+
+    // Handle different field types
+    switch (field.type) {
+      case "multipleDates":
+        columnDef.valueGetter = (params) => {
+          const data = params.data;
+          const datesArray = data[fieldName];
+          return Array.isArray(datesArray)
+            ? datesArray
+                .map((date: string) => new Date(date).toLocaleDateString())
+                .join(", ")
+            : null; // Don't display "-" if not available
+        };
+        break;
+
+      case "select":
+        columnDef.valueFormatter = (params) => {
+          const value = params.value;
+          return fieldLabelMap[fieldName] && fieldLabelMap[fieldName][value]
+            ? fieldLabelMap[fieldName][value]
+            : value; // No fallback to "-"
+        };
+        break;
+
+      case "number":
+        columnDef.valueGetter = (params) => {
+          const data = params.data;
+          const scoreFields = [
+            "step2Score",
+            "step1Score",
+            "comlex2Score",
+            "step3Score",
+          ];
+
+          if (scoreFields.includes(fieldName)) {
+            const score = data[fieldName];
+            if (score) {
+              const lowerBound = Math.floor(score / 5) * 5;
+              const upperBound = lowerBound + 4;
+              return `${lowerBound}-${upperBound}`;
+            }
+          }
+          return data[fieldName]; // Return the value directly, no "-"
+        };
+        break;
+
+      case "date":
+        columnDef.filter = "agDateColumnFilter"; // Add date filter for the date field
+        columnDef.valueGetter = (params) => {
+          const dateValue = params.data[fieldName];
+          return dateValue ? new Date(dateValue) : null; // Return the Date object for filtering
+        };
+        columnDef.valueFormatter = (params) => {
+          const dateValue = params.value;
+          return dateValue ? new Date(dateValue).toLocaleDateString() : null;
+        };
+        break;
+
+      default:
+        columnDef.autoHeight = true;
+        columnDef.cellClass = "cell-wrap-text";
+        break;
+    }
+
+    // Push each field's column definition to the columns array
+    columns.push(columnDef);
+  });
+
+  columns.push({
+    headerName: "User",
+    field: "user",
+    cellRenderer: ({ data }) => {
+      return <UserLink data={data} />;
+    },
+  });
+
+  columns.push({
+    headerName: "Created at",
+    field: "createdAt",
+    filter: "agDateColumnFilter",
+    valueGetter: (params) => {
+      const dateValue = params.data["createdAt"];
+      return dateValue ? new Date(dateValue) : null; // Return the Date object for filtering
+    },
+    valueFormatter: (params) => {
+      const dateValue = params.value;
+      return dateValue ? new Date(dateValue).toLocaleDateString() : null;
+    },
+  });
+
+  columns.push({
+    headerName: "Comments",
+    autoHeight: true,
+    cellClass: "cell-wrap-text",
+    cellRenderer: (params) => {
+      const [addComment, setAddComment] = useState(false);
+      const data = params.data;
+
+      return (
+        <div className={`flex flex-col gap-2`}>
+          {data.comments?.length > 0 && (
+            <div className={`flex flex-col gap-4`}>
+              {data.comments.map((item: any) => (
+                <Comment id={item.id} key={item.id} queryKey={queryKey} />
+              ))}
+            </div>
+          )}
+          {user && (
+            <div
+              className={`text-sm text-gray-500 hover:cursor underline`}
+              onClick={() => setAddComment((prev) => !prev)}
+            >
+              Add comment
+            </div>
+          )}
+          {user && addComment && (
+            <AddCommentField
+              queryKey={queryKey}
+              modelName={modelName}
+              id={data.id}
+            />
+          )}
+        </div>
+      );
+    },
+  });
+
+  columns.push({
+    headerName: "Actions",
+    cellRenderer: (params) => {
+      const data = params.data;
+      const modelId = data.id;
+      return user?.id === data.userId ? (
+        <div className="flex gap-4 items-center mt-2.5">
+          <Link
+            to={`/${modelName}/${modelId}`}
+            className="text-sm underline text-gray-500"
+          >
+            Edit
+          </Link>
+          <div
+            className="text-sm underline text-red-500"
+            onClick={() => openDeleteModal(data.id)}
+          >
+            Delete
+          </div>
+        </div>
+      ) : (
+        <div></div>
+      );
+    },
+  });
+
+  return columns;
+}

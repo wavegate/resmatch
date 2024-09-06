@@ -55,7 +55,7 @@ const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
             <AgGridReact rowData={programs} columnDefs={columnDefs} ref={ref} />
           </div>
           <div className={`mt-2 text-sm`}>
-            Showing {programs?.length} of {programs?.length} programs
+            Showing {programs?.length} of {programs?.length}
           </div>
         </div>
       )}

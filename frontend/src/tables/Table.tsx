@@ -1,5 +1,12 @@
-import React, { useState, useMemo } from "react";
-import { Accordion, Avatar, Drawer, Loader } from "@mantine/core";
+import React, { useState, useMemo, useRef, useCallback } from "react";
+import {
+  Accordion,
+  Avatar,
+  Button,
+  Drawer,
+  Loader,
+  Switch,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import NoRecords from "@/components/NoRecords/NoRecords";
@@ -11,125 +18,66 @@ import services from "@/services/services";
 import { pageDescription } from "@/schemas/pageDescription";
 import Details from "@/components/Details";
 import Header from "@/components/Header";
+import ListView from "@/pages/listPages/ListView";
+import TableView from "@/pages/listPages/TableView";
+import { useNavigate } from "react-router-dom";
+import { IoMdAdd } from "react-icons/io";
 
 interface TableProps {
   modelName: string;
   className?: string;
 }
 
-const Table: React.FC<TableProps> = ({ modelName, className }) => {
-  const [selectedProgram, setSelectedProgram] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [pageNum, setPageNum] = useState(1);
+const Table: React.FC<TableProps> = ({
+  modelName,
+  className,
+  listView,
+  setListView,
+}) => {
+  const gridRef = useRef(null);
+  const navigate = useNavigate();
 
-  const queryKey = [modelName, selectedProgram, startDate, endDate, pageNum];
-
-  const { data, error, isLoading } = useQuery({
-    queryKey,
-    queryFn: () => {
-      return services[modelName].search({
-        programId: selectedProgram?.id,
-        startDate: startDate ? startDate.toISOString() : undefined,
-        endDate: endDate ? endDate.toISOString() : undefined,
-        pageNum,
-      });
-    },
-  });
-
-  const clearFilters = () => {
-    setStartDate(null);
-    setEndDate(null);
-    setSelectedProgram(null);
-    setPageNum(1);
-  };
-
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const totalPages = useMemo(() => {
-    if (data) {
-      const totalCount = data?.totalCount || 0;
-      return Math.ceil(totalCount / PAGE_SIZE);
-    }
-  }, [data?.totalCount]);
-
-  const filtersPresent = useMemo(() => {
-    return startDate || endDate || selectedProgram;
-  }, [startDate, endDate, selectedProgram]);
+  const onBtnExport = useCallback(() => {
+    gridRef.current?.api.exportDataAsCsv();
+  }, [gridRef.current]);
 
   const labels = pageDescription[modelName];
 
+  const shareUrl = `/${modelName}/add`;
+  const shareText = `Share ${labels.singular}`;
+
   return (
-    <div className={`${className}`}>
-      <Drawer opened={opened} onClose={close} title="Filters" position="bottom">
-        <Filters
-          modelName={modelName}
-          selectedProgram={selectedProgram}
-          setSelectedProgram={setSelectedProgram}
-          clearFilters={clearFilters}
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-          setPageNum={setPageNum}
+    <div className={`flex-1 flex flex-col`}>
+      <div className={`inline-flex gap-x-6 gap-y-2 flex-wrap items-center`}>
+        <Switch
+          className={`text-nowrap`}
+          label={"List view"}
+          checked={listView}
+          onChange={(event) => setListView(event.currentTarget.checked)}
+          size="sm"
         />
-      </Drawer>
 
-      <Controls
-        pageNum={pageNum}
-        setPageNum={setPageNum}
-        totalPages={totalPages}
-        openFilters={open}
-        shareUrl={`/${modelName}/add`}
-        shareText={`Share ${labels.singular}`}
-      />
+        <Button
+          onClick={() => navigate(shareUrl)}
+          leftSection={<IoMdAdd size={18} />}
+        >
+          {shareText}
+        </Button>
 
-      {filtersPresent && (
-        <Badges
-          startDate={startDate}
-          endDate={endDate}
-          selectedProgram={selectedProgram}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-          setSelectedProgram={setSelectedProgram}
-          setPageNum={setPageNum}
-        />
-      )}
-      <div className={`mt-2`}>
-        {isLoading && (
-          <div className={`flex flex-col items-center`}>
-            <Loader color="blue" className={`mt-12`} />
-          </div>
+        {!listView && (
+          <Button
+            size="compact-sm"
+            className={`max-sm:hidden font-normal text-gray-800`}
+            variant="subtle"
+            onClick={onBtnExport}
+          >
+            Export as CSV
+          </Button>
         )}
-        <Accordion variant="separated" className={`mt-6`}>
-          {data?.items?.length > 0 &&
-            data.items.map((datum: any, i: number) => {
-              return (
-                <Accordion.Item key={datum.id} value={datum.id.toString()}>
-                  <Accordion.Control className={`bg-primary bg-opacity-10`}>
-                    <Header
-                      queryKey={queryKey}
-                      key={datum.id}
-                      i={i}
-                      data={datum}
-                      modelName={modelName}
-                    />
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <Details
-                      queryKey={queryKey}
-                      key={datum.id}
-                      i={i}
-                      data={datum}
-                      modelName={modelName}
-                    />
-                  </Accordion.Panel>
-                </Accordion.Item>
-              );
-            })}
-        </Accordion>
-        {data?.items && data.items.length === 0 && <NoRecords />}
       </div>
+
+      {listView && <ListView modelName={modelName} />}
+      {!listView && <TableView ref={gridRef} modelName={modelName} />}
     </div>
   );
 };

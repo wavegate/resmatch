@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, Title } from "@mantine/core";
 import Table from "@/tables/Table";
 import { pageDescription } from "@/schemas/pageDescription";
@@ -10,8 +10,11 @@ interface ListPageProps {
 }
 
 const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
+  const [listView, setListView] = useState(false);
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
+    <div
+      className={`flex flex-col gap-0 ${!listView && "absolute"} program-page`}
+    >
       <header>
         <Title
           order={2}
@@ -30,7 +33,12 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
           </Text>
         )}
       </header>
-      <Table modelName={modelName} key={modelName} />
+      <Table
+        listView={listView}
+        setListView={setListView}
+        modelName={modelName}
+        key={modelName}
+      />
     </div>
   );
 };

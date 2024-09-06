@@ -63,6 +63,11 @@ const createService = <T, FormData>(route: string) => {
       });
       return data;
     },
+
+    getAll: async (): Promise<T[]> => {
+      const { data } = await apiClient.get(`${finalRoute}/all`);
+      return data;
+    },
   };
 };
 

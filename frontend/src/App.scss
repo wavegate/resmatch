@@ -1,0 +1,11 @@
+.cell-wrap-text {
+  white-space: normal !important;
+  line-height: 1.5 !important; /* Adjust for better readability */
+  padding-block: 0.5rem;
+}
+
+.compact {
+  --ag-grid-size: 3px;
+  --ag-list-item-height: 20px;
+  --ag-font-size: 10px;
+}

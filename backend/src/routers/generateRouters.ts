@@ -1,15 +1,21 @@
 import { createCrudHandlers } from "./crudHandler.js";
 import express from "express";
-import prisma from "../prismaClient.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 function createModelRouter(modelName) {
   const router = express.Router();
 
-  const { create, getById, updateById, deleteById, listWithPagination } =
-    createCrudHandlers(modelName);
+  const {
+    create,
+    getById,
+    updateById,
+    deleteById,
+    listWithPagination,
+    listAll,
+  } = createCrudHandlers(modelName);
 
   router.post("/", verifyToken, create);
+  router.get("/all", listAll);
   router.get("/:id", getById);
   router.put("/:id", verifyToken, updateById);
   router.delete("/:id", verifyToken, deleteById);

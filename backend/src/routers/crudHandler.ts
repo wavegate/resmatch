@@ -246,4 +246,58 @@ export const createCrudHandlers = (modelName) => ({
       handleError(res, error, `Error fetching ${modelName}`);
     }
   },
+
+  listAll: async (req, res) => {
+    try {
+      // Determine the orderBy clause based on the modelName
+      let orderByClause;
+      if (
+        ["interviewInvite", "interviewRejection", "dropped"].includes(modelName)
+      ) {
+        orderByClause = { date: "desc" }; // Sort by date descending
+      } else {
+        orderByClause = { createdAt: "desc" }; // Sort by createdAt descending
+      }
+      if (["cityUserInput"].includes(modelName)) {
+        orderByClause = [{ city: { state: "asc" } }, { city: { name: "asc" } }];
+      }
+
+      // Fetch all items from the model without any filters or pagination
+      const items = await prisma[modelName].findMany({
+        include: {
+          ...(modelName !== "cityUserInput" && {
+            program: {
+              include: {
+                institution: true,
+              },
+            },
+            comments: true,
+          }),
+          ...(modelName === "cityUserInput" && {
+            city: true,
+          }),
+          user: {
+            select: {
+              id: true,
+              alias: true,
+            },
+          },
+        },
+        orderBy: orderByClause,
+      });
+
+      // Process the items to remove user data if anonymous
+      const processedItems = items.map((item) => {
+        if (item.anonymous) {
+          item.user = undefined; // Remove user data if anonymous
+        }
+        return item;
+      });
+
+      // Return all items without pagination
+      res.json({ items: processedItems });
+    } catch (error) {
+      handleError(res, error, `Error fetching all data for ${modelName}`);
+    }
+  },
 });
