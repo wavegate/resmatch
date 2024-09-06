@@ -4,8 +4,17 @@
   padding-block: 0.5rem;
 }
 
-.compact {
-  --ag-grid-size: 3px;
+.table-selector.compact {
+  --ag-grid-size: 6px;
   --ag-list-item-height: 20px;
-  --ag-font-size: 10px;
+  --ag-font-size: 14px;
+}
+
+.max-size {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
 }

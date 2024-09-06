@@ -169,7 +169,7 @@ export function columnGenerator(
           )}
           {user && (
             <div
-              className={`text-sm text-gray-500 hover:cursor underline`}
+              className={`text-sm text-gray-500 hover:cursor-pointer underline`}
               onClick={() => setAddComment((prev) => !prev)}
             >
               Add comment
@@ -196,12 +196,12 @@ export function columnGenerator(
         <div className="flex gap-4 items-center mt-2.5">
           <Link
             to={`/${modelName}/${modelId}`}
-            className="text-sm underline text-gray-500"
+            className="text-sm underline text-gray-500 hover:cursor-pointer"
           >
             Edit
           </Link>
           <div
-            className="text-sm underline text-red-500"
+            className="text-sm underline text-red-500 hover:cursor-pointer"
             onClick={() => openDeleteModal(data.id)}
           >
             Delete

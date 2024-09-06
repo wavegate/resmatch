@@ -1,4 +1,4 @@
-import { Loader, TextInput } from "@mantine/core";
+import { Button, Loader, TextInput } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, forwardRef, useMemo, useEffect } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
@@ -10,9 +10,13 @@ import useUser from "@/hooks/useUser";
 import { notifications } from "@mantine/notifications";
 import { modals } from "@mantine/modals";
 import { pageDescription } from "@/schemas/pageDescription";
+import classNames from "classnames";
+import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
 
 const TableView = forwardRef(({ modelName }, ref) => {
   const queryClient = useQueryClient();
+
+  const [fullScreen, setFullScreen] = useState(false);
 
   const labels = pageDescription[modelName];
 
@@ -56,7 +60,7 @@ const TableView = forwardRef(({ modelName }, ref) => {
 
   const { user } = useUser();
   const columnDefs = useMemo(() => {
-    return columnGenerator(modelName, user, openDeleteModal);
+    return columnGenerator(modelName, user, openDeleteModal, queryKey);
   }, [user]);
 
   const [searchText, setSearchText] = useState("");
@@ -86,7 +90,18 @@ const TableView = forwardRef(({ modelName }, ref) => {
             }}
             className={`mb-2`}
           />
-          <div className="ag-theme-quartz flex-1">
+          <div
+            className={classNames(
+              "ag-theme-quartz",
+              "table-selector",
+              "compact",
+              "flex-1",
+              {
+                relative: !fullScreen,
+                "max-size": fullScreen,
+              }
+            )}
+          >
             <AgGridReact
               rowData={data?.items}
               columnDefs={columnDefs}
@@ -94,6 +109,17 @@ const TableView = forwardRef(({ modelName }, ref) => {
               enableCellTextSelection={true}
               ensureDomOrder={true}
             />
+            <Button
+              className={`absolute bottom-6 right-6 px-3`}
+              variant="default"
+              onClick={() => setFullScreen((prev) => !prev)}
+            >
+              {fullScreen ? (
+                <MdCloseFullscreen size={18} />
+              ) : (
+                <MdOutlineOpenInFull size={18} />
+              )}
+            </Button>
           </div>
           <div className={`mt-2 text-sm`}>
             Showing {data?.items?.length} of {data?.items?.length}
