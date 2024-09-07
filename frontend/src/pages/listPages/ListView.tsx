@@ -82,6 +82,7 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
         openFilters={open}
         shareUrl={`/${modelName}/add`}
         shareText={`Share ${labels.singular}`}
+        noShare
       />
 
       {filtersPresent && (

@@ -35,7 +35,7 @@ export default function Controls({
             Filters
           </Button>
         )}
-        {/* {!noShare && (
+        {!noShare && (
           <Button
             className={`sm:hidden`}
             onClick={() => navigate(shareUrl)}
@@ -43,7 +43,7 @@ export default function Controls({
           >
             {shareText}
           </Button>
-        )} */}
+        )}
         <Pagination
           className={`max-sm:hidden`}
           value={pageNum}
@@ -52,7 +52,7 @@ export default function Controls({
         />
       </div>
       <div className={`flex gap-2`}>
-        {/* {!noShare && (
+        {!noShare && (
           <Button
             className={`max-sm:hidden`}
             onClick={() => navigate(shareUrl)}
@@ -60,7 +60,7 @@ export default function Controls({
           >
             {shareText}
           </Button>
-        )} */}
+        )}
         <Pagination
           className={`sm:hidden`}
           value={pageNum}
