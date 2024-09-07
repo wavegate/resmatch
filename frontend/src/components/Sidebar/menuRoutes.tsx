@@ -190,16 +190,26 @@ const sidebarRoutes = [
         text: "Tier List (IMG)",
         icon: <FaListOl className="h-5 w-5" />,
       },
+      // {
+      //   link: "/x-or-y",
+      //   text: "X vs Y",
+      //   icon: <FaBalanceScale className="h-5 w-5" />,
+      // },
+      // {
+      //   link: "/x-or-y-img",
+      //   text: "X vs Y (IMG)",
+      //   icon: <FaBalanceScaleLeft className="h-5 w-5" />,
+      // },
       {
-        link: "/x-or-y",
+        link: "/xorY",
         text: "X vs Y",
         icon: <FaBalanceScale className="h-5 w-5" />,
       },
-      {
-        link: "/x-or-y-img",
-        text: "X vs Y (IMG)",
-        icon: <FaBalanceScaleLeft className="h-5 w-5" />,
-      },
+      // {
+      //   link: "/x-or-y-img",
+      //   text: "X vs Y (IMG)",
+      //   icon: <FaBalanceScaleLeft className="h-5 w-5" />,
+      // },
       {
         link: "/cityUserInput",
         text: "Cities",

@@ -94,6 +94,8 @@ const Header: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
         <div className={`font-medium text-lg`}>
           {modelName === "cityUserInput"
             ? `${data.city.name}, ${data.city.state}`
+            : modelName === "xorY"
+            ? `${programName(data.programX)} vs ${programName(data.programY)}`
             : programName(data.program)}
         </div>
         {/* Display user alias or 'Anonymous' */}

@@ -159,6 +159,13 @@ const interviewRejectionFormSchema: FormSchema = {
     label: "Post Anonymously",
     description: "Would you like to post this anonymously?",
   },
+  save: {
+    type: "boolean",
+    label: "Save Info to Profile?",
+    description:
+      "This will update your profile with your stats for easier import next time.",
+    defaultValue: true,
+  },
 };
 
 export default interviewRejectionFormSchema;

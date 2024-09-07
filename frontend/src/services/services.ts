@@ -21,7 +21,7 @@ export const modelNames = [
   "interviewInvite",
   "interviewRejection",
   "cityUserInput",
-  // "xorY",
+  "xorY",
 ];
 
 const generateServices = (models: string[]): ModelServiceMap => {

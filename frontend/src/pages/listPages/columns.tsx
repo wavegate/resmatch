@@ -16,17 +16,20 @@ export function columnGenerator(
   // Get the schema for the provided modelName
   const formSchema = schemas[modelName];
 
+  const filterOutFields = [
+    "programId",
+    "programXId",
+    "programYId",
+    "anonymous",
+    "import",
+    "comments",
+    "save",
+    "city",
+  ];
   // Filter out specific fields
   const filteredFields = Object.keys(formSchema).filter(
-    (fieldName) =>
-      fieldName !== "programId" &&
-      fieldName !== "anonymous" &&
-      fieldName !== "import" &&
-      fieldName !== "comments" &&
-      fieldName !== "save" &&
-      fieldName !== "cityId"
+    (fieldName) => !filterOutFields.includes(fieldName)
   );
-
   const columns = [];
 
   // Start with programName as the first column
@@ -43,11 +46,22 @@ export function columnGenerator(
         filter: true,
       }
     );
-  } else {
+  } else if (modelName !== "xorY") {
     // Add programName as the first column for other models
     columns.push({
       headerName: "Program Name",
       valueGetter: (params) => programName(params.data.program),
+      filter: true, // Add a text filter for program name
+    });
+  } else if (modelName === "xorY") {
+    columns.push({
+      headerName: "Program X",
+      valueGetter: (params) => programName(params.data.programX),
+      filter: true, // Add a text filter for program name
+    });
+    columns.push({
+      headerName: "Program Y",
+      valueGetter: (params) => programName(params.data.programY),
       filter: true, // Add a text filter for program name
     });
   }
@@ -116,6 +130,9 @@ export function columnGenerator(
           const dateValue = params.value;
           return dateValue ? new Date(dateValue).toLocaleDateString() : null;
         };
+        break;
+
+      case "boolean":
         break;
 
       default:

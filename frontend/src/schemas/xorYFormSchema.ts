@@ -23,9 +23,8 @@ const XorYFormSchema: FormSchema = {
   },
   img: {
     type: "boolean",
-    label: "IMG Status",
-    description:
-      "Indicates whether the user is an International Medical Graduate (IMG).",
+    label: "IMG",
+    description: "Are you an IMG applicant?",
   },
   anonymous: {
     type: "boolean",

@@ -196,15 +196,15 @@ const routes = [
           return [
             {
               path: modelName,
-              element: <ListPage modelName={modelName} />,
+              element: <ListPage modelName={modelName} key={modelName} />,
             },
             {
               path: `${modelName}/add`,
-              element: <AddPage modelName={modelName} />,
+              element: <AddPage modelName={modelName} key={modelName} />,
             },
             {
               path: `${modelName}/:id`,
-              element: <AddPage modelName={modelName} />,
+              element: <AddPage modelName={modelName} key={modelName} />,
             },
           ];
         })
@@ -390,34 +390,34 @@ const routes = [
         path: "report",
         element: <ModReport />,
       },
-      {
-        path: "x-or-y",
-        element: <XorY />,
-      },
-      {
-        path: "x-or-y/:id",
-        element: <AddXorY />,
-      },
-      {
-        path: "x-or-y/add",
-        element: <AddXorY />,
-      },
-      {
-        path: "x-or-y-img",
-        element: <XorYIMG />,
-      },
-      {
-        path: "x-or-y-img/:id",
-        element: <AddXorY img />,
-      },
-      {
-        path: "x-or-y-img/add",
-        element: <AddXorY img />,
-      },
-      {
-        path: "x-or-y-img",
-        element: <XorY />,
-      },
+      // {
+      //   path: "x-or-y",
+      //   element: <XorY />,
+      // },
+      // {
+      //   path: "x-or-y/:id",
+      //   element: <AddXorY />,
+      // },
+      // {
+      //   path: "x-or-y/add",
+      //   element: <AddXorY />,
+      // },
+      // {
+      //   path: "x-or-y-img",
+      //   element: <XorYIMG />,
+      // },
+      // {
+      //   path: "x-or-y-img/:id",
+      //   element: <AddXorY img />,
+      // },
+      // {
+      //   path: "x-or-y-img/add",
+      //   element: <AddXorY img />,
+      // },
+      // {
+      //   path: "x-or-y-img",
+      //   element: <XorY />,
+      // },
       // {
       //   path: "dashboard",
       //   element: <Dashboard />,

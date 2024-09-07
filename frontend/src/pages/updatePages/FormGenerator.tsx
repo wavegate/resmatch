@@ -55,13 +55,17 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   const schema = schemas[modelName];
   const zodSchema = generateZodSchema(schema);
 
-  const handleImport = () => {
-    if (userData) {
+  useEffect(() => {
+    if (
+      userData &&
+      !isUpdate &&
+      ["interviewInvite", "interviewRejection"].includes(modelName)
+    ) {
       const formValues = form.getValues();
       Object.assign(formValues, removeNulls(userData));
       form.reset(formValues);
     }
-  };
+  }, [userData]);
 
   const defaultValues = Object.keys(schema).reduce((acc, key) => {
     if (schema[key].defaultValue !== undefined) {
@@ -107,15 +111,15 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
         if (fieldName === "import") {
           return (
             <div>
-              <Button onClick={handleImport} variant="outline">
+              {/* <Button onClick={handleImport} variant="outline">
                 Import My Profile
-              </Button>
+              </Button> */}
               <Text size="sm" mt="sm">
                 To avoid having to reenter your stats every time, please{" "}
                 <Link to="/profile" style={{ color: "#1A73E8" }}>
                   update your profile
                 </Link>
-                , and you can import it instead.
+                , and it will be automatically imported below.
               </Text>
             </div>
           );
