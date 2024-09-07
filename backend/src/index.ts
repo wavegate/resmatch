@@ -30,6 +30,8 @@ import xOrYRouter from "./routers/xOrYRouter.js";
 import cityUserInputRouter from "./routers/cityUserInputRouter.js";
 import { createAllRouters } from "./routers/generateRouters.js";
 import removeSensitiveFieldsMiddleware from "./middleware/removeSensitiveFieldsMiddleware.js";
+import passport from "passport";
+import session from "express-session";
 
 dotenv.config();
 
@@ -42,6 +44,21 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(removeSensitiveFieldsMiddleware);
+
+app.use(
+  session({
+    secret: process.env.SECRET_KEY || "your_secret_key", // Use a secure secret in production
+    resave: false, // Prevents session from being saved back to the session store if it wasn’t modified
+    saveUninitialized: false, // Prevents empty sessions from being saved
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Set secure cookies in production
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const modelNames = [
   "interviewLogistics",

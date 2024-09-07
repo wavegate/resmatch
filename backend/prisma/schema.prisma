@@ -16,11 +16,14 @@ datasource db {
 model User {
   id                      Int                   @id @default(autoincrement())
   email                   String                @unique
-  password                String
-  isConfirmed             Boolean               @default(false)
+  password                String?
+  isConfirmed             Boolean?              @default(false)
   alias                   String                @unique
   createdAt               DateTime              @default(now())
   updatedAt               DateTime              @updatedAt
+  googleId                String?
+  redditId                String?
+  discordId               String?
   interviewInvites        InterviewInvite[]
   cityUserInputs          CityUserInput[]
   greenCard               Boolean?
@@ -171,7 +174,7 @@ model InterviewInvite {
   comments             Comment[]
 
   userId Int
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   programId Int
   program   Program @relation(fields: [programId], references: [id])
@@ -248,7 +251,7 @@ model CityUserInput {
   comments             Comment[]
 
   city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([cityId])
   @@index([userId])
@@ -257,7 +260,7 @@ model CityUserInput {
 model FameShame {
   id        Int       @id @default(autoincrement())
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   fame      String?
   shame     String?
   programId Int
@@ -272,7 +275,7 @@ model Comment {
   id                    Int                  @id @default(autoincrement())
   userId                Int
   content               String
-  user                  User                 @relation(fields: [userId], references: [id])
+  user                  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   RankList              RankList?            @relation(fields: [rankListId], references: [id])
   rankListId            Int?
   createdAt             DateTime             @default(now())
@@ -323,7 +326,7 @@ model Comment {
 model RankList {
   id                         Int            @id @default(autoincrement())
   userId                     Int
-  user                       User           @relation(fields: [userId], references: [id])
+  user                       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   graduateType               GraduateType
   medicalDegree              MedicalDegree?
   numberOfProgramsApplied    Int?
@@ -358,7 +361,7 @@ model RankedProgram {
 model PostIVCommunication {
   id                    Int                   @id @default(autoincrement())
   userId                Int
-  user                  User                  @relation(fields: [userId], references: [id])
+  user                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId             Int
   program               Program               @relation(fields: [programId], references: [id])
   communicationReceived String?
@@ -396,7 +399,7 @@ enum Source {
 model ScheduleDetails {
   id        Int     @id @default(autoincrement())
   userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
@@ -459,7 +462,7 @@ enum VisaInfo {
 model InterviewLogistics {
   id                Int                @id @default(autoincrement())
   userId            Int
-  user              User               @relation(fields: [userId], references: [id])
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId         Int
   program           Program            @relation(fields: [programId], references: [id])
   schedulerPlatform SchedulerPlatform?
@@ -501,7 +504,7 @@ enum IVPlatform {
 model SecondLook {
   id            Int       @id @default(autoincrement())
   userId        Int
-  user          User      @relation(fields: [userId], references: [id])
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId     Int
   program       Program   @relation(fields: [programId], references: [id])
   setting       Setting?
@@ -525,7 +528,7 @@ model InterviewRejection {
   programId Int
   program   Program   @relation(fields: [programId], references: [id])
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   date      DateTime
   anonymous Boolean   @default(false)
   comments  Comment[]
@@ -560,7 +563,7 @@ model InterviewRejection {
 model M4InternImpression {
   id                 Int       @id @default(autoincrement())
   userId             Int
-  user               User      @relation(fields: [userId], references: [id])
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId          Int
   program            Program   @relation(fields: [programId], references: [id])
   positiveImpression String?
@@ -575,7 +578,7 @@ model M4InternImpression {
 model Malignant {
   id          Int           @id @default(autoincrement())
   userId      Int
-  user        User          @relation(fields: [userId], references: [id])
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId   Int
   program     Program       @relation(fields: [programId], references: [id])
   malignant   MalignantEnum
@@ -597,7 +600,7 @@ enum MalignantEnum {
 model LOIResponse {
   id        Int     @id @default(autoincrement())
   userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
@@ -635,7 +638,7 @@ enum ResponseTone {
 model InterviewImpression {
   id        Int     @id @default(autoincrement())
   userId    Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
@@ -664,7 +667,7 @@ enum Change {
 model Question {
   id        Int       @id @default(autoincrement())
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId Int
   program   Program   @relation(fields: [programId], references: [id])
   comments  Comment[]
@@ -679,7 +682,7 @@ model Question {
 model Dropped {
   id                       Int       @id @default(autoincrement())
   userId                   Int
-  user                     User      @relation(fields: [userId], references: [id])
+  user                     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   programId                Int
   program                  Program   @relation(fields: [programId], references: [id])
   date                     DateTime
@@ -698,7 +701,7 @@ model FellowshipMatch {
   programId Int
   program   Program   @relation(fields: [programId], references: [id])
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   matchData String
   anonymous Boolean   @default(false)
   comments  Comment[]
@@ -747,7 +750,7 @@ model Suggestion {
   id         Int      @id @default(autoincrement())
   content    String
   userId     Int
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tierListId Int
   tierList   TierList @relation(fields: [tierListId], references: [id])
   createdAt  DateTime @default(now())
@@ -765,7 +768,7 @@ model XorY {
   comments   Comment[]
   userId     Int
   img        Boolean?
-  user       User      @relation(fields: [userId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   anonymous  Boolean   @default(false)

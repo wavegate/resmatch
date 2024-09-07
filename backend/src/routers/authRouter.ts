@@ -9,8 +9,67 @@ import {
 } from "../middleware/authMiddleware.js";
 import mg from "../mailClient.js";
 import { FRONTEND_URL } from "../constants.js";
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 const authRouter = express.Router();
+
+// Configure Google OAuth strategy
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Check if the user already exists in the database
+        let user = await prisma.user.findUnique({
+          where: { email: profile.emails[0].value },
+        });
+
+        if (user) {
+          if (!user.googleId) {
+            await prisma.user.update({
+              where: { email: profile.emails[0].value },
+              data: { googleId: profile.id },
+            });
+          }
+          // If the user exists, pass the user object
+          return done(null, user);
+        } else {
+          // If the user does not exist, create a new user
+          const newUser = await prisma.user.create({
+            data: {
+              email: profile.emails[0].value,
+              alias: generateCodename(),
+              isConfirmed: true, // Google OAuth users are automatically confirmed
+              googleId: profile.id,
+            },
+          });
+          return done(null, newUser);
+        }
+      } catch (error) {
+        return done(error, null);
+      }
+    }
+  )
+);
+
+// Serialize and deserialize user for session management
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
 
 authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -18,6 +77,15 @@ authRouter.post("/login", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
 
+    // Case 1: User exists and has a Google account (no password set)
+    if (user && user.googleId && !user.password) {
+      return res.status(400).json({
+        error:
+          "This account is registered with Google. Please log in using Google.",
+      });
+    }
+
+    // Case 2: Traditional login with email and password
     if (
       user &&
       user.isConfirmed &&
@@ -28,10 +96,12 @@ authRouter.post("/login", async (req, res) => {
       });
       res.json({ token });
     } else if (user && !user.isConfirmed) {
+      // Case 3: User exists but has not confirmed their email
       res
         .status(401)
         .json({ error: "Please confirm your email before logging in." });
     } else {
+      // Case 4: Invalid email or password
       res.status(401).json({ error: "Invalid email or password" });
     }
   } catch (error) {
@@ -48,6 +118,13 @@ authRouter.post("/register", async (req, res) => {
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
+
+    if (existingUser && existingUser.googleId && !existingUser.password) {
+      return res.status(400).json({
+        error:
+          "This email is already registered with Google. Please log in using Google.",
+      });
+    }
 
     if (existingUser) {
       if (!existingUser.isConfirmed) {
@@ -294,5 +371,28 @@ authRouter.post("/update-password", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+authRouter.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+authRouter.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  async (req, res) => {
+    try {
+      // At this point, req.user is already populated by Passport's GoogleStrategy
+      const token = jwt.sign({ id: req.user.id }, process.env.SECRET_KEY, {
+        expiresIn: "30d", // Token expires in 30 days
+      });
+
+      // Redirect to the frontend with the JWT token
+      res.redirect(`${process.env.FRONTEND_URL}/login-success?token=${token}`);
+    } catch (error) {
+      console.error("Error during Google OAuth callback:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
 
 export default authRouter;
