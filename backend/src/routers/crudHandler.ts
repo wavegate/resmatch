@@ -9,7 +9,10 @@ export const createCrudHandlers = (modelName) => ({
       const userId = req.user.id;
       const { save, ...data } = req.body;
 
-      if (modelName === "interviewInvite" && save) {
+      if (
+        ["interviewInvite", "interviewRejection"].includes(modelName) &&
+        save
+      ) {
         // Find fields that are common between the data and userFields
         const profileFieldsToUpdate = intersectFields(
           Object.keys(data),
@@ -49,9 +52,29 @@ export const createCrudHandlers = (modelName) => ({
         where: { id: Number(req.params.id) },
         include: {
           user: true,
-          program: {
-            include: { institution: true },
-          },
+          ...(modelName !== "cityUserInput" &&
+            modelName !== "xorY" && {
+              program: {
+                include: {
+                  institution: true,
+                },
+              },
+            }),
+          ...(modelName === "xorY" && {
+            programX: {
+              include: {
+                institution: true,
+              },
+            },
+            programY: {
+              include: {
+                institution: true,
+              },
+            },
+          }),
+          ...(modelName === "cityUserInput" && {
+            city: true,
+          }),
         },
       });
       if (!item) {
@@ -213,8 +236,21 @@ export const createCrudHandlers = (modelName) => ({
         take: pageSize,
         where: whereClause,
         include: {
-          ...(modelName !== "cityUserInput" && {
-            program: {
+          ...(modelName !== "cityUserInput" &&
+            modelName !== "xorY" && {
+              program: {
+                include: {
+                  institution: true,
+                },
+              },
+            }),
+          ...(modelName === "xorY" && {
+            programX: {
+              include: {
+                institution: true,
+              },
+            },
+            programY: {
               include: {
                 institution: true,
               },
@@ -265,8 +301,21 @@ export const createCrudHandlers = (modelName) => ({
       // Fetch all items from the model without any filters or pagination
       const items = await prisma[modelName].findMany({
         include: {
-          ...(modelName !== "cityUserInput" && {
-            program: {
+          ...(modelName !== "cityUserInput" &&
+            modelName !== "xorY" && {
+              program: {
+                include: {
+                  institution: true,
+                },
+              },
+            }),
+          ...(modelName === "xorY" && {
+            programX: {
+              include: {
+                institution: true,
+              },
+            },
+            programY: {
               include: {
                 institution: true,
               },

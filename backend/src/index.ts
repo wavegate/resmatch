@@ -59,7 +59,7 @@ const modelNames = [
   "interviewInvite",
   "interviewRejection",
   "cityUserInput",
-  // "xorY",
+  "xorY",
 ];
 
 // Create routers for all models
