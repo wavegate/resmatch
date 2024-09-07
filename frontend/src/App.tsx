@@ -29,7 +29,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <Notifications position="top-center" zIndex={1000} />
+        <Notifications position="bottom-right" zIndex={1001} />
         <ModalsProvider>
           <RouterProvider router={router}></RouterProvider>
         </ModalsProvider>

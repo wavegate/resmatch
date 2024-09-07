@@ -65,6 +65,7 @@ import { modelNames } from "./services/services";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Page404 from "./pages/Page404";
+import LoginSuccess from "./pages/LoginSuccess";
 
 const routes = [
   {
@@ -90,6 +91,10 @@ const routes = [
       {
         path: "sign-up",
         element: <SignUp />,
+      },
+      {
+        path: "login-success",
+        element: <LoginSuccess />,
       },
       // {
       //   path: "invite",

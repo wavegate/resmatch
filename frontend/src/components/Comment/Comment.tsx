@@ -201,9 +201,13 @@ export default function Comment({ id, queryKey }: CommentProps) {
                 variant="subtle"
                 size="xs"
                 onClick={toggleReplies}
-                rightIcon={repliesOpened ? <BsChevronUp /> : <BsChevronDown />}
+                rightSection={
+                  repliesOpened ? <BsChevronUp /> : <BsChevronDown />
+                }
               >
-                {repliesOpened ? "Hide Replies" : "Show Replies"}
+                {repliesOpened
+                  ? "Hide Replies"
+                  : `Show Replies (${comment.replies.length})`}
               </Button>
             )}
           </div>

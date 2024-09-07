@@ -35,8 +35,13 @@ const register = async (formData: RegisterFormData): Promise<AuthResponse> => {
 };
 
 const getCurrentUser = async (): Promise<User> => {
-  const { data } = await apiClient.get(`${route}/current`);
-  return data;
+  try {
+    const { data } = await apiClient.get(`${route}/current`);
+    return data;
+  } catch (error: any) {
+    localStorage.removeItem("token");
+    throw error;
+  }
 };
 
 const confirmEmail = async (token: string): Promise<string> => {
