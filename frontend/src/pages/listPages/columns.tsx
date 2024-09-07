@@ -24,7 +24,7 @@ export function columnGenerator(
     "import",
     "comments",
     "save",
-    "city",
+    "cityId",
   ];
   // Filter out specific fields
   const filteredFields = Object.keys(formSchema).filter(
