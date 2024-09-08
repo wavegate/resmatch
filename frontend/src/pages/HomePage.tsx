@@ -135,6 +135,10 @@ export default () => {
           >
             <h4 className={`font-medium text-xl`}>Changelog</h4>
             <div className={`flex flex-col gap-1`}>
+              <div className={`font-medium`}>9/7/2024</div>
+              <div>Added Google login</div>
+            </div>
+            <div className={`flex flex-col gap-1`}>
               <div className={`font-medium`}>9/6/2024</div>
               <div>Table views + export to CSV, full screen tables</div>
             </div>
