@@ -66,6 +66,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Page404 from "./pages/Page404";
 import LoginSuccess from "./pages/LoginSuccess";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ToS from "./pages/ToS";
 
 const routes = [
   {
@@ -95,6 +97,14 @@ const routes = [
       {
         path: "login-success",
         element: <LoginSuccess />,
+      },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "terms-of-service",
+        element: <ToS />,
       },
       // {
       //   path: "invite",

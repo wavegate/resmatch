@@ -67,10 +67,7 @@ export default () => {
         </div>
       </AppShell.Header>
 
-      <AppShell.Navbar
-        p="md"
-        className={`flex flex-col gap-4  overflow-y-auto`}
-      >
+      <AppShell.Navbar p="md" className={`flex flex-col gap-4 overflow-y-auto`}>
         <Sidebar
           toggleMobile={toggleMobile}
           isLoading={isLoading}
