@@ -45,6 +45,8 @@ app.use(express.json());
 
 app.use(removeSensitiveFieldsMiddleware);
 
+app.enable("trust proxy");
+
 app.use(
   session({
     secret: process.env.SECRET_KEY || "your_secret_key", // Use a secure secret in production
