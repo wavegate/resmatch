@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
       <ul>
         <li>
           <strong>Email Address</strong>: Collected when users sign up or
-          interact with our services.
+          interact with our services, such as through Google OAuth.
         </li>
         <li>
           <strong>Medical Residency Application Information</strong>: Includes

@@ -10,6 +10,7 @@ import {
   SimpleGrid,
   Blockquote,
   Button,
+  Divider,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
@@ -208,6 +209,20 @@ export default () => {
             </li>
           </ul>
         </Card>
+      </div>
+      <Divider />
+      <div className={`gap-2 mt-1 flex flex-col items-center`}>
+        <div>
+          © {new Date().getFullYear()} Residency Match. All Rights Reserved.
+        </div>
+        <div className={`w-full flex justify-evenly`}>
+          <Link to="/privacy-policy" className={`text-blue-500 underline`}>
+            Privacy Policy
+          </Link>{" "}
+          <Link to="/terms-of-service" className={`text-blue-500 underline`}>
+            Terms of Service
+          </Link>
+        </div>
       </div>
     </div>
   );

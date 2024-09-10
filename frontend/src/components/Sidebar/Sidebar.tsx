@@ -121,19 +121,6 @@ const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
           </NavLink>
         );
       })}
-      <div className={`text-sm gap-2 mt-4 flex flex-col items-center`}>
-        <div>
-          © {new Date().getFullYear()} Residency Match. All Rights Reserved.
-        </div>
-        <div className={`w-full flex justify-evenly`}>
-          <Link to="/privacy-policy" className={`text-blue-500 underline`}>
-            Privacy Policy
-          </Link>{" "}
-          <Link to="/terms-of-service" className={`text-blue-500 underline`}>
-            Terms of Service
-          </Link>
-        </div>
-      </div>
     </div>
   );
 };
