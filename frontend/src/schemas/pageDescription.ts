@@ -6,13 +6,13 @@ export const pageDescription: Record<
     name: "Interview Invites",
     description:
       "Share and view interview invite details with other applicants to stay informed about program timelines and preferences.",
-    singular: "Interview Invite",
+    singular: "Invite",
   },
   dropped: {
     name: "Dropped Interviews",
     description:
       "Keep track of the programs you have decided not to pursue further. Share your reasons and see what others have decided.",
-    singular: "Dropped Interview",
+    singular: "Dropped",
   },
   fameShame: {
     name: "Fame/Shame",
@@ -24,31 +24,31 @@ export const pageDescription: Record<
     name: "Fellowship Matches",
     description:
       "Share what you know about fellowship match results at various programs to help others understand where fellows are matching.",
-    singular: "Fellowship Match",
+    singular: "Fellowship Info",
   },
   interviewImpression: {
     name: "Interview Impressions",
     description:
       "Record your impressions of programs after interviews. See how your perceptions align with those of other applicants.",
-    singular: "Interview Impression",
+    singular: "Impression",
   },
   interviewRejection: {
     name: "Interview Rejections",
     description:
       "Track the programs that have rejected your application and view the rejection experiences of others.",
-    singular: "Interview Rejection",
+    singular: "Rejection",
   },
   interviewLogistics: {
     name: "Interview Logistics",
     description:
       "Share and manage the logistical details of interviews, such as the scheduling platform, dates, and times.",
-    singular: "Interview Logistics",
+    singular: "Logistics",
   },
   lOIResponse: {
     name: "Letter of Interest Responses",
     description:
       "Track and share the responses to your Letters of Interest. Understand how programs react to expressions of interest.",
-    singular: "LOI Response",
+    singular: "Response",
   },
   lOIntentResponse: {
     name: "Letter of Intent Responses",
@@ -60,7 +60,7 @@ export const pageDescription: Record<
     name: "M4 & Intern Impressions",
     description:
       "Read and share reviews by current M4s and interns about their experiences in the program.",
-    singular: "M4 & Intern Impression",
+    singular: "Impression",
   },
   malignant: {
     name: "Malignant",
@@ -72,19 +72,19 @@ export const pageDescription: Record<
     name: "Post-Interview Communication",
     description:
       "Record and view communications you've had with programs after interviews. Gain insights into post-interview dynamics.",
-    singular: "Post-IV Comms",
+    singular: "Comms",
   },
   question: {
     name: "Interview Questions",
     description:
       "Share the questions that you were asked during your interviews. Learn what to expect from other applicants' experiences.",
-    singular: "Interview Questions",
+    singular: "Questions",
   },
   scheduleDetails: {
     name: "Schedule Details",
     description:
       "Share a variety of details about program schedules, including rotations, call schedules, continuity clinics, and more.",
-    singular: "Schedule Details",
+    singular: "Details",
   },
   secondLook: {
     name: "Second Looks",
@@ -96,7 +96,7 @@ export const pageDescription: Record<
     name: "Program Comparisons (X vs Y)",
     description:
       "Compare two programs side by side based on various criteria. Share your insights and help others make informed decisions.",
-    singular: "Program Comparison (X vs Y)",
+    singular: "Comparison",
   },
   cityUserInput: {
     name: "Cities",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { schemas } from "@/schemas/schemas";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import Comment from "@/components/Comment/Comment";
@@ -25,12 +25,13 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
   );
 
   const { user } = useUser();
+  const [addComment, setAddComment] = useState(false);
 
   return (
-    <div className={`flex flex-col gap-4 py-4 max-sm:py-2`}>
+    <div className={`flex flex-col gap-4 py-4 px-4`}>
       {/* Display fields in a responsive grid */}
       <div
-        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4 border border-solid rounded-sm p-4`}
+        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4`}
       >
         {filteredFields.map((fieldName, index) => {
           const fieldSchema = schema[fieldName];
@@ -107,7 +108,9 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
             >
               <div className={`font-medium`}>{fieldSchema.label}:</div>
               {/* <div>{fieldSchema.description}</div> */}
-              <div className={`text-gray-600`}>{displayValue}</div>
+              <div className={`text-gray-600 break-words overflow-hidden`}>
+                {displayValue}
+              </div>
             </div>
           );
         })}
@@ -123,6 +126,14 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
         </div>
       )}
       {user && (
+        <div
+          className={`text-sm text-gray-500 hover:cursor-pointer underline`}
+          onClick={() => setAddComment((prev) => !prev)}
+        >
+          Add comment
+        </div>
+      )}
+      {user && addComment && (
         <AddCommentField
           queryKey={queryKey}
           modelName={modelName}

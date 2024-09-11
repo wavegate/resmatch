@@ -1,8 +1,7 @@
 import { Button, Loader, TextInput } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, forwardRef, useMemo, useEffect } from "react";
+import { useState, forwardRef, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import { columns } from "./columns";
 import { AgGridReact } from "ag-grid-react";
 import services from "@/services/services";
 import { columnGenerator } from "./columns";
@@ -120,9 +119,6 @@ const TableView = forwardRef(({ modelName }, ref) => {
                 <MdOutlineOpenInFull size={18} />
               )}
             </Button>
-          </div>
-          <div className={`mt-2 text-sm`}>
-            Showing {data?.items?.length} of {data?.items?.length}
           </div>
         </div>
       )}

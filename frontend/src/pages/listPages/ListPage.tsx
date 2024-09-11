@@ -12,9 +12,7 @@ interface ListPageProps {
 const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
   const [listView, setListView] = useState(false);
   return (
-    <div
-      className={`flex flex-col gap-0 ${!listView && "absolute"} program-page`}
-    >
+    <div className={`flex flex-col gap-0 absolute program-page`}>
       <header>
         <Title
           order={2}
@@ -23,7 +21,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
         >
           {pageDescription[modelName].name}
         </Title>
-        {modelName && (
+        {/* {modelName && (
           <Text
             c="dimmed"
             mb={{ base: "xs", md: "sm" }}
@@ -31,7 +29,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
           >
             {pageDescription[modelName].description}
           </Text>
-        )}
+        )} */}
       </header>
       <Table
         listView={listView}
