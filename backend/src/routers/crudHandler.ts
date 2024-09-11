@@ -176,7 +176,7 @@ export const createCrudHandlers = (modelName) => ({
     try {
       const {
         pageNum = 1,
-        pageSize = 10,
+        pageSize = 1000,
         programId,
         userId,
         startDate,
