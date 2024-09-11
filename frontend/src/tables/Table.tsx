@@ -60,6 +60,15 @@ const Table: React.FC<TableProps> = ({
         <Button
           onClick={() => navigate(shareUrl)}
           leftSection={<IoMdAdd size={18} />}
+          visibleFrom="sm"
+        >
+          {shareText}
+        </Button>
+        <Button
+          onClick={() => navigate(shareUrl)}
+          leftSection={<IoMdAdd size={18} />}
+          hiddenFrom="sm"
+          size="xs"
         >
           {shareText}
         </Button>

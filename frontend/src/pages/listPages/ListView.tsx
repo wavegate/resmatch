@@ -175,7 +175,7 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
             }}
             className={`mb-2`}
           />
-          <div className={`flex flex-col gap-4 mt-4 flex-1`}>
+          <div className={`flex flex-col gap-4 flex-1`}>
             <Virtuoso
               style={{ height: "100%" }} // Adjust the height as needed
               totalCount={filteredResults.length} // Total number of items

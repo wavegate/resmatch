@@ -14,15 +14,14 @@ export default ({ id, guard = true }: UseAuthGuardProps = {}) => {
   useEffect(() => {
     if (guard && !isLoading) {
       if (!user) {
-        navigate("/login");
+        navigate("/login", { replace: true });
       } else if (id && user.id !== id) {
-        console.log(id, user.id);
         notifications.show({
           title: "Permission Denied",
           message: "You do not have permission to access this resource.",
           color: "red",
         });
-        navigate("/"); // Navigate to home page if the id doesn't match
+        navigate("/");
       }
     }
   }, [user, isLoading, id, navigate, guard]);
