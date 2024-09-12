@@ -1,14 +1,9 @@
 import { useState, useMemo } from "react";
-import { Accordion, Avatar, Drawer, Loader, TextInput } from "@mantine/core";
-import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
+import { Loader, TextInput } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import { PAGE_SIZE } from "@/constants";
-import Filters from "@/components/Filters/Filters";
-import Controls from "@/components/Controls/Controls";
-import Badges from "@/components/Badges/Badges";
 import services from "@/services/services";
-import { pageDescription } from "@/schemas/pageDescription";
 import Details from "@/components/Details";
 import Header from "@/components/Header";
 import { Virtuoso } from "react-virtuoso";

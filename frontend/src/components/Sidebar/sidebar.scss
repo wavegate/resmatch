@@ -1,0 +1,13 @@
+.sidebar-link {
+  &.is-active {
+    .icon-padding {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    .icon-padding {
+      background-color: transparent;
+    }
+  }
+}

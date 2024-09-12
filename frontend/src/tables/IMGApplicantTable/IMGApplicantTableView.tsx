@@ -11,10 +11,10 @@ import userService from "@/services/userService";
 const TableView = forwardRef(({}, ref) => {
   const [fullScreen, setFullScreen] = useState(false);
   const { data, error, isLoading } = useQuery({
-    queryKey: ["user", "US"],
+    queryKey: ["user", "IMG"],
     queryFn: () => {
       return userService.searchUser({
-        graduateType: "US",
+        graduateType: "IMG",
       });
     },
   });

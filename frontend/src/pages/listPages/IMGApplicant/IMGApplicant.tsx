@@ -1,10 +1,12 @@
 import IMGApplicantTable from "@/tables/IMGApplicantTable/IMGApplicantTable";
 import { Text, Title } from "@mantine/core";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default () => {
+  const [listView, setListView] = useState(false);
   return (
-    <div className={`flex flex-col gap-2`}>
+    <div className={`flex flex-col gap-0 absolute program-page`}>
       <header>
         <Title
           order={2}
@@ -18,15 +20,14 @@ export default () => {
           mb={{ base: "xs", md: "sm" }}
           className="text-sm sm:text-base md:text-lg"
         >
-          Compare and analyze stats and trends across other IMG applicants to
-          help guide your match list decision-making. If your{" "}
+          If your{" "}
           <Link to="/profile" className={`text-blue-500 underline`}>
             Profile
           </Link>{" "}
           is public, your stats will show up here.
         </Text>
       </header>
-      <IMGApplicantTable />
+      <IMGApplicantTable listView={listView} setListView={setListView} />
     </div>
   );
 };

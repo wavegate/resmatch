@@ -1,13 +1,7 @@
 import { Switch, Button } from "@mantine/core";
-
 import { useRef, useCallback } from "react";
-
 import USApplicantTableView from "./USApplicantTableView";
 import USApplicantListView from "./USApplicantListView";
-
-interface UserTableProps {
-  className?: string;
-}
 
 export default ({ listView, setListView }) => {
   const gridRef = useRef(null);

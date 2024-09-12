@@ -1,40 +1,37 @@
 import {
   FaRegCalendarCheck,
-  FaTimesCircle,
   FaRegCalendarMinus,
-  FaMapSigns,
-  FaQuestionCircle,
-  FaThumbsUp,
   FaEnvelopeOpenText,
-  FaEnvelope,
-  FaComments,
-  FaEye,
   FaUserGraduate,
   FaUserMd,
   FaChartBar,
   FaMedal,
-  FaClipboardList,
   FaSkullCrossbones,
-  FaCalendarAlt,
   FaHandshake,
   FaMicroscope,
   FaListUl,
   FaListOl,
   FaBalanceScale,
-  FaBalanceScaleLeft,
   FaCity,
   FaSortNumericDown,
   FaSortNumericDownAlt,
   FaSortAmountUp,
-  FaInfoCircle,
+  FaRegTimesCircle,
+  FaRegQuestionCircle,
+  FaRegThumbsUp,
+  FaRegEnvelope,
+  FaRegComment,
+  FaRegEye,
+  FaRegCalendarAlt,
 } from "react-icons/fa";
 import {
-  HiHome,
-  HiOutlineViewGrid,
   HiOutlineUserCircle,
   HiOutlineChat,
   HiOutlineFlag,
 } from "react-icons/hi";
+import { LuClipboardList, LuHome, LuMapPin } from "react-icons/lu";
+import SidebarMenuItem from "./SidebarMenuItem";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const sidebarRoutes = [
   // {
@@ -44,7 +41,7 @@ const sidebarRoutes = [
   {
     link: "/",
     text: "Welcome",
-    icon: <HiHome className="h-5 w-5" />,
+    icon: <SidebarMenuItem Icon={LuHome} />,
   },
   // {
   //   link: "/dashboard",
@@ -54,18 +51,18 @@ const sidebarRoutes = [
   {
     link: "/profile",
     text: "My Profile",
-    icon: <HiOutlineUserCircle className="h-5 w-5" />,
+    icon: <SidebarMenuItem Icon={HiOutlineUserCircle} />,
     auth: "signedIn",
   },
   {
     link: "/main",
     text: "Main Chat",
-    icon: <HiOutlineChat className="h-5 w-5" />,
+    icon: <SidebarMenuItem Icon={HiOutlineChat} />,
   },
   {
     link: "/report",
     text: "Mod Reports",
-    icon: <HiOutlineFlag className="h-5 w-5" />,
+    icon: <SidebarMenuItem Icon={HiOutlineFlag} />,
   },
   {
     heading: "Interview Info",
@@ -73,52 +70,52 @@ const sidebarRoutes = [
       {
         link: "/interviewInvite",
         text: "IV Offers",
-        icon: <FaRegCalendarCheck className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegCalendarCheck} />,
       },
       {
         link: "/interviewRejection",
         text: "IV Rejections",
-        icon: <FaTimesCircle className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegTimesCircle} />,
       },
       {
         link: "/dropped",
         text: "IV Dropped",
-        icon: <FaRegCalendarMinus className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegCalendarMinus} />,
       },
       {
         link: "/interviewLogistics",
-        text: "IV Logistics/Open Spots",
-        icon: <FaMapSigns className="h-5 w-5" />,
+        text: "IV Logistics",
+        icon: <SidebarMenuItem Icon={LuMapPin} />,
       },
       {
         link: "/question",
         text: "IV Questions",
-        icon: <FaQuestionCircle className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegQuestionCircle} />,
       },
       {
         link: "/interviewImpression",
         text: "IV Impressions",
-        icon: <FaThumbsUp className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegThumbsUp} />,
       },
       {
         link: "/lOIResponse",
         text: "LOInterest Response",
-        icon: <FaEnvelopeOpenText className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaEnvelopeOpenText} />,
       },
       {
         link: "/lOIntentResponse",
         text: "LOIntent Response",
-        icon: <FaEnvelope className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegEnvelope} />,
       },
       {
         link: "/postIVCommunication",
         text: "Post-IV Communication",
-        icon: <FaComments className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegComment} />,
       },
       {
         link: "/secondLook",
         text: "Second Look",
-        icon: <FaEye className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaRegEye} />,
       },
     ],
   },
@@ -128,17 +125,17 @@ const sidebarRoutes = [
       {
         link: "/applicant-us",
         text: "US Applicant Data",
-        icon: <FaUserGraduate className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaUserGraduate} />,
       },
       {
         link: "/applicant-img",
         text: "IMG Applicant Data",
-        icon: <FaUserMd className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaUserMd} />,
       },
       {
         link: "/rank-tally",
         text: "Rank Tally",
-        icon: <FaChartBar className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaChartBar} />,
       },
     ],
   },
@@ -148,47 +145,47 @@ const sidebarRoutes = [
       {
         link: "/program",
         text: "Program Overview",
-        icon: <FaInfoCircle className="h-5 w-5" />, // Represents informational content
+        icon: <SidebarMenuItem Icon={AiOutlineInfoCircle} />, // Represents informational content
       },
       {
         link: "/fameShame",
         text: "Name Fame/Shame",
-        icon: <FaMedal className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaMedal} />,
       },
       {
         link: "/m4InternImpression",
         text: "M4/Intern Impressions",
-        icon: <FaClipboardList className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={LuClipboardList} />,
       },
       {
         link: "/malignant",
         text: "Malignant",
-        icon: <FaSkullCrossbones className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaSkullCrossbones} />,
       },
       {
         link: "/scheduleDetails",
-        text: "Program Schedule/Details",
-        icon: <FaCalendarAlt className="h-5 w-5" />,
+        text: "Program Schedule",
+        icon: <SidebarMenuItem Icon={FaRegCalendarAlt} />,
       },
       {
         link: "/fellowshipMatch",
         text: "Fellowship Match",
-        icon: <FaHandshake className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaHandshake} />,
       },
       {
         link: "/pstp",
         text: "PSTP",
-        icon: <FaMicroscope className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaMicroscope} />,
       },
       {
         link: "/tier-list",
         text: "Tier List",
-        icon: <FaListUl className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaListUl} />,
       },
       {
         link: "/tier-list-img",
         text: "Tier List (IMG)",
-        icon: <FaListOl className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaListOl} />,
       },
       // {
       //   link: "/x-or-y",
@@ -203,7 +200,7 @@ const sidebarRoutes = [
       {
         link: "/xorY",
         text: "X vs Y",
-        icon: <FaBalanceScale className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaBalanceScale} />,
       },
       // {
       //   link: "/x-or-y-img",
@@ -213,7 +210,7 @@ const sidebarRoutes = [
       {
         link: "/cityUserInput",
         text: "Cities",
-        icon: <FaCity className="h-5 w-5" />,
+        icon: <SidebarMenuItem Icon={FaCity} />,
       },
     ],
   },
@@ -222,18 +219,18 @@ const sidebarRoutes = [
     items: [
       {
         link: "/rank-list-md",
-        text: "Unofficial Rank Lists (MD)",
-        icon: <FaSortNumericDown className="h-5 w-5" />,
+        text: "Rank Lists (MD)",
+        icon: <SidebarMenuItem Icon={FaSortNumericDown} />,
       },
       {
         link: "/rank-list-do",
-        text: "Unofficial Rank Lists (DO)",
-        icon: <FaSortNumericDownAlt className="h-5 w-5" />,
+        text: "Rank Lists (DO)",
+        icon: <SidebarMenuItem Icon={FaSortNumericDownAlt} />,
       },
       {
         link: "/rank-list-img",
-        text: "Unofficial Rank Lists (IMG)",
-        icon: <FaSortAmountUp className="h-5 w-5" />,
+        text: "Rank Lists (IMG)",
+        icon: <SidebarMenuItem Icon={FaSortAmountUp} />,
       },
     ],
   },

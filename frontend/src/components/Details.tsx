@@ -5,14 +5,7 @@ import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
 import useUser from "@/hooks/useUser";
 
-interface DataDisplayProps {
-  data: any;
-  modelName: string; // The name of the model, e.g., "interviewLogistics"
-  i: number;
-  queryKey: any;
-}
-
-const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
+const Details = ({ data, modelName, queryKey }) => {
   const schema = schemas[modelName];
 
   const filteredFields = Object.keys(schema).filter(

@@ -1,15 +1,10 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Button, LoadingOverlay, Collapse } from "@mantine/core";
-import {
-  HiHome,
-  HiOutlineChat,
-  HiOutlineUserCircle,
-  HiOutlineViewGrid,
-} from "react-icons/hi";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Icons for collapse/expand
 import menuRoutes from "./menuRoutes";
 import useUser from "@/hooks/useUser"; // Import the useUser hook
+import "./sidebar.scss";
 
 const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
   const { user } = useUser(); // Get the user from the useUser hook
@@ -86,10 +81,10 @@ const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
                       key={index}
                       to={route.link}
                       className={({ isActive }) =>
-                        `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
+                        `flex gap-3 px-2 py-2 hover:bg-primary hover:bg-opacity-20 rounded font-medium items-center sidebar-link ${
                           isActive
-                            ? "text-blue-900 bg-primary bg-opacity-20"
-                            : "text-gray-600"
+                            ? "text-blue-900 bg-[#D0EBFF] is-active"
+                            : "text-gray-700"
                         } text-base`
                       }
                       onClick={toggleMobile}
@@ -108,10 +103,10 @@ const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
             key={groupIndex}
             to={group.link}
             className={({ isActive }) =>
-              `flex gap-3 px-3 py-2 hover:bg-primary hover:bg-opacity-30 rounded font-medium items-center ${
+              `flex gap-3 px-2 py-2 hover:bg-primary hover:bg-opacity-20 rounded font-medium items-center sidebar-link ${
                 isActive
-                  ? "text-blue-900 bg-primary bg-opacity-20"
-                  : "text-gray-600"
+                  ? "text-blue-900 bg-[#D0EBFF] is-active"
+                  : "text-gray-700"
               } text-base`
             }
             onClick={toggleMobile}

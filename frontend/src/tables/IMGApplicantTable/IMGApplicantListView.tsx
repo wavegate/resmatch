@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { Virtuoso } from "react-virtuoso";
 import userService from "@/services/userService";
-import USApplicantDetail from "./USApplicantDetail";
-import USApplicantHeader from "./USApplicantHeader";
+import USApplicantHeader from "../USApplicantTable/USApplicantHeader";
+import USApplicantDetail from "../USApplicantTable/USApplicantDetail";
 
 interface TableProps {
   modelName: string;
@@ -39,10 +39,10 @@ const searchItems = (items, searchTerm) => {
 
 const Table = () => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["user", "US"],
+    queryKey: ["user", "IMG"],
     queryFn: () => {
       return userService.searchUser({
-        graduateType: "US",
+        graduateType: "IMG",
       });
     },
   });
