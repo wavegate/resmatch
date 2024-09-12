@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { schemas } from "@/schemas/schemas";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
-import Comment from "@/components/Comment/Comment";
-import AddCommentField from "@/components/AddCommentField";
-import useUser from "@/hooks/useUser";
+import userProfileFormSchema from "@/schemas/userProfileFormSchema";
 
 interface DataDisplayProps {
   data: any;
@@ -12,8 +9,8 @@ interface DataDisplayProps {
   queryKey: any;
 }
 
-const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
-  const schema = schemas[modelName];
+const Details: React.FC<DataDisplayProps> = ({ data }) => {
+  const schema = userProfileFormSchema;
 
   const filteredFields = Object.keys(schema).filter(
     (fieldName) =>
@@ -21,11 +18,11 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
       fieldName !== "anonymous" &&
       fieldName !== "import" &&
       fieldName !== "comments" &&
-      fieldName !== "cityId"
+      fieldName !== "cityId" &&
+      fieldName !== "alias" &&
+      fieldName !== "graduateType" &&
+      fieldName !== "public"
   );
-
-  const { user } = useUser();
-  const [addComment, setAddComment] = useState(false);
 
   return (
     <div className={`flex flex-col gap-4 py-4 px-4`}>
@@ -115,31 +112,6 @@ const Details: React.FC<DataDisplayProps> = ({ data, modelName, queryKey }) => {
           );
         })}
       </div>
-
-      {/* Display comments field */}
-
-      {data.comments?.length > 0 && (
-        <div className={`flex flex-col gap-4`}>
-          {data.comments.map((item: any) => (
-            <Comment id={item.id} key={item.id} queryKey={queryKey} />
-          ))}
-        </div>
-      )}
-      {user && (
-        <div
-          className={`text-sm text-gray-500 hover:cursor-pointer underline`}
-          onClick={() => setAddComment((prev) => !prev)}
-        >
-          Add comment
-        </div>
-      )}
-      {user && addComment && (
-        <AddCommentField
-          queryKey={queryKey}
-          modelName={modelName}
-          id={data.id}
-        />
-      )}
     </div>
   );
 };
