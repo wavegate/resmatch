@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
+import { FaDiscord } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default () => {
@@ -49,8 +50,11 @@ export default () => {
           <Link
             to="https://discord.com/invite/FnC4TdMHEA"
             target="_blank"
-            className={`text-blue-500 hover:underline font-medium text-lg`}
+            className={`text-blue-500 hover:underline font-medium text-lg flex gap-2 items-center rounded-lg bg-primary bg-opacity-5 px-2 pr-3 py-2 w-fit max-sm:m-auto`}
           >
+            <div className={`rounded-lg bg-primary bg-opacity-20 p-2`}>
+              <FaDiscord />
+            </div>
             2025 IM Discord
           </Link>
         </div>
