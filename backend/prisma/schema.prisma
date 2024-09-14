@@ -137,8 +137,6 @@ model Program {
   Question            Question[]
   Dropped             Dropped[]
   FellowshipMatch     FellowshipMatch[]
-  Bin                 Bin?                  @relation(fields: [binId], references: [id], onDelete: SetNull)
-  binId               Int?
   asProgramX          XorY[]                @relation("ProgramXRelation")
   asProgramY          XorY[]                @relation("ProgramYRelation")
   RankedProgram       RankedProgram[]
@@ -728,7 +726,6 @@ model Bin {
   programs   BinAssignment[]
   tierListId Int
   tierList   TierList        @relation(fields: [tierListId], references: [id])
-  Program    Program[]
 
   @@unique([tierListId, order])
 }
