@@ -70,7 +70,7 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
     <div
       className={`${
         dateModels.includes(modelName) && `grid grid-cols-[80px,1fr] gap-4`
-      } bg-primary bg-opacity-10 px-4 py-2`}
+      } bg-primary bg-opacity-10 px-4 max-sm:px-3 py-2`}
     >
       {dateModels.includes(modelName) && (
         <div className="flex flex-col justify-center items-center text-gray-700 bg-white border border-solid rounded">
@@ -84,7 +84,7 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
       )}
 
       <div className={`flex flex-col gap-1`}>
-        <div className={`font-medium text-lg`}>
+        <div className={`font-medium sm:text-lg`}>
           {modelName === "cityUserInput"
             ? `${data.city.name}, ${data.city.state}`
             : modelName === "xorY"

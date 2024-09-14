@@ -12,7 +12,7 @@ export default () => {
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: { base: 50, sm: 60 } }}
       navbar={{
         width: 300,
         breakpoint: "sm",
@@ -42,7 +42,9 @@ export default () => {
             />
             <Link className={`items-center flex gap-3`} to={"/"}>
               <RiMentalHealthLine size={24} />
-              <h1 className={`font-medium text-xl`}>Residency Match</h1>
+              <h1 className={`font-medium text-xl max-sm:text-lg`}>
+                Residency Match
+              </h1>
             </Link>
           </div>
           <div className={`flex gap-4 max-sm:hidden relative`}>
