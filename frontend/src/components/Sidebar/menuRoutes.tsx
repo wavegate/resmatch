@@ -109,12 +109,12 @@ const sidebarRoutes = [
     items: [
       {
         link: "/applicant-us",
-        text: "US Applicant Data",
+        text: "US Applicants",
         icon: <SidebarMenuItem Icon={FaUserGraduate} />,
       },
       {
         link: "/applicant-img",
-        text: "IMG Applicant Data",
+        text: "IMG Applicants",
         icon: <SidebarMenuItem Icon={FaUserMd} />,
       },
       {

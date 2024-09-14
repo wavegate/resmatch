@@ -1,8 +1,7 @@
+import useUser from "@/hooks/useUser";
+import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { notifications } from "@mantine/notifications";
-import { useQueryClient } from "@tanstack/react-query";
-import useUser from "@/hooks/useUser";
 
 const LoginSuccess = () => {
   const navigate = useNavigate();

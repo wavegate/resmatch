@@ -15,6 +15,8 @@ import NoRecords from "@/components/NoRecords/NoRecords";
 import { notifications } from "@mantine/notifications";
 import Suggestion from "./Suggestion";
 import programName from "@/utils/programName";
+import { Helmet } from "react-helmet";
+import { APP_NAME } from "@/constants";
 
 export default function TierListDetails() {
   const [suggestion, setSuggestion] = useState("");
@@ -74,83 +76,88 @@ export default function TierListDetails() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <header>
-        <Title
-          order={2}
-          mb={{ base: "xs", md: "sm" }}
-          className="text-lg sm:text-xl md:text-2xl"
-        >
-          {tierListData.title}
-        </Title>
-        <Text
-          c="dimmed"
-          mb={{ base: "xs", md: "sm" }}
-          className="text-sm sm:text-base md:text-lg"
-        >
-          US applicants program tier list.
-        </Text>
-      </header>
+    <>
+      <Helmet>
+        <title>Tier List | {APP_NAME}</title>
+      </Helmet>
+      <div className="flex flex-col gap-2">
+        <header>
+          <Title
+            order={2}
+            mb={{ base: "xs", md: "sm" }}
+            className="text-lg sm:text-xl md:text-2xl"
+          >
+            {tierListData.title}
+          </Title>
+          <Text
+            c="dimmed"
+            mb={{ base: "xs", md: "sm" }}
+            className="text-sm sm:text-base md:text-lg"
+          >
+            US applicants program tier list.
+          </Text>
+        </header>
 
-      <Accordion
-        variant="separated"
-        multiple
-        defaultValue={[...tierListData.bins.map((bin) => String(bin.id))]}
-      >
-        {tierListData.bins.map((bin: any) => (
-          <Accordion.Item key={bin.id} value={bin.id.toString()}>
-            <Accordion.Control>
-              <Text className="font-medium">{bin.name}</Text>
-            </Accordion.Control>
-            <Accordion.Panel>
-              <ul>
-                {bin.programs.map((binAssignment: any) => (
-                  <li key={binAssignment.program.id}>
-                    {programName(binAssignment.program)}
-                  </li>
-                ))}
-              </ul>
-            </Accordion.Panel>
-          </Accordion.Item>
-        ))}
-      </Accordion>
-
-      <div className="mt-6">
-        <Title order={3} mb="xs" className="text-lg">
-          Suggestions
-        </Title>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (suggestion.trim()) {
-              addSuggestion(suggestion);
-            }
-          }}
+        <Accordion
+          variant="separated"
+          multiple
+          defaultValue={[...tierListData.bins.map((bin) => String(bin.id))]}
         >
-          <Group>
-            <TextInput
-              value={suggestion}
-              onChange={(e) => setSuggestion(e.target.value)}
-              placeholder="Add a suggestion"
-              required
-              className="flex-grow"
-            />
-            <Button type="submit" loading={isAdding}>
-              Submit
-            </Button>
-          </Group>
-        </form>
+          {tierListData.bins.map((bin: any) => (
+            <Accordion.Item key={bin.id} value={bin.id.toString()}>
+              <Accordion.Control>
+                <Text className="font-medium">{bin.name}</Text>
+              </Accordion.Control>
+              <Accordion.Panel>
+                <ul>
+                  {bin.programs.map((binAssignment: any) => (
+                    <li key={binAssignment.program.id}>
+                      {programName(binAssignment.program)}
+                    </li>
+                  ))}
+                </ul>
+              </Accordion.Panel>
+            </Accordion.Item>
+          ))}
+        </Accordion>
 
-        {suggestionsData?.suggestions?.length > 0 ? (
-          <ul className="mt-4 list-disc list-inside">
-            {suggestionsData.suggestions.map((suggestion: any) => (
-              <Suggestion suggestion={suggestion} key={suggestion.id} />
-            ))}
-          </ul>
-        ) : (
-          <NoRecords />
-        )}
+        <div className="mt-6">
+          <Title order={3} mb="xs" className="text-lg">
+            Suggestions
+          </Title>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (suggestion.trim()) {
+                addSuggestion(suggestion);
+              }
+            }}
+          >
+            <Group>
+              <TextInput
+                value={suggestion}
+                onChange={(e) => setSuggestion(e.target.value)}
+                placeholder="Add a suggestion"
+                required
+                className="flex-grow"
+              />
+              <Button type="submit" loading={isAdding}>
+                Submit
+              </Button>
+            </Group>
+          </form>
+
+          {suggestionsData?.suggestions?.length > 0 ? (
+            <ul className="mt-4 list-disc list-inside">
+              {suggestionsData.suggestions.map((suggestion: any) => (
+                <Suggestion suggestion={suggestion} key={suggestion.id} />
+              ))}
+            </ul>
+          ) : (
+            <NoRecords />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

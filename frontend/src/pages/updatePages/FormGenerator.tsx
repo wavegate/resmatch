@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   TextInput,
@@ -16,9 +16,6 @@ import { generateZodSchema, schemas } from "../../schemas/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GenericList from "@/components/List";
 import { fieldLabelMap } from "@/schemas/fieldLabelMap";
-import { useQuery } from "@tanstack/react-query";
-import useUser from "@/hooks/useUser";
-import services from "@/services/services";
 import { removeNulls } from "@/utils/processObjects";
 import { Link } from "react-router-dom";
 import CitySearch from "@/components/CitySearch/CitySearch";

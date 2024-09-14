@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -11,6 +11,8 @@ import FormGenerator from "./FormGenerator";
 import useUser from "@/hooks/useUser";
 import userService from "@/services/userService";
 import { pageDescription } from "@/schemas/pageDescription";
+import { Helmet } from "react-helmet";
+import { APP_NAME } from "@/constants";
 
 const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   const { id } = useParams<{ id: string }>();
@@ -94,23 +96,31 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      {isLoading || userLoading ? (
-        <div className={`flex flex-col items-center`}>
-          <Loader color="blue" className={`mt-12`} />
-        </div>
-      ) : (
-        <FormGenerator
-          isPending={isPending}
-          userData={userData}
-          modelName={modelName}
-          onSubmit={onSubmit}
-          resetValues={resetValues}
-          isUpdate={isUpdate}
-        />
-      )}
-    </div>
+    <>
+      <Helmet>
+        <title>
+          {isUpdate ? `Edit ${labels.singular}` : `Add ${labels.singular}`} |{" "}
+          {APP_NAME}
+        </title>
+      </Helmet>
+      <div className="flex flex-col gap-4">
+        <Breadcrumbs separator=">">{items}</Breadcrumbs>
+        {isLoading || userLoading ? (
+          <div className={`flex flex-col items-center`}>
+            <Loader color="blue" className={`mt-12`} />
+          </div>
+        ) : (
+          <FormGenerator
+            isPending={isPending}
+            userData={userData}
+            modelName={modelName}
+            onSubmit={onSubmit}
+            resetValues={resetValues}
+            isUpdate={isUpdate}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

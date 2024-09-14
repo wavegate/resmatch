@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuthGuard from "@/hooks/useAuthGuard";
 import { notifications } from "@mantine/notifications";
 import commentService from "@/services/commentService";
+import { Helmet } from "react-helmet";
+import { APP_NAME } from "@/constants";
 
 const formSchema = z.object({
   content: z.string().nonempty({ message: "Content is required" }),
@@ -81,56 +83,68 @@ export default function AddChat({ type }: AddChatProps) {
   );
 
   return (
-    <div className={`flex flex-col gap-4`}>
-      <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
-        <Controller
-          name="content"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Textarea
-              label={`${
-                type === "main"
-                  ? "Chat Thread"
-                  : type === "pstp"
-                  ? "PSTP Thread"
-                  : "Report Thread"
-              }`}
-              placeholder={`Enter the ${
-                type === "main" ? "thread" : type === "pstp" ? "PSTP" : "report"
-              } content`}
-              required
-              error={fieldState.error?.message}
-              minRows={4}
-              size="md"
-              {...field}
-            />
-          )}
-        />
+    <>
+      <Helmet>
+        <title>New Thread | {APP_NAME}</title>
+      </Helmet>
+      <div className={`flex flex-col gap-4`}>
+        <Breadcrumbs separator=">">{items}</Breadcrumbs>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`flex flex-col gap-4`}
+        >
+          <Controller
+            name="content"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Textarea
+                label={`${
+                  type === "main"
+                    ? "Chat Thread"
+                    : type === "pstp"
+                    ? "PSTP Thread"
+                    : "Report Thread"
+                }`}
+                placeholder={`Enter the ${
+                  type === "main"
+                    ? "thread"
+                    : type === "pstp"
+                    ? "PSTP"
+                    : "report"
+                } content`}
+                required
+                error={fieldState.error?.message}
+                minRows={4}
+                size="md"
+                {...field}
+              />
+            )}
+          />
 
-        <Controller
-          name="anonymous"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label="Post anonymously"
-              {...field}
-              checked={field.value}
-              size="md"
-            />
-          )}
-        />
+          <Controller
+            name="anonymous"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Post anonymously"
+                {...field}
+                checked={field.value}
+                size="md"
+              />
+            )}
+          />
 
-        <Button type="submit">
-          {`Create ${
-            type === "main"
-              ? "Chat"
-              : type === "pstp"
-              ? "PSTP Thread"
-              : "Report"
-          }`}
-        </Button>
-      </form>
-    </div>
+          <Button type="submit">
+            {`Create ${
+              type === "main"
+                ? "Chat"
+                : type === "pstp"
+                ? "PSTP Thread"
+                : "Report"
+            }`}
+          </Button>
+        </form>
+      </div>
+    </>
   );
 }

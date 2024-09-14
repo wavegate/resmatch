@@ -12,6 +12,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { showNotification } from "@mantine/notifications";
 import authService from "@/services/authService";
+import { Helmet } from "react-helmet";
+import { APP_NAME } from "@/constants";
 
 interface ResetPasswordFormValues {
   password: string;
@@ -61,46 +63,51 @@ export default function ResetPassword() {
   });
 
   return (
-    <Container size={420} my={40}>
-      <Title align="center">Reset Password</Title>
-      <Text color="dimmed" size="sm" align="center" mt={5}>
-        Enter your new password below.
-      </Text>
+    <>
+      <Helmet>
+        <title>Reset Password | {APP_NAME}</title>
+      </Helmet>
+      <Container size={420} my={40}>
+        <Title align="center">Reset Password</Title>
+        <Text color="dimmed" size="sm" align="center" mt={5}>
+          Enter your new password below.
+        </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <form onSubmit={onSubmit}>
-          <PasswordInput
-            label="New Password"
-            placeholder="Enter your new password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters long",
-              },
-            })}
-            error={errors.password?.message}
-            required
-          />
-          <PasswordInput
-            label="Confirm Password"
-            placeholder="Confirm your new password"
-            {...register("confirmPassword", {
-              required: "Please confirm your password",
-              validate: (value) =>
-                value === watch("password") || "Passwords do not match",
-            })}
-            error={errors.confirmPassword?.message}
-            required
-            mt="md"
-          />
-          <Group position="right" mt="md">
-            <Button type="submit" loading={mutation.isLoading}>
-              Reset Password
-            </Button>
-          </Group>
-        </form>
-      </Paper>
-    </Container>
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <form onSubmit={onSubmit}>
+            <PasswordInput
+              label="New Password"
+              placeholder="Enter your new password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters long",
+                },
+              })}
+              error={errors.password?.message}
+              required
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="Confirm your new password"
+              {...register("confirmPassword", {
+                required: "Please confirm your password",
+                validate: (value) =>
+                  value === watch("password") || "Passwords do not match",
+              })}
+              error={errors.confirmPassword?.message}
+              required
+              mt="md"
+            />
+            <Group position="right" mt="md">
+              <Button type="submit" loading={mutation.isLoading}>
+                Reset Password
+              </Button>
+            </Group>
+          </form>
+        </Paper>
+      </Container>
+    </>
   );
 }

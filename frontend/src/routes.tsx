@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import RootLayout from "@/components/RootLayout/RootLayout"; // Layout components can be imported normally
+import RootLayout from "@/components/RootLayout/RootLayout";
 import { modelNames } from "./services/services";
 
 const Login = lazy(() => import("@/pages/Login/Login"));
@@ -7,9 +7,6 @@ const SignUp = lazy(() => import("@/pages/SignUp/SignUp"));
 const ConfirmEmail = lazy(() => import("@/pages/ConfirmEmail/ConfirmEmail"));
 const Chat = lazy(() => import("@/pages/listPages/Chat/Chat"));
 const Program = lazy(() => import("@/pages/listPages/Program/Program"));
-const PostIVCommunication = lazy(
-  () => import("@/pages/listPages/PostIVCommunication/PostIVCommunication")
-);
 const RankTally = lazy(() => import("@/pages/RankTally/RankTally"));
 const PSTP = lazy(() => import("@/pages/listPages/PSTP/PSTP"));
 const TierList = lazy(() => import("@/pages/TierList/TierList"));
@@ -18,10 +15,6 @@ const ModReport = lazy(() => import("@/pages/listPages/ModReport/ModReport"));
 const Profile = lazy(() => import("@/pages/Profile/Profile"));
 const AddUser = lazy(() => import("@/pages/updatePages/AddUser/AddUser"));
 const AddChat = lazy(() => import("@/pages/updatePages/AddChat/AddChat"));
-const AddPostIVCommunication = lazy(
-  () =>
-    import("@/pages/updatePages/AddPostIVCommunication/AddPostIVCommunication")
-);
 const USApplicant = lazy(
   () => import("@/pages/listPages/USApplicant/USApplicant")
 );
@@ -261,30 +254,6 @@ const routes = [
           ];
         })
         .flat(),
-      {
-        path: "post-iv-communication",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <PostIVCommunication />
-          </Suspense>
-        ),
-      },
-      {
-        path: "post-iv-communication/add",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <AddPostIVCommunication />
-          </Suspense>
-        ),
-      },
-      {
-        path: "post-iv-communication/:id",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <AddPostIVCommunication />
-          </Suspense>
-        ),
-      },
       {
         path: "rank-tally",
         element: (

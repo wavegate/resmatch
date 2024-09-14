@@ -6,7 +6,6 @@ import {
   Button,
   Checkbox,
   NumberInput,
-  Select,
   Breadcrumbs,
   Anchor,
   Loader,
@@ -20,6 +19,8 @@ import { removeNulls } from "@/utils/processObjects";
 import rankListService from "@/services/rankListService";
 import ProgramList from "@/components/ProgramList/ProgramList";
 import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
+import { Helmet } from "react-helmet";
+import { APP_NAME } from "@/constants";
 
 const formSchema = z.object({
   graduateType: z.string().nonempty({ message: "Graduate Type is required" }),
@@ -147,157 +148,162 @@ export default function AddRankList({ type }: { type: "MD" | "DO" | "IMG" }) {
   );
 
   return (
-    <div className={`flex flex-col gap-4`}>
-      <Breadcrumbs separator=">">{items}</Breadcrumbs>
-      {isLoading ? (
-        <Loader className={`flex w-full justify-center mt-12`} />
-      ) : (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={`flex flex-col gap-4`}
-        >
-          <Controller
-            name="programs"
-            control={control}
-            render={({ field }) => (
-              <ProgramList
-                initialPrograms={initialPrograms}
-                selectedPrograms={field.value}
-                onProgramsChange={field.onChange}
-              />
-            )}
-          />
-
-          <Controller
-            name="numberOfProgramsApplied"
-            control={control}
-            render={({ field }) => (
-              <NumberInput
-                label="Number of Programs Applied"
-                placeholder="Enter the number"
-                size="md"
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="numberOfInvites"
-            control={control}
-            render={({ field }) => (
-              <NumberInput
-                label="Number of Invites"
-                placeholder="Enter the number"
-                size="md"
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="numberOfInterviewsAttended"
-            control={control}
-            render={({ field }) => (
-              <NumberInput
-                label="Number of Interviews Attended"
-                placeholder="Enter the number"
-                size="md"
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="doneWithInterviews"
-            control={control}
-            render={({ field }) => (
-              <Checkbox
-                label="Done with Interviews"
-                {...field}
-                checked={field.value}
-                size="md"
-              />
-            )}
-          />
-
-          <Controller
-            name="whyNumberOne"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Textarea
-                label="Why Number One?"
-                placeholder="Why did you rank this program number one?"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="prioritiesWhenRanking"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Textarea
-                label="Priorities When Ranking"
-                placeholder="What were your priorities when ranking?"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="hardestPartOfRanking"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Textarea
-                label="Hardest Part of Ranking"
-                placeholder="What was the hardest part of ranking?"
-                error={fieldState.error?.message}
-                size="md"
-                {...field}
-              />
-            )}
-          />
-
-          <Controller
-            name="matchedProgramId"
-            control={control}
-            render={({ field: { onChange, value }, fieldState }) => (
-              <div>
-                <ProgramSearch
-                  selected={value}
-                  onChange={onChange}
-                  label="Matched Program"
+    <>
+      <Helmet>
+        <title>Add Rank List | {APP_NAME}</title>
+      </Helmet>
+      <div className={`flex flex-col gap-4`}>
+        <Breadcrumbs separator=">">{items}</Breadcrumbs>
+        {isLoading ? (
+          <Loader className={`flex w-full justify-center mt-12`} />
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={`flex flex-col gap-4`}
+          >
+            <Controller
+              name="programs"
+              control={control}
+              render={({ field }) => (
+                <ProgramList
+                  initialPrograms={initialPrograms}
+                  selectedPrograms={field.value}
+                  onProgramsChange={field.onChange}
                 />
-                {fieldState.error && (
-                  <div style={{ color: "red", fontSize: "12px" }}>
-                    {fieldState.error.message}
-                  </div>
-                )}
-              </div>
-            )}
-          />
+              )}
+            />
 
-          <Controller
-            name="anonymous"
-            control={control}
-            render={({ field }) => (
-              <Checkbox
-                label="Post anonymously"
-                {...field}
-                checked={field.value}
-                size="md"
-              />
-            )}
-          />
-          <Button type="submit" loading={isPending}>
-            {isUpdate ? "Update Rank List" : "Submit Rank List"}
-          </Button>
-        </form>
-      )}
-    </div>
+            <Controller
+              name="numberOfProgramsApplied"
+              control={control}
+              render={({ field }) => (
+                <NumberInput
+                  label="Number of Programs Applied"
+                  placeholder="Enter the number"
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="numberOfInvites"
+              control={control}
+              render={({ field }) => (
+                <NumberInput
+                  label="Number of Invites"
+                  placeholder="Enter the number"
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="numberOfInterviewsAttended"
+              control={control}
+              render={({ field }) => (
+                <NumberInput
+                  label="Number of Interviews Attended"
+                  placeholder="Enter the number"
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="doneWithInterviews"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  label="Done with Interviews"
+                  {...field}
+                  checked={field.value}
+                  size="md"
+                />
+              )}
+            />
+
+            <Controller
+              name="whyNumberOne"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Textarea
+                  label="Why Number One?"
+                  placeholder="Why did you rank this program number one?"
+                  error={fieldState.error?.message}
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="prioritiesWhenRanking"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Textarea
+                  label="Priorities When Ranking"
+                  placeholder="What were your priorities when ranking?"
+                  error={fieldState.error?.message}
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="hardestPartOfRanking"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Textarea
+                  label="Hardest Part of Ranking"
+                  placeholder="What was the hardest part of ranking?"
+                  error={fieldState.error?.message}
+                  size="md"
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="matchedProgramId"
+              control={control}
+              render={({ field: { onChange, value }, fieldState }) => (
+                <div>
+                  <ProgramSearch
+                    selected={value}
+                    onChange={onChange}
+                    label="Matched Program"
+                  />
+                  {fieldState.error && (
+                    <div style={{ color: "red", fontSize: "12px" }}>
+                      {fieldState.error.message}
+                    </div>
+                  )}
+                </div>
+              )}
+            />
+
+            <Controller
+              name="anonymous"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  label="Post anonymously"
+                  {...field}
+                  checked={field.value}
+                  size="md"
+                />
+              )}
+            />
+            <Button type="submit" loading={isPending}>
+              {isUpdate ? "Update Rank List" : "Submit Rank List"}
+            </Button>
+          </form>
+        )}
+      </div>
+    </>
   );
 }

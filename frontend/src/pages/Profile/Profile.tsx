@@ -14,6 +14,8 @@ import {
 import { FaDiscord, FaRedditAlien } from "react-icons/fa";
 import ProfileCard from "./ProfileCard";
 import { useMemo } from "react";
+import { Helmet } from "react-helmet";
+import { APP_NAME } from "@/constants";
 
 function displayStep1Result(data) {
   if (data.step1Score) {
@@ -234,106 +236,110 @@ export default function Profile() {
   }
 
   return (
-    <div>
-      {data && (
-        <div className={`flex flex-col gap-6 max-sm:gap-4`}>
-          <header
-            className={`flex justify-between gap-4 max-sm:flex-col relative`}
-          >
-            <div className={`flex items-center gap-4`}>
-              <Avatar
-                size="50"
-                src={generateGravatarUrl(String(data.id) || "", 40)}
-              />
-              <div className={`flex flex-col`}>
-                <div
-                  className={`text-3xl font-semibold max-sm:text-xl max-sm:max-w-[180px] max-sm:truncate`}
-                >
-                  {data.alias}
-                </div>
-                <div className={`flex gap-1 flex-wrap items-center`}>
-                  {data.role === "Admin" && (
-                    <div
-                      className={`text-pink-500 text-xs border border-solid border-pink-500 rounded-full w-fit px-1`}
-                    >
-                      Admin
-                    </div>
-                  )}
+    <>
+      <Helmet>
+        <title>Profile | {APP_NAME}</title>
+      </Helmet>
+      <div>
+        {data && (
+          <div className={`flex flex-col gap-6 max-sm:gap-4`}>
+            <header
+              className={`flex justify-between gap-4 max-sm:flex-col relative`}
+            >
+              <div className={`flex items-center gap-4`}>
+                <Avatar
+                  size="50"
+                  src={generateGravatarUrl(String(data.id) || "", 40)}
+                />
+                <div className={`flex flex-col`}>
                   <div
-                    className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
+                    className={`text-3xl font-semibold max-sm:text-xl max-sm:max-w-[180px] max-sm:truncate`}
                   >
-                    {data.graduateType === "US"
-                      ? "US"
-                      : data.img
-                      ? fieldLabelMap.img[data.img]
-                      : "IMG"}
+                    {data.alias}
                   </div>
-                  {data.medicalDegree && data.graduateType !== "IMG" && (
-                    <div
-                      className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
-                    >
-                      {data.medicalDegree}
-                    </div>
-                  )}
-                  {data.pstp && (
-                    <div
-                      className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
-                    >
-                      PSTP
-                    </div>
-                  )}
-                  {!id && (
-                    <>
-                      <div>·</div>
-                      <Link
-                        to={`/user/add/${user.id}`}
-                        className={`text-gray-500 underline text-sm`}
+                  <div className={`flex gap-1 flex-wrap items-center`}>
+                    {data.role === "Admin" && (
+                      <div
+                        className={`text-pink-500 text-xs border border-solid border-pink-500 rounded-full w-fit px-1`}
                       >
-                        Edit profile
-                      </Link>
-                    </>
-                  )}
+                        Admin
+                      </div>
+                    )}
+                    <div
+                      className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
+                    >
+                      {data.graduateType === "US"
+                        ? "US"
+                        : data.img
+                        ? fieldLabelMap.img[data.img]
+                        : "IMG"}
+                    </div>
+                    {data.medicalDegree && data.graduateType !== "IMG" && (
+                      <div
+                        className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
+                      >
+                        {data.medicalDegree}
+                      </div>
+                    )}
+                    {data.pstp && (
+                      <div
+                        className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
+                      >
+                        PSTP
+                      </div>
+                    )}
+                    {!id && (
+                      <>
+                        <div>·</div>
+                        <Link
+                          to={`/user/add/${user.id}`}
+                          className={`text-gray-500 underline text-sm`}
+                        >
+                          Edit profile
+                        </Link>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            {(data.redditLink || data.discordLink) && (
-              <div
-                className={`text-right flex flex-col gap-1 max-sm:absolute -right-4 -top-4`}
-              >
+              {(data.redditLink || data.discordLink) && (
                 <div
-                  className={`text-gray-500 text-sm whitespace-nowrap max-sm:hidden`}
+                  className={`text-right flex flex-col gap-1 max-sm:absolute -right-4 -top-4`}
                 >
-                  Message me:
+                  <div
+                    className={`text-gray-500 text-sm whitespace-nowrap max-sm:hidden`}
+                  >
+                    Message me:
+                  </div>
+                  <div className={`flex gap-2 justify-end max-sm:gap-0`}>
+                    {data.discordLink && (
+                      <Button
+                        className={`px-2 py-1 rounded-full max-sm:rounded-none max-sm:px-3 max-sm:rounded-bl-xl`}
+                        variant="light"
+                      >
+                        <FaDiscord className={`text-lg`} />
+                      </Button>
+                    )}
+                    {data.redditLink && (
+                      <Button
+                        className={`px-2 py-1 rounded-full max-sm:rounded-none max-sm:px-3`}
+                        variant="light"
+                      >
+                        <FaRedditAlien className={`text-lg`} />
+                      </Button>
+                    )}
+                  </div>
                 </div>
-                <div className={`flex gap-2 justify-end max-sm:gap-0`}>
-                  {data.discordLink && (
-                    <Button
-                      className={`px-2 py-1 rounded-full max-sm:rounded-none max-sm:px-3 max-sm:rounded-bl-xl`}
-                      variant="light"
-                    >
-                      <FaDiscord className={`text-lg`} />
-                    </Button>
-                  )}
-                  {data.redditLink && (
-                    <Button
-                      className={`px-2 py-1 rounded-full max-sm:rounded-none max-sm:px-3`}
-                      variant="light"
-                    >
-                      <FaRedditAlien className={`text-lg`} />
-                    </Button>
-                  )}
-                </div>
-              </div>
-            )}
-          </header>
-          <div className={`grid grid-cols-2 gap-4 max-lg:grid-cols-1`}>
-            <ProfileCard {...testsCard} />
-            <ProfileCard {...academicsCard} />
-            {data.graduateType === "IMG" && <ProfileCard {...imgCard} />}
-            <ProfileCard {...applicationsCard} />
-            <ProfileCard {...extracurricularsCard} />
-          </div>
-          {/* <Tabs defaultValue="ivOffers" variant="outline">
+              )}
+            </header>
+            <div className={`grid grid-cols-2 gap-4 max-lg:grid-cols-1`}>
+              <ProfileCard {...testsCard} />
+              <ProfileCard {...academicsCard} />
+              {data.graduateType === "IMG" && <ProfileCard {...imgCard} />}
+              <ProfileCard {...applicationsCard} />
+              <ProfileCard {...extracurricularsCard} />
+            </div>
+            {/* <Tabs defaultValue="ivOffers" variant="outline">
             <Tabs.List>
               <Tabs.Tab
                 value="ivOffers"
@@ -346,8 +352,9 @@ export default function Profile() {
 
             <Tabs.Panel value="ivOffers">Coming soon</Tabs.Panel>
           </Tabs> */}
-        </div>
-      )}
-    </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
