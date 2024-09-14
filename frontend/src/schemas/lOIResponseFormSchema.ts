@@ -7,21 +7,26 @@ const lOIResponseFormSchema: FormSchema = {
     description: "The program to which this LOI response applies.",
     required: true,
   },
+  intent: {
+    type: "boolean",
+    label: "Intent?",
+    description: "Select if this was a letter of intent.",
+  },
   sentTo: {
     type: "select",
     label: "Sent To",
-    description: "Who was the Letter of Intent sent to?",
+    description: "To whom was the letter sent to?",
     placeholder: "e.g., Program Director, Coordinator, etc.",
   },
   dateSent: {
     type: "date",
     label: "Date Sent",
-    description: "The date the Letter of Intent was sent.",
+    description: "The date the letter was sent.",
   },
   response: {
     type: "boolean",
     label: "Received Response",
-    description: "Did you receive a response to your Letter of Intent?",
+    description: "Did you receive a response to your letter?",
   },
   responseTone: {
     type: "select",

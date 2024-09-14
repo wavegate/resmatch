@@ -1,7 +1,6 @@
 import {
   FaRegCalendarCheck,
   FaRegCalendarMinus,
-  FaEnvelopeOpenText,
   FaUserGraduate,
   FaUserMd,
   FaChartBar,
@@ -34,20 +33,11 @@ import SidebarMenuItem from "./SidebarMenuItem";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const sidebarRoutes = [
-  // {
-  //   link: "invitations",
-  //   text: "Invitations (Preview)",
-  // },
   {
     link: "/",
     text: "Welcome",
     icon: <SidebarMenuItem Icon={LuHome} />,
   },
-  // {
-  //   link: "/dashboard",
-  //   text: "Dashboard",
-  //   icon: <HiOutlineViewGrid className="h-5 w-5" />,
-  // },
   {
     link: "/profile",
     text: "My Profile",
@@ -99,12 +89,7 @@ const sidebarRoutes = [
       },
       {
         link: "/lOIResponse",
-        text: "LOInterest Response",
-        icon: <SidebarMenuItem Icon={FaEnvelopeOpenText} />,
-      },
-      {
-        link: "/lOIntentResponse",
-        text: "LOIntent Response",
+        text: "LOI Response",
         icon: <SidebarMenuItem Icon={FaRegEnvelope} />,
       },
       {
@@ -187,26 +172,11 @@ const sidebarRoutes = [
         text: "Tier List (IMG)",
         icon: <SidebarMenuItem Icon={FaListOl} />,
       },
-      // {
-      //   link: "/x-or-y",
-      //   text: "X vs Y",
-      //   icon: <FaBalanceScale className="h-5 w-5" />,
-      // },
-      // {
-      //   link: "/x-or-y-img",
-      //   text: "X vs Y (IMG)",
-      //   icon: <FaBalanceScaleLeft className="h-5 w-5" />,
-      // },
       {
         link: "/xorY",
         text: "X vs Y",
         icon: <SidebarMenuItem Icon={FaBalanceScale} />,
       },
-      // {
-      //   link: "/x-or-y-img",
-      //   text: "X vs Y (IMG)",
-      //   icon: <FaBalanceScaleLeft className="h-5 w-5" />,
-      // },
       {
         link: "/cityUserInput",
         text: "Cities",

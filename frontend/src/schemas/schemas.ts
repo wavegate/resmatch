@@ -24,7 +24,6 @@ export const schemas: { [key: string]: FormSchema } = {
   question: questionFormSchema,
   interviewImpression: interviewImpressionFormSchema,
   lOIResponse: lOIResponseFormSchema,
-  lOIntentResponse: lOIResponseFormSchema,
   postIVCommunication: postIVCommunicationFormSchema,
   secondLook: secondLookFormSchema,
   dropped: droppedFormSchema,

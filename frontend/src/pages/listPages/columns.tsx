@@ -148,6 +148,9 @@ export function columnGenerator(
   columns.push({
     headerName: "User",
     field: "user",
+    valueFormatter: ({ data }) => {
+      return data.anonymous ? "Anonymous" : data.user?.alias;
+    },
     cellRenderer: ({ data }) => {
       return <UserLink data={data} />;
     },

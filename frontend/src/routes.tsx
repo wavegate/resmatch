@@ -1,64 +1,26 @@
-import HomePage from "@/pages/HomePage";
 import Login from "@/pages/Login/Login";
 import RootLayout from "@/components/RootLayout/RootLayout";
 import SignUp from "@/pages/SignUp/SignUp";
 import ConfirmEmail from "@/pages/ConfirmEmail/ConfirmEmail";
 import Chat from "@/pages/listPages/Chat/Chat";
-import FameShame from "@/pages/listPages/FameShame/FameShame";
-import Invite from "@/pages/listPages/Invite/Invite";
 import Program from "@/pages/listPages/Program/Program";
-import City from "@/pages/listPages/City/City";
-import Dropped from "./pages/listPages/Dropped/Dropped";
-import Impression from "./pages/listPages/Impression/Impression";
-import Logistics from "./pages/listPages/Logistics/Logistics";
-import Rejection from "./pages/listPages/Rejection/Rejection";
-import M4InternImpression from "./pages/listPages/M4InternImpression/M4InternImpression";
 import PostIVCommunication from "./pages/listPages/PostIVCommunication/PostIVCommunication";
-import Question from "./pages/listPages/Question/Question";
-import ScheduleDetails from "./pages/listPages/ScheduleDetails/ScheduleDetails";
-import SecondLook from "./pages/listPages/SecondLook/SecondLook";
-import Withdrawal from "./pages/listPages/Withdrawal/Withdrawal";
-import Malignant from "./pages/listPages/Malignant/Malignant";
 import RankTally from "./pages/RankTally/RankTally";
-import FellowshipMatch from "./pages/listPages/FellowshipMatch/FellowshipMatch";
 import PSTP from "./pages/listPages/PSTP/PSTP";
 import TierList from "./pages/TierList/TierList";
 import IMGTierList from "./pages/IMGTierList/IMGTierList";
-import XorY from "./pages/listPages/XorY/XorY";
-import AddInvite from "./pages/updatePages/AddInvite/AddInvite";
 import ModReport from "./pages/listPages/ModReport/ModReport";
-import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import AddUser from "./pages/updatePages/AddUser/AddUser";
 import AddChat from "./pages/updatePages/AddChat/AddChat";
-import UserProfile from "./pages/UserProfile/UserProfile";
-import AddRejection from "./pages/updatePages/AddRejection/AddRejection";
-import AddDropped from "./pages/updatePages/AddDropped/AddDropped";
-import AddLogistics from "./pages/updatePages/AddLogistics/AddLogistics";
-import AddQuestion from "./pages/updatePages/AddQuestion/AddQuestion";
-import AddImpression from "./pages/updatePages/AddImpression/AddImpression";
-import AddLOInterestResponse from "./pages/updatePages/AddLOInterestResponse/AddLOInterestResponse";
-import LOInterestResponse from "./pages/listPages/LOInterestResponse/LOInterestResponse";
-import LOIntentResponse from "./pages/listPages/LOIntentResponse/LOIntentResponse";
-import AddLOIntentResponse from "./pages/updatePages/AddLOIntentResponse/AddLOIntentResponse";
 import AddPostIVCommunication from "./pages/updatePages/AddPostIVCommunication/AddPostIVCommunication";
-import AddSecondLook from "./pages/updatePages/AddSecondLook/AddSecondLook";
 import USApplicant from "./pages/listPages/USApplicant/USApplicant";
 import IMGApplicant from "./pages/listPages/IMGApplicant/IMGApplicant";
-import AddFameShame from "./pages/updatePages/AddFameShame/AddFameShame";
-import AddM4InternImpression from "./pages/updatePages/AddM4InternImpression/AddM4InternImpression";
-import AddMalignant from "./pages/updatePages/AddMalignant/AddMalignant";
-import AddScheduleDetails from "./pages/updatePages/AddScheduleDetails/AddScheduleDetails";
-import AddFellowshipMatch from "./pages/updatePages/AddFellowshipMatch/AddFellowshipMatch";
-import AddXorY from "./pages/updatePages/AddXorY/AddXorY";
-import XorYIMG from "./pages/listPages/XorYIMG/XorYIMG";
 import AddRankList from "./pages/updatePages/AddRankList/AddRankList";
 import RankListMD from "./pages/listPages/RankListMD/RankListMD";
 import RankListDO from "./pages/listPages/RankListDO/RankListDO";
 import RankListIMG from "./pages/listPages/RankListIMG/RankListIMG";
 import AddCityUserInput from "./pages/updatePages/AddCityUserInput/AddCityUserInput";
-import Invitations from "@/pages/Invitations/Invitations";
-import AddLogistics2 from "./pages/updatePages/AddLogistics2/AddLogistics2";
 import AddPage from "./pages/updatePages/AddPage";
 import ListPage from "./pages/listPages/ListPage";
 import { modelNames } from "./services/services";
@@ -68,6 +30,9 @@ import Page404 from "./pages/Page404";
 import LoginSuccess from "./pages/LoginSuccess";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ToS from "./pages/ToS";
+import { lazy, Suspense } from "react";
+
+const HomePage = lazy(() => import("@/pages/HomePage"));
 
 const routes = [
   {
@@ -76,7 +41,11 @@ const routes = [
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <HomePage />
+          </Suspense>
+        ),
       },
       {
         path: "login",
@@ -106,18 +75,6 @@ const routes = [
         path: "terms-of-service",
         element: <ToS />,
       },
-      // {
-      //   path: "invite",
-      //   element: <Invite />,
-      // },
-      // {
-      //   path: "invite/add",
-      //   element: <AddInvite />,
-      // },
-      // {
-      //   path: "invite/:id",
-      //   element: <AddInvite />,
-      // },
       {
         path: "program",
         element: <Program />,
@@ -130,14 +87,6 @@ const routes = [
         path: "applicant-img",
         element: <IMGApplicant />,
       },
-      // {
-      //   path: "city",
-      //   element: <City />,
-      // },
-      // {
-      //   path: "add-city-user-input",
-      //   element: <AddCityUserInput />,
-      // },
       {
         path: "confirm-email",
         element: <ConfirmEmail />,
@@ -146,18 +95,7 @@ const routes = [
         path: "main",
         element: <Chat />,
       },
-      // {
-      //   path: "fame-shame",
-      //   element: <FameShame />,
-      // },
-      // {
-      //   path: "fame-shame/add",
-      //   element: <AddFameShame />,
-      // },
-      // {
-      //   path: "fame-shame/:id",
-      //   element: <AddFameShame />,
-      // },
+
       {
         path: "rank-list-md",
         element: <RankListMD />,
@@ -194,18 +132,6 @@ const routes = [
         path: "rank-list-img/:id",
         element: <AddRankList type="IMG" />,
       },
-      // {
-      //   path: "dropped",
-      //   element: <Dropped />,
-      // },
-      // {
-      //   path: "dropped/add",
-      //   element: <AddDropped />,
-      // },
-      // {
-      //   path: "dropped/:id",
-      //   element: <AddDropped />,
-      // },
       ...modelNames
         .map((modelName) => {
           return [
@@ -225,78 +151,6 @@ const routes = [
         })
         .flat(),
 
-      // {
-      //   path: "impression",
-      //   element: <Impression />,
-      // },
-      // {
-      //   path: "impression/add",
-      //   element: <AddImpression />,
-      // },
-      // {
-      //   path: "impression/:id",
-      //   element: <AddImpression />,
-      // },
-      // {
-      //   path: "interviewLogistics",
-      //   element: <ListPage modelName="interviewLogistics" />,
-      // },
-      // {
-      //   path: "interviewLogistics/add",
-      //   element: <AddPage modelName="interviewLogistics" />,
-      // },
-      // {
-      //   path: "interviewLogistics/:id",
-      //   element: <AddPage modelName="interviewLogistics" />,
-      // },
-      // {
-      //   path: "lointerest-response",
-      //   element: <LOInterestResponse />,
-      // },
-      // {
-      //   path: "lointerest-response/add",
-      //   element: <AddLOInterestResponse />,
-      // },
-      // {
-      //   path: "lointerest-response/:id",
-      //   element: <AddLOInterestResponse />,
-      // },
-      {
-        path: "lointent-response",
-        element: <LOIntentResponse />,
-      },
-      {
-        path: "lointent-response/add",
-        element: <AddLOIntentResponse />,
-      },
-      {
-        path: "lointent-response/:id",
-        element: <AddLOIntentResponse />,
-      },
-      // {
-      //   path: "m4-intern-impression",
-      //   element: <M4InternImpression />,
-      // },
-      // {
-      //   path: "m4-intern-impression/add",
-      //   element: <AddM4InternImpression />,
-      // },
-      // {
-      //   path: "m4-intern-impression/:id",
-      //   element: <AddM4InternImpression />,
-      // },
-      // {
-      //   path: "malignant",
-      //   element: <Malignant />,
-      // },
-      // {
-      //   path: "malignant/:id",
-      //   element: <AddMalignant />,
-      // },
-      // {
-      //   path: "malignant/add",
-      //   element: <AddMalignant />,
-      // },
       {
         path: "post-iv-communication",
         element: <PostIVCommunication />,
@@ -309,66 +163,7 @@ const routes = [
         path: "post-iv-communication/:id",
         element: <AddPostIVCommunication />,
       },
-      // {
-      //   path: "question",
-      //   element: <ListPage modelName="question" />,
-      // },
-      // {
-      //   path: "question/add",
-      //   element: <AddPage modelName="question" />,
-      // },
-      // {
-      //   path: "question/:id",
-      //   element: <AddPage modelName="question" />,
-      // },
-      // {
-      //   path: "question/add",
-      //   element: <AddQuestion />,
-      // },
-      // {
-      //   path: "question/:id",
-      //   element: <AddQuestion />,
-      // },
-      // {
-      //   path: "rejection",
-      //   element: <Rejection />,
-      // },
-      // {
-      //   path: "rejection/add",
-      //   element: <AddRejection />,
-      // },
-      // {
-      //   path: "rejection/:id",
-      //   element: <AddRejection />,
-      // },
-      // {
-      //   path: "schedule-details",
-      //   element: <ScheduleDetails />,
-      // },
-      // {
-      //   path: "schedule-details/add",
-      //   element: <AddScheduleDetails />,
-      // },
-      // {
-      //   path: "schedule-details/:id",
-      //   element: <AddScheduleDetails />,
-      // },
-      // {
-      //   path: "second-look",
-      //   element: <SecondLook />,
-      // },
-      // {
-      //   path: "second-look/:id",
-      //   element: <AddSecondLook />,
-      // },
-      // {
-      //   path: "second-look/add",
-      //   element: <AddSecondLook />,
-      // },
-      // {
-      //   path: "withdrawal",
-      //   element: <Withdrawal />,
-      // },
+
       {
         path: "rank-tally",
         element: <RankTally />,
@@ -377,18 +172,7 @@ const routes = [
         path: "rank-tally",
         element: <RankTally />,
       },
-      // {
-      //   path: "fellowship-match",
-      //   element: <FellowshipMatch />,
-      // },
-      // {
-      //   path: "fellowship-match/add",
-      //   element: <AddFellowshipMatch />,
-      // },
-      // {
-      //   path: "fellowship-match/:id",
-      //   element: <AddFellowshipMatch />,
-      // },
+
       {
         path: "pstp",
         element: <PSTP />,
@@ -405,38 +189,7 @@ const routes = [
         path: "report",
         element: <ModReport />,
       },
-      // {
-      //   path: "x-or-y",
-      //   element: <XorY />,
-      // },
-      // {
-      //   path: "x-or-y/:id",
-      //   element: <AddXorY />,
-      // },
-      // {
-      //   path: "x-or-y/add",
-      //   element: <AddXorY />,
-      // },
-      // {
-      //   path: "x-or-y-img",
-      //   element: <XorYIMG />,
-      // },
-      // {
-      //   path: "x-or-y-img/:id",
-      //   element: <AddXorY img />,
-      // },
-      // {
-      //   path: "x-or-y-img/add",
-      //   element: <AddXorY img />,
-      // },
-      // {
-      //   path: "x-or-y-img",
-      //   element: <XorY />,
-      // },
-      // {
-      //   path: "dashboard",
-      //   element: <Dashboard />,
-      // },
+
       {
         path: "profile",
         element: <Profile />,
@@ -465,10 +218,7 @@ const routes = [
         path: "city-user-input/add",
         element: <AddCityUserInput />,
       },
-      // {
-      //   path: "invitations",
-      //   element: <Invitations />,
-      // },
+
       {
         path: "*",
         element: <Page404 />,

@@ -45,16 +45,10 @@ export const pageDescription: Record<
     singular: "Logistics",
   },
   lOIResponse: {
-    name: "Letter of Interest Responses",
+    name: "Letter of Interest/Intent Responses",
     description:
       "Track and share the responses to your Letters of Interest. Understand how programs react to expressions of interest.",
     singular: "Response",
-  },
-  lOIntentResponse: {
-    name: "Letter of Intent Responses",
-    description:
-      "Document the responses to your Letters of Intent. Learn how programs respond to your intention to rank them highly.",
-    singular: "LOI Response",
   },
   m4InternImpression: {
     name: "M4 & Intern Impressions",
