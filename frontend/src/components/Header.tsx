@@ -1,5 +1,5 @@
-import { Text } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Button, Text } from "@mantine/core";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import services from "@/services/services";
@@ -17,7 +17,7 @@ interface DataDisplayProps {
   queryKey: any;
 }
 
-const Header = ({ data, modelName, queryKey }) => {
+const Header = ({ data, modelName, queryKey, detailsPage }) => {
   const queryClient = useQueryClient();
 
   const labels = pageDescription[modelName];
@@ -43,16 +43,23 @@ const Header = ({ data, modelName, queryKey }) => {
   });
 
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
-      title: `Delete this ${labels.singular}?`,
+      title: (
+        <span
+          className={`font-medium`}
+        >{`Delete this ${labels.singular}?`}</span>
+      ),
       centered: true,
       children: <Text size="sm">This action cannot be reversed.</Text>,
       labels: { confirm: "Delete", cancel: "Cancel" },
       confirmProps: { color: "red" },
-      // onCancel: () => console.log('Cancel'),
       onConfirm: () => {
+        if (detailsPage) {
+          navigate(-1);
+        }
         deleteMutation.mutate();
       },
     });
@@ -92,22 +99,35 @@ const Header = ({ data, modelName, queryKey }) => {
           <div>·</div>
           <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
           {/* Buttons for update and delete */}
-          {user?.id === data.userId && (
-            <div className={`ml-4 flex gap-4 items-center`}>
+          <div className={`ml-4 flex gap-4 items-center`}>
+            {/* Details link is always visible */}
+            {!detailsPage && (
               <Link
-                to={`/${modelName}/${data.id}`}
+                to={`/${modelName}/${data.id}/details`}
                 className={`text-sm underline text-gray-500`}
               >
-                Edit
+                Details
               </Link>
-              <div
-                className={`text-sm underline text-red-500`}
-                onClick={openDeleteModal}
-              >
-                Delete
-              </div>
-            </div>
-          )}
+            )}
+
+            {/* Edit and Delete links only visible if user is logged in and matches the userId */}
+            {user?.id === data.userId && (
+              <>
+                <Link
+                  to={`/${modelName}/${data.id}`}
+                  className={`text-sm underline text-gray-500`}
+                >
+                  Edit
+                </Link>
+                <div
+                  className={`text-sm underline text-red-500 hover:cursor-pointer`}
+                  onClick={openDeleteModal}
+                >
+                  Delete
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

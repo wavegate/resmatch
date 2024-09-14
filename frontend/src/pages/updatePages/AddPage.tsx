@@ -67,7 +67,7 @@ const AddPage: React.FC<{ modelName: string }> = ({ modelName }) => {
         withBorder: true,
       });
       queryClient.invalidateQueries({ queryKey: [modelName] });
-      navigate(`/${modelName}`);
+      navigate(-1);
     });
   }
 

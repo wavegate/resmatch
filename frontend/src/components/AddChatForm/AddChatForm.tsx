@@ -57,12 +57,18 @@ export default function AddChatForm({
           <Checkbox
             {...field}
             label="Post anonymously?"
-            size="md"
+            size="sm"
             checked={field.value}
           />
         )}
       />
-      <Button type="submit" size="sm" className={`w-fit`} loading={isPending}>
+      <Button
+        type="submit"
+        size="sm"
+        className={`w-fit`}
+        variant="default"
+        loading={isPending}
+      >
         Submit Reply
       </Button>
     </form>

@@ -68,7 +68,13 @@ export default function Comment({ id, queryKey }: CommentProps) {
         });
       }
       if (queryKey) {
-        queryClient.invalidateQueries({ queryKey });
+        if (Array.isArray(queryKey) && Array.isArray(queryKey[0])) {
+          for (let key of queryKey) {
+            queryClient.invalidateQueries({ queryKey: key });
+          }
+        } else {
+          queryClient.invalidateQueries({ queryKey });
+        }
       }
     },
     onError: () => {
@@ -131,13 +137,13 @@ export default function Comment({ id, queryKey }: CommentProps) {
         <>
           <div className={`flex flex-col gap-2`}>
             <div
-              className={`flex items-center flex-wrap text-gray-900 font-medium gap-2 text-xs sm:text-sm`}
+              className={`flex items-center flex-wrap text-gray-500 gap-x-2 text-xs sm:text-sm`}
             >
-              <UserLink data={comment} />
-              <div>•</div>
-              <div className={`text-gray-500`}>
-                {dayjs(comment.createdAt).format("M/D/YYYY [at] ha")}
+              <div className={`text-gray-900 font-medium`}>
+                <UserLink data={comment} />
               </div>
+              <div>•</div>
+              <div>{dayjs(comment.createdAt).format("M/D/YYYY [at] ha")}</div>
             </div>
             {isEditing ? (
               <>
@@ -151,14 +157,18 @@ export default function Comment({ id, queryKey }: CommentProps) {
                 />
                 <div className="flex gap-2">
                   <Button
-                    size="xs"
+                    size="compact-xs"
                     variant="outline"
                     onClick={handleSaveEdit}
                     loading={updateMutation.isPending}
                   >
                     Save Edit
                   </Button>
-                  <Button size="xs" variant="subtle" onClick={handleCancelEdit}>
+                  <Button
+                    size="compact-xs"
+                    variant="subtle"
+                    onClick={handleCancelEdit}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -172,21 +182,25 @@ export default function Comment({ id, queryKey }: CommentProps) {
 
           <div className="flex gap-2 mt-2 flex-wrap">
             {user && (
-              <Button size="xs" variant="subtle" onClick={toggleReplyForm}>
+              <Button
+                size="compact-xs"
+                variant="subtle"
+                onClick={toggleReplyForm}
+              >
                 {replyOpened ? "Cancel Reply" : "Reply"}
               </Button>
             )}
             {user?.id === comment.userId && (
               <>
                 <Button
-                  size="xs"
+                  size="compact-xs"
                   variant="subtle"
                   onClick={toggleEditMode} // Toggle edit mode on click
                 >
                   {isEditing ? "Cancel" : "Edit"}
                 </Button>
                 <Button
-                  size="xs"
+                  size="compact-xs"
                   variant="subtle"
                   color="red"
                   onClick={handleDelete}
@@ -199,7 +213,7 @@ export default function Comment({ id, queryKey }: CommentProps) {
             {comment.replies.length > 0 && (
               <Button
                 variant="subtle"
-                size="xs"
+                size="compact-xs"
                 onClick={toggleReplies}
                 rightSection={
                   repliesOpened ? <BsChevronUp /> : <BsChevronDown />

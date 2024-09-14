@@ -177,6 +177,7 @@ export function columnGenerator(
     cellRenderer: (params) => {
       const [addComment, setAddComment] = useState(false);
       const data = params.data;
+      const keys = [queryKey, [modelName, data.id]];
 
       return (
         <div className={`flex flex-col gap-2`}>
@@ -197,7 +198,7 @@ export function columnGenerator(
           )}
           {user && addComment && (
             <AddCommentField
-              queryKey={queryKey}
+              queryKey={keys}
               modelName={modelName}
               id={data.id}
             />
@@ -212,23 +213,31 @@ export function columnGenerator(
     cellRenderer: (params) => {
       const data = params.data;
       const modelId = data.id;
-      return user?.id === data.userId ? (
+      return (
         <div className="flex gap-4 items-center mt-2.5">
           <Link
-            to={`/${modelName}/${modelId}`}
+            to={`/${modelName}/${modelId}/details`}
             className="text-sm underline text-gray-500 hover:cursor-pointer"
           >
-            Edit
+            Details
           </Link>
-          <div
-            className="text-sm underline text-red-500 hover:cursor-pointer"
-            onClick={() => openDeleteModal(data.id)}
-          >
-            Delete
-          </div>
+          {user?.id === data.userId && (
+            <>
+              <Link
+                to={`/${modelName}/${modelId}`}
+                className="text-sm underline text-gray-500 hover:cursor-pointer"
+              >
+                Edit
+              </Link>
+              <div
+                className="text-sm underline text-red-500 hover:cursor-pointer"
+                onClick={() => openDeleteModal(data.id)}
+              >
+                Delete
+              </div>
+            </>
+          )}
         </div>
-      ) : (
-        <div></div>
       );
     },
   });

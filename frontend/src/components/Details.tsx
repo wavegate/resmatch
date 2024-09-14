@@ -8,13 +8,19 @@ import useUser from "@/hooks/useUser";
 const Details = ({ data, modelName, queryKey }) => {
   const schema = schemas[modelName];
 
+  const filterOutFields = [
+    "programId",
+    "programXId",
+    "programYId",
+    "anonymous",
+    "import",
+    "comments",
+    "save",
+    "cityId",
+  ];
+  // Filter out specific fields
   const filteredFields = Object.keys(schema).filter(
-    (fieldName) =>
-      fieldName !== "programId" &&
-      fieldName !== "anonymous" &&
-      fieldName !== "import" &&
-      fieldName !== "comments" &&
-      fieldName !== "cityId"
+    (fieldName) => !filterOutFields.includes(fieldName)
   );
 
   const { user } = useUser();

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Title } from "@mantine/core";
 import Table from "@/tables/Table";
 import { pageDescription } from "@/schemas/pageDescription";
 import { Helmet } from "react-helmet";
 import { APP_NAME } from "@/constants";
+import { useMediaQuery } from "@mantine/hooks";
 
 interface ListPageProps {
   modelName: string;
@@ -12,7 +13,17 @@ interface ListPageProps {
 }
 
 const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
+  const matches = useMediaQuery("(max-width: 768px)");
   const [listView, setListView] = useState(false);
+  const firstLoad = useRef(true);
+
+  useEffect(() => {
+    if (firstLoad.current && matches !== undefined) {
+      setListView(matches);
+      firstLoad.current = false;
+    }
+  }, [matches]);
+
   return (
     <>
       <Helmet>

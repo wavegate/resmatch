@@ -43,7 +43,11 @@ const TableView = forwardRef(({ modelName }, ref) => {
 
   const openDeleteModal = (id) =>
     modals.openConfirmModal({
-      title: `Delete this ${labels.singular}?`,
+      title: (
+        <span
+          className={`font-medium`}
+        >{`Delete this ${labels.singular}?`}</span>
+      ),
       centered: true,
       children: <div>This action cannot be reversed.</div>,
       labels: { confirm: "Delete", cancel: "Cancel" },

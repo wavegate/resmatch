@@ -42,7 +42,13 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
         message: "Comment created successfully!",
         withBorder: true,
       });
-      queryClient.invalidateQueries({ queryKey });
+      if (Array.isArray(queryKey) && Array.isArray(queryKey[0])) {
+        for (let key of queryKey) {
+          queryClient.invalidateQueries({ queryKey: key });
+        }
+      } else {
+        queryClient.invalidateQueries({ queryKey });
+      }
       reset(); // Clear the form after successful submission
     },
     onError: () => {
@@ -59,7 +65,7 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-2`}>
       <Controller
         name="content"
         control={control}
@@ -84,12 +90,18 @@ const AddCommentField: React.FC<AddCommentFieldProps> = ({
             label="Post anonymously"
             {...field}
             checked={field.value}
-            size="md"
+            size="sm"
           />
         )}
       />
 
-      <Button type="submit" className={`w-fit`} loading={isPending}>
+      <Button
+        type="submit"
+        size="sm"
+        variant="default"
+        className={`w-fit`}
+        loading={isPending}
+      >
         Submit Comment
       </Button>
     </form>

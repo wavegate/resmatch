@@ -46,7 +46,8 @@ apiClient.interceptors.response.use(
     } else if (
       error.response &&
       error.response.data &&
-      error.response.data.error !== "Access denied, token missing"
+      error.response.data.error !== "Access denied, token missing" &&
+      error.response.data.error !== "Comment not found"
     ) {
       // Display the error message returned from the backend, except for the "Access denied, token missing" error
       notifications.show({

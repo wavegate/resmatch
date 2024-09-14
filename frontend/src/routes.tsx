@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import RootLayout from "@/components/RootLayout/RootLayout";
 import { modelNames } from "./services/services";
+import DetailPage from "./pages/DetailPage";
 
 const Login = lazy(() => import("@/pages/Login/Login"));
 const SignUp = lazy(() => import("@/pages/SignUp/SignUp"));
@@ -248,6 +249,14 @@ const routes = [
               element: (
                 <Suspense fallback={<div>Loading...</div>}>
                   <AddPage modelName={modelName} key={modelName} />
+                </Suspense>
+              ),
+            },
+            {
+              path: `${modelName}/:id/details`,
+              element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DetailPage modelName={modelName} key={modelName} />
                 </Suspense>
               ),
             },

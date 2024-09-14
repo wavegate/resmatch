@@ -98,20 +98,12 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
     return (
       <div
         key={datum.id}
-        className={`border border-solid rounded-sm ${index > 0 ? "mt-4" : ""}`}
+        className={`border border-solid rounded-lg overflow-hidden ${
+          index > 0 ? "mt-4" : ""
+        }`}
       >
-        <Header
-          queryKey={queryKey}
-          i={index}
-          data={datum}
-          modelName={modelName}
-        />
-        <Details
-          queryKey={queryKey}
-          i={index}
-          data={datum}
-          modelName={modelName}
-        />
+        <Header queryKey={queryKey} data={datum} modelName={modelName} />
+        <Details queryKey={queryKey} data={datum} modelName={modelName} />
       </div>
     );
   };

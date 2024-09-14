@@ -253,7 +253,8 @@ const userProfileFormSchema: FormSchema = {
   applicationYear: {
     type: "number",
     label: "Application Year",
-    description: "Enter the year you applied for residency.",
+    description:
+      "Enter the year you applied for residency (2025 means 2024-2025).",
     placeholder: "Enter the application year",
   },
 };

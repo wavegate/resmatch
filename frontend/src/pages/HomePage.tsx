@@ -136,6 +136,10 @@ export default () => {
             >
               <h4 className={`font-medium text-xl`}>Changelog</h4>
               <div className={`flex flex-col gap-1`}>
+                <div className={`font-medium`}>9/14/2024</div>
+                <div>Default to list view on mobile, start details page</div>
+              </div>
+              <div className={`flex flex-col gap-1`}>
                 <div className={`font-medium`}>9/11/2024</div>
                 <div>Clean up list views</div>
               </div>

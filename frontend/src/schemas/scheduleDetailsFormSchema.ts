@@ -15,7 +15,7 @@ const scheduleDetailsFormSchema: FormSchema = {
   },
   scheduleContinuity: {
     type: "string",
-    label: "Schedule & Continuity Clinic Integration",
+    label: "Schedule & Continuity",
     description:
       "Overview of schedule structure and clinic integration (e.g., 4+1, X+Y).",
     placeholder: "e.g., 4+1, 6+2, traditional",

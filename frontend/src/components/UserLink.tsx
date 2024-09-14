@@ -24,7 +24,7 @@ const UserLink: React.FC<UserLinkProps> = ({ data }) => {
   ) : (
     <Link
       to={`/user/${data.user?.id}`}
-      className="underline flex gap-2 items-center"
+      className="hover:underline flex gap-2 items-center"
     >
       <Avatar
         size="16"
