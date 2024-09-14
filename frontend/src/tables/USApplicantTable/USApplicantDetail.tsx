@@ -25,10 +25,10 @@ const Details: React.FC<DataDisplayProps> = ({ data }) => {
   );
 
   return (
-    <div className={`flex flex-col gap-4 py-4 px-4`}>
+    <div className={`flex flex-col gap-4 py-4 px-4 max-sm:px-3`}>
       {/* Display fields in a responsive grid */}
       <div
-        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4`}
+        className={`grid grid-cols-[auto_1fr_auto_1fr] max-sm:grid-cols-1 gap-4 max-sm:text-sm`}
       >
         {filteredFields.map((fieldName, index) => {
           const fieldSchema = schema[fieldName];

@@ -1,7 +1,6 @@
 import React from "react";
 import { Avatar } from "@mantine/core";
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
 import { generateGravatarUrl } from "@/utils/utils";
 
 interface DataDisplayProps {
@@ -13,9 +12,9 @@ interface DataDisplayProps {
 
 const Header: React.FC<DataDisplayProps> = ({ data }) => {
   return (
-    <div className={`bg-primary bg-opacity-10 px-4 py-2`}>
+    <div className={`bg-primary bg-opacity-10 px-4 py-2 max-sm:px-3`}>
       <div className={`flex flex-col gap-1`}>
-        <div className={`font-medium text-lg`}>
+        <div className={`font-medium sm:text-lg`}>
           <Link
             to={`/user/${data.id}`}
             className="underline flex gap-2 items-center"

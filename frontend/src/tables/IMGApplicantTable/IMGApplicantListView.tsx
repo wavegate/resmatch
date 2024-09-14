@@ -79,7 +79,9 @@ const Table = () => {
     return (
       <div
         key={datum.id}
-        className={`border border-solid rounded-sm ${index > 0 ? "mt-4" : ""}`}
+        className={`border border-solid rounded-lg overflow-hidden ${
+          index > 0 ? "mt-4" : ""
+        }`}
       >
         <USApplicantHeader i={index} data={datum} />
         <USApplicantDetail i={index} data={datum} />
@@ -94,17 +96,17 @@ const Table = () => {
           <Loader color="blue" className={`mt-12`} />
         </div>
       )}
-      {!!data?.users?.length && (
-        <div className={`h-full flex flex-col`}>
-          <TextInput
-            size="md"
-            placeholder="Search..."
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.currentTarget.value);
-            }}
-            className={`mb-2`}
-          />
+      <div className={`h-full flex flex-col`}>
+        <TextInput
+          size="md"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.currentTarget.value);
+          }}
+          className={`mb-2`}
+        />
+        {!!filteredResults.length && (
           <div className={`flex flex-col gap-4 flex-1`}>
             <Virtuoso
               style={{ height: "100%" }} // Adjust the height as needed
@@ -112,10 +114,9 @@ const Table = () => {
               itemContent={renderItem} // Function to render each item
             />
           </div>
-        </div>
-      )}
-
-      {data?.users && data.users.length === 0 && <NoRecords />}
+        )}
+        {filteredResults && filteredResults.length === 0 && <NoRecords />}
+      </div>
     </div>
   );
 };

@@ -1,17 +1,12 @@
-import { useState, useMemo } from "react";
+import NoRecords from "@/components/NoRecords/NoRecords";
+import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
+import ProgramHeader from "@/headers/ProgramHeader/ProgramHeader";
+import programService from "@/services/programService";
 import { Loader, TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
-import NoRecords from "@/components/NoRecords/NoRecords";
+import { useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import userService from "@/services/userService";
-import USApplicantDetail from "./USApplicantDetail";
-import USApplicantHeader from "./USApplicantHeader";
-
-interface TableProps {
-  modelName: string;
-  className?: string;
-}
 
 const flattenObject = (obj, prefix = "") => {
   return Object.keys(obj).reduce((acc, key) => {
@@ -37,42 +32,21 @@ const searchItems = (items, searchTerm) => {
   });
 };
 
-const Table = () => {
+export default () => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["user", "US"],
-    queryFn: () => {
-      return userService.searchUser({
-        graduateType: "US",
-      });
-    },
+    queryKey: ["programs", "all"],
+    queryFn: () => programService.getAllProgramsInfo(),
   });
 
   const [searchText, setSearchText] = useState("");
   const [search] = useDebouncedValue(searchText, 200);
 
-  const filteredUsers = useMemo(() => {
-    return data?.users?.filter((user) => {
-      return Object.keys(user).some(
-        (key) =>
-          ![
-            "id",
-            "alias",
-            "createdAt",
-            "isConfirmed",
-            "updatedAt",
-            "public",
-            "graduateType",
-            "googleId",
-          ].includes(key) && user[key] !== null
-      );
-    });
-  }, [data?.users]);
-
   const filteredResults = useMemo(() => {
-    if (!filteredUsers || search.trim() === "") return filteredUsers || [];
+    if (!data?.programs || search.trim() === "") return data?.programs || [];
 
-    return searchItems(filteredUsers, search);
-  }, [filteredUsers, search]);
+    // Use the custom search function to filter results
+    return searchItems(data.programs, search);
+  }, [data, search]);
 
   const renderItem = (index) => {
     const datum = filteredResults[index];
@@ -83,8 +57,8 @@ const Table = () => {
           index > 0 ? "mt-4" : ""
         }`}
       >
-        <USApplicantHeader i={index} data={datum} />
-        <USApplicantDetail i={index} data={datum} />
+        <ProgramHeader item={datum} />
+        <ProgramDetails item={datum} />
       </div>
     );
   };
@@ -96,6 +70,7 @@ const Table = () => {
           <Loader color="blue" className={`mt-12`} />
         </div>
       )}
+
       <div className={`h-full flex flex-col`}>
         <TextInput
           size="md"
@@ -120,5 +95,3 @@ const Table = () => {
     </div>
   );
 };
-
-export default Table;

@@ -151,51 +151,28 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
           <Loader color="blue" className={`mt-12`} />
         </div>
       )}
-      {!!data?.items?.length && (
-        <div className={`h-full flex flex-col`}>
-          <TextInput
-            size="md"
-            placeholder="Search..."
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.currentTarget.value);
-            }}
-            className={`mb-2`}
-          />
+
+      <div className={`h-full flex flex-col`}>
+        <TextInput
+          size="md"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.currentTarget.value);
+          }}
+          className={`mb-2`}
+        />
+        {!!filteredResults.length && (
           <div className={`flex flex-col gap-4 flex-1`}>
             <Virtuoso
               style={{ height: "100%" }} // Adjust the height as needed
               totalCount={filteredResults.length} // Total number of items
               itemContent={renderItem} // Function to render each item
             />
-            {/* {filteredResults?.length > 0 &&
-            filteredResults.map((datum: any, i: number) => {
-              return (
-                <div
-                  key={datum.id}
-                  className={`border border-solid rounded-sm`}
-                >
-                  <Header
-                    queryKey={queryKey}
-                    i={i}
-                    data={datum}
-                    modelName={modelName}
-                  />
-
-                  <Details
-                    queryKey={queryKey}
-                    i={i}
-                    data={datum}
-                    modelName={modelName}
-                  />
-                </div>
-              );
-            })} */}
           </div>
-        </div>
-      )}
-
-      {data?.items && data.items.length === 0 && <NoRecords />}
+        )}
+        {filteredResults && filteredResults.length === 0 && <NoRecords />}
+      </div>
     </div>
   );
 };

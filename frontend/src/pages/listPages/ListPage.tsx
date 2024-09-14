@@ -36,7 +36,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
           <Title
             order={2}
             mb={{ base: "xs", md: "sm" }}
-            className="text-lg sm:text-xl md:text-2xl"
+            className="text-lg sm:text-xl md:text-2xl max-sm:!mb-0.5"
           >
             {pageDescription[modelName].name}
           </Title>

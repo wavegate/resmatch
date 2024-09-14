@@ -10,6 +10,8 @@ export default () => {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
+  const pageTitle = document.title;
+
   return (
     <AppShell
       header={{ height: { base: 50, sm: 60 } }}
@@ -18,7 +20,7 @@ export default () => {
         breakpoint: "sm",
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
-      padding={{ base: "16", sm: "24" }}
+      padding={{ base: "8", sm: "24" }}
       className={`text-gray-900`}
     >
       <AppShell.Header className={`flex items-center`}>

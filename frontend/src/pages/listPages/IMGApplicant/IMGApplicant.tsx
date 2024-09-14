@@ -1,12 +1,22 @@
 import { APP_NAME } from "@/constants";
 import IMGApplicantTable from "@/tables/IMGApplicantTable/IMGApplicantTable";
 import { Text, Title } from "@mantine/core";
-import { useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 export default () => {
+  const matches = useMediaQuery("(max-width: 768px)");
   const [listView, setListView] = useState(false);
+  const firstLoad = useRef(true);
+
+  useEffect(() => {
+    if (firstLoad.current && matches !== undefined) {
+      setListView(matches);
+      firstLoad.current = false;
+    }
+  }, [matches]);
   return (
     <>
       <Helmet>

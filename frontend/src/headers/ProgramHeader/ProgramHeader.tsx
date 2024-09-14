@@ -1,6 +1,5 @@
 import programName from "@/utils/programName";
-import { Accordion, Text } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Badge } from "@mantine/core";
 
 interface ProgramHeaderProps {
   item: any; // Replace with the correct type if available
@@ -8,10 +7,11 @@ interface ProgramHeaderProps {
 
 export default function ProgramHeader({ item }: ProgramHeaderProps) {
   return (
-    <Accordion.Control className="bg-primary bg-opacity-10">
-      <div className="flex flex-col gap-2">
-        <div className={`font-medium text-lg`}>{programName(item)}</div>
-      </div>
-    </Accordion.Control>
+    <div
+      className={`
+    bg-primary bg-opacity-10 px-4 max-sm:px-3 py-2`}
+    >
+      <div className={`font-medium sm:text-lg`}>{programName(item)}</div>
+    </div>
   );
 }

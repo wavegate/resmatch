@@ -1,7 +1,7 @@
 import { Button, Switch } from "@mantine/core";
 import { useCallback, useRef, useState } from "react";
-import ListView from "./ListView";
-import TableView from "./TableView";
+import ProgramListView from "./ProgramListView";
+import ProgramTableView from "./ProgramTableView";
 
 export default ({ listView, setListView }) => {
   const [showAll, setShowAll] = useState(false);
@@ -43,8 +43,8 @@ export default ({ listView, setListView }) => {
         )}
       </div>
 
-      {listView && <ListView />}
-      {!listView && <TableView showAll={showAll} ref={gridRef} />}
+      {listView && <ProgramListView />}
+      {!listView && <ProgramTableView showAll={showAll} ref={gridRef} />}
     </div>
   );
 };
