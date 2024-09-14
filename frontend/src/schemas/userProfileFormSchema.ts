@@ -5,7 +5,7 @@ const userProfileFormSchema: FormSchema = {
     type: "boolean",
     label: "Public Profile",
     description:
-      "A public profile will show up on the Applicant Data tab for others to view. If your profile is not public, users will not be able to see your data, even if you link data to the profile.",
+      "A public profile will show up on the Applicant Data tab for others to view. If your profile is not public, users will not be able to see your data.",
   },
   alias: {
     type: "string",
@@ -197,7 +197,8 @@ const userProfileFormSchema: FormSchema = {
   numPublications: {
     type: "number",
     label: "Number of Publications",
-    description: "Enter the number of publications you have.",
+    description:
+      "Enter the number of publications you have. Include abstracts, posters, presentations, etc.",
     placeholder: "Enter the number of publications",
   },
   numWorkExperiences: {
