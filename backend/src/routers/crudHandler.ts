@@ -75,6 +75,7 @@ export const createCrudHandlers = (modelName) => ({
           ...(modelName === "cityUserInput" && {
             city: true,
           }),
+          comments: true,
         },
       });
       if (!item) {
