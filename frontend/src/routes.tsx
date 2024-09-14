@@ -1,38 +1,54 @@
-import Login from "@/pages/Login/Login";
-import RootLayout from "@/components/RootLayout/RootLayout";
-import SignUp from "@/pages/SignUp/SignUp";
-import ConfirmEmail from "@/pages/ConfirmEmail/ConfirmEmail";
-import Chat from "@/pages/listPages/Chat/Chat";
-import Program from "@/pages/listPages/Program/Program";
-import PostIVCommunication from "./pages/listPages/PostIVCommunication/PostIVCommunication";
-import RankTally from "./pages/RankTally/RankTally";
-import PSTP from "./pages/listPages/PSTP/PSTP";
-import TierList from "./pages/TierList/TierList";
-import IMGTierList from "./pages/IMGTierList/IMGTierList";
-import ModReport from "./pages/listPages/ModReport/ModReport";
-import Profile from "./pages/Profile/Profile";
-import AddUser from "./pages/updatePages/AddUser/AddUser";
-import AddChat from "./pages/updatePages/AddChat/AddChat";
-import AddPostIVCommunication from "./pages/updatePages/AddPostIVCommunication/AddPostIVCommunication";
-import USApplicant from "./pages/listPages/USApplicant/USApplicant";
-import IMGApplicant from "./pages/listPages/IMGApplicant/IMGApplicant";
-import AddRankList from "./pages/updatePages/AddRankList/AddRankList";
-import RankListMD from "./pages/listPages/RankListMD/RankListMD";
-import RankListDO from "./pages/listPages/RankListDO/RankListDO";
-import RankListIMG from "./pages/listPages/RankListIMG/RankListIMG";
-import AddCityUserInput from "./pages/updatePages/AddCityUserInput/AddCityUserInput";
-import AddPage from "./pages/updatePages/AddPage";
-import ListPage from "./pages/listPages/ListPage";
-import { modelNames } from "./services/services";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import Page404 from "./pages/Page404";
-import LoginSuccess from "./pages/LoginSuccess";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import ToS from "./pages/ToS";
 import { lazy, Suspense } from "react";
+import RootLayout from "@/components/RootLayout/RootLayout"; // Layout components can be imported normally
+import { modelNames } from "./services/services";
 
+const Login = lazy(() => import("@/pages/Login/Login"));
+const SignUp = lazy(() => import("@/pages/SignUp/SignUp"));
+const ConfirmEmail = lazy(() => import("@/pages/ConfirmEmail/ConfirmEmail"));
+const Chat = lazy(() => import("@/pages/listPages/Chat/Chat"));
+const Program = lazy(() => import("@/pages/listPages/Program/Program"));
+const PostIVCommunication = lazy(
+  () => import("@/pages/listPages/PostIVCommunication/PostIVCommunication")
+);
+const RankTally = lazy(() => import("@/pages/RankTally/RankTally"));
+const PSTP = lazy(() => import("@/pages/listPages/PSTP/PSTP"));
+const TierList = lazy(() => import("@/pages/TierList/TierList"));
+const IMGTierList = lazy(() => import("@/pages/IMGTierList/IMGTierList"));
+const ModReport = lazy(() => import("@/pages/listPages/ModReport/ModReport"));
+const Profile = lazy(() => import("@/pages/Profile/Profile"));
+const AddUser = lazy(() => import("@/pages/updatePages/AddUser/AddUser"));
+const AddChat = lazy(() => import("@/pages/updatePages/AddChat/AddChat"));
+const AddPostIVCommunication = lazy(
+  () =>
+    import("@/pages/updatePages/AddPostIVCommunication/AddPostIVCommunication")
+);
+const USApplicant = lazy(
+  () => import("@/pages/listPages/USApplicant/USApplicant")
+);
+const IMGApplicant = lazy(
+  () => import("@/pages/listPages/IMGApplicant/IMGApplicant")
+);
+const AddRankList = lazy(
+  () => import("@/pages/updatePages/AddRankList/AddRankList")
+);
+const RankListMD = lazy(
+  () => import("@/pages/listPages/RankListMD/RankListMD")
+);
+const RankListDO = lazy(
+  () => import("@/pages/listPages/RankListDO/RankListDO")
+);
+const RankListIMG = lazy(
+  () => import("@/pages/listPages/RankListIMG/RankListIMG")
+);
+const AddPage = lazy(() => import("@/pages/updatePages/AddPage"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
+const Page404 = lazy(() => import("@/pages/Page404"));
+const LoginSuccess = lazy(() => import("@/pages/LoginSuccess"));
+const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
+const ToS = lazy(() => import("@/pages/ToS"));
 const HomePage = lazy(() => import("@/pages/HomePage"));
+const ListPage = lazy(() => import("@/pages/listPages/ListPage"));
 
 const routes = [
   {
@@ -49,179 +65,321 @@ const routes = [
       },
       {
         path: "login",
-        element: <Login />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Login />
+          </Suspense>
+        ),
       },
       {
         path: "forgot-password",
-        element: <ForgotPassword />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ForgotPassword />
+          </Suspense>
+        ),
       },
       {
         path: "reset-password",
-        element: <ResetPassword />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ResetPassword />
+          </Suspense>
+        ),
       },
       {
         path: "sign-up",
-        element: <SignUp />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <SignUp />
+          </Suspense>
+        ),
       },
       {
         path: "login-success",
-        element: <LoginSuccess />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LoginSuccess />
+          </Suspense>
+        ),
       },
       {
         path: "privacy-policy",
-        element: <PrivacyPolicy />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <PrivacyPolicy />
+          </Suspense>
+        ),
       },
       {
         path: "terms-of-service",
-        element: <ToS />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ToS />
+          </Suspense>
+        ),
       },
       {
         path: "program",
-        element: <Program />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Program />
+          </Suspense>
+        ),
       },
       {
         path: "applicant-us",
-        element: <USApplicant />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <USApplicant />
+          </Suspense>
+        ),
       },
       {
         path: "applicant-img",
-        element: <IMGApplicant />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <IMGApplicant />
+          </Suspense>
+        ),
       },
       {
         path: "confirm-email",
-        element: <ConfirmEmail />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ConfirmEmail />
+          </Suspense>
+        ),
       },
       {
         path: "main",
-        element: <Chat />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Chat />
+          </Suspense>
+        ),
       },
-
       {
         path: "rank-list-md",
-        element: <RankListMD />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <RankListMD />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-md/add",
-        element: <AddRankList type="MD" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddRankList type="MD" />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-md/:id",
-        element: <AddRankList type="MD" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddRankList type="MD" />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-do",
-        element: <RankListDO />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <RankListDO />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-do/add",
-        element: <AddRankList type="DO" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddRankList type="DO" />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-do/:id",
-        element: <AddRankList type="DO" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddRankList type="DO" />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-img",
-        element: <RankListIMG />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <RankListIMG />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-img/add",
-        element: <AddRankList type="IMG" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddRankList type="IMG" />
+          </Suspense>
+        ),
       },
       {
         path: "rank-list-img/:id",
-        element: <AddRankList type="IMG" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddRankList type="IMG" />
+          </Suspense>
+        ),
       },
       ...modelNames
         .map((modelName) => {
           return [
             {
               path: modelName,
-              element: <ListPage modelName={modelName} key={modelName} />,
+              element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <ListPage modelName={modelName} key={modelName} />
+                </Suspense>
+              ),
             },
             {
               path: `${modelName}/add`,
-              element: <AddPage modelName={modelName} key={modelName} />,
+              element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <AddPage modelName={modelName} key={modelName} />
+                </Suspense>
+              ),
             },
             {
               path: `${modelName}/:id`,
-              element: <AddPage modelName={modelName} key={modelName} />,
+              element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <AddPage modelName={modelName} key={modelName} />
+                </Suspense>
+              ),
             },
           ];
         })
         .flat(),
-
       {
         path: "post-iv-communication",
-        element: <PostIVCommunication />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <PostIVCommunication />
+          </Suspense>
+        ),
       },
       {
         path: "post-iv-communication/add",
-        element: <AddPostIVCommunication />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddPostIVCommunication />
+          </Suspense>
+        ),
       },
       {
         path: "post-iv-communication/:id",
-        element: <AddPostIVCommunication />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddPostIVCommunication />
+          </Suspense>
+        ),
       },
-
       {
         path: "rank-tally",
-        element: <RankTally />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <RankTally />
+          </Suspense>
+        ),
       },
-      {
-        path: "rank-tally",
-        element: <RankTally />,
-      },
-
       {
         path: "pstp",
-        element: <PSTP />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <PSTP />
+          </Suspense>
+        ),
       },
       {
         path: "tier-list",
-        element: <TierList />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <TierList />
+          </Suspense>
+        ),
       },
       {
         path: "tier-list-img",
-        element: <IMGTierList />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <IMGTierList />
+          </Suspense>
+        ),
       },
       {
         path: "report",
-        element: <ModReport />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ModReport />
+          </Suspense>
+        ),
       },
-
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Profile />
+          </Suspense>
+        ),
       },
       {
         path: "user/:id",
-        element: <Profile />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Profile />
+          </Suspense>
+        ),
       },
       {
         path: "user/add/:id",
-        element: <AddUser />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddUser />
+          </Suspense>
+        ),
       },
       {
         path: "chat/add",
-        element: <AddChat type="main" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddChat type="main" />
+          </Suspense>
+        ),
       },
       {
         path: "pstp/add",
-        element: <AddChat type="pstp" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddChat type="pstp" />
+          </Suspense>
+        ),
       },
       {
         path: "report/add",
-        element: <AddChat type="report" />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddChat type="report" />
+          </Suspense>
+        ),
       },
-      {
-        path: "city-user-input/add",
-        element: <AddCityUserInput />,
-      },
-
       {
         path: "*",
-        element: <Page404 />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Page404 />
+          </Suspense>
+        ),
       },
     ],
   },
