@@ -2,7 +2,7 @@ import { Button, Loader, TextInput } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState, forwardRef, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
-import { AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "@ag-grid-community/react";
 import { columnDefs } from "./columns";
 import classNames from "classnames";
 import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";

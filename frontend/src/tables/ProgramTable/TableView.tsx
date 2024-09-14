@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo, useCallback, forwardRef, useEffect } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { columnDefs } from "./columns";
-import { AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "@ag-grid-community/react";
 import programService from "@/services/programService";
 
 const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
@@ -54,9 +54,9 @@ const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
           <div className="ag-theme-quartz flex-1">
             <AgGridReact rowData={programs} columnDefs={columnDefs} ref={ref} />
           </div>
-          <div className={`mt-2 text-sm`}>
+          {/* <div className={`mt-2 text-sm`}>
             Showing {programs?.length} of {programs?.length}
-          </div>
+          </div> */}
         </div>
       )}
       {programs && programs.length === 0 && <NoRecords />}
