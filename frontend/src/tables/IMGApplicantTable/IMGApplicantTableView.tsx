@@ -7,6 +7,8 @@ import { columnDefs } from "./columns";
 import classNames from "classnames";
 import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
 import userService from "@/services/userService";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { CsvExportModule } from "@ag-grid-community/csv-export";
 
 const TableView = forwardRef(({}, ref) => {
   const [fullScreen, setFullScreen] = useState(false);
@@ -82,6 +84,7 @@ const TableView = forwardRef(({}, ref) => {
               ref={ref}
               enableCellTextSelection={true}
               ensureDomOrder={true}
+              modules={[ClientSideRowModelModule, CsvExportModule]}
             />
             <Button
               className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}

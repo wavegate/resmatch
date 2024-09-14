@@ -5,6 +5,8 @@ import NoRecords from "@/components/NoRecords/NoRecords";
 import { columnDefs } from "./columns";
 import { AgGridReact } from "@ag-grid-community/react";
 import programService from "@/services/programService";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { CsvExportModule } from "@ag-grid-community/csv-export";
 
 const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
   const { data, error, isLoading } = useQuery({
@@ -52,7 +54,12 @@ const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
             className={`mb-2`}
           />
           <div className="ag-theme-quartz flex-1">
-            <AgGridReact rowData={programs} columnDefs={columnDefs} ref={ref} />
+            <AgGridReact
+              rowData={programs}
+              columnDefs={columnDefs}
+              ref={ref}
+              modules={[ClientSideRowModelModule, CsvExportModule]}
+            />
           </div>
           {/* <div className={`mt-2 text-sm`}>
             Showing {programs?.length} of {programs?.length}

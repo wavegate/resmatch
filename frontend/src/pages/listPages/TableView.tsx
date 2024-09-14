@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, forwardRef, useMemo } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { AgGridReact } from "@ag-grid-community/react";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { CsvExportModule } from "@ag-grid-community/csv-export";
 import services from "@/services/services";
 import { columnGenerator } from "./columns";
 import useUser from "@/hooks/useUser";
@@ -107,6 +109,7 @@ const TableView = forwardRef(({ modelName }, ref) => {
               ref={ref}
               enableCellTextSelection={true}
               ensureDomOrder={true}
+              modules={[ClientSideRowModelModule, CsvExportModule]}
             />
             <Button
               className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}
