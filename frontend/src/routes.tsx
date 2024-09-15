@@ -43,6 +43,9 @@ const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const ToS = lazy(() => import("@/pages/ToS"));
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const ListPage = lazy(() => import("@/pages/listPages/ListPage"));
+const ProgramDetail = lazy(
+  () => import("@/pages/listPages/Program/ProgramDetail")
+);
 
 const routes = [
   {
@@ -118,6 +121,14 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <Program />
+          </Suspense>
+        ),
+      },
+      {
+        path: "program/:id/details",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ProgramDetail />
           </Suspense>
         ),
       },

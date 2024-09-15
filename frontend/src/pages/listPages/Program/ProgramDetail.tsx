@@ -1,31 +1,23 @@
-import { Anchor, Breadcrumbs, Loader, Title } from "@mantine/core";
-import { pageDescription } from "@/schemas/pageDescription";
+import { Anchor, Breadcrumbs, Loader } from "@mantine/core";
 import { Helmet } from "react-helmet";
 import { APP_NAME } from "@/constants";
 import { useQuery } from "@tanstack/react-query";
-import services from "@/services/services";
-import Details from "@/components/Details";
 import { Link, useParams } from "react-router-dom";
-import Header from "@/components/Header";
+import programService from "@/services/programService";
+import programName from "@/utils/programName";
+import ProgramHeader from "@/headers/ProgramHeader/ProgramHeader";
+import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
 
 const DetailPage = () => {
   const { id } = useParams();
-  const service = services[modelName];
   const { data, isLoading } = useQuery({
-    queryKey: [modelName, id],
-    queryFn: () => service.read(id),
+    queryKey: ["programs", id],
+    queryFn: () => programService.readProgram(id),
   });
 
-  const queryKey = [
-    [modelName, id],
-    [modelName, "all"],
-  ];
-
-  const labels = pageDescription[modelName];
-
   const items = [
-    { title: labels.name, to: `/${modelName}` },
-    { title: `Details` },
+    { title: "Program Overview", to: `/program` },
+    { title: programName(data) },
   ].map((item, index) =>
     item.to ? (
       <Link to={item.to} key={index}>
@@ -40,7 +32,7 @@ const DetailPage = () => {
     <>
       <Helmet>
         <title>
-          {pageDescription[modelName].name} | {APP_NAME}
+          {programName(data)} | {APP_NAME}
         </title>
       </Helmet>
       <div className="flex flex-col gap-4">
@@ -53,13 +45,8 @@ const DetailPage = () => {
 
         {data && (
           <div className={`border border-solid rounded-lg overflow-hidden`}>
-            <Header
-              queryKey={queryKey}
-              data={data}
-              modelName={modelName}
-              detailsPage
-            />
-            <Details modelName={modelName} queryKey={queryKey} data={data} />
+            <ProgramHeader item={data} detailsPage />
+            <ProgramDetails item={data} />
           </div>
         )}
       </div>

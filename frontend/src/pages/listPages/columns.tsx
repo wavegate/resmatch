@@ -51,6 +51,16 @@ export function columnGenerator(
     columns.push({
       headerName: "Program Name",
       valueGetter: (params) => programName(params.data.program),
+      cellRenderer: ({ data }) => {
+        return (
+          <Link
+            to={`/program/${data.program?.id}/details`}
+            className={`hover:underline`}
+          >
+            {programName(data.program)}
+          </Link>
+        );
+      },
       filter: true, // Add a text filter for program name
     });
   } else if (modelName === "xorY") {
