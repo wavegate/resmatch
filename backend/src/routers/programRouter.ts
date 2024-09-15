@@ -82,6 +82,8 @@ programRouter.get("/:id", async (req, res) => {
       where: { id: programId },
       include: {
         institution: true,
+        specialty: true,
+        city: true,
       },
     });
 
