@@ -113,6 +113,9 @@ userRouter.post("/search", async (req, res) => {
       where: whereClause,
       skip: offset,
       take: 1000,
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     // Remove password from results

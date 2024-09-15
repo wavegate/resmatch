@@ -325,7 +325,14 @@ export const createCrudHandlers = (modelName) => ({
           ...(modelName === "cityUserInput" && {
             city: true,
           }),
-          comments: true,
+          comments: {
+            select: {
+              id: true,
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
           user: {
             select: {
               id: true,

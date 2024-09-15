@@ -38,6 +38,9 @@ commentRouter.get("/:id", async (req, res) => {
       include: {
         user: true, // Include the user information
         replies: {
+          select: {
+            id: true,
+          },
           orderBy: {
             createdAt: "desc", // Order replies by createdAt, latest first
           },
@@ -163,9 +166,8 @@ commentRouter.post("/search", async (req, res) => {
 
     let comments = await prisma.comment.findMany({
       where: whereClause,
-      include: {
-        replies: true,
-        user: true,
+      select: {
+        id: true,
       },
       orderBy: {
         createdAt: "desc", // Order by createdAt in descending order
