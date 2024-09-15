@@ -24,7 +24,9 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
 
   // Mutation for deleting the entry
   const deleteMutation = useMutation({
-    mutationFn: () => services[modelName].delete(data.id),
+    mutationFn: () => {
+      return services[modelName].delete(data.id);
+    },
     onSuccess: () => {
       notifications.show({
         title: "Success",
@@ -66,11 +68,37 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
 
   const dateModels = ["interviewInvite", "interviewRejection", "dropped"];
 
+  const getBackgroundColor = () => {
+    if (
+      (modelName === "fameShame" && data.shame && !data.fame) ||
+      (modelName === "m4InternImpression" &&
+        data.negativeImpression &&
+        !data.positiveImpression)
+    ) {
+      return "bg-[#E28D7B]"; // Soft Terracotta for negative/shame
+    }
+
+    if (
+      (modelName === "fameShame" && data.fame && !data.shame) ||
+      (modelName === "m4InternImpression" &&
+        data.positiveImpression &&
+        !data.negativeImpression)
+    ) {
+      return "bg-[#4CBB17]"; // Kelly Green for positive/fame
+    }
+
+    if (modelName === "malignant") {
+      return "bg-[#4B0082]"; // Dark Maroon for malignant category
+    }
+
+    return "bg-primary"; // Default background
+  };
+
   return (
     <div
       className={`${
         dateModels.includes(modelName) && `grid grid-cols-[80px,1fr] gap-4`
-      } bg-primary bg-opacity-10 px-4 max-sm:px-3 py-2`}
+      } ${getBackgroundColor()} bg-opacity-10 px-4 max-sm:px-3 py-2`}
     >
       {dateModels.includes(modelName) && (
         <div className="flex flex-col justify-center items-center text-gray-700 bg-white border border-solid rounded">
@@ -104,7 +132,7 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
             {!detailsPage && (
               <Link
                 to={`/${modelName}/${data.id}/details`}
-                className={`text-sm underline text-gray-500`}
+                className={`text-sm underline`}
               >
                 Details
               </Link>
