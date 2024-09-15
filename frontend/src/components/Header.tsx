@@ -73,7 +73,8 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
       (modelName === "fameShame" && data.shame && !data.fame) ||
       (modelName === "m4InternImpression" &&
         data.negativeImpression &&
-        !data.positiveImpression)
+        !data.positiveImpression) ||
+      (modelName === "malignant" && data.malignant === "Yes")
     ) {
       return "bg-[#E28D7B]"; // Soft Terracotta for negative/shame
     }
@@ -82,13 +83,10 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
       (modelName === "fameShame" && data.fame && !data.shame) ||
       (modelName === "m4InternImpression" &&
         data.positiveImpression &&
-        !data.negativeImpression)
+        !data.negativeImpression) ||
+      (modelName === "malignant" && data.malignant === "No")
     ) {
       return "bg-[#4CBB17]"; // Kelly Green for positive/fame
-    }
-
-    if (modelName === "malignant") {
-      return "bg-[#4B0082]"; // Dark Maroon for malignant category
     }
 
     return "bg-primary"; // Default background
