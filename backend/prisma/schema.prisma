@@ -84,6 +84,7 @@ model User {
   role                    Role?
   redditUsername          String?
   discordUsername         String?
+  followedPrograms        Program[]
 }
 
 enum Role {
@@ -141,6 +142,7 @@ model Program {
   asProgramY          XorY[]                @relation("ProgramYRelation")
   RankedProgram       RankedProgram[]
   binAssignments      BinAssignment[]
+  followingUsers      User[]
 }
 
 model InterviewInvite {

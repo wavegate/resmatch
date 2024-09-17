@@ -258,6 +258,13 @@ authRouter.get(
       const userId = req.user.id;
       const user = await prisma.user.findUnique({
         where: { id: Number(userId) },
+        include: {
+          followedPrograms: {
+            select: {
+              id: true,
+            },
+          },
+        },
       });
 
       if (!user) {
@@ -268,6 +275,7 @@ authRouter.get(
         id: user.id,
         email: user.email,
         alias: user.alias,
+        followedPrograms: user.followedPrograms,
       });
     } catch (error) {
       console.error(error);

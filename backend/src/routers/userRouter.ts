@@ -36,7 +36,7 @@ userRouter.get("/:id", optionalVerifyToken, async (req, res) => {
 
 userRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  const { alias, ...formData } = req.body;
+  const { alias, programIdToAdd, programIdToRemove, ...formData } = req.body;
 
   // Check if the current user is the owner of the item
   if (Number(id) !== req.user.id) {
@@ -57,10 +57,51 @@ userRouter.put("/:id", verifyToken, async (req, res) => {
       }
     }
 
+    let updateData = { alias, ...formData };
+
+    if (programIdToAdd) {
+      const existingProgram = await prisma.program.findUnique({
+        where: { id: Number(programIdToAdd) },
+      });
+
+      if (!existingProgram) {
+        return res.status(404).json({ error: "Program not found" });
+      }
+
+      updateData = {
+        ...updateData,
+        followedPrograms: {
+          connect: { id: Number(programIdToAdd) },
+        },
+      };
+    }
+
+    if (programIdToRemove) {
+      const existingProgram = await prisma.program.findUnique({
+        where: { id: Number(programIdToRemove) },
+      });
+
+      if (!existingProgram) {
+        return res.status(404).json({ error: "Program not found" });
+      }
+
+      updateData = {
+        ...updateData,
+        followedPrograms: {
+          disconnect: { id: Number(programIdToRemove) },
+        },
+      };
+    }
+
     // Update the user with the provided formData
     const updatedUser = await prisma.user.update({
       where: { id: Number(id) },
-      data: { alias, ...formData },
+      data: updateData,
+      include: {
+        followedPrograms: {
+          select: { id: true },
+        },
+      },
     });
 
     res.json(updatedUser);
@@ -74,6 +115,7 @@ userRouter.put("/:id", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 userRouter.delete("/:id", verifyToken, (req, res) => {
   const { id } = req.params;
   // Check if the current user is the owner of the item
