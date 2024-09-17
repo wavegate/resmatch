@@ -10,8 +10,6 @@ export default () => {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
-  const pageTitle = document.title;
-
   return (
     <AppShell
       header={{ height: { base: 50, sm: 60 } }}
@@ -66,7 +64,11 @@ export default () => {
                 </Link>
               </>
             )}
-            {user && <Button onClick={signOut}>Sign out</Button>}
+            {user && (
+              <Button variant="default" onClick={signOut}>
+                Sign out
+              </Button>
+            )}
           </div>
         </div>
       </AppShell.Header>

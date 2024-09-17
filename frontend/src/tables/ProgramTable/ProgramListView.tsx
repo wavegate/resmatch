@@ -1,6 +1,7 @@
 import NoRecords from "@/components/NoRecords/NoRecords";
 import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
 import ProgramHeader from "@/headers/ProgramHeader/ProgramHeader";
+import useUser from "@/hooks/useUser";
 import programService from "@/services/programService";
 import { Loader, TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
@@ -37,6 +38,7 @@ export default () => {
     queryKey: ["programs", "all"],
     queryFn: () => programService.getAllProgramsInfo(),
   });
+  const { user } = useUser();
 
   const [searchText, setSearchText] = useState("");
   const [search] = useDebouncedValue(searchText, 200);
@@ -57,7 +59,7 @@ export default () => {
           index > 0 ? "mt-4" : ""
         }`}
       >
-        <ProgramHeader item={datum} />
+        <ProgramHeader item={datum} user={user} />
         <ProgramDetails item={datum} />
       </div>
     );

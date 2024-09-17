@@ -45,7 +45,7 @@ export const pageDescription: Record<
     singular: "Logistics",
   },
   lOIResponse: {
-    name: "Letter of Interest/Intent Responses",
+    name: "LOI Responses",
     description:
       "Track and share the responses to your Letters of Interest. Understand how programs react to expressions of interest.",
     singular: "Response",
@@ -63,7 +63,7 @@ export const pageDescription: Record<
     singular: "Malignant",
   },
   postIVCommunication: {
-    name: "Post-Interview Communication",
+    name: "Post-IV Communication",
     description:
       "Record and view communications you've had with programs after interviews. Gain insights into post-interview dynamics.",
     singular: "Comms",
@@ -87,7 +87,7 @@ export const pageDescription: Record<
     singular: "Second Look",
   },
   xorY: {
-    name: "Program Comparisons (X vs Y)",
+    name: "Program X vs Y",
     description:
       "Compare two programs side by side based on various criteria. Share your insights and help others make informed decisions.",
     singular: "Comparison",

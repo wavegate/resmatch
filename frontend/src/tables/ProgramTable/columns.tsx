@@ -1,17 +1,23 @@
+import FollowProgram from "@/components/FollowProgram";
 import programName from "@/utils/programName";
 import { Link } from "react-router-dom";
 
-export const columnDefs = [
-  // {
-  //   headerName: "Name",
-  //   field: "name",
-  //   filter: true,
-  // },
-  // {
-  //   headerName: "Institution",
-  //   field: "institution.name",
-  //   filter: true,
-  // },
+export const columnDefs = (user) => [
+  {
+    headerName: "Follow",
+    width: "120px",
+    valueGetter: ({ data }) => {
+      return user?.followedPrograms?.some((x) => x.id === data.id);
+    },
+    cellRenderer: ({ data }) => {
+      return (
+        <div className={`h-full flex flex-col justify-center`}>
+          <FollowProgram programId={data.id} />
+        </div>
+      );
+    },
+    hide: !user,
+  },
   {
     headerName: "Name",
     valueGetter: (p) => {

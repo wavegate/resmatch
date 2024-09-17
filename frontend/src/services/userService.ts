@@ -9,9 +9,9 @@ interface User {
 }
 
 interface UserFormData {
-  alias: string;
-  // Define the structure of the form data used for updating the user
-  // Add additional fields as necessary
+  alias?: string;
+  programIdToAdd?: number;
+  programIdToRemove?: number;
 }
 
 interface UserSearchParams {

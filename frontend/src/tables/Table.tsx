@@ -1,10 +1,8 @@
-import { useRef, useCallback } from "react";
-import { Button, Switch } from "@mantine/core";
-import { pageDescription } from "@/schemas/pageDescription";
+import useUser from "@/hooks/useUser";
 import ListView from "@/pages/listPages/ListView";
 import TableView from "@/pages/listPages/TableView";
-import { useNavigate } from "react-router-dom";
-import { IoMdAdd } from "react-icons/io";
+import { Button, Checkbox, Switch } from "@mantine/core";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface TableProps {
   modelName: string;
@@ -17,17 +15,23 @@ const Table: React.FC<TableProps> = ({
   listView,
   setListView,
 }) => {
+  const { user } = useUser();
+  const [showFollowed, setShowFollowed] = useState(false);
   const gridRef = useRef(null);
-  const navigate = useNavigate();
 
   const onBtnExport = useCallback(() => {
     gridRef.current?.api.exportDataAsCsv();
   }, [gridRef.current]);
 
-  const labels = pageDescription[modelName];
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowFollowed(event.currentTarget.checked);
+  };
 
-  const shareUrl = `/${modelName}/add`;
-  const shareText = `Share ${labels.singular}`;
+  useEffect(() => {
+    if (!user) {
+      setShowFollowed(false);
+    }
+  }, [user]);
 
   return (
     <div className={`flex-1 flex flex-col`}>
@@ -39,22 +43,13 @@ const Table: React.FC<TableProps> = ({
           onChange={(event) => setListView(event.currentTarget.checked)}
           size="sm"
         />
-
-        <Button
-          onClick={() => navigate(shareUrl)}
-          leftSection={<IoMdAdd size={18} />}
-          visibleFrom="sm"
-        >
-          {shareText}
-        </Button>
-        <Button
-          onClick={() => navigate(shareUrl)}
-          leftSection={<IoMdAdd size={18} />}
-          hiddenFrom="sm"
-          size="xs"
-        >
-          {shareText}
-        </Button>
+        {user && (
+          <Checkbox
+            label={"Followed"}
+            checked={showFollowed}
+            onChange={handleCheckboxChange}
+          />
+        )}
 
         {!listView && (
           <Button
@@ -68,8 +63,16 @@ const Table: React.FC<TableProps> = ({
         )}
       </div>
 
-      {listView && <ListView modelName={modelName} />}
-      {!listView && <TableView ref={gridRef} modelName={modelName} />}
+      {listView && (
+        <ListView modelName={modelName} showFollowed={showFollowed} />
+      )}
+      {!listView && (
+        <TableView
+          ref={gridRef}
+          modelName={modelName}
+          showFollowed={showFollowed}
+        />
+      )}
     </div>
   );
 };

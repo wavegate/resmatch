@@ -14,7 +14,7 @@ import { pageDescription } from "@/schemas/pageDescription";
 import classNames from "classnames";
 import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
 
-const TableView = forwardRef(({ modelName }, ref) => {
+const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
   const queryClient = useQueryClient();
 
   const [fullScreen, setFullScreen] = useState(false);
@@ -76,6 +76,30 @@ const TableView = forwardRef(({ modelName }, ref) => {
     }
   };
 
+  const filteredResults = useMemo(() => {
+    if (!data?.items) return [];
+
+    // Get followed program IDs from user if showFollowed is true
+    const followedProgramIds = user?.followedPrograms || [];
+
+    // Filter by followed programs first if showFollowed is true
+    const filteredByFollowed = showFollowed
+      ? data.items.filter((item) => {
+          if (modelName === "xorY") {
+            // Check both item.programXId and item.programYId for xorY model
+            return followedProgramIds.some(
+              (x) => x.id === item.programXId || x.id === item.programYId
+            );
+          } else {
+            // Default check for item.programId
+            return followedProgramIds.some((x) => x.id === item.programId);
+          }
+        })
+      : data.items;
+
+    return filteredByFollowed;
+  }, [data, showFollowed, user, modelName]);
+
   return (
     <div className={`mt-2 flex-1`}>
       {isLoading && (
@@ -83,53 +107,53 @@ const TableView = forwardRef(({ modelName }, ref) => {
           <Loader color="blue" className={`mt-12`} />
         </div>
       )}
-      {!!data?.items?.length && (
-        <div className={`h-full flex flex-col`}>
-          <TextInput
-            size="md"
-            placeholder="Search..."
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.currentTarget.value);
-              onFilterTextBoxChanged(e.currentTarget.value);
-            }}
-            className={`mb-2`}
+      {/* {!!data?.items?.length && ( */}
+      <div className={`h-full flex flex-col`}>
+        <TextInput
+          size="md"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.currentTarget.value);
+            onFilterTextBoxChanged(e.currentTarget.value);
+          }}
+          className={`mb-2`}
+        />
+        <div
+          className={classNames(
+            "ag-theme-quartz",
+            "table-selector",
+            "compact",
+            "flex-1",
+            {
+              relative: !fullScreen,
+              "max-size": fullScreen,
+            }
+          )}
+        >
+          <AgGridReact
+            rowData={filteredResults}
+            columnDefs={columnDefs}
+            ref={ref}
+            enableCellTextSelection={true}
+            ensureDomOrder={true}
+            modules={[ClientSideRowModelModule, CsvExportModule]}
           />
-          <div
-            className={classNames(
-              "ag-theme-quartz",
-              "table-selector",
-              "compact",
-              "flex-1",
-              {
-                relative: !fullScreen,
-                "max-size": fullScreen,
-              }
-            )}
+          <Button
+            className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}
+            variant="default"
+            onClick={() => setFullScreen((prev) => !prev)}
           >
-            <AgGridReact
-              rowData={data?.items}
-              columnDefs={columnDefs}
-              ref={ref}
-              enableCellTextSelection={true}
-              ensureDomOrder={true}
-              modules={[ClientSideRowModelModule, CsvExportModule]}
-            />
-            <Button
-              className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}
-              variant="default"
-              onClick={() => setFullScreen((prev) => !prev)}
-            >
-              {fullScreen ? (
-                <MdCloseFullscreen size={18} />
-              ) : (
-                <MdOutlineOpenInFull size={18} />
-              )}
-            </Button>
-          </div>
+            {fullScreen ? (
+              <MdCloseFullscreen size={18} />
+            ) : (
+              <MdOutlineOpenInFull size={18} />
+            )}
+          </Button>
         </div>
-      )}
-      {data?.items && data?.items.length === 0 && <NoRecords />}
+      </div>
+      {/* )} */}
+      {/* {data?.items && data?.items.length === 0 && <NoRecords />} */}
     </div>
   );
 });

@@ -39,7 +39,7 @@ const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
           </>
         )}
         {user && (
-          <Button onClick={signOut} size="sm">
+          <Button onClick={signOut} variant="default" size="sm">
             Sign out
           </Button>
         )}

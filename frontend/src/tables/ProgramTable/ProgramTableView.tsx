@@ -1,18 +1,21 @@
 import { Loader, TextInput } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useMemo, useCallback, forwardRef, useEffect } from "react";
+import { useState, useMemo, forwardRef } from "react";
 import NoRecords from "@/components/NoRecords/NoRecords";
 import { columnDefs } from "./columns";
 import { AgGridReact } from "@ag-grid-community/react";
 import programService from "@/services/programService";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { CsvExportModule } from "@ag-grid-community/csv-export";
+import "./styles.scss";
+import useUser from "@/hooks/useUser";
 
 const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["programs", "all"],
     queryFn: () => programService.getAllProgramsInfo(),
   });
+  const { user } = useUser();
 
   const programs = useMemo(() => {
     if (data) {
@@ -33,6 +36,10 @@ const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
       ref.current.api.setGridOption("quickFilterText", value);
     }
   };
+
+  const columns = useMemo(() => {
+    return columnDefs(user);
+  }, [user]);
 
   return (
     <div className={`mt-2 flex-1`}>
@@ -56,7 +63,7 @@ const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
           <div className="ag-theme-quartz flex-1">
             <AgGridReact
               rowData={programs}
-              columnDefs={columnDefs}
+              columnDefs={columns}
               ref={ref}
               modules={[ClientSideRowModelModule, CsvExportModule]}
             />

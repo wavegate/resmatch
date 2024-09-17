@@ -7,6 +7,7 @@ import services from "@/services/services";
 import Details from "@/components/Details";
 import Header from "@/components/Header";
 import { Virtuoso } from "react-virtuoso";
+import useUser from "@/hooks/useUser";
 
 interface TableProps {
   modelName: string;
@@ -37,7 +38,11 @@ const searchItems = (items, searchTerm) => {
   });
 };
 
-const Table: React.FC<TableProps> = ({ modelName, className }) => {
+const Table: React.FC<TableProps> = ({
+  modelName,
+  className,
+  showFollowed,
+}) => {
   // const [selectedProgram, setSelectedProgram] = useState(null);
   // const [startDate, setStartDate] = useState(null);
   // const [endDate, setEndDate] = useState(null);
@@ -61,6 +66,8 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
     queryKey,
     queryFn: () => services[modelName].getAll(),
   });
+
+  const { user } = useUser();
 
   // const clearFilters = () => {
   //   setStartDate(null);
@@ -87,11 +94,31 @@ const Table: React.FC<TableProps> = ({ modelName, className }) => {
   const [search] = useDebouncedValue(searchText, 200);
 
   const filteredResults = useMemo(() => {
-    if (!data?.items || search.trim() === "") return data?.items || [];
+    if (!data?.items) return [];
 
-    // Use the custom search function to filter results
-    return searchItems(data.items, search);
-  }, [data, search]);
+    // Get followed program IDs from user if showFollowed is true
+    const followedProgramIds = user?.followedPrograms || [];
+
+    // Filter by followed programs first if showFollowed is true
+    const filteredByFollowed = showFollowed
+      ? data.items.filter((item) => {
+          if (modelName === "xorY") {
+            // Check both item.programXId and item.programYId for xorY model
+            return followedProgramIds.some(
+              (x) => x.id === item.programXId || x.id === item.programYId
+            );
+          } else {
+            // Default check for item.programId
+            return followedProgramIds.some((x) => x.id === item.programId);
+          }
+        })
+      : data.items;
+
+    // Now apply the search filter to the followed items (if showFollowed is true) or all items
+    if (search.trim() === "") return filteredByFollowed;
+
+    return searchItems(filteredByFollowed, search);
+  }, [data, search, showFollowed, user, modelName]);
 
   const renderItem = (index) => {
     const datum = filteredResults[index];
