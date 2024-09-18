@@ -9,6 +9,7 @@ function createModelRouter(modelName) {
     create,
     getById,
     updateById,
+    upvoteById,
     deleteById,
     listWithPagination,
     listAll,
@@ -18,6 +19,7 @@ function createModelRouter(modelName) {
   router.get("/all", listAll);
   router.get("/:id", getById);
   router.put("/:id", verifyToken, updateById);
+  router.put("/upvote/:id", verifyToken, upvoteById);
   router.delete("/:id", verifyToken, deleteById);
   router.post("/search", listWithPagination);
 

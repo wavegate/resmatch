@@ -14,77 +14,96 @@ datasource db {
 }
 
 model User {
-  id                      Int                   @id @default(autoincrement())
-  email                   String                @unique
-  password                String?
-  isConfirmed             Boolean?              @default(false)
-  alias                   String                @unique
-  createdAt               DateTime              @default(now())
-  updatedAt               DateTime              @updatedAt
-  googleId                String?
-  redditId                String?
-  discordId               String?
-  interviewInvites        InterviewInvite[]
-  cityUserInputs          CityUserInput[]
-  greenCard               Boolean?
-  step2CSPathway          Pathway?
-  schoolRanking           SchoolRanking?
-  yearOfGraduation        Int?
-  monthsOfUSCE            Int?
-  ecfmgCertified          Boolean?
-  visaRequired            Boolean?
-  graduateType            GraduateType          @default(US)
-  medicalDegree           MedicalDegree?
-  img                     IMGType?
-  step1ScorePass          Boolean?
-  step1Score              Int?
-  step2Score              Int?
-  step3Score              Int?
-  comlex1ScorePass        Boolean?
-  comlex2Score            Int?
-  redFlags                Boolean?
-  redFlagsExplanation     String?
-  aoa                     Boolean?
-  sigmaSigmaPhi           Boolean?
-  goldHumanism            Boolean?
-  honors                  Int?
-  highPass                Int?
-  pass                    Int?
-  fail                    Int?
-  pstp                    Boolean?
-  numPublications         Int?
-  numWorkExperiences      Int?
-  numVolunteerExperiences Int?
-  classRank               ClassRanking?
-  otherDegrees            String?
-  numApplications         Int?
-  numInterviews           Int?
-  numWithdrawn            Int?
-  numRejected             Int?
-  numWaitlisted           Int?
-  applicationYear         Int?
-  public                  Boolean               @default(true)
-  fameShames              FameShame[]
-  comments                Comment[]
-  rankLists               RankList[]
-  PostIVCommunication     PostIVCommunication[]
-  ScheduleDetails         ScheduleDetails[]
-  InterviewLogistics      InterviewLogistics[]
-  SecondLook              SecondLook[]
-  InterviewRejection      InterviewRejection[]
-  M4InternImpression      M4InternImpression[]
-  Malignant               Malignant[]
-  LOIResponse             LOIResponse[]
-  InterviewImpression     InterviewImpression[]
-  Question                Question[]
-  Dropped                 Dropped[]
-  FellowshipMatch         FellowshipMatch[]
-  Suggestion              Suggestion[]
-  XorY                    XorY[]
-  role                    Role?
-  redditUsername          String?
-  discordUsername         String?
-  followedPrograms        Program[]
+  id                          Int                   @id @default(autoincrement())
+  email                       String                @unique
+  password                    String?
+  isConfirmed                 Boolean?              @default(false)
+  alias                       String                @unique
+  createdAt                   DateTime              @default(now())
+  updatedAt                   DateTime              @updatedAt
+  googleId                    String?
+  redditId                    String?
+  discordId                   String?
+  interviewInvites            InterviewInvite[]
+  cityUserInputs              CityUserInput[]
+  greenCard                   Boolean?
+  step2CSPathway              Pathway?
+  schoolRanking               SchoolRanking?
+  yearOfGraduation            Int?
+  monthsOfUSCE                Int?
+  ecfmgCertified              Boolean?
+  visaRequired                Boolean?
+  graduateType                GraduateType          @default(US)
+  medicalDegree               MedicalDegree?
+  img                         IMGType?
+  step1ScorePass              Boolean?
+  step1Score                  Int?
+  step2Score                  Int?
+  step3Score                  Int?
+  comlex1ScorePass            Boolean?
+  comlex2Score                Int?
+  redFlags                    Boolean?
+  redFlagsExplanation         String?
+  aoa                         Boolean?
+  sigmaSigmaPhi               Boolean?
+  goldHumanism                Boolean?
+  honors                      Int?
+  highPass                    Int?
+  pass                        Int?
+  fail                        Int?
+  pstp                        Boolean?
+  numPublications             Int?
+  numWorkExperiences          Int?
+  numVolunteerExperiences     Int?
+  classRank                   ClassRanking?
+  otherDegrees                String?
+  numApplications             Int?
+  numInterviews               Int?
+  numWithdrawn                Int?
+  numRejected                 Int?
+  numWaitlisted               Int?
+  applicationYear             Int?
+  public                      Boolean               @default(true)
+  fameShames                  FameShame[]
+  comments                    Comment[]
+  rankLists                   RankList[]
+  PostIVCommunication         PostIVCommunication[]
+  ScheduleDetails             ScheduleDetails[]
+  InterviewLogistics          InterviewLogistics[]
+  SecondLook                  SecondLook[]
+  InterviewRejection          InterviewRejection[]
+  M4InternImpression          M4InternImpression[]
+  Malignant                   Malignant[]
+  LOIResponse                 LOIResponse[]
+  InterviewImpression         InterviewImpression[]
+  Question                    Question[]
+  Dropped                     Dropped[]
+  FellowshipMatch             FellowshipMatch[]
+  Suggestion                  Suggestion[]
+  XorY                        XorY[]
+  role                        Role?
+  redditUsername              String?
+  discordUsername             String?
+  followedPrograms            Program[]
+  upvotedInterviewInvites     InterviewInvite[]     @relation("upvotedInterviewInvites")
+  upvotedCityUserInputs       CityUserInput[]       @relation("upvotedCityUserInputs")
+  upvotedFameShames           FameShame[]           @relation("upvotedFameShames")
+  upvotedComments             Comment[]             @relation("upvotedComments")
+  upvotedRankLists            RankList[]            @relation("upvotedRankLists")
+  upvotedPostIVCommunications PostIVCommunication[] @relation("upvotedPostIVCommunications")
+  upvotedScheduleDetails      ScheduleDetails[]     @relation("upvotedScheduleDetails")
+  upvotedInterviewLogistics   InterviewLogistics[]  @relation("upvotedInterviewLogistics")
+  upvotedSecondLooks          SecondLook[]          @relation("upvotedSecondLooks")
+  upvotedInterviewRejections  InterviewRejection[]  @relation("upvotedInterviewRejections")
+  upvotedM4InternImpressions  M4InternImpression[]  @relation("upvotedM4InternImpressions")
+  upvotedMalignants           Malignant[]           @relation("upvotedMalignants")
+  upvotedLOIResponses         LOIResponse[]         @relation("upvotedLOIResponses")
+  upvotedInterviewImpressions InterviewImpression[] @relation("upvotedInterviewImpressions")
+  upvotedQuestions            Question[]            @relation("upvotedQuestions")
+  upvotedDropped              Dropped[]             @relation("upvotedDropped")
+  upvotedFellowshipMatches    FellowshipMatch[]     @relation("upvotedFellowshipMatches")
+  upvotedBinAssignments       BinAssignment[]       @relation("upvotedBinAssignments")
+  upvotedXorY                 XorY[]                @relation("upvotedXorY")
 }
 
 enum Role {
@@ -172,6 +191,7 @@ model InterviewInvite {
   away                 Boolean?
   anonymous            Boolean        @default(false)
   comments             Comment[]
+  upvotedUsers         User[]         @relation("upvotedInterviewInvites")
 
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -249,6 +269,7 @@ model CityUserInput {
   cityId               Int
   anonymous            Boolean   @default(false)
   comments             Comment[]
+  upvotedUsers         User[]    @relation("upvotedCityUserInputs")
 
   city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -258,17 +279,18 @@ model CityUserInput {
 }
 
 model FameShame {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  fame      String?
-  shame     String?
-  programId Int
-  anonymous Boolean   @default(false)
-  program   Program   @relation(fields: [programId], references: [id])
-  comments  Comment[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fame         String?
+  shame        String?
+  programId    Int
+  anonymous    Boolean   @default(false)
+  program      Program   @relation(fields: [programId], references: [id])
+  comments     Comment[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  upvotedUsers User[]    @relation("upvotedFameShames")
 }
 
 model Comment {
@@ -321,6 +343,7 @@ model Comment {
   fellowshipMatchId     Int?
   CityUserInput         CityUserInput?       @relation(fields: [cityUserInputId], references: [id])
   cityUserInputId       Int?
+  upvotedUsers          User[]               @relation("upvotedComments")
 }
 
 model RankList {
@@ -344,6 +367,7 @@ model RankList {
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   RankedProgram    RankedProgram[]
+  upvotedUsers     User[]          @relation("upvotedRankLists")
 }
 
 model RankedProgram {
@@ -371,8 +395,9 @@ model PostIVCommunication {
   comments              Comment[]
   anonymous             Boolean               @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedPostIVCommunications")
 }
 
 enum ThankYouLetterPolicy {
@@ -428,8 +453,9 @@ model ScheduleDetails {
   comments             Comment[]
   anonymous            Boolean   @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedScheduleDetails")
 }
 
 enum EMR {
@@ -474,8 +500,9 @@ model InterviewLogistics {
   comments          Comment[]
   anonymous         Boolean            @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedInterviewLogistics")
 }
 
 enum SchedulerPlatform {
@@ -513,8 +540,9 @@ model SecondLook {
   comments      Comment[]
   anonymous     Boolean   @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedSecondLooks")
 }
 
 enum Setting {
@@ -556,8 +584,9 @@ model InterviewRejection {
   pass                 Int?
   fail                 Int?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedInterviewRejections")
 }
 
 model M4InternImpression {
@@ -571,8 +600,9 @@ model M4InternImpression {
   comments           Comment[]
   anonymous          Boolean   @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedM4InternImpressions")
 }
 
 model Malignant {
@@ -587,8 +617,9 @@ model Malignant {
   comments    Comment[]
   anonymous   Boolean       @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedMalignants")
 }
 
 enum MalignantEnum {
@@ -614,8 +645,9 @@ model LOIResponse {
   comments                   Comment[]
   anonymous                  Boolean               @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedLOIResponses")
 }
 
 enum LOIResponseRecipient {
@@ -650,8 +682,9 @@ model InterviewImpression {
   comments                   Comment[]
   anonymous                  Boolean   @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedInterviewImpressions")
 }
 
 enum Change {
@@ -674,9 +707,10 @@ model Question {
 
   questions String[] @default([])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  anonymous Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  anonymous    Boolean  @default(false)
+  upvotedUsers User[]   @relation("upvotedQuestions")
 }
 
 model Dropped {
@@ -691,8 +725,9 @@ model Dropped {
   anonymous                Boolean   @default(false)
   comments                 Comment[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedDropped")
 }
 
 model FellowshipMatch {
@@ -706,8 +741,9 @@ model FellowshipMatch {
   anonymous Boolean   @default(false)
   comments  Comment[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedFellowshipMatches")
 }
 
 model TierList {
@@ -738,8 +774,9 @@ model BinAssignment {
   programId Int
   rank      Int
 
-  bin     Bin     @relation(fields: [binId], references: [id], onDelete: Cascade)
-  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  bin          Bin     @relation(fields: [binId], references: [id], onDelete: Cascade)
+  program      Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  upvotedUsers User[]  @relation("upvotedBinAssignments")
 
   @@unique([binId, programId])
   @@unique([binId, rank])
@@ -758,17 +795,18 @@ model Suggestion {
 }
 
 model XorY {
-  id         Int       @id @default(autoincrement())
-  programX   Program   @relation("ProgramXRelation", fields: [programXId], references: [id])
-  programXId Int
-  programY   Program   @relation("ProgramYRelation", fields: [programYId], references: [id])
-  programYId Int
-  question   String
-  comments   Comment[]
-  userId     Int
-  img        Boolean?
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  anonymous  Boolean   @default(false)
+  id           Int       @id @default(autoincrement())
+  programX     Program   @relation("ProgramXRelation", fields: [programXId], references: [id])
+  programXId   Int
+  programY     Program   @relation("ProgramYRelation", fields: [programYId], references: [id])
+  programYId   Int
+  question     String
+  comments     Comment[]
+  userId       Int
+  img          Boolean?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  anonymous    Boolean   @default(false)
+  upvotedUsers User[]    @relation("upvotedXorY")
 }

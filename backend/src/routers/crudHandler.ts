@@ -76,6 +76,7 @@ export const createCrudHandlers = (modelName) => ({
             city: true,
           }),
           comments: true,
+          upvotedUsers: true,
         },
       });
       if (!item) {
@@ -140,6 +141,56 @@ export const createCrudHandlers = (modelName) => ({
         return res.status(404).json({ error: `${modelName} not found` });
       }
       handleError(res, error, `Error updating ${modelName}`);
+    }
+  },
+
+  upvoteById: async (req, res) => {
+    try {
+      const { id } = req.params; // Object ID (e.g., interview invite ID)
+      const userId = req.user.id; // Get user ID from middleware
+      const { isUpvote } = req.body; // Boolean passed from frontend
+
+      // Fetch the item to check if it exists
+      const item = await prisma[modelName].findUnique({
+        where: { id: Number(id) },
+        select: { id: true }, // Fetch only the ID to verify the item exists
+      });
+
+      if (!item) {
+        return res.status(404).json({ error: `${modelName} not found` });
+      }
+
+      let updatedItem;
+
+      if (isUpvote) {
+        // User wants to upvote
+        updatedItem = await prisma[modelName].update({
+          where: { id: Number(id) },
+          data: {
+            upvotedUsers: {
+              connect: { id: userId }, // Add the user to upvotedUsers
+            },
+          },
+        });
+      } else {
+        // User wants to remove upvote
+        updatedItem = await prisma[modelName].update({
+          where: { id: Number(id) },
+          data: {
+            upvotedUsers: {
+              disconnect: { id: userId }, // Remove the user from upvotedUsers
+            },
+          },
+        });
+      }
+
+      // Return the ID of the object that was upvoted/unvoted
+      res.json({ id: updatedItem.id });
+    } catch (error) {
+      if (error.code === "P2025") {
+        return res.status(404).json({ error: `${modelName} not found` });
+      }
+      handleError(res, error, `Error updating upvotes for ${modelName}`);
     }
   },
 
@@ -333,6 +384,7 @@ export const createCrudHandlers = (modelName) => ({
               createdAt: "desc",
             },
           },
+          upvotedUsers: true,
           user: {
             select: {
               id: true,
