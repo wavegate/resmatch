@@ -37,7 +37,7 @@ export const userFields = [
   "highPass",
   "pass",
   "fail",
-  "pstp",
+  "mstp",
   "numPublications",
   "numWorkExperiences",
   "numVolunteerExperiences",

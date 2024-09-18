@@ -51,7 +51,7 @@ model User {
   highPass                    Int?
   pass                        Int?
   fail                        Int?
-  pstp                        Boolean?
+  mstp                        Boolean?
   numPublications             Int?
   numWorkExperiences          Int?
   numVolunteerExperiences     Int?
