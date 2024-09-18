@@ -6,6 +6,7 @@ import UserLink from "@/components/UserLink";
 import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
 import { useState } from "react";
+import Upvote from "@/components/Upvote";
 
 export function columnGenerator(
   modelName: string,
@@ -224,7 +225,8 @@ export function columnGenerator(
       const data = params.data;
       const modelId = data.id;
       return (
-        <div className="flex gap-4 items-center mt-2.5">
+        <div className="flex gap-4 items-center mt-2">
+          <Upvote modelName={modelName} item={data} />
           <Link
             to={`/${modelName}/${modelId}/details`}
             className="text-sm underline text-gray-500 hover:cursor-pointer"

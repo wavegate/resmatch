@@ -31,6 +31,13 @@ const createService = <T, FormData>(route: string) => {
       return data;
     },
 
+    upvote: async (id: string | number, isUpvote: boolean): Promise<T> => {
+      const { data } = await apiClient.put(`${route}/upvote/${id}`, {
+        isUpvote,
+      });
+      return data;
+    },
+
     delete: async (id: string | number): Promise<void> => {
       await apiClient.delete(`${route}/${id}`);
     },

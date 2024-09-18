@@ -9,6 +9,7 @@ import programName from "@/utils/programName";
 import dayjs from "dayjs";
 import UserLink from "./UserLink";
 import { modals } from "@mantine/modals";
+import Upvote from "./Upvote";
 
 interface DataDisplayProps {
   data: any;
@@ -127,6 +128,7 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
           {/* Buttons for update and delete */}
           <div className={`ml-4 flex gap-4 items-center`}>
             {/* Details link is always visible */}
+            <Upvote modelName={modelName} item={data} />
             {!detailsPage && (
               <Link
                 to={`/${modelName}/${data.id}/details`}

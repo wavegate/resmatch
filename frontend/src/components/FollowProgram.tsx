@@ -1,7 +1,6 @@
-import { Badge, Button, Group } from "@mantine/core";
+import { Badge } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { FiPlusCircle, FiMinusCircle } from "react-icons/fi"; // Import icons
 import userService from "@/services/userService";
 import useUser from "@/hooks/useUser";
 
