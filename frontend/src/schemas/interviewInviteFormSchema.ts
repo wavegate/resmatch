@@ -85,7 +85,7 @@ const interviewInviteFormSchema: FormSchema = {
   pstp: {
     type: "boolean",
     label: "PSTP",
-    description: "Are you in the Physician-Scientist Training Program?",
+    description: "Are you applying for a Physician-Scientist Training Program?",
   },
   step1ScorePass: {
     type: "boolean",

@@ -85,7 +85,8 @@ const interviewRejectionFormSchema: FormSchema = {
   pstp: {
     type: "boolean",
     label: "PSTP",
-    description: "Are you in the Physician-Scientist Training Program?",
+    description:
+      "Were you applying for a Physician-Scientist Training Program?",
   },
   step1ScorePass: {
     type: "boolean",

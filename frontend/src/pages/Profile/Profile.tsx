@@ -281,11 +281,11 @@ export default function Profile() {
                         {data.medicalDegree}
                       </div>
                     )}
-                    {data.pstp && (
+                    {data.mstp && (
                       <div
                         className={`text-blue-500 text-xs border border-solid border-blue-500 rounded-full w-fit px-1`}
                       >
-                        PSTP
+                        MSTP
                       </div>
                     )}
                     {!id && (

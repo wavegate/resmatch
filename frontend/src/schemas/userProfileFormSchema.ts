@@ -71,10 +71,10 @@ const userProfileFormSchema: FormSchema = {
     description: "Are you ECFMG certified?",
     conditions: { graduateType: "IMG" },
   },
-  pstp: {
+  mstp: {
     type: "boolean",
-    label: "PSTP",
-    description: "Are you in the Physician-Scientist Training Program?",
+    label: "MSTP",
+    description: "Are you in the Medical Scientist Training Program?",
   },
   step1ScorePass: {
     type: "boolean",
@@ -164,28 +164,28 @@ const userProfileFormSchema: FormSchema = {
     type: "number",
     label: "Honors",
     description:
-      "Enter the number of Honors you received during medical school.",
+      "Enter the number of Honors you received on clerkships during medical school.",
     placeholder: "Enter the number of Honors",
   },
   highPass: {
     type: "number",
     label: "High Pass",
     description:
-      "Enter the number of High Passes you received during medical school.",
+      "Enter the number of High Passes you received on clerkships during medical school.",
     placeholder: "Enter the number of High Passes",
   },
   pass: {
     type: "number",
     label: "Pass",
     description:
-      "Enter the number of Passes you received during medical school.",
+      "Enter the number of Passes you received on clerkships during medical school.",
     placeholder: "Enter the number of Passes",
   },
   fail: {
     type: "number",
     label: "Fail",
     description:
-      "Enter the number of Fails you received during medical school.",
+      "Enter the number of Fails you received on clerkships during medical school.",
     placeholder: "Enter the number of Fails",
   },
   yearOfGraduation: {

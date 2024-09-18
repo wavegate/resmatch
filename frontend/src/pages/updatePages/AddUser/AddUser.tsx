@@ -225,7 +225,9 @@ export default function AddUser() {
               );
             })}
 
-            <Button type="submit">Update</Button>
+            <Button type="submit" loading={isPending}>
+              Update
+            </Button>
           </form>
         )}
       </div>
