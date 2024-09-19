@@ -17,6 +17,7 @@ import IMGSuggestion from "./IMGSuggestion";
 import programName from "@/utils/programName";
 import { Helmet } from "react-helmet";
 import { APP_NAME } from "@/constants";
+import { Link } from "react-router-dom";
 
 export default function TierListDetails() {
   const [suggestion, setSuggestion] = useState("");
@@ -75,17 +76,40 @@ export default function TierListDetails() {
     return <NoRecords />;
   }
 
+  const colors = [
+    "bg-red-200",
+    "bg-orange-200",
+    "bg-yellow-200",
+    "bg-lime-200",
+    "bg-green-200",
+    "bg-cyan-200",
+    "bg-blue-200",
+    "bg-purple-200",
+    "bg-pink-200",
+  ];
+  const colors2 = [
+    "bg-red-50",
+    "bg-orange-50",
+    "bg-yellow-50",
+    "bg-lime-50",
+    "bg-green-50",
+    "bg-cyan-50",
+    "bg-blue-50",
+    "bg-purple-50",
+    "bg-pink-50",
+  ];
+
   return (
     <>
       <Helmet>
         <title>IMG Tier List | {APP_NAME}</title>
       </Helmet>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         <header>
           <Title
             order={2}
             mb={{ base: "xs", md: "sm" }}
-            className="text-lg sm:text-xl md:text-2xl"
+            className="text-lg sm:text-xl md:text-2xl !mb-0"
           >
             {tierListData.title}
           </Title>
@@ -98,28 +122,32 @@ export default function TierListDetails() {
           </Text>
         </header>
 
-        <Accordion
-          variant="separated"
-          multiple
-          defaultValue={[...tierListData.bins.map((bin) => String(bin.id))]}
-        >
-          {tierListData.bins.map((bin: any) => (
-            <Accordion.Item key={bin.id} value={bin.id.toString()}>
-              <Accordion.Control>
-                <Text className="font-medium">{bin.name}</Text>
-              </Accordion.Control>
-              <Accordion.Panel>
+        <div className={`grid grid-cols-[auto_1fr] gap-y-4 max-sm:gap-y-2`}>
+          {tierListData.bins.map((bin: any, index) => (
+            <>
+              <div
+                className={`font-medium p-4 rounded-l-lg ${colors[index]} flex justify-center text-center max-w-[120px] max-sm:max-w-[100px] max-sm:p-2 max-sm:text-sm`}
+              >
+                {bin.name}
+              </div>
+
+              <div className={`p-4 rounded-r-lg ${colors2[index]} max-sm:p-2`}>
                 <ul>
-                  {bin.programs.map((binAssignment: any) => (
+                  {bin.programs.map((binAssignment: any, index) => (
                     <li key={binAssignment.program.id}>
-                      {programName(binAssignment.program)}
+                      <Link
+                        to={`/program/${binAssignment.program.id}/details`}
+                        className={`hover:underline max-sm:text-sm`}
+                      >
+                        {programName(binAssignment.program)}
+                      </Link>
                     </li>
                   ))}
                 </ul>
-              </Accordion.Panel>
-            </Accordion.Item>
+              </div>
+            </>
           ))}
-        </Accordion>
+        </div>
 
         <div className="mt-6">
           <Title order={3} mb="xs" className="text-lg">
