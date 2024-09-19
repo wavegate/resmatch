@@ -66,6 +66,7 @@ const TableView = forwardRef(({ showAll }: { showAll: boolean }, ref) => {
               columnDefs={columns}
               ref={ref}
               modules={[ClientSideRowModelModule, CsvExportModule]}
+              enableCellTextSelection={true}
             />
           </div>
           {/* <div className={`mt-2 text-sm`}>

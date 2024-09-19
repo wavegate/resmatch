@@ -11,7 +11,7 @@ export const columnDefs = (user) => [
     },
     cellRenderer: ({ data }) => {
       return (
-        <div className={`h-full flex flex-col justify-center`}>
+        <div className={`mt-2`}>
           <FollowProgram programId={data.id} />
         </div>
       );
