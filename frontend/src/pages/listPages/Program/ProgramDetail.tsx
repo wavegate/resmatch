@@ -7,6 +7,7 @@ import programService from "@/services/programService";
 import programName from "@/utils/programName";
 import ProgramHeader from "@/headers/ProgramHeader/ProgramHeader";
 import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
+import useUser from "@/hooks/useUser";
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ const DetailPage = () => {
     queryKey: ["programs", id],
     queryFn: () => programService.readProgram(id),
   });
+  const { user } = useUser();
 
   const items = [
     { title: "Program Overview", to: `/program` },
@@ -45,7 +47,7 @@ const DetailPage = () => {
 
         {data && (
           <div className={`border border-solid rounded-lg overflow-hidden`}>
-            <ProgramHeader item={data} detailsPage />
+            <ProgramHeader item={data} detailsPage user={user} />
             <ProgramDetails item={data} />
           </div>
         )}
