@@ -73,25 +73,372 @@ programRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
+    // const startTime = Date.now();
+    // console.log(`Request received at ${new Date(startTime)}`);
     const programId = Number(id);
     if (isNaN(programId)) {
       return res.status(400).json({ error: "Invalid program ID" });
     }
 
+    // const queryStartTime = Date.now();
+    // console.log(`Starting Prisma query at ${new Date(queryStartTime)}`);
+
     const program = await prisma.program.findUnique({
       where: { id: programId },
       include: {
-        institution: true,
-        specialty: true,
-        city: true,
+        institution: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        city: {
+          select: {
+            name: true,
+            state: true,
+            userInputs: {
+              include: {
+                city: true,
+                user: {
+                  select: {
+                    id: true,
+                    alias: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        interviewInvites: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        fameShames: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        PostIVCommunication: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        ScheduleDetails: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        InterviewLogistics: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        InterviewRejection: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        SecondLook: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        M4InternImpression: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        Malignant: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        LOIResponse: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        InterviewImpression: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        Question: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        Dropped: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        asProgramX: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+            programX: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            programY: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        asProgramY: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+            programX: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            programY: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        FellowshipMatch: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                alias: true,
+              },
+            },
+          },
+        },
+        binAssignments: {
+          include: {
+            bin: {
+              include: {
+                tierList: true,
+              },
+            },
+          },
+        },
+        followingUsers: true,
       },
     });
+
+    // const queryEndTime = Date.now();
+    // console.log(
+    //   `Prisma query completed in ${queryEndTime - queryStartTime} ms`
+    // );
+
+    // const combinedListStartTime = Date.now();
+    // console.log(
+    //   `Starting to build combinedList at ${new Date(combinedListStartTime)}`
+    // );
+
+    const combinedList = [
+      ...(program?.city?.userInputs?.map((item) => ({
+        ...item,
+        type: "cityUserInput",
+      })) ?? []),
+      ...(program?.interviewInvites?.map((item) => ({
+        ...item,
+        type: "interviewInvite",
+      })) ?? []),
+      ...(program?.fameShames?.map((item) => ({
+        ...item,
+        type: "fameShame",
+      })) ?? []),
+      ...(program?.PostIVCommunication?.map((item) => ({
+        ...item,
+        type: "postIVCommunication",
+      })) ?? []),
+      ...(program?.ScheduleDetails?.map((item) => ({
+        ...item,
+        type: "scheduleDetails",
+      })) ?? []),
+      ...(program?.InterviewLogistics?.map((item) => ({
+        ...item,
+        type: "interviewLogistics",
+      })) ?? []),
+      ...(program?.InterviewRejection?.map((item) => ({
+        ...item,
+        type: "interviewRejection",
+      })) ?? []),
+      ...(program?.M4InternImpression?.map((item) => ({
+        ...item,
+        type: "m4InternImpression",
+      })) ?? []),
+      ...(program?.Malignant?.map((item) => ({ ...item, type: "malignant" })) ??
+        []),
+      ...(program?.LOIResponse?.map((item) => ({
+        ...item,
+        type: "lOIResponse",
+      })) ?? []),
+      ...(program?.InterviewImpression?.map((item) => ({
+        ...item,
+        type: "interviewImpression",
+      })) ?? []),
+      ...(program?.SecondLook?.map((item) => ({
+        ...item,
+        type: "secondLook",
+      })) ?? []),
+      ...(program?.Question?.map((item) => ({ ...item, type: "question" })) ??
+        []),
+      ...(program?.Dropped?.map((item) => ({ ...item, type: "dropped" })) ??
+        []),
+      ...(program?.asProgramX?.map((item) => ({ ...item, type: "xorY" })) ??
+        []),
+      ...(program?.asProgramY?.map((item) => ({ ...item, type: "xorY" })) ??
+        []),
+      ...(program?.FellowshipMatch?.map((item) => ({
+        ...item,
+        type: "fellowshipMatch",
+      })) ?? []),
+    ];
+
+    // const combinedListEndTime = Date.now();
+    // console.log(
+    //   `CombinedList built in ${combinedListEndTime - combinedListStartTime} ms`
+    // );
+
+    // Sort by createdAt (latest first)
+    combinedList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     if (!program) {
       return res.status(404).json({ error: "Program not found" });
     }
 
-    res.status(200).json(program);
+    // const responseStartTime = Date.now();
+    // console.log(`Starting to send response at ${new Date(responseStartTime)}`);
+
+    const {
+      interviewInvites,
+      fameShames,
+      PostIVCommunication,
+      ScheduleDetails,
+      InterviewLogistics,
+      InterviewRejection,
+      SecondLook,
+      M4InternImpression,
+      Malignant,
+      LOIResponse,
+      InterviewImpression,
+      Question,
+      Dropped,
+      asProgramX,
+      asProgramY,
+      FellowshipMatch,
+      ...remainingProgramFields
+    } = program;
+
+    // const responseEndTime = Date.now();
+    // console.log(`Response sent in ${responseEndTime - responseStartTime} ms`);
+
+    // const totalTime = Date.now() - startTime;
+    // console.log(`Total time for request: ${totalTime} ms`);
+
+    // Return the response with only the remaining fields and the combinedList
+    res.status(200).json({
+      ...remainingProgramFields, // Send the rest of the program fields (excluding the ones we extracted)
+      combinedList, // Add the combined list with the desired fields
+    });
   } catch (error) {
     console.error("Error fetching program details:", error);
     res.status(500).json({ error: "Internal Server Error" });

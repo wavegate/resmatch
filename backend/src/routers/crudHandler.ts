@@ -56,6 +56,7 @@ export const createCrudHandlers = (modelName) => ({
             modelName !== "xorY" && {
               program: {
                 include: {
+                  city: true,
                   institution: true,
                 },
               },

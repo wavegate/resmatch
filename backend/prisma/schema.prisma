@@ -162,6 +162,8 @@ model Program {
   RankedProgram       RankedProgram[]
   binAssignments      BinAssignment[]
   followingUsers      User[]
+
+  @@index(fields: [cityId])
 }
 
 model InterviewInvite {
@@ -201,6 +203,10 @@ model InterviewInvite {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum GraduateType {
@@ -250,6 +256,7 @@ model City {
   institutions Institution[]
   programs     Program[]
 
+  @@index([state])
   @@index([name, state])
 }
 
@@ -291,6 +298,10 @@ model FameShame {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   upvotedUsers User[]    @relation("upvotedFameShames")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 model Comment {
@@ -344,6 +355,10 @@ model Comment {
   CityUserInput         CityUserInput?       @relation(fields: [cityUserInputId], references: [id])
   cityUserInputId       Int?
   upvotedUsers          User[]               @relation("upvotedComments")
+
+  @@index([parentId])
+  @@index([userId])
+  @@index(fields: [userId, parentId])
 }
 
 model RankList {
@@ -368,6 +383,8 @@ model RankList {
   updatedAt        DateTime        @updatedAt
   RankedProgram    RankedProgram[]
   upvotedUsers     User[]          @relation("upvotedRankLists")
+
+  @@index(fields: [userId])
 }
 
 model RankedProgram {
@@ -398,6 +415,10 @@ model PostIVCommunication {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedPostIVCommunications")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum ThankYouLetterPolicy {
@@ -456,6 +477,10 @@ model ScheduleDetails {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedScheduleDetails")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum EMR {
@@ -503,6 +528,10 @@ model InterviewLogistics {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedInterviewLogistics")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum SchedulerPlatform {
@@ -543,6 +572,10 @@ model SecondLook {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedSecondLooks")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum Setting {
@@ -587,6 +620,10 @@ model InterviewRejection {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedInterviewRejections")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 model M4InternImpression {
@@ -603,6 +640,10 @@ model M4InternImpression {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedM4InternImpressions")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 model Malignant {
@@ -620,6 +661,10 @@ model Malignant {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedMalignants")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum MalignantEnum {
@@ -648,6 +693,10 @@ model LOIResponse {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedLOIResponses")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum LOIResponseRecipient {
@@ -685,6 +734,10 @@ model InterviewImpression {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedInterviewImpressions")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 enum Change {
@@ -711,6 +764,10 @@ model Question {
   updatedAt    DateTime @updatedAt
   anonymous    Boolean  @default(false)
   upvotedUsers User[]   @relation("upvotedQuestions")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 model Dropped {
@@ -728,6 +785,10 @@ model Dropped {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedDropped")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 model FellowshipMatch {
@@ -744,6 +805,10 @@ model FellowshipMatch {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   upvotedUsers User[]   @relation("upvotedFellowshipMatches")
+
+  @@index([programId])
+  @@index([userId])
+  @@index(fields: [programId, userId])
 }
 
 model TierList {
@@ -809,4 +874,9 @@ model XorY {
   updatedAt    DateTime  @updatedAt
   anonymous    Boolean   @default(false)
   upvotedUsers User[]    @relation("upvotedXorY")
+
+  @@index([programXId])
+  @@index([programYId])
+  @@index([userId])
+  @@index(fields: [programXId, programYId, userId])
 }
