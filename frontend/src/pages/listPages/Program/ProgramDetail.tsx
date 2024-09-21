@@ -39,7 +39,7 @@ const DetailPage = () => {
           {programName(data)} | {APP_NAME}
         </title>
       </Helmet>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 overflow-hidden">
         <Breadcrumbs separator=">">{items}</Breadcrumbs>
         {isLoading && (
           <div className={`flex flex-col items-center`}>
