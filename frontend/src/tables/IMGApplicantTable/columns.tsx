@@ -105,15 +105,45 @@ export const columnDefs = [
   {
     headerName: "Visa Required",
     field: "visaRequired",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
   },
   {
     headerName: "Green Card",
     field: "greenCard",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
   },
   { headerName: "Months of USCE", field: "monthsOfUSCE" },
   {
     headerName: "ECFMG Certified",
     field: "ecfmgCertified",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
   },
   // { headerName: "Step 1 Score Pass", field: "step1ScorePass" },
   // { headerName: "Step 1 Score", field: "step1Score" },
@@ -124,7 +154,20 @@ export const columnDefs = [
   },
   // { headerName: "COMLEX 1 Score Pass", field: "comlex1ScorePass" },
   // { headerName: "COMLEX 2 Score", field: "comlex2Score" },
-  { headerName: "Red Flags", field: "redFlags" },
+  {
+    headerName: "Red Flags",
+    field: "redFlags",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
+  },
   { headerName: "Red Flags Explanation", field: "redFlagsExplanation" },
   { headerName: "Honors", field: "honors" },
   { headerName: "High Pass", field: "highPass" },
@@ -141,7 +184,6 @@ export const columnDefs = [
     field: "numVolunteerExperiences",
   },
   { headerName: "Other Degrees", field: "otherDegrees" },
-  { headerName: "MSTP", field: "mstp" },
   { headerName: "# Applications", field: "numApplications" },
   { headerName: "# Interviews", field: "numInterviews" },
   { headerName: "# Withdrawn Applications", field: "numWithdrawn" },

@@ -50,6 +50,11 @@ export function columnGenerator(
   } else if (modelName !== "xorY") {
     // Add programName as the first column for other models
     columns.push({
+      headerName: "State",
+      field: "program.city.state",
+      width: "120px",
+    });
+    columns.push({
       headerName: "Program Name",
       valueGetter: (params) => programName(params.data.program),
       cellRenderer: ({ data }) => {
@@ -144,6 +149,16 @@ export function columnGenerator(
         break;
 
       case "boolean":
+        columnDef.cellDataType = "text";
+        columnDef.valueFormatter = (params) => {
+          if (params.value === true) {
+            return "Yes";
+          } else if (params.value === false) {
+            return "No";
+          } else {
+            return "";
+          }
+        };
         break;
 
       default:

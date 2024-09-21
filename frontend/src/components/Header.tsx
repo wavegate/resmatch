@@ -122,6 +122,12 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
         <div
           className={`text-sm text-gray-500 flex gap-1.5 items-center flex-wrap`}
         >
+          {!["xorY", "cityUserInput"].includes(modelName) && (
+            <>
+              {data.program?.city?.state}
+              <div>·</div>
+            </>
+          )}
           <UserLink data={data} />
           <div>·</div>
           <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>

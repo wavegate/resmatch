@@ -124,15 +124,67 @@ export const columnDefs = [
     field: "comlex2Score",
     valueFormatter: ({ value }) => convertToBinnedValue(value),
   },
-  { headerName: "Red Flags", field: "redFlags" },
+  {
+    headerName: "Red Flags",
+    field: "redFlags",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
+  },
   { headerName: "Red Flags Explanation", field: "redFlagsExplanation" },
   { headerName: "Honors", field: "honors" },
   { headerName: "High Pass", field: "highPass" },
   { headerName: "Pass", field: "pass" },
   { headerName: "Fail", field: "fail" },
-  { headerName: "AOA", field: "aoa" },
-  { headerName: "Sigma Sigma Phi", field: "sigmaSigmaPhi" },
-  { headerName: "Gold Humanism", field: "goldHumanism" },
+  {
+    headerName: "AOA",
+    field: "aoa",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
+  },
+  {
+    headerName: "Sigma Sigma Phi",
+    field: "sigmaSigmaPhi",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
+  },
+  {
+    headerName: "Gold Humanism",
+    field: "goldHumanism",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
+  },
   { headerName: "Year of Graduation", field: "yearOfGraduation" },
   { headerName: "# Publications", field: "numPublications" },
   { headerName: "# Work Experiences", field: "numWorkExperiences" },
@@ -141,7 +193,20 @@ export const columnDefs = [
     field: "numVolunteerExperiences",
   },
   { headerName: "Other Degrees", field: "otherDegrees" },
-  { headerName: "MSTP", field: "mstp" },
+  {
+    headerName: "MSTP",
+    field: "mstp",
+    cellDataType: "text",
+    valueFormatter: (params) => {
+      if (params.value === true) {
+        return "Yes";
+      } else if (params.value === false) {
+        return "No";
+      } else {
+        return "";
+      }
+    },
+  },
   { headerName: "# Applications", field: "numApplications" },
   { headerName: "# Interviews", field: "numInterviews" },
   { headerName: "# Withdrawn Applications", field: "numWithdrawn" },
