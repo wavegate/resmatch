@@ -8,6 +8,8 @@ import programName from "@/utils/programName";
 import ProgramHeader from "@/headers/ProgramHeader/ProgramHeader";
 import ProgramDetails from "@/details/ProgramDetails/ProgramDetails";
 import useUser from "@/hooks/useUser";
+import Header from "@/components/Header";
+import Details from "@/components/Details";
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -51,6 +53,30 @@ const DetailPage = () => {
             <ProgramDetails item={data} />
           </div>
         )}
+
+        <div className={`flex flex-col gap-2`}>
+          {data?.combinedList?.map((datum, index) => {
+            return (
+              <div
+                key={datum.id}
+                className={`border border-solid rounded-lg overflow-hidden`}
+              >
+                <Header
+                  programDetail
+                  queryKey={[datum?.type, "all"]}
+                  data={datum}
+                  modelName={datum?.type}
+                />
+                <Details
+                  queryKey={[datum?.type, "all"]}
+                  data={datum}
+                  modelName={datum?.type}
+                  programDetail
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

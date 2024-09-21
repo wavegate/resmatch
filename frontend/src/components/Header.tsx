@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import UserLink from "./UserLink";
 import { modals } from "@mantine/modals";
 import Upvote from "./Upvote";
+import { useMemo } from "react";
 
 interface DataDisplayProps {
   data: any;
@@ -18,7 +19,7 @@ interface DataDisplayProps {
   queryKey: any;
 }
 
-const Header = ({ data, modelName, queryKey, detailsPage }) => {
+const Header = ({ data, modelName, queryKey, detailsPage, programDetail }) => {
   const queryClient = useQueryClient();
 
   const labels = pageDescription[modelName];
@@ -93,6 +94,70 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
     return "bg-primary"; // Default background
   };
 
+  const label = pageDescription[modelName].singular;
+
+  const title = useMemo(() => {
+    if (modelName === "cityUserInput") {
+      // For cityUserInput, return city and state in a div
+      return (
+        <div className={`font-medium sm:text-lg`}>
+          {`${data.city.name}, ${data.city.state}`}
+        </div>
+      );
+    } else if (modelName === "xorY") {
+      // If modelName is "xorY" and programDetail is true, link to /modelName/id/details
+      if (detailsPage) {
+        return (
+          <div className={`font-medium sm:text-lg`}>
+            <Link
+              to={`/program/${data.programXId}/details`}
+              className={`font-medium sm:text-lg hover:underline`}
+            >
+              {programName(data.programX)}
+            </Link>
+            {" vs "}
+            <Link
+              to={`/program/${data.programYId}/details`}
+              className={`font-medium sm:text-lg hover:underline`}
+            >
+              {programName(data.programY)}
+            </Link>
+          </div>
+        );
+      } else {
+        // Otherwise, link to each program separately
+        return (
+          <Link
+            to={`/${modelName}/${data.id}/details`}
+            className={`font-medium sm:text-lg hover:underline`}
+          >
+            {`${programName(data.programX)} vs ${programName(data.programY)}`}
+          </Link>
+        );
+      }
+    } else if (programDetail) {
+      // For other models, link to the program details if programDetail is true
+      return (
+        <Link
+          to={`/${modelName}/${data.id}/details`}
+          className={`font-medium sm:text-lg hover:underline`}
+        >
+          {label}
+        </Link>
+      );
+    } else {
+      // For other models, return programName(data.program) in a div when programDetail is false
+      return (
+        <Link
+          to={`/program/${data.programId}/details`}
+          className={`font-medium sm:text-lg hover:underline`}
+        >
+          {programName(data.program)}
+        </Link>
+      );
+    }
+  }, [modelName, data, programDetail, label, programName]);
+
   return (
     <div
       className={`${
@@ -111,18 +176,12 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
       )}
 
       <div className={`flex flex-col gap-1`}>
-        <div className={`font-medium sm:text-lg`}>
-          {modelName === "cityUserInput"
-            ? `${data.city.name}, ${data.city.state}`
-            : modelName === "xorY"
-            ? `${programName(data.programX)} vs ${programName(data.programY)}`
-            : programName(data.program)}
-        </div>
+        {title}
         {/* Display user alias or 'Anonymous' */}
         <div
           className={`text-sm text-gray-500 flex gap-1.5 items-center flex-wrap`}
         >
-          {!["xorY", "cityUserInput"].includes(modelName) && (
+          {!["xorY", "cityUserInput"].includes(modelName) && !programDetail && (
             <>
               {data.program?.city?.state}
               <div>·</div>
@@ -132,36 +191,38 @@ const Header = ({ data, modelName, queryKey, detailsPage }) => {
           <div>·</div>
           <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
           {/* Buttons for update and delete */}
-          <div className={`ml-4 flex gap-4 items-center`}>
-            {/* Details link is always visible */}
-            <Upvote modelName={modelName} item={data} />
-            {!detailsPage && (
-              <Link
-                to={`/${modelName}/${data.id}/details`}
-                className={`text-sm underline`}
-              >
-                Details
-              </Link>
-            )}
-
-            {/* Edit and Delete links only visible if user is logged in and matches the userId */}
-            {user?.id === data.userId && (
-              <>
+          {!programDetail && (
+            <div className={`ml-4 flex gap-4 items-center`}>
+              {/* Details link is always visible */}
+              <Upvote modelName={modelName} item={data} />
+              {!detailsPage && (
                 <Link
-                  to={`/${modelName}/${data.id}`}
-                  className={`text-sm underline text-gray-500`}
+                  to={`/${modelName}/${data.id}/details`}
+                  className={`text-sm underline`}
                 >
-                  Edit
+                  Details
                 </Link>
-                <div
-                  className={`text-sm underline text-red-500 hover:cursor-pointer`}
-                  onClick={openDeleteModal}
-                >
-                  Delete
-                </div>
-              </>
-            )}
-          </div>
+              )}
+
+              {/* Edit and Delete links only visible if user is logged in and matches the userId */}
+              {user?.id === data.userId && (
+                <>
+                  <Link
+                    to={`/${modelName}/${data.id}`}
+                    className={`text-sm underline text-gray-500`}
+                  >
+                    Edit
+                  </Link>
+                  <div
+                    className={`text-sm underline text-red-500 hover:cursor-pointer`}
+                    onClick={openDeleteModal}
+                  >
+                    Delete
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -74,10 +74,30 @@ export function columnGenerator(
       headerName: "Program X",
       valueGetter: (params) => programName(params.data.programX),
       filter: true, // Add a text filter for program name
+      cellRenderer: ({ data }) => {
+        return (
+          <Link
+            to={`/program/${data.programX?.id}/details`}
+            className={`hover:underline`}
+          >
+            {programName(data.programX)}
+          </Link>
+        );
+      },
     });
     columns.push({
       headerName: "Program Y",
       valueGetter: (params) => programName(params.data.programY),
+      cellRenderer: ({ data }) => {
+        return (
+          <Link
+            to={`/program/${data.programY?.id}/details`}
+            className={`hover:underline`}
+          >
+            {programName(data.programY)}
+          </Link>
+        );
+      },
       filter: true, // Add a text filter for program name
     });
   }

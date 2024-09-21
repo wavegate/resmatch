@@ -5,7 +5,7 @@ import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
 import useUser from "@/hooks/useUser";
 
-const Details = ({ data, modelName, queryKey }) => {
+const Details = ({ data, modelName, queryKey, programDetail }) => {
   const schema = schemas[modelName];
 
   const filterOutFields = [
@@ -116,28 +116,31 @@ const Details = ({ data, modelName, queryKey }) => {
       </div>
 
       {/* Display comments field */}
-
-      {data.comments?.length > 0 && (
-        <div className={`flex flex-col gap-4`}>
-          {data.comments.map((item: any) => (
-            <Comment id={item.id} key={item.id} queryKey={queryKey} />
-          ))}
-        </div>
-      )}
-      {user && (
-        <div
-          className={`text-sm text-gray-500 hover:cursor-pointer underline`}
-          onClick={() => setAddComment((prev) => !prev)}
-        >
-          Add comment
-        </div>
-      )}
-      {user && addComment && (
-        <AddCommentField
-          queryKey={queryKey}
-          modelName={modelName}
-          id={data.id}
-        />
+      {!programDetail && (
+        <>
+          {data.comments?.length > 0 && (
+            <div className={`flex flex-col gap-4`}>
+              {data.comments.map((item: any) => (
+                <Comment id={item.id} key={item.id} queryKey={queryKey} />
+              ))}
+            </div>
+          )}
+          {user && (
+            <div
+              className={`text-sm text-gray-500 hover:cursor-pointer underline`}
+              onClick={() => setAddComment((prev) => !prev)}
+            >
+              Add comment
+            </div>
+          )}
+          {user && addComment && (
+            <AddCommentField
+              queryKey={queryKey}
+              modelName={modelName}
+              id={data.id}
+            />
+          )}
+        </>
       )}
     </div>
   );
