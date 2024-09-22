@@ -138,9 +138,9 @@ export default () => {
               <div className={`flex flex-col gap-1`}>
                 <div className={`font-medium`}>9/22/2024</div>
                 <div>
-                  Load data into program details page, imported logistics,
-                  impressions, questions, postIVCommunication, second looks from
-                  last year
+                  Load data into program details page, load data into user
+                  profile page, imported logistics, impressions, questions,
+                  postIVCommunication, second looks from last year
                 </div>
               </div>
               <div className={`flex flex-col gap-1`}>

@@ -15,9 +15,6 @@ const questionFormSchema: FormSchema = {
     placeholder: "Enter a question and press enter to add another...",
     required: true,
   },
-  comments: {
-    type: "comments",
-  },
   anonymous: {
     type: "boolean",
     label: "Post Anonymously",

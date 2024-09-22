@@ -19,7 +19,14 @@ interface DataDisplayProps {
   queryKey: any;
 }
 
-const Header = ({ data, modelName, queryKey, detailsPage, programDetail }) => {
+const Header = ({
+  data,
+  modelName,
+  queryKey,
+  detailsPage,
+  programDetail,
+  userProfile,
+}) => {
   const queryClient = useQueryClient();
 
   const labels = pageDescription[modelName];
@@ -135,7 +142,7 @@ const Header = ({ data, modelName, queryKey, detailsPage, programDetail }) => {
           </Link>
         );
       }
-    } else if (programDetail) {
+    } else if (programDetail || userProfile) {
       // For other models, link to the program details if programDetail is true
       return (
         <Link
@@ -156,7 +163,7 @@ const Header = ({ data, modelName, queryKey, detailsPage, programDetail }) => {
         </Link>
       );
     }
-  }, [modelName, data, programDetail, label, programName]);
+  }, [modelName, data, programDetail, userProfile, label, programName]);
 
   return (
     <div
@@ -181,17 +188,24 @@ const Header = ({ data, modelName, queryKey, detailsPage, programDetail }) => {
         <div
           className={`text-sm text-gray-500 flex gap-1.5 items-center flex-wrap`}
         >
-          {!["xorY", "cityUserInput"].includes(modelName) && !programDetail && (
+          {!["xorY", "cityUserInput"].includes(modelName) &&
+            !programDetail &&
+            !userProfile && (
+              <>
+                {data.program?.city?.state}
+                <div>·</div>
+              </>
+            )}
+          {!userProfile && (
             <>
-              {data.program?.city?.state}
+              <UserLink data={data} />
               <div>·</div>
             </>
           )}
-          <UserLink data={data} />
-          <div>·</div>
+
           <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
           {/* Buttons for update and delete */}
-          {!programDetail && (
+          {!programDetail && !userProfile && (
             <div className={`ml-4 flex gap-4 items-center`}>
               {/* Details link is always visible */}
               <Upvote modelName={modelName} item={data} />

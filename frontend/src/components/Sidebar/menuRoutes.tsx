@@ -22,12 +22,9 @@ import {
   FaRegComment,
   FaRegEye,
   FaRegCalendarAlt,
+  FaRegUser,
 } from "react-icons/fa";
-import {
-  HiOutlineUserCircle,
-  HiOutlineChat,
-  HiOutlineFlag,
-} from "react-icons/hi";
+import { HiOutlineChat, HiOutlineFlag } from "react-icons/hi";
 import { LuClipboardList, LuHome, LuMapPin } from "react-icons/lu";
 import SidebarMenuItem from "./SidebarMenuItem";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -41,7 +38,7 @@ const sidebarRoutes = [
   {
     link: "/profile",
     text: "My Profile",
-    icon: <SidebarMenuItem Icon={HiOutlineUserCircle} />,
+    icon: <SidebarMenuItem Icon={FaRegUser} />,
     auth: "signedIn",
   },
   {

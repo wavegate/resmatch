@@ -61,9 +61,6 @@ const cityUserInputFormSchema: FormSchema = {
     label: "Post Anonymously",
     description: "An anonymous post is not linked to your user profile.",
   },
-  comments: {
-    type: "comments", // Based on your preference for a comment type
-  },
 };
 
 export default cityUserInputFormSchema;

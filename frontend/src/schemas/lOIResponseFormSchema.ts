@@ -45,10 +45,6 @@ const lOIResponseFormSchema: FormSchema = {
     label: "Mentioned as Top Choice",
     description: "Did you mention top choice or #1 choice?",
   },
-  comments: {
-    type: "comments",
-    label: "Comments",
-  },
   anonymous: {
     type: "boolean",
     label: "Post Anonymously",

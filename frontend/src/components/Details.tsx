@@ -5,7 +5,7 @@ import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
 import useUser from "@/hooks/useUser";
 
-const Details = ({ data, modelName, queryKey, programDetail }) => {
+const Details = ({ data, modelName, queryKey, programDetail, userProfile }) => {
   const schema = schemas[modelName];
 
   const filterOutFields = [
@@ -116,7 +116,7 @@ const Details = ({ data, modelName, queryKey, programDetail }) => {
       </div>
 
       {/* Display comments field */}
-      {!programDetail && (
+      {!programDetail && !userProfile && (
         <>
           {data.comments?.length > 0 && (
             <div className={`flex flex-col gap-4`}>

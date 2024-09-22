@@ -20,11 +20,6 @@ const m4InternImpressionFormSchema: FormSchema = {
     description: "Share any negative experiences during your M4 or internship.",
     placeholder: "e.g., Lack of guidance, long hours, disorganized scheduling",
   },
-  comments: {
-    type: "comments",
-    label: "Comments",
-    description: "Any additional comments regarding your experience.",
-  },
   anonymous: {
     type: "boolean",
     label: "Post Anonymously",

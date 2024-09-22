@@ -16,6 +16,8 @@ import ProfileCard from "./ProfileCard";
 import { useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { APP_NAME } from "@/constants";
+import Header from "@/components/Header";
+import Details from "@/components/Details";
 
 function displayStep1Result(data) {
   if (data.step1Score) {
@@ -338,6 +340,29 @@ export default function Profile() {
               {data.graduateType === "IMG" && <ProfileCard {...imgCard} />}
               <ProfileCard {...applicationsCard} />
               <ProfileCard {...extracurricularsCard} />
+            </div>
+            <div className={`flex flex-col gap-2`}>
+              {data?.combinedList?.map((datum, index) => {
+                return (
+                  <div
+                    key={datum.id}
+                    className={`border border-solid rounded-lg overflow-hidden`}
+                  >
+                    <Header
+                      userProfile
+                      queryKey={[datum?.type, "all"]}
+                      data={datum}
+                      modelName={datum?.type}
+                    />
+                    <Details
+                      userProfile
+                      queryKey={[datum?.type, "all"]}
+                      data={datum}
+                      modelName={datum?.type}
+                    />
+                  </div>
+                );
+              })}
             </div>
             {/* <Tabs defaultValue="ivOffers" variant="outline">
             <Tabs.List>

@@ -31,10 +31,6 @@ const postIVCommunicationFormSchema: FormSchema = {
     description: "The source of the post-interview communication.",
     placeholder: "e.g., Program Director, Resident, etc.",
   },
-  comments: {
-    type: "comments",
-    label: "Comments",
-  },
   anonymous: {
     type: "boolean",
     label: "Post Anonymously",

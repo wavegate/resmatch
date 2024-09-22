@@ -38,11 +38,6 @@ const interviewImpressionFormSchema: FormSchema = {
     description: "When the gift was received during the interview day.",
     placeholder: "e.g., At the beginning of the day, after lunch, etc.",
   },
-  comments: {
-    type: "comments",
-    label: "Comments",
-    description: "Additional comments or feedback.",
-  },
   anonymous: {
     type: "boolean",
     label: "Post Anonymously",

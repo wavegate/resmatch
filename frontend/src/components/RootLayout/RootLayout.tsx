@@ -11,10 +11,9 @@ import { Link, Outlet } from "react-router-dom";
 import { RiLogoutBoxRLine, RiMentalHealthLine } from "react-icons/ri";
 import useUser from "@/hooks/useUser";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import UserLink from "../UserLink";
 import { generateGravatarUrl } from "@/utils/utils";
 import { HiOutlineUserCircle } from "react-icons/hi";
-import { IoLogInOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa";
 
 export default () => {
   const { user, signOut, isLoading } = useUser();
@@ -92,15 +91,17 @@ export default () => {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Item
-                      leftSection={<HiOutlineUserCircle />}
+                      leftSection={<FaRegUser />}
                       component={Link}
                       to="/profile"
+                      className={`text-base`}
                     >
                       Profile
                     </Menu.Item>
                     <Menu.Item
                       leftSection={<RiLogoutBoxRLine />}
                       onClick={signOut}
+                      className={`text-base`}
                     >
                       Sign out
                     </Menu.Item>
@@ -124,15 +125,17 @@ export default () => {
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Item
-                    leftSection={<HiOutlineUserCircle />}
+                    leftSection={<FaRegUser />}
                     component={Link}
                     to="/profile"
+                    className={`text-base`}
                   >
                     Profile
                   </Menu.Item>
                   <Menu.Item
                     leftSection={<RiLogoutBoxRLine />}
                     onClick={signOut}
+                    className={`text-base`}
                   >
                     Sign out
                   </Menu.Item>
