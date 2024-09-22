@@ -9,6 +9,7 @@ export const fieldLabelMap: Record<string, Record<string, string>> = {
     REZRATE: "RezRate",
     PROGRAM_WEBSITE: "Program Website",
     COORDINATOR: "Coordinator",
+    THIRD_FRIDAY: "3rd Friday",
   },
   ivPlatform: {
     ZOOM: "Zoom",

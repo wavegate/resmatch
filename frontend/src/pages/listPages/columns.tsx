@@ -200,6 +200,7 @@ export function columnGenerator(
     cellRenderer: ({ data }) => {
       return <UserLink data={data} />;
     },
+    width: "100px",
   });
 
   columns.push({
@@ -214,6 +215,7 @@ export function columnGenerator(
       const dateValue = params.value;
       return dateValue ? new Date(dateValue).toLocaleDateString() : null;
     },
+    width: "100px",
   });
 
   columns.push({

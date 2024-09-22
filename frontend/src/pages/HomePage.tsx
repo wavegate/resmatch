@@ -136,6 +136,14 @@ export default () => {
             >
               <h4 className={`font-medium text-xl`}>Changelog</h4>
               <div className={`flex flex-col gap-1`}>
+                <div className={`font-medium`}>9/22/2024</div>
+                <div>
+                  Load data into program details page, imported logistics,
+                  impressions, questions, postIVCommunication, second looks from
+                  last year
+                </div>
+              </div>
+              <div className={`flex flex-col gap-1`}>
                 <div className={`font-medium`}>9/18/2024</div>
                 <div>Rebuild tier lists</div>
               </div>
