@@ -3,21 +3,21 @@ import programName from "@/utils/programName";
 import { Link } from "react-router-dom";
 
 export const columnDefs = (user) => [
-  {
-    headerName: "Follow",
-    width: "120px",
-    valueGetter: ({ data }) => {
-      return user?.followedPrograms?.some((x) => x.id === data.id);
-    },
-    cellRenderer: ({ data }) => {
-      return (
-        <div className={`mt-2`}>
-          <FollowProgram programId={data.id} />
-        </div>
-      );
-    },
-    hide: !user,
-  },
+  // {
+  //   headerName: "Follow",
+  //   width: "120px",
+  //   valueGetter: ({ data }) => {
+  //     return user?.followedPrograms?.some((x) => x.id === data.id);
+  //   },
+  //   cellRenderer: ({ data }) => {
+  //     return (
+  //       <div className={`mt-2`}>
+  //         <FollowProgram programId={data.id} />
+  //       </div>
+  //     );
+  //   },
+  //   hide: !user,
+  // },
   {
     headerName: "Name",
     valueGetter: (p) => {
@@ -30,6 +30,16 @@ export const columnDefs = (user) => [
         </Link>
       );
     },
+  },
+  {
+    headerName: "State",
+    field: "city.state",
+    filter: true,
+  },
+  {
+    headerName: "City",
+    field: "city.name",
+    filter: true,
   },
   {
     headerName: "Program Type",
@@ -47,16 +57,6 @@ export const columnDefs = (user) => [
         return ""; // Return an empty string if no match
       }
     },
-  },
-  {
-    headerName: "City",
-    field: "city.name",
-    filter: true,
-  },
-  {
-    headerName: "State",
-    field: "city.state",
-    filter: true,
   },
   {
     headerName: "NRMP Program Code",

@@ -20,7 +20,7 @@ export default () => {
   }, []);
 
   return (
-    <>
+    <div className={`p-2`}>
       <Helmet>
         <title>{APP_NAME}</title>
       </Helmet>
@@ -254,6 +254,6 @@ export default () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

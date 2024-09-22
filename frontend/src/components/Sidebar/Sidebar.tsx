@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { Button, LoadingOverlay, Collapse } from "@mantine/core";
+import { Button, LoadingOverlay, Collapse, Menu, Avatar } from "@mantine/core";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Icons for collapse/expand
 import menuRoutes from "./menuRoutes";
 import useUser from "@/hooks/useUser"; // Import the useUser hook
 import "./sidebar.scss";
+import { generateGravatarUrl } from "@/utils/utils";
+import { HiOutlineUserCircle } from "react-icons/hi";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
   const { user } = useUser(); // Get the user from the useUser hook
@@ -19,7 +22,7 @@ const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
 
   return (
     <div className={`flex flex-col gap-2`}>
-      <div className={`flex gap-3 sm:hidden relative`}>
+      {/* <div className={`flex gap-3 sm:hidden relative`}>
         <LoadingOverlay
           visible={isLoading}
           zIndex={1000}
@@ -38,12 +41,7 @@ const Sidebar = ({ toggleMobile, isLoading, signOut }) => {
             </Link>
           </>
         )}
-        {user && (
-          <Button onClick={signOut} variant="default" size="sm">
-            Sign out
-          </Button>
-        )}
-      </div>
+      </div> */}
       {menuRoutes.map((group, groupIndex) => {
         // Check if the route should be rendered based on the auth status
         if (group.auth === "signedIn" && !user) {

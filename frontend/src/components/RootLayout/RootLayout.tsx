@@ -1,9 +1,20 @@
-import { AppShell, Burger, Button, LoadingOverlay } from "@mantine/core";
+import {
+  AppShell,
+  Avatar,
+  Burger,
+  Button,
+  LoadingOverlay,
+  Menu,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link, Outlet } from "react-router-dom";
-import { RiMentalHealthLine } from "react-icons/ri";
+import { RiLogoutBoxRLine, RiMentalHealthLine } from "react-icons/ri";
 import useUser from "@/hooks/useUser";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import UserLink from "../UserLink";
+import { generateGravatarUrl } from "@/utils/utils";
+import { HiOutlineUserCircle } from "react-icons/hi";
+import { IoLogInOutline } from "react-icons/io5";
 
 export default () => {
   const { user, signOut, isLoading } = useUser();
@@ -65,11 +76,79 @@ export default () => {
               </>
             )}
             {user && (
-              <Button variant="default" onClick={signOut}>
-                Sign out
-              </Button>
+              <>
+                <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Button variant="default" className={`rounded-3xl`}>
+                      Logged in as:{" "}
+                      <div className={`flex gap-2 items-center ml-4`}>
+                        <Avatar
+                          size="16"
+                          src={generateGravatarUrl(String(user?.id) || "", 40)}
+                        />
+                        <div>{user?.alias || "-"}</div>
+                      </div>
+                    </Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      leftSection={<HiOutlineUserCircle />}
+                      component={Link}
+                      to="/profile"
+                    >
+                      Profile
+                    </Menu.Item>
+                    <Menu.Item
+                      leftSection={<RiLogoutBoxRLine />}
+                      onClick={signOut}
+                    >
+                      Sign out
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
             )}
           </div>
+          {user && (
+            <div className={`sm:hidden`}>
+              <Menu shadow="md" width={200}>
+                <Menu.Target>
+                  <Button variant="default" className={`rounded-full px-1.5`}>
+                    <div className={`flex gap-2 items-center`}>
+                      <Avatar
+                        size="23"
+                        src={generateGravatarUrl(String(user?.id) || "", 40)}
+                      />
+                    </div>
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item
+                    leftSection={<HiOutlineUserCircle />}
+                    component={Link}
+                    to="/profile"
+                  >
+                    Profile
+                  </Menu.Item>
+                  <Menu.Item
+                    leftSection={<RiLogoutBoxRLine />}
+                    onClick={signOut}
+                  >
+                    Sign out
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </div>
+          )}
+          {!user && (
+            <div className={`sm:hidden`}>
+              <Link to="/login">
+                <Button variant="default" className={`rounded-full`} size="xs">
+                  Login
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </AppShell.Header>
 
