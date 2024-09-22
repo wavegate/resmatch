@@ -14,7 +14,312 @@ userRouter.get("/:id", optionalVerifyToken, async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: Number(id) },
+      include: {
+        interviewInvites: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        fameShames: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        PostIVCommunication: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        ScheduleDetails: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        InterviewLogistics: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        InterviewRejection: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        SecondLook: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        M4InternImpression: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        Malignant: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        LOIResponse: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        InterviewImpression: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        Question: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        Dropped: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        XorY: {
+          include: {
+            programX: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            programY: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        FellowshipMatch: {
+          include: {
+            program: {
+              select: {
+                name: true,
+                institution: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
+
+    const combinedList = [
+      ...(user?.interviewInvites
+        ?.filter((item) => !item.anonymous)
+        .map((item) => ({
+          ...item,
+          type: "interviewInvite",
+        })) ?? []),
+      ...(user?.fameShames
+        ?.filter((item) => !item.anonymous)
+        .map((item) => ({
+          ...item,
+          type: "fameShame",
+        })) ?? []),
+      ...(user?.PostIVCommunication?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "postIVCommunication",
+        })
+      ) ?? []),
+      ...(user?.ScheduleDetails?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "scheduleDetails",
+        })
+      ) ?? []),
+      ...(user?.InterviewLogistics?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "interviewLogistics",
+        })
+      ) ?? []),
+      ...(user?.InterviewRejection?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "interviewRejection",
+        })
+      ) ?? []),
+      ...(user?.M4InternImpression?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "m4InternImpression",
+        })
+      ) ?? []),
+      ...(user?.Malignant?.filter((item) => !item.anonymous).map((item) => ({
+        ...item,
+        type: "malignant",
+      })) ?? []),
+      ...(user?.LOIResponse?.filter((item) => !item.anonymous).map((item) => ({
+        ...item,
+        type: "lOIResponse",
+      })) ?? []),
+      ...(user?.InterviewImpression?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "interviewImpression",
+        })
+      ) ?? []),
+      ...(user?.SecondLook?.filter((item) => !item.anonymous).map((item) => ({
+        ...item,
+        type: "secondLook",
+      })) ?? []),
+      ...(user?.Question?.filter((item) => !item.anonymous).map((item) => ({
+        ...item,
+        type: "question",
+      })) ?? []),
+      ...(user?.Dropped?.filter((item) => !item.anonymous).map((item) => ({
+        ...item,
+        type: "dropped",
+      })) ?? []),
+      ...(user?.XorY?.filter((item) => !item.anonymous).map((item) => ({
+        ...item,
+        type: "xorY",
+      })) ?? []),
+      ...(user?.FellowshipMatch?.filter((item) => !item.anonymous).map(
+        (item) => ({
+          ...item,
+          type: "fellowshipMatch",
+        })
+      ) ?? []),
+    ];
+
+    combinedList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -25,9 +330,30 @@ userRouter.get("/:id", optionalVerifyToken, async (req, res) => {
       return res.json({ id: user.id });
     }
 
-    const { password, ...rest } = user;
+    const {
+      interviewInvites,
+      fameShames,
+      PostIVCommunication,
+      ScheduleDetails,
+      InterviewLogistics,
+      InterviewRejection,
+      SecondLook,
+      M4InternImpression,
+      Malignant,
+      LOIResponse,
+      InterviewImpression,
+      Question,
+      Dropped,
+      FellowshipMatch,
+      password,
+      XorY,
+      ...remainingUserFields
+    } = user;
 
-    res.json(rest);
+    res.json({
+      ...remainingUserFields,
+      combinedList,
+    });
   } catch (error) {
     console.error("Error fetching user details:", error);
     res.status(500).json({ error: "Internal Server Error" });
