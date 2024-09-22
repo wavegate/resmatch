@@ -544,6 +544,7 @@ enum SchedulerPlatform {
   REZRATE
   PROGRAM_WEBSITE
   COORDINATOR
+  THIRD_FRIDAY
 }
 
 enum IVPlatform {

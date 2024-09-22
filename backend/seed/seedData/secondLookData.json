@@ -1,0 +1,340 @@
+[
+  {
+    "nrmpProgramCode": "1007140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1009140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "no, post program rank list submission"
+  },
+  {
+    "nrmpProgramCode": "3200140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "No, post-program rank list submission"
+  },
+  {
+    "nrmpProgramCode": "2277140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2214140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "none per PD"
+  },
+  {
+    "nrmpProgramCode": "1991140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1877140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2349140M0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2950140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1021140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1340140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "None"
+  },
+  {
+    "nrmpProgramCode": "1820140C0",
+    "setting": "VIRTUAL",
+    "bearingOnRank": "Not specified -> no bearing on ROL upon email clarification (no members of leadeship attending the virtual Second Look)"
+  },
+  {
+    "nrmpProgramCode": "1076140C0",
+    "setting": "VIRTUAL"
+  },
+  {
+    "nrmpProgramCode": "1082140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "no members of leadership attending the virtual second look (so, no)"
+  },
+  {
+    "nrmpProgramCode": "1095140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1099140C0",
+    "setting": "BOTH"
+  },
+  {
+    "nrmpProgramCode": "2193140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1892140C1",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1826140C1",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2323140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2109140C0",
+    "setting": "BOTH"
+  },
+  {
+    "nrmpProgramCode": "1032140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2085140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1587140C2",
+    "setting": "BOTH",
+    "bearingOnRank": "post-program rank list"
+  },
+  {
+    "nrmpProgramCode": "1744140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1113140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "none, post-program rank list submission"
+  },
+  {
+    "nrmpProgramCode": "1972140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2292140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1814140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1160140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Post program ROL submission"
+  },
+  {
+    "nrmpProgramCode": "1224140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "3073140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "<<<is anyone aware whether this is pre or post program ROL submission??"
+  },
+  {
+    "nrmpProgramCode": "2313140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1263140C0",
+    "setting": "BOTH",
+    "bearingOnRank": "pre-rank list (only with chief residents, no bearing on rank)"
+  },
+  {
+    "nrmpProgramCode": "3050140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "No, post-program rank list submission"
+  },
+  {
+    "nrmpProgramCode": "1286140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "No, post-program rank list"
+  },
+  {
+    "nrmpProgramCode": "1303140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1320140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1328140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "post ROL submission"
+  },
+  {
+    "nrmpProgramCode": "1353140C0",
+    "setting": "VIRTUAL",
+    "bearingOnRank": "No bearing"
+  },
+  {
+    "nrmpProgramCode": "1377140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Post ROL submission"
+  },
+  {
+    "nrmpProgramCode": "2086140C1",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1380140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Pre-, but explicitly states ranking will not be affected by attendance"
+  },
+  {
+    "nrmpProgramCode": "1490140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "after program rank list submission; where did you hear about the second look? They didn't mention during my interview. Also interested in knowing !!! +2 <they mentioned one on my interview day and i wrote it in my notes"
+  },
+  {
+    "nrmpProgramCode": "2187140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1417140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2978140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2919140C2",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1511140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Explicitly stated their rank list will be locked beforehand"
+  },
+  {
+    "nrmpProgramCode": "1527140C0",
+    "setting": "BOTH"
+  },
+  {
+    "nrmpProgramCode": "1900140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "none/post"
+  },
+  {
+    "nrmpProgramCode": "1537140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "none/post"
+  },
+  {
+    "nrmpProgramCode": "1567140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2189140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Post program rank list submission"
+  },
+  {
+    "nrmpProgramCode": "1594140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1608140C1",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1601140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "pre-program rank list"
+  },
+  {
+    "nrmpProgramCode": "1661140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1674140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "pre-rank list submission"
+  },
+  {
+    "nrmpProgramCode": "2270140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1683140C0",
+    "setting": "BOTH"
+  },
+  {
+    "nrmpProgramCode": "1844140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1699140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "none (done post-rank list submission), optional, email PC if interested"
+  },
+  {
+    "nrmpProgramCode": "1702140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "none (done post-rank list submission), optional"
+  },
+  {
+    "nrmpProgramCode": "2259140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "None"
+  },
+  {
+    "nrmpProgramCode": "1706140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "None (per APD)"
+  },
+  {
+    "nrmpProgramCode": "2188140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1167140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Unclear <<no impact as per PC/PD & thalamus"
+  },
+  {
+    "nrmpProgramCode": "2279140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2923140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "None per PD"
+  },
+  {
+    "nrmpProgramCode": "2835140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "No bearing on ROL"
+  },
+  {
+    "nrmpProgramCode": "1748140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "post"
+  },
+  {
+    "nrmpProgramCode": "2347140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Post"
+  },
+  {
+    "nrmpProgramCode": "1737140C0",
+    "setting": "IN_PERSON",
+    "bearingOnRank": "Post"
+  },
+  {
+    "nrmpProgramCode": "2301140C0",
+    "setting": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1784140C0",
+    "setting": "IN_PERSON"
+  }
+]

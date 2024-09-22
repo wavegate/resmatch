@@ -1,0 +1,2440 @@
+[
+  {
+    "nrmpProgramCode": "2265140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "three 20 minute",
+    "timeSlots": "8-3",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2345140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "four 20 minutes with faculty, two 20min with faculty",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2239140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "They have 11 - 4 slots & 8-8:30 as well. Confused how different the evening slot is. Any idea?"
+  },
+  {
+    "nrmpProgramCode": "2132140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 20 minutes",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2271140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "one 20 minute",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2947140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1007140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "30 min interview + 10min interview with PD",
+    "timeSlots": "7-12"
+  },
+  {
+    "nrmpProgramCode": "1009140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1852140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 20 minute with faculty",
+    "timeSlots": "AM and PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2397140M0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "one 40 min interview with faculty, one 20 min group interview (rural PD and APD), one 20 min interview with UW PD",
+    "timeSlots": "8-12:15 AKST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2154140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8:30am-12NN MST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2346140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "7:30am-12:00pm MST"
+  },
+  {
+    "nrmpProgramCode": "1929140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "3200140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "11:30am-3:30pm MST"
+  },
+  {
+    "nrmpProgramCode": "2335140C2",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1011140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "10 min PD, 25 min with faculty",
+    "timeSlots": "6:45 am-12 pm MST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1015140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2x 25 minute interviews",
+    "timeSlots": "8:15 am - 12 pm MST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1014140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2269140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2277140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2250140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2214140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "3 - 15 minute interviews with PD, faculty, Chief resident",
+    "timeSlots": "1-3 pm CST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2104140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1871140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1041140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "10:45-2:30",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1061140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1030140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2114140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2018140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1485140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1877140C0",
+    "schedulerPlatform": "THIRD_FRIDAY"
+  },
+  {
+    "nrmpProgramCode": "2264140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1067140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1044140C0",
+    "schedulerPlatform": "IV_BROKER"
+  },
+  {
+    "nrmpProgramCode": "2037140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two ~25min interviews"
+  },
+  {
+    "nrmpProgramCode": "2055140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "one ~1hr with one faculty; two faculty for research track",
+    "timeSlots": "10:30 am-3:00 pm PST",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1042140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1959140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two ~25min interviews",
+    "timeSlots": "AM or PM"
+  },
+  {
+    "nrmpProgramCode": "2135140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "~20-30 min each with one faculty and one APD",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1921140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "12:30 PM to 5:30 PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1024140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2251140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2311140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2349140M0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "9:00-12 pm or 1pm -4 pm pst weds or thurs"
+  },
+  {
+    "nrmpProgramCode": "2950140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "~25 min each with a resident and one APD",
+    "timeSlots": "9:00AM-1:00PM PST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1850140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1064140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "1063140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 20min, with one APD + one faculty",
+    "timeSlots": "9am-1pm PST",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1340140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1048140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30-min IVs with faculty",
+    "timeSlots": "AM 8-12 PST Weds/Thurs/Fri"
+  },
+  {
+    "nrmpProgramCode": "2138140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 15 minute interviews with PD and APD and one 30 minute residents Q&A",
+    "timeSlots": "AM, PM; exact time unknown  PM 12-4 pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1025140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1057140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER"
+  },
+  {
+    "nrmpProgramCode": "1820140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30 min IVs with APD + faculty, 10 min with PD",
+    "timeSlots": "7a - 2:30p PST"
+  },
+  {
+    "nrmpProgramCode": "1135140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1046140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30min IVs",
+    "timeSlots": "9:30a-1:00 pm PST"
+  },
+  {
+    "nrmpProgramCode": "1043140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "timeSlots": "7:45-11a PST, 11:30a-2:45p PST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1956140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30 min IVs with faculty",
+    "timeSlots": "8a - 1:45p pacific time",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1049140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30 min IVs with faculty",
+    "timeSlots": "830am-2pm PST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1062140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "timeSlots": "6:55am-2pm PST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1022140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1522140C1",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2213140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL",
+    "ivFormat": "three 20-minute interviews",
+    "timeSlots": "AM and PM times PST (8-12 and 1-5 or so)",
+    "ivPlatform": "REZRATE"
+  },
+  {
+    "nrmpProgramCode": "1033140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 20-minute interviews",
+    "timeSlots": "7:20am-11am",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1997140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "3 20 min interviews with PD, faculty, resident",
+    "timeSlots": "7-9 or 12-2 MST",
+    "ivPlatform": "PANORAMAMD"
+  },
+  {
+    "nrmpProgramCode": "2306140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1074140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "7:30-12:30",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1076140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "ivFormat": "Two 25min IVs with APDs",
+    "timeSlots": "7:15-1:15 MST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1079140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "8-4",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1081140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "7-12"
+  },
+  {
+    "nrmpProgramCode": "1977140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1093140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1080140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1096140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1095140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1094140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Meet and Greet on Mondays 7p-8p  Sessions w/ PD, and QA w/ Chief Residents",
+    "timeSlots": "8a - 1p",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1089140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x 25 min interviews, 30 min group session with PD"
+  },
+  {
+    "nrmpProgramCode": "1089140M0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2260140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 group interviews (45 min) and 3 regular interviews (20min)",
+    "timeSlots": "AM 7:45 - 1:15PM",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1099140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x individual interviews (30 min), double blinded, 1 APD, 1 other faculty, 1 30 min group Q&A with PD",
+    "timeSlots": "PM: 12:30-4PM"
+  },
+  {
+    "nrmpProgramCode": "1802140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x 20 min interviews with faculty or APD, 20 min Q&A with PD. they don't tell you the faculty interviewers ahead of time.",
+    "timeSlots": "Morning (8-1 pm) and Afternoon (12-4pm)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2193140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 X 20 min interview with faculty/APD ; PD welcome at the beginning of the day with time to ask questions ; they don't tell you the faculty interviewers ahead of time",
+    "timeSlots": "9 am - 4 pm with resident social between 1 - 2 pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1801140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "30 min w/Faculty x2",
+    "timeSlots": "10am-2pm"
+  },
+  {
+    "nrmpProgramCode": "1800140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivFormat": "20 min x 2. PD/APD + faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1102140C2",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 IVs 15 min each",
+    "timeSlots": "8-10 10-2",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1102140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "4 IVs 20min each (PD, APDs)",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1102140C1",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "20 min with PD, 20 min with faculty",
+    "timeSlots": "AM or PM- what times specifically???",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1892140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "three 20-min IV with PD, APD, and residents",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1383140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "12:50pm-5:00pm"
+  },
+  {
+    "nrmpProgramCode": "2317140M0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "three 30 minute",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1826140C2",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1826140C1",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2232140C1",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1384140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2232140C2",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "timeSlots": "1:30pm to 4:30 pm",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1771140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2137140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1899140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "3x 20 min interviews",
+    "timeSlots": "8am or 1:30pm",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1772140C0",
+    "schedulerPlatform": "THIRD_FRIDAY"
+  },
+  {
+    "nrmpProgramCode": "1981140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2232140C3",
+    "schedulerPlatform": "THIRD_FRIDAY"
+  },
+  {
+    "nrmpProgramCode": "2107140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "timeSlots": "8-1",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1662140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "4 hour interview 10 min break between int",
+    "timeSlots": "Wednesday and Friday 1-5 pm"
+  },
+  {
+    "nrmpProgramCode": "2323140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two session, morning and afternoons",
+    "timeSlots": "Either 7 AM or 1 PM",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1032140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2085140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1105140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "10:45-3:00 (3:00-3:45 optional Q/A with residents)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1958140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1107140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "Virtual: 12:30-2:30pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2121140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1587140C2",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "an hour long PD interview + residents social/activities (which apparently does affect ranking as per email) on a different date",
+    "timeSlots": "AM/PM - Am starts at 8:15 EST",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1824140P0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 20min interviews with faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1101140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "4 20min interviews with PD, APD, and/or faculty"
+  },
+  {
+    "nrmpProgramCode": "1104140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "Two 25 min interviews with PD and other faculty or two interviews with APD and other faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1109140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 30 minute session with faculty, 2 10 min sessions with PD and one chief resident",
+    "timeSlots": "12:30-2:30",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2218140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "AM, PM; time unknown",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1744140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "three 15 minute interviews with PD, faculty and resident",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1867140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "AM, PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1120140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1113140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2222140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1985140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2099140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 20 minute intervies with PD/APD and faculty/resident",
+    "timeSlots": "11AM-"
+  },
+  {
+    "nrmpProgramCode": "2166140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 20 min interview + team wellness activity"
+  },
+  {
+    "nrmpProgramCode": "1796140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 15min interview"
+  },
+  {
+    "nrmpProgramCode": "1972140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "four 15 minutes with PD, APD, faculty, and a resident, hey what type of questions they asked please",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "2326140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "1814140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "four 15 minute interviews with faulty",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1814140C2",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1727140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1431140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "3350140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 20-30 min IVs, 1 hr with PD, 1 hr Q&A at very end; multiple extended breaks in between sessions",
+    "timeSlots": "7:00am to 2:00 pm HST"
+  },
+  {
+    "nrmpProgramCode": "3350140M0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8:00am - 2:45 pm PST"
+  },
+  {
+    "nrmpProgramCode": "2140140C0",
+    "schedulerPlatform": "THIRD_FRIDAY"
+  },
+  {
+    "nrmpProgramCode": "1172140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "7-11:15"
+  },
+  {
+    "nrmpProgramCode": "2117140C2",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2117140C1",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2117140P0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1168140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 x 30 min IV with PD/aPD",
+    "timeSlots": "7 am to 11 am",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1405140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "9 am to noon+ optional conference",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1226140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "3 interviews zoom"
+  },
+  {
+    "nrmpProgramCode": "3053140C1",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3053140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1127140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "all",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1170140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "One 30-min IV with faculty",
+    "timeSlots": "AM: 7:55 - 13:15",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1121140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3"
+  },
+  {
+    "nrmpProgramCode": "2247140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two 25 min interviews with faculty, \"speed dating\" at end where you get 5 min with APD or PD but very short.",
+    "timeSlots": "8:30-1:30",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2177140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "15 min PD intro, resident led presentation, 20 min interviews w 5 min break (unspecified #)",
+    "timeSlots": "AM 8:45am-12pm, PM 12:45-4pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1147140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2-25mn ivs w/ fclty",
+    "timeSlots": "AM: 9:50am-12:05pm, PM: 12:50-3:05pm",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1159140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1160140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8:45 - 1:30pm, 10:30am - 3:15pm cst",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1150140C1",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 20 min interviews with faculty. large group zoom for orientation (30 min), chief residents (45 min) and PD wrap up (45 min)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1175140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8:30-3:15pm, 8:30-1pm cst"
+  },
+  {
+    "nrmpProgramCode": "1187140C0",
+    "schedulerPlatform": "PROGRAM_WEBSITE"
+  },
+  {
+    "nrmpProgramCode": "1187140C1",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2306140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8a-1pm; 1pm-5pm"
+  },
+  {
+    "nrmpProgramCode": "1346140C0",
+    "ivFormat": "three 15 minute interviews (PD, faculty, residents)"
+  },
+  {
+    "nrmpProgramCode": "1203140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivFormat": "three 15 minute interviews (PD, APD, faculty)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1208140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "3054140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1848140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1848140C1",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1217140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1139140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1221140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "three 15 min with factulty and chief resident"
+  },
+  {
+    "nrmpProgramCode": "1224140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "one 8 minute with the PD, two 15 minute with APD and resident. resident interview is blinded.",
+    "timeSlots": "PM slots 12:30-4",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1232140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1225140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "four 15 minute interviews with faculty, 30 minute Q&A with resident",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1966140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "ivFormat": "3 20 minute faculty interviews and 10 minute interview with PD",
+    "timeSlots": "8:30 to 10:30 or 11 to 1",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2352140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "3 20 minute IV",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3073140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 X 20 min interviews and a 5 min one-on-one with PD",
+    "timeSlots": "AM and PM (CST)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2313140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1236140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1942140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1237140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2219140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1251140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "ivFormat": "5 x 13 min IV",
+    "timeSlots": "7:45-12",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1249140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1247140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "2316140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1252140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "One 30 minute interview with faculty either at 11 or 11:30AM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1256140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x 25 min faculty or APD interviews"
+  },
+  {
+    "nrmpProgramCode": "1257140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivFormat": "Two 30-minute interviews with a faculty member or chief medical resident",
+    "timeSlots": "9:00-2:00"
+  },
+  {
+    "nrmpProgramCode": "1265140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1268140M0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "3130140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1812140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1269140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1284140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "AM 10-1PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1266140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1258140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 with PD, 1 with associate PD, each 10-15 min",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1263140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 interview with faculty",
+    "timeSlots": "8-12:40 PM, 2 dates with 1-4:40 PM",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "3050140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "virtual",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1286140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Three 20min IVs, PD,faculty,chief",
+    "timeSlots": "Half days",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1308140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "virtual, three 15-minute interviews w/ PD, core faculty, and residents",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1930140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two 15 min interviews, one with PD and one with chief residents; schedule sent few days before",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1915140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "9am to 12pm (8am morning report optional; +?noon lecture)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1978140C1",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1978140C3",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "six 15 min interviews, tour",
+    "ivPlatform": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1978140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1320140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "virtual",
+    "timeSlots": "8am to 1pm est",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1361140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1741140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1307140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "all day session (8:30 AM to 4:05 PM) virtually via Google Meets. With the exception of our two half day sessions on Friday, November 17th and Monday, November 20th.",
+    "ivPlatform": "GOOGLE_MEET"
+  },
+  {
+    "nrmpProgramCode": "1951140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1866140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3, 10 minute IVs (PD, chief resident, faculty)"
+  },
+  {
+    "nrmpProgramCode": "1866140C1",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "2 hour slots all day fridays",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1866140C2",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1866140C3",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1315140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1951140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1292140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "9am-12pm or 1pm-4pm"
+  },
+  {
+    "nrmpProgramCode": "1418140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "9am - 1 pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1293140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8 AM to 1 PM, 12 PM to 4:30 PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2170140C0",
+    "schedulerPlatform": "IV_BROKER"
+  },
+  {
+    "nrmpProgramCode": "1361140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "The interview day will begin at 8:45a.m",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1314140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1330140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1329140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1328140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "Full day 8:30 AM - 4:30 PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1334140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2266140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "thurs 5:30 social/friday interview"
+  },
+  {
+    "nrmpProgramCode": "2288140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2335140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1923140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "1:30-3:45"
+  },
+  {
+    "nrmpProgramCode": "2294140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1218140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "one 20 minute interview with a faculty member",
+    "timeSlots": "Interview available AM or PM, virtual resident meet and greet Thursday evening prior",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1957140C0",
+    "schedulerPlatform": "REZRATE",
+    "ivFormat": "one resident, 2 faculty, 1 PD"
+  },
+  {
+    "nrmpProgramCode": "1362140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "1-5"
+  },
+  {
+    "nrmpProgramCode": "1365140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "10:30-4"
+  },
+  {
+    "nrmpProgramCode": "1364140C0",
+    "schedulerPlatform": "COORDINATOR",
+    "timeSlots": "8-12"
+  },
+  {
+    "nrmpProgramCode": "1994140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivFormat": "three 15 minute interviews, virtual game night with residents the day before the IV",
+    "timeSlots": "7.30-1.15",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1353140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 25 mins interview",
+    "timeSlots": "9-2",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1633140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8-12"
+  },
+  {
+    "nrmpProgramCode": "1372140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1376140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2337140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "Every Tue &Thurs 11:45 AM - 12:45 PM PST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1884140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "timeSlots": "PM from 12:00 pm - 4:30 pm PST"
+  },
+  {
+    "nrmpProgramCode": "2223140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2028140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2201140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1377140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1378140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 hour resident chat, 1 hour PD presentation, 15 min with PD, 15 min with ADP, 15 min with resident",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1380140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "11:50 am to 4pm"
+  },
+  {
+    "nrmpProgramCode": "2136140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1387140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "Tue and Thurs 9:30AM-3:30PM EST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2086140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1395140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 x 20 min interviews",
+    "timeSlots": "Only offered 1 date, email said they are adding more",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3043140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2375140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "10mins with both PD & one faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1857140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "20 min IV with PD or APD",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2108140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 x 20 min interviews",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2298140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "AM and PM slots but not on all days",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1390140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1392140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "1398140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 30-min interviews (one faculty and one chief resident) plus 10 mins with PD",
+    "timeSlots": "7:30-11am",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1397140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "15 min, PD, attendings & residents 1:1",
+    "timeSlots": "7:30AM-4PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2918140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "One 20 minute interview with faculty and one 20 minute interview with APD",
+    "timeSlots": "8-11:35",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2391140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER"
+  },
+  {
+    "nrmpProgramCode": "3211140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1406140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL",
+    "ivFormat": "IN-PERSON"
+  },
+  {
+    "nrmpProgramCode": "1962140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2hr total, AM or PM << 2 20 min IV with attendings or chief residents + 10 min w/PD",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2182140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "10AM-3PM"
+  },
+  {
+    "nrmpProgramCode": "1414140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 15 min IVs",
+    "timeSlots": "AM 8 - 11:15, PM 1-4:15",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2113140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Interview w/ PD, core faculty, 2 residents. Each is 20 minutes",
+    "timeSlots": "9a - 12p",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1420140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2x15min (2 faculty)",
+    "timeSlots": "AM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2207140M0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1994140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "10:15am-5pm EST"
+  },
+  {
+    "nrmpProgramCode": "1422140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "1492140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "ivFormat": "2x 25 min interviews, 1x 30 min Q&A with residents"
+  },
+  {
+    "nrmpProgramCode": "1663140M0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x 20 min IVs (1 structured and 1 conversational), 20 min Q&A with chief",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1445140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2230140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1478140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "9:30 EST"
+  },
+  {
+    "nrmpProgramCode": "3172140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 30 mins with leadership/faculty",
+    "timeSlots": "8:30-1:45pm",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "3172140C4",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "one hour in total, PD and faculty",
+    "timeSlots": "all-day",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1484140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 15-minute IV with either PD/APD and a faculty member",
+    "timeSlots": "7:30am-12NN EST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1428140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "5 mins with PD, Two 30mins IV with a faculty and a resident/fellow",
+    "timeSlots": "9am-3:15pm",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "3153140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 25min interview with faculty, 12 min with chief, 15 min w PD",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1459140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL",
+    "ivFormat": "2 IV with PD/APD, 15 mins each",
+    "timeSlots": "9 am ET",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2309140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "11:30 TO 3:30"
+  },
+  {
+    "nrmpProgramCode": "3153140C3",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1490140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 IV with faculty 30 mins, also 30 min session with APD",
+    "timeSlots": "12-12:30 or 12:30-1pm for individual IVs. Whole day 9-1:30pm (am); PM 1-4pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1491140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 IV with PD, 1 with faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2070140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 interview",
+    "timeSlots": "9am - 1pm"
+  },
+  {
+    "nrmpProgramCode": "1429140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "10 min with PD/APD, 30 min with faculty"
+  },
+  {
+    "nrmpProgramCode": "1822140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 15 min faculty interview, one 15 min PD interview",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1700140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2062140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 interview with PD/APD, one with faculty"
+  },
+  {
+    "nrmpProgramCode": "1483140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 interview with PD/APD, one with chief",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2187140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "4 x 15 min interviews with PD, APD, Faculty, Chief Resident"
+  },
+  {
+    "nrmpProgramCode": "1417140C0",
+    "schedulerPlatform": "IV_BROKER"
+  },
+  {
+    "nrmpProgramCode": "1515140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "5 min with the PD, then 1 with faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2183140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "three 15 min with APDs and faculty"
+  },
+  {
+    "nrmpProgramCode": "2978140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1455140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "20 Minute interview with faculty member",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1514140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1509140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 x 20 min IV",
+    "timeSlots": "8-12:30",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1510140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 x 25 min IV",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1897140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "one APD interview"
+  },
+  {
+    "nrmpProgramCode": "2919140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "10 min with PD and 40 min IV with apd"
+  },
+  {
+    "nrmpProgramCode": "2919140C2",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 interviews: PD, APD and attending"
+  },
+  {
+    "nrmpProgramCode": "1426140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "One 30mins IV with faculty",
+    "timeSlots": "9am-12pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1426140M0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "30 min IV with faculty.",
+    "timeSlots": "9am-12pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3099140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8-9:40, 10:10-11:50, 1-2:40, 3:10-4:50",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1452140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "1511140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "1 30min w/faculty, 1 15 min with PD",
+    "timeSlots": "7:30-12pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2157140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 30 min interviews with faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3116140C1",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 with ADP, 1 with core faculty, 1 with PD",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1435140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL",
+    "ivFormat": "2 15 minute interviews with PD and chairman",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2128140C2",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "virtual or in-person"
+  },
+  {
+    "nrmpProgramCode": "2128140C1",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "virtual",
+    "timeSlots": "12:30-3 ET",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1527140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1943140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Virtual 2 30 min with PD and aPD",
+    "timeSlots": "8-4"
+  },
+  {
+    "nrmpProgramCode": "1529140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 25 min IVs with one faculty and one APD, 15 minute interview with PD",
+    "timeSlots": "7:30-12 or 1-5",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3057140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "two 20 min with APDs and one 15 min with PD",
+    "timeSlots": "8-1"
+  },
+  {
+    "nrmpProgramCode": "3023140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1534140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Virtual"
+  },
+  {
+    "nrmpProgramCode": "1900140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Virtual (10 minute interview with PD, 20 minute interview with a Faculty Member and 20 minute interview with a Chief Resident)",
+    "timeSlots": "Either AM 8:30-12 or PM 12-3"
+  },
+  {
+    "nrmpProgramCode": "1537140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Virtual (30 min with faculty, 15 min group with PD, 15 min with chief resident)",
+    "timeSlots": "8:15-1:15"
+  },
+  {
+    "nrmpProgramCode": "2275140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "Virtual",
+    "timeSlots": "AM or PM, 2.5 hrs",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1542140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Virtual",
+    "timeSlots": "9-1pm"
+  },
+  {
+    "nrmpProgramCode": "1553140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "15min interview with PD + 25min interview with faculty",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1552140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1547140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1968140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 25-minute interviews with faculty",
+    "timeSlots": "8:30am-12pm on T/W, 1-4:30pm on Th",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1968140C4",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2122140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2208140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1576140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "In person w/virtual option",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1576140C1",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2203140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Mondays in person, Wed/Fri virtual  1-1 interviews w/ PD, APD, and a resident totalling ~2hrs",
+    "timeSlots": "8-11AM, 5-9PM EST; 8am-4pm if in-person",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1580140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER"
+  },
+  {
+    "nrmpProgramCode": "1565140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30-minute interviews (one with PD and faculty together, other with 2 chief residents together)",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1566140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "30 min with faculty, 15 min with chief, 15 min with PD, along with large group: 1 hr orientation/presentation, 1 hour resident panel, and 5 min check out at end",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1567140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1541140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "8:30 - 1:30",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1550140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2308140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1548140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "10 min IV with PD, two 20 min iv w faculty",
+    "timeSlots": "8:00-4:00",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1579140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "9 AM to 12 PM",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2189140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 x 20min"
+  },
+  {
+    "nrmpProgramCode": "2189140C2",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2179140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "AM slots 10-12; PM slots 1-3",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2011140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2162140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2162140C1",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2171140C1",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "20 minutes w/ PD, residents and faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1588140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivFormat": "two 20 min interviews",
+    "timeSlots": "8 to 1:20"
+  },
+  {
+    "nrmpProgramCode": "2727140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1594140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1599140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1599140C1",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1827140C1",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1827140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x 25min w APD, 8 min w PD",
+    "timeSlots": "7:45-1:50",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1715140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1600140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "7:30am-12pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1631140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2206140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1648140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "5 min with PD, 15 mins with faculty panel of 3 attendings",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1608140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1608140C1",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1601140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1632140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "20 min with PD/aPD, 20 min with faculty",
+    "timeSlots": "9:30 am to 1:15pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1636140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2.5 hours",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1617140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "20 min with faculty, 10 min with PD",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1664140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "Three 15 min ivs - PD,APD,faculty",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1630140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two 20 min interviews",
+    "timeSlots": "8am-4pm"
+  },
+  {
+    "nrmpProgramCode": "1605140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2176140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2139140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "in person",
+    "timeSlots": "AM: 10am - 12pm; PM: 2pm-4pm",
+    "ivPlatform": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "2229140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1646140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "one 30 minute with faculty, one small group with PD",
+    "timeSlots": "8-3p",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1661140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "MMI"
+  },
+  {
+    "nrmpProgramCode": "2290140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 x 30min",
+    "timeSlots": "8am-4pm",
+    "ivPlatform": "MICROSOFT_TEAMS"
+  },
+  {
+    "nrmpProgramCode": "1628140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 x 25min (1 core faculty, 1 faculty, 1 resident)",
+    "timeSlots": "8-2p",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1652140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 20 min with faculty, one 20 min with resident (not evaluated)",
+    "timeSlots": "9am - 2pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1615140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Tons of slots left!"
+  },
+  {
+    "nrmpProgramCode": "2173140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1620140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1649140C0",
+    "schedulerPlatform": "INTERVIEW_BROKER",
+    "timeSlots": "AM/PM"
+  },
+  {
+    "nrmpProgramCode": "3056140M0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two 20 min interviews",
+    "timeSlots": "1pm-4:45pm",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "3012140C0",
+    "ivFormat": "1 X 25 min interview with panel"
+  },
+  {
+    "nrmpProgramCode": "1677140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x 25 min IVs with faculty"
+  },
+  {
+    "nrmpProgramCode": "2270140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "7:30 am to 12 pm",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2307140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "1-4pm EST"
+  },
+  {
+    "nrmpProgramCode": "1678140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1761140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "three 20 minute interviews with Resident, PD, and APD.",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2056140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "AM"
+  },
+  {
+    "nrmpProgramCode": "1680140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "all day"
+  },
+  {
+    "nrmpProgramCode": "1681140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1683140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "1200-330PM"
+  },
+  {
+    "nrmpProgramCode": "2805140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "830-1",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2066140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2252140C0",
+    "schedulerPlatform": "THIRD_FRIDAY"
+  },
+  {
+    "nrmpProgramCode": "1844140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1689140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1839140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1699140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "4x15min",
+    "timeSlots": "8-10"
+  },
+  {
+    "nrmpProgramCode": "1702140C0",
+    "schedulerPlatform": "IV_BROKER",
+    "ivFormat": "One 30 min interview with APD/faculty, one 10 min interview with PD",
+    "timeSlots": "AM/PM half days"
+  },
+  {
+    "nrmpProgramCode": "2312140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL",
+    "ivFormat": "2x20min",
+    "timeSlots": "8-12",
+    "ivPlatform": "GOOGLE_MEET"
+  },
+  {
+    "nrmpProgramCode": "1716140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2259140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "4 X 10 min interviews - one with APD, one with a faculty member ; one with resident and one with PC (!)",
+    "timeSlots": "mostly PM",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1706140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "8-2",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2116140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "7:30-11:45",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2110140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "4 interviewers 15 mins each (PD, APD, Faculty, Chief/Resident)",
+    "timeSlots": "12-4pm CST",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2211140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "2 x~25mins",
+    "timeSlots": "8-12",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "2188140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "5x 20 min",
+    "timeSlots": "12PM - 2PM or 2PM - 4PM MT",
+    "ivPlatform": "PANORAMAMD"
+  },
+  {
+    "nrmpProgramCode": "2244140C1",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1707140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "10 min IV w/PD, 2 other faculty interviews around 15-20 min",
+    "timeSlots": "7:30-10, 10:30-12:30"
+  },
+  {
+    "nrmpProgramCode": "1167140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "7:55- AM- 1:00 PM CST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1167140C1",
+    "schedulerPlatform": "REZRATE",
+    "ivFormat": "Three 20 min interviews with faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1725140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2279140C1",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "9-11:30"
+  },
+  {
+    "nrmpProgramCode": "2279140C3",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "1130-4:30"
+  },
+  {
+    "nrmpProgramCode": "2279140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2279140C2",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2993140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "2973140C0",
+    "schedulerPlatform": "ERAS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "3124140C0",
+    "ivPlatform": "WEBEX"
+  },
+  {
+    "nrmpProgramCode": "1710140C2",
+    "schedulerPlatform": "PROGRAM_EMAIL",
+    "ivFormat": "3 20 min interviews 1 resident, 1 faculty, 1 PD, no morning report just a short coordinator presentation and then interviews!",
+    "timeSlots": "2:00 - 4:00 PM or 12:00- 2:00 PMMountain Time",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2169140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "PM 12:30 - 3:30 CST"
+  },
+  {
+    "nrmpProgramCode": "2169140M0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "four 15-min IV with facuty",
+    "timeSlots": "Am from 7:30-1:00 CST",
+    "ivPlatform": "IN_PERSON"
+  },
+  {
+    "nrmpProgramCode": "1793140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "2 30 minute interviews with faculty",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2923140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "half-day; small group w/ PD ; two 15-minute interviews",
+    "timeSlots": "9am-12pm CST",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1714140C0",
+    "schedulerPlatform": "THALAMUS",
+    "timeSlots": "AM 9:30-2:30 CST"
+  },
+  {
+    "nrmpProgramCode": "1722140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "8 am to 1 pm"
+  },
+  {
+    "nrmpProgramCode": "3626140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2835140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "two 30 min IVs with faculty",
+    "timeSlots": "11 AM to 4 PM",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1732140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 short one with PD, 2 interviews with APD/Faculty",
+    "timeSlots": "7:45-12:20",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1734140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two 20 min PD + faculty",
+    "timeSlots": "8:30-1:30 EST",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1748140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2 30 minute interviews with faculty or PD, and chief resident",
+    "timeSlots": "11:45-5:15 EST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2980140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "25 min with APD, 15 with chief, 10 with PD",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2129140C0",
+    "schedulerPlatform": "THIRD_FRIDAY",
+    "ivFormat": "1 hr 15 min, PD, APD",
+    "timeSlots": "AM & PM sessions on T/Th",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2192140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "Virtual or in person"
+  },
+  {
+    "nrmpProgramCode": "3199140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "2347140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "1 hr total, PD, APD, faculty (about 18min each to meet with 3 folks)",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1739140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "4 20 minute interviews with PD, APD, and faculty",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "2145140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 interviews with PD, APD, and faculty",
+    "timeSlots": "AM and PM sessions",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1737140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "Two faculty interviews",
+    "timeSlots": "8:45-1:45 EST or 12:30-3:45 EST",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1743140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "Two faculty interviews: one behavioral, one informal",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2216140C0",
+    "schedulerPlatform": "PROGRAM_EMAIL"
+  },
+  {
+    "nrmpProgramCode": "2301140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 interviews (15 minute PD then 30 minute 2 faculty)",
+    "timeSlots": "8:30 - 11 am PST",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "2159140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "MMI",
+    "timeSlots": "12:45-2:30 PST"
+  },
+  {
+    "nrmpProgramCode": "2167140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1918140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1756140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "7:30-10:30 or 12:30-3:30",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1756140C1",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "2276140C0",
+    "schedulerPlatform": "ERAS",
+    "ivFormat": "3 interviews with PD, APD or core faculty"
+  },
+  {
+    "nrmpProgramCode": "1902140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "3 20 minute interviews with PD and APDs",
+    "timeSlots": "8 am - 1 pm EST",
+    "ivPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "3066140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1837140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1837140C2",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1787140C0",
+    "schedulerPlatform": "ERAS"
+  },
+  {
+    "nrmpProgramCode": "1774140C0",
+    "schedulerPlatform": "ERAS",
+    "timeSlots": "8-1 CST"
+  },
+  {
+    "nrmpProgramCode": "1780140C0",
+    "schedulerPlatform": "THALAMUS"
+  },
+  {
+    "nrmpProgramCode": "1784140C0",
+    "schedulerPlatform": "THALAMUS",
+    "ivFormat": "2x25 min with faculty",
+    "timeSlots": "9-11 and 2-4 with other sessions during day",
+    "ivPlatform": "ZOOM"
+  },
+  {
+    "nrmpProgramCode": "1779140C0",
+    "schedulerPlatform": "THALAMUS"
+  }
+]
