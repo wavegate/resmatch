@@ -194,6 +194,9 @@ export function columnGenerator(
   columns.push({
     headerName: "User",
     field: "user",
+    valueGetter: ({ data }) => {
+      return data.anonymous ? "Anonymous" : data.user?.alias;
+    },
     valueFormatter: ({ data }) => {
       return data.anonymous ? "Anonymous" : data.user?.alias;
     },
