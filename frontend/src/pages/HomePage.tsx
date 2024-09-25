@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { APP_NAME } from "@/constants";
 
-export default () => {
+const HomePage = () => {
   // Calculate days until Match Day
   const [daysUntilMatch, setDaysUntilMatch] = useState(0);
 
@@ -29,6 +29,12 @@ export default () => {
           <h1 className={`font-medium text-3xl max-sm:text-xl`}>
             Welcome Internal Medicine Class of 2025!
           </h1>
+          <Link
+            to="/interviewInvite"
+            className={`w-fit self-center sm:py-6 py-4`}
+          >
+            <Button size="lg">Share Interview Invite</Button>
+          </Link>
           <div className={``}>
             <h4 className="font-medium">Urgent Questions or Concerns?</h4>
             <div className="mb-4">
@@ -45,7 +51,7 @@ export default () => {
             <Link
               to="https://discord.com/invite/FnC4TdMHEA"
               target="_blank"
-              className={`text-blue-500 hover:underline font-medium text-lg flex gap-2 items-center rounded-lg bg-primary bg-opacity-5 px-2 pr-3 py-2 w-fit max-sm:m-auto`}
+              className={`text-blue-500 hover:underline font-medium text-md flex gap-2 items-center rounded-lg bg-primary bg-opacity-5 px-2 pr-3 py-2 w-fit max-sm:m-auto`}
             >
               <div className={`rounded-lg bg-primary bg-opacity-20 p-2`}>
                 <FaDiscord />
@@ -105,13 +111,14 @@ export default () => {
           <div className={`flex flex-col gap-4`}>
             <div className={`sm:hidden flex flex-col items-stretch gap-2`}>
               <Link to="/applicant-us" className={`w-full`}>
-                <Button className={`w-full`}>View applicants</Button>
+                <Button className={`w-full`} variant="outline">
+                  View applicants
+                </Button>
               </Link>
-              {/* <Link to="/interviewInvite" className={`w-full`}>
-              <Button className={`w-full`}>View invites</Button>
-            </Link> */}
               <Link to="/program" className={`w-full`}>
-                <Button className={`w-full`}>View programs</Button>
+                <Button className={`w-full`} variant="outline">
+                  View programs
+                </Button>
               </Link>
             </div>
 
@@ -257,3 +264,5 @@ export default () => {
     </div>
   );
 };
+
+export default HomePage;
