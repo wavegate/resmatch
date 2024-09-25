@@ -225,6 +225,11 @@ export default function AddUser() {
               );
             })}
 
+            <div className={`p-4 bg-yellow-50 text-yellow-700 rounded-lg`}>
+              If you get an error while trying to add/edit data, please leave a
+              Mod Report to help me debug. Thanks!
+            </div>
+
             <Button type="submit" loading={isPending}>
               Update
             </Button>
