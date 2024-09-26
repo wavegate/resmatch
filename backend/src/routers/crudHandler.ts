@@ -19,7 +19,10 @@ export const createCrudHandlers = (modelName) => ({
           userFields
         );
         const profileData = profileFieldsToUpdate.reduce((obj, key) => {
-          obj[key] = data[key];
+          if (data[key] !== null) {
+            // Skip fields with null values
+            obj[key] = data[key];
+          }
           return obj;
         }, {});
 
@@ -118,7 +121,10 @@ export const createCrudHandlers = (modelName) => ({
           userFields
         );
         const profileData = profileFieldsToUpdate.reduce((obj, key) => {
-          obj[key] = data[key];
+          if (data[key] !== null) {
+            // Skip fields with null values
+            obj[key] = data[key];
+          }
           return obj;
         }, {});
 
