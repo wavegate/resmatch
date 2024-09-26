@@ -173,6 +173,7 @@ model InterviewInvite {
   date                 DateTime
   geographicPreference Boolean?
   signal               Boolean?
+  signalTier           SignalTier?
   inState              Boolean?
   medicalDegree        MedicalDegree?
   step1ScorePass       Boolean?
@@ -207,6 +208,11 @@ model InterviewInvite {
   @@index([programId])
   @@index([userId])
   @@index(fields: [programId, userId])
+}
+
+enum SignalTier {
+  GOLD
+  SILVER
 }
 
 enum GraduateType {
