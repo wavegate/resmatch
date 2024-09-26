@@ -33,6 +33,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
+    "dayjs-plugin-utc": "^0.1.2",
     "js-md5": "^0.8.3",
     "mantine-datatable": "^7.11.3",
     "postcss-preset-mantine": "^1.17.0",
