@@ -205,6 +205,9 @@ export default function AddUser() {
                         value,
                       }));
 
+                      const allowDeselect =
+                        fieldName === "graduateType" ? false : true;
+
                       return (
                         <Component
                           {...commonProps}
@@ -215,6 +218,7 @@ export default function AddUser() {
                             commonProps.placeholder || "Click to select"
                           }
                           required={fieldSchema.required}
+                          allowDeselect={allowDeselect}
                         />
                       );
                     }
