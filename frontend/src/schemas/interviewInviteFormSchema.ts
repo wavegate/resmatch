@@ -11,7 +11,8 @@ const interviewInviteFormSchema: FormSchema = {
   date: {
     type: "date",
     label: "Invite Date",
-    description: "When did you receive the interview invite?",
+    description:
+      "When did you receive the interview invite? Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
     placeholder: "Select the date and time",
     required: true,
   },
