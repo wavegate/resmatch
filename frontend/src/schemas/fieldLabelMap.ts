@@ -1,4 +1,8 @@
 export const fieldLabelMap: Record<string, Record<string, string>> = {
+  signalTier: {
+    GOLD: "Gold",
+    SILVER: "Silver",
+  },
   schedulerPlatform: {
     THALAMUS: "Thalamus",
     ERAS: "ERAS",

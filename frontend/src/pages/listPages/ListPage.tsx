@@ -31,7 +31,7 @@ const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
   const labels = pageDescription[modelName];
 
   const shareUrl = `/${modelName}/add`;
-  const shareText = `Share`;
+  const shareText = `Add`;
 
   return (
     <>

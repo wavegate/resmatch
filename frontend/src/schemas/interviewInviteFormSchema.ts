@@ -41,6 +41,13 @@ const interviewInviteFormSchema: FormSchema = {
     label: "Program Signal",
     description: "Did you use a program signal for this program?",
   },
+  signalTier: {
+    type: "select",
+    label: "Signal Tier",
+    description: "Which tier signal?",
+    conditions: { signal: true },
+    placeholder: "Select Gold or Silver",
+  },
   inState: {
     type: "boolean",
     label: "In-State",
