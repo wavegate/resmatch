@@ -30,7 +30,7 @@ export default function AddChat({ type }: AddChatProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: (values) => commentService.createComment(values),
     onSuccess: () => {
       notifications.show({
@@ -134,7 +134,7 @@ export default function AddChat({ type }: AddChatProps) {
             )}
           />
 
-          <Button type="submit">
+          <Button type="submit" loading={isPending}>
             {`Create ${
               type === "main"
                 ? "Chat"

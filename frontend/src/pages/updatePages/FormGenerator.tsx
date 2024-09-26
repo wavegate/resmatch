@@ -207,6 +207,16 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 return (
                   <DatePickerInput
                     {...commonProps}
+                    maxDate={
+                      fieldName === "date" &&
+                      [
+                        "interviewInvite",
+                        "interviewRejection",
+                        "dropped",
+                      ].includes(modelName)
+                        ? new Date()
+                        : undefined
+                    }
                     value={field.value}
                     onChange={(date) => field.onChange(date)}
                     placeholder="Pick a date"

@@ -10,7 +10,7 @@ const droppedFormSchema: FormSchema = {
   date: {
     type: "date",
     label: "Date Dropped",
-    description: "The date you dropped out of the program.",
+    description: "The date you dropped the interview.",
     required: true,
   },
   dateOfInterviewCancelled: {
