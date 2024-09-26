@@ -14,16 +14,41 @@ inviteRouter.get("/total-invites-over-time", async (req, res) => {
     const rawData = await prisma.$queryRaw`
       SELECT
         DATE("date") AS date,
+        "graduateType",
         COUNT(*)::bigint AS totalInvites
       FROM "InterviewInvite"
-      GROUP BY DATE("date")
-      ORDER BY DATE("date");
+      GROUP BY DATE("date"), "graduateType"
+      ORDER BY DATE("date"), "graduateType";
     `;
 
-    const formattedData = rawData.map((entry) => ({
-      date: entry.date,
-      totalInvites: Number(entry.totalinvites),
-    }));
+    // Initialize an object to store data grouped by date
+    const inviteDataByDate = {};
+
+    rawData.forEach((entry) => {
+      const formattedDate = entry.date;
+
+      if (!inviteDataByDate[formattedDate]) {
+        inviteDataByDate[formattedDate] = {
+          date: formattedDate,
+          totalUSInvites: 0,
+          totalIMGInvites: 0,
+        };
+      }
+
+      // Increment totalUSInvites or totalIMGInvites based on graduateType
+      if (entry.graduateType === "US") {
+        inviteDataByDate[formattedDate].totalUSInvites = Number(
+          entry.totalinvites
+        );
+      } else if (entry.graduateType === "IMG") {
+        inviteDataByDate[formattedDate].totalIMGInvites = Number(
+          entry.totalinvites
+        );
+      }
+    });
+
+    // Convert the result object into an array
+    const formattedData = Object.values(inviteDataByDate);
 
     res.status(200).json(formattedData);
   } catch (error) {
