@@ -3,21 +3,21 @@ import programName from "@/utils/programName";
 import { Link } from "react-router-dom";
 
 export const columnDefs = (user) => [
-  // {
-  //   headerName: "Follow",
-  //   width: "120px",
-  //   valueGetter: ({ data }) => {
-  //     return user?.followedPrograms?.some((x) => x.id === data.id);
-  //   },
-  //   cellRenderer: ({ data }) => {
-  //     return (
-  //       <div className={`mt-2`}>
-  //         <FollowProgram programId={data.id} />
-  //       </div>
-  //     );
-  //   },
-  //   hide: !user,
-  // },
+  {
+    headerName: "Follow",
+    width: "120px",
+    valueGetter: ({ data }) => {
+      return user?.followedPrograms?.some((x) => x.id === data.id);
+    },
+    cellRenderer: ({ data }) => {
+      return (
+        <div className={`mt-2`}>
+          <FollowProgram programId={data.id} />
+        </div>
+      );
+    },
+    hide: !user,
+  },
   {
     headerName: "Name",
     valueGetter: (p) => {
