@@ -3,6 +3,8 @@ import fs from "fs/promises";
 import Papa from "papaparse";
 import { PrismaClient } from "@prisma/client";
 
+console.log("hi");
+
 // Initialize Prisma Client
 const prisma = new PrismaClient();
 
