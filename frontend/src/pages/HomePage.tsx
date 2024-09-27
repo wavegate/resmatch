@@ -151,7 +151,7 @@ const HomePage = () => {
                 </div>
               </div>
               <div className={`flex flex-col gap-1`}>
-                <div className={`font-medium`}>9/18/2024</div>
+                <div className={`font-medium`}>9/19/2024</div>
                 <div>Rebuild tier lists</div>
               </div>
               <div className={`flex flex-col gap-1`}>
