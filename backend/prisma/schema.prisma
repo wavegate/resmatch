@@ -162,6 +162,7 @@ model Program {
   RankedProgram       RankedProgram[]
   binAssignments      BinAssignment[]
   followingUsers      User[]
+  imageUrl            String?
 
   @@index(fields: [cityId])
 }
