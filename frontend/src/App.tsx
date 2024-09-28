@@ -17,6 +17,7 @@ import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 
 import routes from "@/routes";
+import { DatesProvider } from "@mantine/dates";
 
 const queryClient = new QueryClient();
 
@@ -33,10 +34,12 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <Notifications position="bottom-right" zIndex={1001} />
-        <ModalsProvider>
-          <RouterProvider router={router}></RouterProvider>
-        </ModalsProvider>
+        <DatesProvider settings={{ timezone: "UTC" }}>
+          <Notifications position="bottom-right" zIndex={1001} />
+          <ModalsProvider>
+            <RouterProvider router={router}></RouterProvider>
+          </ModalsProvider>
+        </DatesProvider>
       </MantineProvider>
     </QueryClientProvider>
   );

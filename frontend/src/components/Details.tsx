@@ -4,6 +4,7 @@ import { fieldLabelMap } from "@/schemas/fieldLabelMap";
 import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
 import useUser from "@/hooks/useUser";
+import { displayUTC } from "@/utils/utils";
 
 const Details = ({ data, modelName, queryKey, programDetail, userProfile }) => {
   const schema = schemas[modelName];
@@ -46,14 +47,12 @@ const Details = ({ data, modelName, queryKey, programDetail, userProfile }) => {
                 displayValue = data[fieldName] ? "Yes" : "No";
                 break;
               case "date":
-                displayValue = new Date(data[fieldName]).toLocaleDateString();
+                displayValue = displayUTC(data[fieldName]);
                 break;
               case "multipleDates":
                 displayValue = Array.isArray(data[fieldName])
                   ? data[fieldName]
-                      .map((date: string) =>
-                        new Date(date).toLocaleDateString()
-                      )
+                      .map((date: string) => displayUTC(date))
                       .join(", ")
                   : "-";
                 break;

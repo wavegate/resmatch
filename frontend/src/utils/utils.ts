@@ -1,4 +1,5 @@
 // utils/gravatar.ts
+import dayjs from "dayjs";
 import md5 from "js-md5";
 
 /**
@@ -45,4 +46,8 @@ export function convertToBinnedValue(value) {
 
   // Return the original string if it's not a number
   return value;
+}
+
+export function displayUTC(date) {
+  return dayjs(date).utc().format("MM/DD/YYYY");
 }

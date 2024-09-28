@@ -7,6 +7,8 @@ import Comment from "@/components/Comment/Comment";
 import AddCommentField from "@/components/AddCommentField";
 import { useState } from "react";
 import Upvote from "@/components/Upvote";
+import { displayUTC } from "@/utils/utils";
+import dayjs from "dayjs";
 
 export function columnGenerator(
   modelName: string,
@@ -118,9 +120,7 @@ export function columnGenerator(
           const data = params.data;
           const datesArray = data[fieldName];
           return Array.isArray(datesArray)
-            ? datesArray
-                .map((date: string) => new Date(date).toLocaleDateString())
-                .join(", ")
+            ? datesArray.map((date: string) => displayUTC(date)).join(", ")
             : null; // Don't display "-" if not available
         };
         break;
@@ -158,13 +158,9 @@ export function columnGenerator(
 
       case "date":
         columnDef.filter = "agDateColumnFilter"; // Add date filter for the date field
-        columnDef.valueGetter = (params) => {
-          const dateValue = params.data[fieldName];
-          return dateValue ? new Date(dateValue) : null; // Return the Date object for filtering
-        };
         columnDef.valueFormatter = (params) => {
           const dateValue = params.value;
-          return dateValue ? new Date(dateValue).toLocaleDateString() : null;
+          return dateValue ? displayUTC(dateValue) : null;
         };
         break;
 
