@@ -192,6 +192,7 @@ model InterviewInvite {
   fail                 Int?
   yearOfGraduation     Int?
   greenCard            Boolean?
+  connection           String?
   away                 Boolean?
   anonymous            Boolean        @default(false)
   comments             Comment[]
