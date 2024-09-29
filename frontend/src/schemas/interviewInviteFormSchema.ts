@@ -90,6 +90,13 @@ const interviewInviteFormSchema: FormSchema = {
     label: "Away Rotation",
     description: "Did you complete an away rotation at this program?",
   },
+  connection: {
+    type: "string",
+    label: "Program Connection",
+    description:
+      "Describe any professional or personal connections you may have to the program, such as a referral from a faculty member or a fellow.",
+    placeholder: "Describe your connection, if any",
+  },
   pstp: {
     type: "boolean",
     label: "PSTP",
