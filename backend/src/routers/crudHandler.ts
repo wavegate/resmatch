@@ -282,7 +282,7 @@ export const createCrudHandlers = (modelName) => ({
       if (
         ["interviewInvite", "interviewRejection", "dropped"].includes(modelName)
       ) {
-        orderByClause = { date: "desc" }; // Sort by date descending
+        orderByClause = [{ date: "desc" }, { createdAt: "desc" }]; // Sort by date descending
       } else {
         orderByClause = { createdAt: "desc" }; // Sort by createdAt descending
       }
@@ -349,7 +349,7 @@ export const createCrudHandlers = (modelName) => ({
       if (
         ["interviewInvite", "interviewRejection", "dropped"].includes(modelName)
       ) {
-        orderByClause = { date: "desc" }; // Sort by date descending
+        orderByClause = [{ date: "desc" }, { createdAt: "desc" }]; // Sort by date descending
       } else {
         orderByClause = { createdAt: "desc" }; // Sort by createdAt descending
       }
