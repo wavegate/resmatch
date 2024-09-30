@@ -336,6 +336,7 @@ model Comment {
   TierList              TierList?            @relation(fields: [tierListId], references: [id], onDelete: Cascade)
   tierListId            Int?
   parentId              Int?
+  topLevelParentId      Int?
   parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies               Comment[]            @relation("CommentReplies")
   main                  Boolean              @default(false)

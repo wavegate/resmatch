@@ -79,7 +79,17 @@ export const createCrudHandlers = (modelName) => ({
           ...(modelName === "cityUserInput" && {
             city: true,
           }),
-          comments: true,
+          comments: {
+            where: {
+              parentId: null,
+            },
+            select: {
+              id: true,
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
           upvotedUsers: true,
         },
       });
@@ -385,6 +395,9 @@ export const createCrudHandlers = (modelName) => ({
             city: true,
           }),
           comments: {
+            where: {
+              parentId: null,
+            },
             select: {
               id: true,
             },

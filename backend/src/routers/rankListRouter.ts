@@ -141,6 +141,9 @@ rankListRouter.get("/:id", async (req, res) => {
         },
         user: true,
         comments: {
+          where: {
+            parentId: null,
+          },
           include: {
             user: true,
           },
