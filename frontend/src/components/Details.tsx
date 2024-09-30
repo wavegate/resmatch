@@ -120,7 +120,13 @@ const Details = ({ data, modelName, queryKey, programDetail, userProfile }) => {
           {data.comments?.length > 0 && (
             <div className={`flex flex-col gap-4`}>
               {data.comments.map((item: any) => (
-                <Comment id={item.id} key={item.id} queryKey={queryKey} />
+                <Comment
+                  postId={data.id}
+                  id={item.id}
+                  key={item.id}
+                  queryKey={queryKey}
+                  modelName={modelName}
+                />
               ))}
             </div>
           )}

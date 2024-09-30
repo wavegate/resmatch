@@ -13,9 +13,15 @@ import UserLink from "../UserLink";
 interface CommentProps {
   id: number;
   queryKey: any;
+  modelName?: string;
 }
 
-export default function Comment({ id, queryKey }: CommentProps) {
+export default function Comment({
+  postId,
+  id,
+  queryKey,
+  modelName,
+}: CommentProps) {
   const [replyOpened, setReplyOpened] = useState(false);
   const [repliesOpened, setRepliesOpened] = useState(false);
   const queryClient = useQueryClient();
@@ -227,6 +233,9 @@ export default function Comment({ id, queryKey }: CommentProps) {
           </div>
           <Collapse in={replyOpened}>
             <AddChatForm
+              postId={postId}
+              modelName={modelName}
+              parentComment={comment}
               parentId={id}
               setRepliesOpened={setRepliesOpened}
               setReplyOpened={setReplyOpened}
@@ -237,7 +246,15 @@ export default function Comment({ id, queryKey }: CommentProps) {
             {repliesOpened && (
               <div className={`flex flex-col gap-4 mt-2`}>
                 {comment.replies?.map((reply: any) => {
-                  return <Comment key={reply.id} id={reply.id} />;
+                  return (
+                    <Comment
+                      key={reply.id}
+                      id={reply.id}
+                      postId={postId}
+                      queryKey={queryKey}
+                      modelName={modelName}
+                    />
+                  );
                 })}
               </div>
             )}

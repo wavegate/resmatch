@@ -5,17 +5,31 @@ import commentService from "@/services/commentService"; // Assuming you have a c
 import { notifications } from "@mantine/notifications";
 
 export default function AddChatForm({
+  parentComment,
   parentId,
   setRepliesOpened,
   setReplyOpened,
+  modelName,
+  postId,
 }) {
   const { control, handleSubmit, reset } = useForm({});
 
   const queryClient = useQueryClient();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (values) =>
-      commentService.createComment({ ...values, parentId }),
+    mutationFn: (values) => {
+      return commentService.createComment({
+        ...values,
+        parentId,
+        topLevelParentId: parentComment?.topLevelParentId
+          ? parentComment?.topLevelParentId
+          : parentComment?.id,
+        ...(modelName && postId ? { [`${modelName}Id`]: postId } : {}),
+        ...(parentComment?.main ? { main: true } : {}),
+        ...(parentComment?.pstp ? { pstp: true } : {}),
+        ...(parentComment?.report ? { report: true } : {}),
+      });
+    },
   });
 
   const onSubmit = (values) => {
