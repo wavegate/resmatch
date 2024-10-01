@@ -186,7 +186,7 @@ export default function Comment({
             </div>
             {isEditing ? (
               <>
-                {comment.parentId === null && (
+                {comment.parentId === null && comment.main === true && (
                   <FilterTagSection
                     sectionLabel={"Category:"}
                     tagList={Object.keys(CommentCategory)}

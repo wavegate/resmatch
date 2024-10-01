@@ -23,7 +23,9 @@ const FilterTagSection = ({
 
   return (
     <div className={`flex items-center flex-wrap gap-1`}>
-      <Text c="dimmed">{sectionLabel}</Text>
+      <Text c="dimmed" className={`max-sm:text-sm mr-1`}>
+        {sectionLabel}
+      </Text>
       {tagList.map((tag, i) => {
         const selected = selectedTagList.includes(tag);
         const selectedColor: MantineColor =
