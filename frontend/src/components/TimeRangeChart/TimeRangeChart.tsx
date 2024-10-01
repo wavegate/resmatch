@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import "./style.css";
 import inviteService from "@/services/inviteService";
 import { useQuery } from "@tanstack/react-query";
+import { useMediaQuery } from "@mantine/hooks";
 
 const labelMap = {
   totalUSInvites: "US Applicants",
@@ -10,6 +11,7 @@ const labelMap = {
 };
 
 const TimeRangeChart = () => {
+  const mobile = useMediaQuery("(max-width: 768px)");
   const {
     data: totalInvitesData,
     error: totalInvitesError,
@@ -27,7 +29,7 @@ const TimeRangeChart = () => {
     .sort((a, b) => dayjs(a.date).utc().unix() - dayjs(b.date).utc().unix()); // Sort by UTC date
 
   return (
-    <div style={{ height: 360 }} className={`chart`}>
+    <div style={{ height: mobile ? 240 : 360 }} className={`chart`}>
       {processedData && (
         <ResponsiveBar
           data={processedData}

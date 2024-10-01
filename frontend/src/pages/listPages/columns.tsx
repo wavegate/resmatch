@@ -232,9 +232,9 @@ export function columnGenerator(
             <div className={`flex flex-col gap-4`}>
               {data.comments.map((item: any) => (
                 <Comment
-                  postId={data.id}
                   id={item.id}
                   key={item.id}
+                  postId={data.id}
                   queryKey={queryKey}
                   modelName={modelName}
                 />

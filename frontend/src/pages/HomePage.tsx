@@ -61,7 +61,7 @@ const HomePage = () => {
           </div>
         </div>
         <div className={`grid grid-cols-[2fr_1fr] gap-4 max-sm:grid-cols-1`}>
-          <div className={`flex flex-col gap-4 max-sm:hidden`}>
+          <div className={`flex flex-col gap-4`}>
             <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
               <h4 className={`font-medium text-xl`}>
                 Total Interview Invites This Cycle
@@ -69,7 +69,11 @@ const HomePage = () => {
               <TimeRangeChart />
             </Card>
 
-            <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
+            <Card
+              shadow="sm"
+              withBorder
+              className={`flex flex-col gap-4 max-sm:hidden`}
+            >
               <h3 className={`font-medium text-xl`}>About Residency Match</h3>
               <ul className={`list-disc pl-6 flex flex-col gap-4`}>
                 <li>
