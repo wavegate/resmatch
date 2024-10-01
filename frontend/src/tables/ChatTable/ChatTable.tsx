@@ -6,20 +6,23 @@ import { PAGE_SIZE } from "@/constants";
 import Controls from "@/components/Controls/Controls";
 import commentService from "@/services/commentService";
 import Comment from "@/components/Comment/Comment";
+import { CommentCategory } from "@/typings/CommentTypes";
 
 interface ChatTableProps {
   className?: string;
+  selectedCommentCategories: CommentCategory[];
 }
 
-export default ({ className }: ChatTableProps) => {
+export default ({ className, selectedCommentCategories }: ChatTableProps) => {
   const [pageNum, setPageNum] = useState(1);
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["chat", pageNum],
+    queryKey: ["chat", pageNum, JSON.stringify(selectedCommentCategories)],
     queryFn: () => {
       return commentService.searchComment({
         pageNum,
         main: true,
+        selectedCommentCategories,
       });
     },
   });

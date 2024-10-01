@@ -1,14 +1,28 @@
-import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea, Button, Checkbox, Breadcrumbs, Anchor } from "@mantine/core";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
-import useAuthGuard from "@/hooks/useAuthGuard";
-import { notifications } from "@mantine/notifications";
-import commentService from "@/services/commentService";
-import { Helmet } from "react-helmet";
+import FilterTagSection from "@/components/FilterTagRow/FilterTagSection.tsx";
 import { APP_NAME } from "@/constants";
+import useAuthGuard from "@/hooks/useAuthGuard";
+import { useCommentCategoryBadgeColor } from "@/hooks/useCommentCategoryBadgeColor.ts";
+import { useFilterTagSection } from "@/hooks/useFilterTagSection.ts";
+import commentService from "@/services/commentService";
+import {
+  CommentCategory,
+  mapCommentCategoryToLabel,
+} from "@/typings/CommentTypes.ts";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Anchor,
+  Breadcrumbs,
+  Button,
+  Checkbox,
+  Textarea,
+  useMantineTheme,
+} from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
+import { Controller, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
 
 const formSchema = z.object({
   content: z.string().nonempty({ message: "Content is required" }),
@@ -20,6 +34,12 @@ interface AddChatProps {
 }
 
 export default function AddChat({ type }: AddChatProps) {
+  const theme = useMantineTheme();
+  const { mapCommentCategoryToBadgeColor } =
+    useCommentCategoryBadgeColor(theme);
+  const { selectedTagList, handleSelectTag } = useFilterTagSection({
+    limitOneSelection: true,
+  });
   useAuthGuard();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,7 +51,13 @@ export default function AddChat({ type }: AddChatProps) {
   const navigate = useNavigate();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (values) => commentService.createComment(values),
+    mutationFn: (values) => {
+      const payload = values;
+      if (selectedTagList.length > 0) {
+        payload.category = selectedTagList[0];
+      }
+      return commentService.createComment(payload);
+    },
     onSuccess: () => {
       notifications.show({
         message: `${
@@ -89,6 +115,16 @@ export default function AddChat({ type }: AddChatProps) {
       </Helmet>
       <div className={`flex flex-col gap-4`}>
         <Breadcrumbs separator=">">{items}</Breadcrumbs>
+        {type === "main" && (
+          <FilterTagSection
+            sectionLabel={"Category:"}
+            tagList={Object.keys(CommentCategory)}
+            selectedTagList={selectedTagList}
+            handleSelectTag={handleSelectTag}
+            mapTagToLabel={mapCommentCategoryToLabel}
+            mapTagToBadgeColor={mapCommentCategoryToBadgeColor}
+          />
+        )}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={`flex flex-col gap-4`}

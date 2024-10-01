@@ -1,6 +1,6 @@
 import express from "express";
-import prisma from "../prismaClient.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
+import prisma from "../prismaClient.js";
 
 const commentRouter = express.Router();
 
@@ -67,7 +67,7 @@ commentRouter.get("/:id", async (req, res) => {
 // Update a comment by ID
 commentRouter.put("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  const { content } = req.body;
+  const { content, category } = req.body;
 
   // Fetch the item to verify ownership
   const item = await prisma.comment.findUnique({
@@ -89,7 +89,7 @@ commentRouter.put("/:id", verifyToken, async (req, res) => {
   try {
     const updatedComment = await prisma.comment.update({
       where: { id: Number(id) },
-      data: { content },
+      data: { content, category },
     });
 
     res.json(updatedComment);
@@ -143,13 +143,19 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
 });
 
 commentRouter.post("/search", async (req, res) => {
-  const { pageNum = 1, ...queryParams } = req.body;
+  const { pageNum = 1, selectedCommentCategories, ...queryParams } = req.body;
   const PAGE_SIZE = 10; // Example page size
 
   try {
     // Construct the where clause dynamically using req.body
     const whereClause = {
       parentId: null,
+      category:
+        selectedCommentCategories.length > 0
+          ? {
+              in: selectedCommentCategories, // 'in' operator to find matching categories
+            }
+          : undefined,
       ...queryParams, // Spread all properties from req.body
     };
 

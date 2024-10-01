@@ -1,9 +1,22 @@
+import FilterTagSection from "@/components/FilterTagRow/FilterTagSection.tsx";
 import { APP_NAME } from "@/constants";
+import { useCommentCategoryBadgeColor } from "@/hooks/useCommentCategoryBadgeColor.ts";
+import { useFilterTagSection } from "@/hooks/useFilterTagSection.ts";
 import ChatTable from "@/tables/ChatTable/ChatTable";
-import { Text, Title } from "@mantine/core";
+import {
+  CommentCategory,
+  mapCommentCategoryToLabel,
+} from "@/typings/CommentTypes";
+import { Text, Title, useMantineTheme } from "@mantine/core";
 import { Helmet } from "react-helmet";
 
-export default () => {
+const Chat = () => {
+  const theme = useMantineTheme();
+  const { mapCommentCategoryToBadgeColor } =
+    useCommentCategoryBadgeColor(theme);
+  const { selectedTagList, handleSelectTag } = useFilterTagSection({
+    limitOneSelection: false,
+  });
   return (
     <>
       <Helmet>
@@ -25,9 +38,21 @@ export default () => {
           >
             A place for general discussion.
           </Text>
+          <FilterTagSection
+            sectionLabel={"Filters:"}
+            tagList={Object.keys(CommentCategory)}
+            selectedTagList={selectedTagList}
+            handleSelectTag={handleSelectTag}
+            mapTagToLabel={mapCommentCategoryToLabel}
+            mapTagToBadgeColor={mapCommentCategoryToBadgeColor}
+          />
         </header>
-        <ChatTable />
+        <ChatTable
+          selectedCommentCategories={selectedTagList as CommentCategory[]}
+        />
       </div>
     </>
   );
 };
+
+export default Chat;

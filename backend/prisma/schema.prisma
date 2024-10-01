@@ -364,10 +364,18 @@ model Comment {
   CityUserInput         CityUserInput?       @relation(fields: [cityUserInputId], references: [id])
   cityUserInputId       Int?
   upvotedUsers          User[]               @relation("upvotedComments")
+  category              CommentCategory?      
 
   @@index([parentId])
   @@index([userId])
   @@index(fields: [userId, parentId])
+}
+
+enum CommentCategory {
+  VENT
+  ADVICE 
+  SERIOUS_QUESTION
+  HAPPY
 }
 
 model RankList {

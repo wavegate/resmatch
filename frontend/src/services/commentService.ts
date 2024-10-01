@@ -1,4 +1,5 @@
 import apiClient from "@/apiClient";
+import { CommentCategory } from "@/typings/CommentTypes";
 
 const route = "/comment";
 
@@ -11,6 +12,7 @@ interface Comment {
   parentId: number | null;
   children: Comment[];
   // Add other comment-related properties here
+  category?: CommentCategory;
 }
 
 interface SearchCommentParams {
@@ -19,6 +21,7 @@ interface SearchCommentParams {
   main?: boolean;
   threadId?: number; // Assuming you want to filter by thread
   pageNum?: number;
+  selectedCommentCategories?: CommentCategory[];
 }
 
 interface SearchResponse {
@@ -32,6 +35,7 @@ const searchComment = async ({
   main = false,
   threadId,
   pageNum = 1,
+  selectedCommentCategories = [],
 }: SearchCommentParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     pstp,
@@ -39,6 +43,7 @@ const searchComment = async ({
     main,
     threadId,
     pageNum,
+    selectedCommentCategories,
   });
   return data;
 };
