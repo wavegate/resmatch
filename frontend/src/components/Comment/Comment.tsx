@@ -1,14 +1,12 @@
 import AddChatForm from "@/components/AddChatForm/AddChatForm";
 import FilterTagSection from "@/components/FilterTagRow/FilterTagSection.tsx";
-import {
-  useCommentCategoryBadgeColor
-} from "@/hooks/useCommentCategoryBadgeColor.ts";
-import {useFilterTagSection} from "@/hooks/useFilterTagSection.ts";
+import { useCommentCategoryBadgeColor } from "@/hooks/useCommentCategoryBadgeColor.ts";
+import { useFilterTagSection } from "@/hooks/useFilterTagSection.ts";
 import useUser from "@/hooks/useUser";
 import commentService from "@/services/commentService";
 import {
   CommentCategory,
-  mapCommentCategoryToLabel
+  mapCommentCategoryToLabel,
 } from "@/typings/CommentTypes";
 import {
   Badge,
@@ -17,13 +15,13 @@ import {
   Loader,
   Text,
   Textarea,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
-import {notifications} from "@mantine/notifications";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import {useEffect, useState} from "react";
-import {BsChevronDown, BsChevronUp} from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import UserLink from "../UserLink";
 
 interface CommentProps {
@@ -39,11 +37,11 @@ export default function Comment({
   modelName,
 }: CommentProps) {
   const theme = useMantineTheme();
-  const {mapCommentCategoryToBadgeColor} = useCommentCategoryBadgeColor(theme);
-  const {
-    selectedTagList,
-    handleSelectTag
-  } = useFilterTagSection({limitOneSelection: true});
+  const { mapCommentCategoryToBadgeColor } =
+    useCommentCategoryBadgeColor(theme);
+  const { selectedTagList, handleSelectTag } = useFilterTagSection({
+    limitOneSelection: true,
+  });
   const [replyOpened, setReplyOpened] = useState(false);
   const [repliesOpened, setRepliesOpened] = useState(false);
   const queryClient = useQueryClient();
@@ -119,7 +117,7 @@ export default function Comment({
 
   const updateMutation = useMutation({
     mutationFn: (newContent: string) => {
-      const payload = {content: newContent};
+      const payload = { content: newContent };
       if (selectedTagList.length > 0) {
         payload.category = selectedTagList[0];
       }
@@ -180,21 +178,24 @@ export default function Comment({
               </div>
               <div>•</div>
               <div>{dayjs(comment.createdAt).format("M/D/YYYY [at] ha")}</div>
-              {comment.category &&
+              {comment.category && (
                 <Badge color={mapCommentCategoryToBadgeColor[comment.category]}>
                   {mapCommentCategoryToLabel[comment.category]}
-                </Badge>}
-
+                </Badge>
+              )}
             </div>
             {isEditing ? (
               <>
-                {comment.parentId === null &&
-                  <FilterTagSection sectionLabel={"Category:"}
-                                    tagList={Object.keys(CommentCategory)}
-                                    selectedTagList={selectedTagList}
-                                    handleSelectTag={handleSelectTag}
-                                    mapTagToLabel={mapCommentCategoryToLabel}
-                                    mapTagToBadgeColor={mapCommentCategoryToBadgeColor}/>}
+                {comment.parentId === null && (
+                  <FilterTagSection
+                    sectionLabel={"Category:"}
+                    tagList={Object.keys(CommentCategory)}
+                    selectedTagList={selectedTagList}
+                    handleSelectTag={handleSelectTag}
+                    mapTagToLabel={mapCommentCategoryToLabel}
+                    mapTagToBadgeColor={mapCommentCategoryToBadgeColor}
+                  />
+                )}
                 <Textarea
                   value={editContent}
                   onChange={(e) => setEditContent(e.currentTarget.value)}

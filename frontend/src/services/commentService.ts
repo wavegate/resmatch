@@ -1,5 +1,5 @@
 import apiClient from "@/apiClient";
-import {CommentCategory} from "@/typings/CommentTypes";
+import { CommentCategory } from "@/typings/CommentTypes";
 
 const route = "/comment";
 
@@ -30,31 +30,31 @@ interface SearchResponse {
 }
 
 const searchComment = async ({
-                               pstp = false,
-                               report = false,
-                               main = false,
-                               threadId,
-                               pageNum = 1,
-                               selectedCommentCategories = []
-                             }: SearchCommentParams): Promise<SearchResponse> => {
-  const {data} = await apiClient.post(`${route}/search`, {
+  pstp = false,
+  report = false,
+  main = false,
+  threadId,
+  pageNum = 1,
+  selectedCommentCategories = [],
+}: SearchCommentParams): Promise<SearchResponse> => {
+  const { data } = await apiClient.post(`${route}/search`, {
     pstp,
     report,
     main,
     threadId,
     pageNum,
-    selectedCommentCategories
+    selectedCommentCategories,
   });
   return data;
 };
 
 const createComment = async (formData: Partial<Comment>): Promise<Comment> => {
-  const {data} = await apiClient.post(route, formData);
+  const { data } = await apiClient.post(route, formData);
   return data;
 };
 
 const readComment = async (id: number): Promise<Comment> => {
-  const {data} = await apiClient.get(`${route}/${id}`);
+  const { data } = await apiClient.get(`${route}/${id}`);
   return data;
 };
 
@@ -62,7 +62,7 @@ const updateComment = async (
   id: number,
   formData: Partial<Comment>
 ): Promise<Comment> => {
-  const {data} = await apiClient.put(`${route}/${id}`, formData);
+  const { data } = await apiClient.put(`${route}/${id}`, formData);
   return data;
 };
 

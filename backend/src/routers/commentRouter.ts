@@ -1,5 +1,5 @@
 import express from "express";
-import {verifyToken} from "../middleware/authMiddleware.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 import prisma from "../prismaClient.js";
 
 const commentRouter = express.Router();
@@ -23,18 +23,18 @@ commentRouter.post("/", verifyToken, async (req, res) => {
     res.status(201).json(newComment);
   } catch (error) {
     console.error("Error creating comment:", error);
-    res.status(500).json({error: "Internal Server Error"});
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Get a single comment by ID
 commentRouter.get("/:id", async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
 
   try {
     // Fetch the comment with the user and replies included, ordered by createdAt
     const comment = await prisma.comment.findUnique({
-      where: {id: Number(id)},
+      where: { id: Number(id) },
       include: {
         user: true, // Include the user information
         replies: {
@@ -49,7 +49,7 @@ commentRouter.get("/:id", async (req, res) => {
     });
 
     if (!comment) {
-      return res.status(404).json({error: "Comment not found"});
+      return res.status(404).json({ error: "Comment not found" });
     }
 
     // Check if the comment is not linked, if so, remove the user data
@@ -60,37 +60,36 @@ commentRouter.get("/:id", async (req, res) => {
     res.json(comment);
   } catch (error) {
     console.error("Error fetching comment:", error);
-    res.status(500).json({error: "Internal Server Error"});
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
 // Update a comment by ID
 commentRouter.put("/:id", verifyToken, async (req, res) => {
-  const {id} = req.params;
-  const {content, category} = req.body;
+  const { id } = req.params;
+  const { content, category } = req.body;
 
   // Fetch the item to verify ownership
   const item = await prisma.comment.findUnique({
-    where: {id: Number(req.params.id)}, // Assuming `id` is the primary key
-    select: {userId: true}, // Adjust based on your model's fields
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
   });
 
   if (!item) {
-    return res.status(404).json({error: `comment not found`});
+    return res.status(404).json({ error: `comment not found` });
   }
 
   // Check if the current user is the owner of the item
   if (item.userId !== req.user.id) {
     return res
       .status(403)
-      .json({error: "You do not have permission to update this item"});
+      .json({ error: "You do not have permission to update this item" });
   }
 
   try {
     const updatedComment = await prisma.comment.update({
-      where: {id: Number(id)},
-      data: {content, category},
+      where: { id: Number(id) },
+      data: { content, category },
     });
 
     res.json(updatedComment);
@@ -98,62 +97,65 @@ commentRouter.put("/:id", verifyToken, async (req, res) => {
     console.error("Error updating comment:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({error: "Comment not found"});
+      return res.status(404).json({ error: "Comment not found" });
     }
 
-    res.status(500).json({error: "Internal Server Error"});
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Delete a comment by ID
 commentRouter.delete("/:id", verifyToken, async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
 
   // Fetch the item to verify ownership
   const item = await prisma.comment.findUnique({
-    where: {id: Number(req.params.id)}, // Assuming `id` is the primary key
-    select: {userId: true}, // Adjust based on your model's fields
+    where: { id: Number(req.params.id) }, // Assuming `id` is the primary key
+    select: { userId: true }, // Adjust based on your model's fields
   });
 
   if (!item) {
-    return res.status(404).json({error: `comment not found`});
+    return res.status(404).json({ error: `comment not found` });
   }
 
   // Check if the current user is the owner of the item
   if (item.userId !== req.user.id) {
     return res
       .status(403)
-      .json({error: "You do not have permission to update this item"});
+      .json({ error: "You do not have permission to update this item" });
   }
 
   try {
     await prisma.comment.delete({
-      where: {id: Number(id)},
+      where: { id: Number(id) },
     });
 
-    res.json({message: `Comment with ID: ${id} deleted`});
+    res.json({ message: `Comment with ID: ${id} deleted` });
   } catch (error) {
     console.error("Error deleting comment:", error);
 
     if (error.code === "P2025") {
-      return res.status(404).json({error: "Comment not found"});
+      return res.status(404).json({ error: "Comment not found" });
     }
 
-    res.status(500).json({error: "Internal Server Error"});
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 commentRouter.post("/search", async (req, res) => {
-  const {pageNum = 1, selectedCommentCategories, ...queryParams} = req.body;
+  const { pageNum = 1, selectedCommentCategories, ...queryParams } = req.body;
   const PAGE_SIZE = 10; // Example page size
 
   try {
     // Construct the where clause dynamically using req.body
     const whereClause = {
       parentId: null,
-      category: selectedCommentCategories.length > 0 ? {
-        in: selectedCommentCategories,  // 'in' operator to find matching categories
-      } : undefined,
+      category:
+        selectedCommentCategories.length > 0
+          ? {
+              in: selectedCommentCategories, // 'in' operator to find matching categories
+            }
+          : undefined,
       ...queryParams, // Spread all properties from req.body
     };
 
@@ -188,10 +190,10 @@ commentRouter.post("/search", async (req, res) => {
       return comment;
     });
 
-    res.json({totalCount, comments});
+    res.json({ totalCount, comments });
   } catch (error) {
     console.error("Error fetching comments:", error);
-    res.status(500).json({error: "Internal Server Error"});
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
