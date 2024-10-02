@@ -89,10 +89,9 @@ const HomePage = () => {
                   by default.
                 </li>
                 <li>
-                  <strong>Decentralized ownership:</strong> I will backup data
-                  every few days. Upon request, I can provide an Excel
-                  spreadsheet with personal information desanitized available
-                  for download.
+                  <strong>Decentralized ownership:</strong> Data is
+                  automatically backed up every few days, and data is available
+                  for download on each page as a CSV file.
                 </li>
                 <li>
                   <strong>Stability:</strong> I am happy to maintain this
