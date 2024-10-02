@@ -97,9 +97,7 @@ const HomePage = () => {
                 <li>
                   <strong>Stability:</strong> I am happy to maintain this
                   application year to year, as well as can extend to other
-                  specialties if things work out. The code is also open-source,
-                  so if something happens to me, other people can jump in and
-                  keep the application running.
+                  specialties if things work out.
                 </li>
                 <li>
                   <strong>Extensibility:</strong> I will improve the application
