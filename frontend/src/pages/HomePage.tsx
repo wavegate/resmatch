@@ -85,8 +85,7 @@ const HomePage = () => {
                   <strong>Anonymity:</strong> The app is designed to encourage
                   information sharing and free access to information. However,
                   every input has an option to be anonymous if there is concern
-                  for privacy. The Malignant and Fame/Shame tabs are anonymous
-                  by default.
+                  for privacy.
                 </li>
                 <li>
                   <strong>Decentralized ownership:</strong> Data is
