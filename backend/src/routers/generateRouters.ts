@@ -15,8 +15,8 @@ function createModelRouter(modelName) {
     listAll,
   } = createCrudHandlers(modelName);
 
+  router.post("/all", listAll);
   router.post("/", verifyToken, create);
-  router.get("/all", listAll);
   router.get("/:id", getById);
   router.put("/:id", verifyToken, updateById);
   router.put("/upvote/:id", verifyToken, upvoteById);

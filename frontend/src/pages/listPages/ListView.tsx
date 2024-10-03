@@ -42,6 +42,7 @@ const Table: React.FC<TableProps> = ({
   modelName,
   className,
   showFollowed,
+  showOldData,
 }) => {
   // const [selectedProgram, setSelectedProgram] = useState(null);
   // const [startDate, setStartDate] = useState(null);
@@ -61,10 +62,12 @@ const Table: React.FC<TableProps> = ({
   //     });
   //   },
   // });
-  const queryKey = [modelName, "all"];
+  const queryKey = [modelName, "all", showOldData];
   const { data, error, isLoading } = useQuery({
     queryKey,
-    queryFn: () => services[modelName].getAll(),
+    queryFn: () => {
+      return services[modelName].getAll({ oldData: showOldData });
+    },
   });
 
   const { user } = useUser();
