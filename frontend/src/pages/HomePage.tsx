@@ -143,10 +143,6 @@ const HomePage = () => {
             >
               <h4 className={`font-medium text-xl`}>Changelog</h4>
               <div className={`flex flex-col gap-1`}>
-                <div className={`font-medium`}>10/3/2024</div>
-                <div>Comment reply notifications.</div>
-              </div>
-              <div className={`flex flex-col gap-1`}>
                 <div className={`font-medium`}>9/22/2024</div>
                 <div>
                   Load data into program details page, load data into user

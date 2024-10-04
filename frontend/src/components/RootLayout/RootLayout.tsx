@@ -5,7 +5,6 @@ import {
   Button,
   LoadingOverlay,
   Menu,
-  Popover,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link, Outlet } from "react-router-dom";
@@ -13,8 +12,8 @@ import { RiLogoutBoxRLine, RiMentalHealthLine } from "react-icons/ri";
 import useUser from "@/hooks/useUser";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { generateGravatarUrl } from "@/utils/utils";
-import { FaRegBell, FaRegUser } from "react-icons/fa";
-import StatusNotifications from "../StatusNotifications";
+import { HiOutlineUserCircle } from "react-icons/hi";
+import { FaRegUser } from "react-icons/fa";
 
 export default () => {
   const { user, signOut, isLoading } = useUser();
@@ -58,7 +57,6 @@ export default () => {
               </h1>
             </Link>
           </div>
-
           <div className={`flex gap-4 max-sm:hidden relative`}>
             <LoadingOverlay
               visible={isLoading}
@@ -66,7 +64,6 @@ export default () => {
               overlayProps={{ radius: "sm", blur: 1 }}
               loaderProps={{ size: "sm" }}
             />
-            {user && <StatusNotifications />}
             {!user && (
               <>
                 <Link to="/login">
@@ -113,10 +110,8 @@ export default () => {
               </>
             )}
           </div>
-
           {user && (
-            <div className={`flex gap-2 sm:hidden relative`}>
-              <StatusNotifications />
+            <div className={`sm:hidden`}>
               <Menu shadow="md" width={200}>
                 <Menu.Target>
                   <Button variant="default" className={`rounded-full px-1.5`}>

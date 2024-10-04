@@ -46,7 +46,6 @@ const ListPage = lazy(() => import("@/pages/listPages/ListPage"));
 const ProgramDetail = lazy(
   () => import("@/pages/listPages/Program/ProgramDetail")
 );
-const CommentDetail = lazy(() => import("@/pages/CommentDetail"));
 
 const routes = [
   {
@@ -360,14 +359,6 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <AddChat type="report" />
-          </Suspense>
-        ),
-      },
-      {
-        path: "comment/:id",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <CommentDetail />
           </Suspense>
         ),
       },
