@@ -104,7 +104,6 @@ model User {
   upvotedFellowshipMatches    FellowshipMatch[]     @relation("upvotedFellowshipMatches")
   upvotedBinAssignments       BinAssignment[]       @relation("upvotedBinAssignments")
   upvotedXorY                 XorY[]                @relation("upvotedXorY")
-  notifications               Notification[]
 }
 
 enum Role {
@@ -205,9 +204,8 @@ model InterviewInvite {
   programId Int
   program   Program @relation(fields: [programId], references: [id])
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Notification Notification[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([programId])
   @@index([userId])
@@ -288,28 +286,26 @@ model CityUserInput {
   comments             Comment[]
   upvotedUsers         User[]    @relation("upvotedCityUserInputs")
 
-  city         City           @relation(fields: [cityId], references: [id], onDelete: Cascade)
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Notification Notification[]
+  city City @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([cityId])
   @@index([userId])
 }
 
 model FameShame {
-  id           Int            @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   userId       Int
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   fame         String?
   shame        String?
   programId    Int
-  anonymous    Boolean        @default(false)
-  program      Program        @relation(fields: [programId], references: [id])
+  anonymous    Boolean   @default(false)
+  program      Program   @relation(fields: [programId], references: [id])
   comments     Comment[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedFameShames")
-  Notification Notification[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  upvotedUsers User[]    @relation("upvotedFameShames")
 
   @@index([programId])
   @@index([userId])
@@ -317,63 +313,58 @@ model FameShame {
 }
 
 model Comment {
-  id                     Int                  @id @default(autoincrement())
-  userId                 Int
-  content                String
-  user                   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  RankList               RankList?            @relation(fields: [rankListId], references: [id])
-  rankListId             Int?
-  createdAt              DateTime             @default(now())
-  updatedAt              DateTime             @updatedAt
-  PostIVCommunication    PostIVCommunication? @relation(fields: [postIVCommunicationId], references: [id], onDelete: Cascade)
-  postIVCommunicationId  Int?
-  ScheduleDetails        ScheduleDetails?     @relation(fields: [scheduleDetailsId], references: [id], onDelete: Cascade)
-  scheduleDetailsId      Int?
-  M4InternImpression     M4InternImpression?  @relation(fields: [m4InternImpressionId], references: [id], onDelete: Cascade)
-  m4InternImpressionId   Int?
-  Malignant              Malignant?           @relation(fields: [malignantId], references: [id], onDelete: Cascade)
-  malignantId            Int?
-  LOIResponse            LOIResponse?         @relation(fields: [lOIResponseId], references: [id], onDelete: Cascade)
-  lOIResponseId          Int?
-  InterviewImpression    InterviewImpression? @relation(fields: [interviewImpressionId], references: [id], onDelete: Cascade)
-  interviewImpressionId  Int?
-  TierList               TierList?            @relation(fields: [tierListId], references: [id], onDelete: Cascade)
-  tierListId             Int?
-  parentId               Int?
-  topLevelParentId       Int?
-  parent                 Comment?             @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies                Comment[]            @relation("CommentReplies")
-  main                   Boolean              @default(false)
-  pstp                   Boolean              @default(false)
-  report                 Boolean              @default(false)
-  XorY                   XorY?                @relation(fields: [xorYId], references: [id], onDelete: Cascade)
-  xorYId                 Int?
-  anonymous              Boolean              @default(false)
-  InterviewInvite        InterviewInvite?     @relation(fields: [interviewInviteId], references: [id], onDelete: Cascade)
-  interviewInviteId      Int?
-  FameShame              FameShame?           @relation(fields: [fameShameId], references: [id], onDelete: Cascade)
-  fameShameId            Int?
-  InterviewLogistics     InterviewLogistics?  @relation(fields: [interviewLogisticsId], references: [id], onDelete: Cascade)
-  interviewLogisticsId   Int?
-  SecondLook             SecondLook?          @relation(fields: [secondLookId], references: [id], onDelete: Cascade)
-  secondLookId           Int?
-  InterviewRejection     InterviewRejection?  @relation(fields: [interviewRejectionId], references: [id], onDelete: Cascade)
-  interviewRejectionId   Int?
-  Question               Question?            @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId             Int?
-  Dropped                Dropped?             @relation(fields: [droppedId], references: [id], onDelete: Cascade)
-  droppedId              Int?
-  FellowshipMatch        FellowshipMatch?     @relation(fields: [fellowshipMatchId], references: [id], onDelete: Cascade)
-  fellowshipMatchId      Int?
-  CityUserInput          CityUserInput?       @relation(fields: [cityUserInputId], references: [id])
-  cityUserInputId        Int?
-  upvotedUsers           User[]               @relation("upvotedComments")
-  category               CommentCategory?
-  // Relation for comments that are being replied to (notifications for original comment)
-  notificationsAsComment Notification[]       @relation("CommentBeingRepliedTo")
-
-  // Relation for notifications where this comment is a reply (notifications for replies)
-  notificationsAsReplyComment Notification[] @relation("ReplyToComment")
+  id                    Int                  @id @default(autoincrement())
+  userId                Int
+  content               String
+  user                  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  RankList              RankList?            @relation(fields: [rankListId], references: [id])
+  rankListId            Int?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  PostIVCommunication   PostIVCommunication? @relation(fields: [postIVCommunicationId], references: [id], onDelete: Cascade)
+  postIVCommunicationId Int?
+  ScheduleDetails       ScheduleDetails?     @relation(fields: [scheduleDetailsId], references: [id], onDelete: Cascade)
+  scheduleDetailsId     Int?
+  M4InternImpression    M4InternImpression?  @relation(fields: [m4InternImpressionId], references: [id], onDelete: Cascade)
+  m4InternImpressionId  Int?
+  Malignant             Malignant?           @relation(fields: [malignantId], references: [id], onDelete: Cascade)
+  malignantId           Int?
+  LOIResponse           LOIResponse?         @relation(fields: [lOIResponseId], references: [id], onDelete: Cascade)
+  lOIResponseId         Int?
+  InterviewImpression   InterviewImpression? @relation(fields: [interviewImpressionId], references: [id], onDelete: Cascade)
+  interviewImpressionId Int?
+  TierList              TierList?            @relation(fields: [tierListId], references: [id], onDelete: Cascade)
+  tierListId            Int?
+  parentId              Int?
+  topLevelParentId      Int?
+  parent                Comment?             @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies               Comment[]            @relation("CommentReplies")
+  main                  Boolean              @default(false)
+  pstp                  Boolean              @default(false)
+  report                Boolean              @default(false)
+  XorY                  XorY?                @relation(fields: [xorYId], references: [id], onDelete: Cascade)
+  xorYId                Int?
+  anonymous             Boolean              @default(false)
+  InterviewInvite       InterviewInvite?     @relation(fields: [interviewInviteId], references: [id], onDelete: Cascade)
+  interviewInviteId     Int?
+  FameShame             FameShame?           @relation(fields: [fameShameId], references: [id], onDelete: Cascade)
+  fameShameId           Int?
+  InterviewLogistics    InterviewLogistics?  @relation(fields: [interviewLogisticsId], references: [id], onDelete: Cascade)
+  interviewLogisticsId  Int?
+  SecondLook            SecondLook?          @relation(fields: [secondLookId], references: [id], onDelete: Cascade)
+  secondLookId          Int?
+  InterviewRejection    InterviewRejection?  @relation(fields: [interviewRejectionId], references: [id], onDelete: Cascade)
+  interviewRejectionId  Int?
+  Question              Question?            @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId            Int?
+  Dropped               Dropped?             @relation(fields: [droppedId], references: [id], onDelete: Cascade)
+  droppedId             Int?
+  FellowshipMatch       FellowshipMatch?     @relation(fields: [fellowshipMatchId], references: [id], onDelete: Cascade)
+  fellowshipMatchId     Int?
+  CityUserInput         CityUserInput?       @relation(fields: [cityUserInputId], references: [id])
+  cityUserInputId       Int?
+  upvotedUsers          User[]               @relation("upvotedComments")
+  category              CommentCategory?      
 
   @@index([parentId])
   @@index([userId])
@@ -382,7 +373,7 @@ model Comment {
 
 enum CommentCategory {
   VENT
-  ADVICE
+  ADVICE 
   SERIOUS_QUESTION
   HAPPY
 }
@@ -409,7 +400,6 @@ model RankList {
   updatedAt        DateTime        @updatedAt
   RankedProgram    RankedProgram[]
   upvotedUsers     User[]          @relation("upvotedRankLists")
-  Notification     Notification[]
 
   @@index(fields: [userId])
 }
@@ -439,10 +429,9 @@ model PostIVCommunication {
   comments              Comment[]
   anonymous             Boolean               @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedPostIVCommunications")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedPostIVCommunications")
 
   @@index([programId])
   @@index([userId])
@@ -502,10 +491,9 @@ model ScheduleDetails {
   comments             Comment[]
   anonymous            Boolean   @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedScheduleDetails")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedScheduleDetails")
 
   @@index([programId])
   @@index([userId])
@@ -554,10 +542,9 @@ model InterviewLogistics {
   comments          Comment[]
   anonymous         Boolean            @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedInterviewLogistics")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedInterviewLogistics")
 
   @@index([programId])
   @@index([userId])
@@ -600,10 +587,9 @@ model SecondLook {
   comments      Comment[]
   anonymous     Boolean   @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedSecondLooks")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedSecondLooks")
 
   @@index([programId])
   @@index([userId])
@@ -649,10 +635,9 @@ model InterviewRejection {
   pass                 Int?
   fail                 Int?
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedInterviewRejections")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedInterviewRejections")
 
   @@index([programId])
   @@index([userId])
@@ -670,10 +655,9 @@ model M4InternImpression {
   comments           Comment[]
   anonymous          Boolean   @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedM4InternImpressions")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedM4InternImpressions")
 
   @@index([programId])
   @@index([userId])
@@ -692,10 +676,9 @@ model Malignant {
   comments    Comment[]
   anonymous   Boolean       @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedMalignants")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedMalignants")
 
   @@index([programId])
   @@index([userId])
@@ -725,10 +708,9 @@ model LOIResponse {
   comments                   Comment[]
   anonymous                  Boolean               @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedLOIResponses")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedLOIResponses")
 
   @@index([programId])
   @@index([userId])
@@ -767,10 +749,9 @@ model InterviewImpression {
   comments                   Comment[]
   anonymous                  Boolean   @default(false)
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedInterviewImpressions")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedInterviewImpressions")
 
   @@index([programId])
   @@index([userId])
@@ -797,11 +778,10 @@ model Question {
 
   questions String[] @default([])
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  anonymous    Boolean        @default(false)
-  upvotedUsers User[]         @relation("upvotedQuestions")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  anonymous    Boolean  @default(false)
+  upvotedUsers User[]   @relation("upvotedQuestions")
 
   @@index([programId])
   @@index([userId])
@@ -820,10 +800,9 @@ model Dropped {
   anonymous                Boolean   @default(false)
   comments                 Comment[]
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedDropped")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedDropped")
 
   @@index([programId])
   @@index([userId])
@@ -841,10 +820,9 @@ model FellowshipMatch {
   anonymous Boolean   @default(false)
   comments  Comment[]
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  upvotedUsers User[]         @relation("upvotedFellowshipMatches")
-  Notification Notification[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  upvotedUsers User[]   @relation("upvotedFellowshipMatches")
 
   @@index([programId])
   @@index([userId])
@@ -900,80 +878,23 @@ model Suggestion {
 }
 
 model XorY {
-  id           Int            @id @default(autoincrement())
-  programX     Program        @relation("ProgramXRelation", fields: [programXId], references: [id])
+  id           Int       @id @default(autoincrement())
+  programX     Program   @relation("ProgramXRelation", fields: [programXId], references: [id])
   programXId   Int
-  programY     Program        @relation("ProgramYRelation", fields: [programYId], references: [id])
+  programY     Program   @relation("ProgramYRelation", fields: [programYId], references: [id])
   programYId   Int
   question     String
   comments     Comment[]
   userId       Int
   img          Boolean?
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  anonymous    Boolean        @default(false)
-  upvotedUsers User[]         @relation("upvotedXorY")
-  Notification Notification[]
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  anonymous    Boolean   @default(false)
+  upvotedUsers User[]    @relation("upvotedXorY")
 
   @@index([programXId])
   @@index([programYId])
   @@index([userId])
   @@index(fields: [programXId, programYId, userId])
-}
-
-model Notification {
-  userId                Int
-  user                  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt             DateTime             @default(now())
-  updatedAt             DateTime             @updatedAt
-  id                    Int                  @id @default(autoincrement())
-  RankList              RankList?            @relation(fields: [rankListId], references: [id])
-  rankListId            Int?
-  PostIVCommunication   PostIVCommunication? @relation(fields: [postIVCommunicationId], references: [id], onDelete: Cascade)
-  postIVCommunicationId Int?
-  ScheduleDetails       ScheduleDetails?     @relation(fields: [scheduleDetailsId], references: [id], onDelete: Cascade)
-  scheduleDetailsId     Int?
-  M4InternImpression    M4InternImpression?  @relation(fields: [m4InternImpressionId], references: [id], onDelete: Cascade)
-  m4InternImpressionId  Int?
-  Malignant             Malignant?           @relation(fields: [malignantId], references: [id], onDelete: Cascade)
-  malignantId           Int?
-  LOIResponse           LOIResponse?         @relation(fields: [lOIResponseId], references: [id], onDelete: Cascade)
-  lOIResponseId         Int?
-  InterviewImpression   InterviewImpression? @relation(fields: [interviewImpressionId], references: [id], onDelete: Cascade)
-  interviewImpressionId Int?
-  XorY                  XorY?                @relation(fields: [xorYId], references: [id], onDelete: Cascade)
-  xorYId                Int?
-  InterviewInvite       InterviewInvite?     @relation(fields: [interviewInviteId], references: [id], onDelete: Cascade)
-  interviewInviteId     Int?
-  FameShame             FameShame?           @relation(fields: [fameShameId], references: [id], onDelete: Cascade)
-  fameShameId           Int?
-  InterviewLogistics    InterviewLogistics?  @relation(fields: [interviewLogisticsId], references: [id], onDelete: Cascade)
-  interviewLogisticsId  Int?
-  SecondLook            SecondLook?          @relation(fields: [secondLookId], references: [id], onDelete: Cascade)
-  secondLookId          Int?
-  InterviewRejection    InterviewRejection?  @relation(fields: [interviewRejectionId], references: [id], onDelete: Cascade)
-  interviewRejectionId  Int?
-  Question              Question?            @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId            Int?
-  Dropped               Dropped?             @relation(fields: [droppedId], references: [id], onDelete: Cascade)
-  droppedId             Int?
-  FellowshipMatch       FellowshipMatch?     @relation(fields: [fellowshipMatchId], references: [id], onDelete: Cascade)
-  fellowshipMatchId     Int?
-  CityUserInput         CityUserInput?       @relation(fields: [cityUserInputId], references: [id], onDelete: Cascade)
-  cityUserInputId       Int?
-  commentId             Int? // The comment being replied to
-  comment               Comment?             @relation("CommentBeingRepliedTo", fields: [commentId], references: [id], onDelete: Cascade)
-  replyCommentId        Int? // The reply comment itself
-  replyComment          Comment?             @relation("ReplyToComment", fields: [replyCommentId], references: [id], onDelete: Cascade)
-  notificationType      NotificationType
-  read                  Boolean              @default(false)
-
-  @@index([userId])
-}
-
-enum NotificationType {
-  COMMENT_REPLY
-  POST_COMMENT
-  PROGRAM_UPDATE
 }
