@@ -15,6 +15,13 @@ const interviewRejectionFormSchema: FormSchema = {
     placeholder: "Select the date and time",
     required: true,
   },
+  reason: {
+    type: "string",
+    label: "Reason",
+    description:
+      "If the program gave you a reason for the rejection, describe it here.",
+    placeholder: "Describe the reason for the rejection, if any",
+  },
   import: true,
   graduateType: {
     type: "select",

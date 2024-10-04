@@ -121,6 +121,13 @@ const interviewInviteFormSchema: FormSchema = {
       "Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
     placeholder: "Enter your Step 2 score",
   },
+  step3Score: {
+    type: "number",
+    label: "Step 3 Score",
+    description:
+      "Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
+    placeholder: "Enter your Step 3 score",
+  },
   comlex1ScorePass: {
     type: "boolean",
     label: "COMLEX 1 Score Pass",
