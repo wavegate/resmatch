@@ -35,6 +35,7 @@ export default function Comment({
   id,
   queryKey,
   modelName,
+  showAllReplies,
 }: CommentProps) {
   const theme = useMantineTheme();
   const { mapCommentCategoryToBadgeColor } =
@@ -43,7 +44,7 @@ export default function Comment({
     limitOneSelection: true,
   });
   const [replyOpened, setReplyOpened] = useState(false);
-  const [repliesOpened, setRepliesOpened] = useState(false);
+  const [repliesOpened, setRepliesOpened] = useState(!!showAllReplies);
   const queryClient = useQueryClient();
 
   const toggleReplyForm = () => setReplyOpened((prev) => !prev);
@@ -59,6 +60,7 @@ export default function Comment({
   } = useQuery({
     queryKey: ["comment", id],
     queryFn: () => commentService.readComment(id),
+    retry: false,
   });
 
   useEffect(() => {
@@ -161,6 +163,9 @@ export default function Comment({
   }
 
   if (error) {
+    if (error?.response?.status === 404) {
+      return <Text>Comment no longer exists.</Text>;
+    }
     return <Text>Error loading comment.</Text>;
   }
   //bump
@@ -296,6 +301,7 @@ export default function Comment({
                       postId={postId}
                       queryKey={queryKey}
                       modelName={modelName}
+                      showAllReplies={showAllReplies}
                     />
                   );
                 })}
