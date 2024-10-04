@@ -181,6 +181,7 @@ model InterviewInvite {
   step1ScorePass       Boolean?
   step1Score           Int?
   step2Score           Int?
+  step3Score           Int?
   comlex1ScorePass     Boolean?
   comlex2Score         Int?
   visaRequired         Boolean?
@@ -648,6 +649,7 @@ model InterviewRejection {
   highPass             Int?
   pass                 Int?
   fail                 Int?
+  reason               String?
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt

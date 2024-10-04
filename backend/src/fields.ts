@@ -10,7 +10,6 @@ export function intersectFields(list1: string[], list2: string[]): string[] {
 }
 
 export const userFields = [
-  "email",
   "alias",
   "greenCard",
   "step2CSPathway",
