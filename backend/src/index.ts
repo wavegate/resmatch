@@ -32,6 +32,7 @@ import { createAllRouters } from "./routers/generateRouters.js";
 import removeSensitiveFieldsMiddleware from "./middleware/removeSensitiveFieldsMiddleware.js";
 import passport from "passport";
 import session from "express-session";
+import notificationRouter from "./routers/notificationRouter.js";
 
 dotenv.config();
 
@@ -115,6 +116,7 @@ app.use("/comment", commentRouter);
 // app.use("/fellowship-match", fellowshipMatchRouter);
 app.use("/x-or-y", xOrYRouter);
 // app.use("/city-user-input", cityUserInputRouter);
+app.use("/notification", notificationRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
