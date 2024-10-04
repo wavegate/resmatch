@@ -10,15 +10,44 @@ commentRouter.post("/", verifyToken, async (req, res) => {
 
   try {
     // Extract all values from req.body and add userId to the data object
+    const { parentId, ...rest } = req.body; // Extract parentId separately
     const data = {
-      ...req.body,
+      ...rest,
       userId: Number(userId),
+      parentId: parentId ? Number(parentId) : null, // Include parentId if it exists
     };
 
-    // Create a new comment with the dynamically constructed data object
+    // Create a new comment
     const newComment = await prisma.comment.create({
       data,
     });
+
+    // Check if there is a parentId (indicating this is a reply to a comment)
+    if (parentId) {
+      // Find the parent comment
+      const parentComment = await prisma.comment.findUnique({
+        where: {
+          id: Number(parentId),
+        },
+        include: {
+          user: true, // Get the user of the parent comment
+        },
+      });
+
+      if (!parentComment) {
+        return res.status(404).json({ error: "Parent comment not found" });
+      }
+
+      // Create a notification for the user of the parent comment
+      await prisma.notification.create({
+        data: {
+          userId: parentComment.userId, // User who created the parent comment
+          notificationType: "COMMENT_REPLY", // Notification type
+          commentId: parentComment.id, // The parent comment
+          replyCommentId: newComment.id, // The new comment (reply)
+        },
+      });
+    }
 
     res.status(201).json(newComment);
   } catch (error) {
