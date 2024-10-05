@@ -33,6 +33,7 @@ import removeSensitiveFieldsMiddleware from "./middleware/removeSensitiveFieldsM
 import passport from "passport";
 import session from "express-session";
 import notificationRouter from "./routers/notificationRouter.js";
+import { modelNames } from "./modelNames.js";
 
 dotenv.config();
 
@@ -62,25 +63,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-const modelNames = [
-  "interviewLogistics",
-  "question",
-  "interviewImpression",
-  "lOIResponse",
-  "postIVCommunication",
-  "secondLook",
-  "dropped",
-  "fameShame",
-  "m4InternImpression",
-  "malignant",
-  "scheduleDetails",
-  "fellowshipMatch",
-  "interviewInvite",
-  "interviewRejection",
-  "cityUserInput",
-  "xorY",
-];
 
 // Create routers for all models
 const routers = createAllRouters(modelNames);

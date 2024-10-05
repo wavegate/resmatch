@@ -1,6 +1,7 @@
 import express from "express";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import prisma from "../prismaClient.js";
+import { modelNames } from "../modelNames.js";
 
 const commentRouter = express.Router();
 
@@ -47,6 +48,35 @@ commentRouter.post("/", verifyToken, async (req, res) => {
           replyCommentId: newComment.id, // The new comment (reply)
         },
       });
+    } else {
+      for (const modelName of modelNames) {
+        const modelNameIdKey = `${modelName}Id`;
+        if (req.body[modelNameIdKey]) {
+          const modelNameId = req.body[modelNameIdKey];
+
+          // Find the user for the model (assumes each model has a `userId`)
+          const modelRecord = await prisma[modelName].findUnique({
+            where: { id: Number(modelNameId) },
+            select: { userId: true },
+          });
+
+          if (!modelRecord) {
+            return res
+              .status(404)
+              .json({ error: `${modelName} record not found` });
+          }
+
+          // Create a notification for the user related to this model
+          await prisma.notification.create({
+            data: {
+              userId: modelRecord.userId, // User for the related model record
+              [`${modelName}Id`]: Number(modelNameId), // Related model's ID
+              notificationType: "POST_COMMENT", // Notification type
+              replyCommentId: newComment.id, // The new comment (reply)
+            },
+          });
+        }
+      }
     }
 
     res.status(201).json(newComment);
