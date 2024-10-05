@@ -15,15 +15,15 @@ datasource db {
 
 model User {
   id                          Int                   @id @default(autoincrement())
-  email                       String                @unique
+  email                       String?               @unique
   password                    String?
   isConfirmed                 Boolean?              @default(false)
   alias                       String                @unique
   createdAt                   DateTime              @default(now())
   updatedAt                   DateTime              @updatedAt
-  googleId                    String?
-  redditId                    String?
-  discordId                   String?
+  googleId                    String?               @unique
+  redditId                    String?               @unique
+  discordId                   String?               @unique
   interviewInvites            InterviewInvite[]
   cityUserInputs              CityUserInput[]
   greenCard                   Boolean?

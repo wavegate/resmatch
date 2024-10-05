@@ -11,6 +11,7 @@ import mg from "../mailClient.js";
 import { FRONTEND_URL } from "../constants.js";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as RedditStrategy } from "passport-reddit";
 
 const authRouter = express.Router();
 
@@ -46,6 +47,42 @@ passport.use(
               alias: generateCodename(),
               isConfirmed: true, // Google OAuth users are automatically confirmed
               googleId: profile.id,
+            },
+          });
+          return done(null, newUser);
+        }
+      } catch (error) {
+        return done(error, null);
+      }
+    }
+  )
+);
+
+passport.use(
+  new RedditStrategy(
+    {
+      clientID: process.env.REDDIT_CLIENT_ID,
+      clientSecret: process.env.REDDIT_CLIENT_SECRET,
+      callbackURL: "/auth/reddit/callback",
+      scope: ["identity"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Check if the user already exists in the database
+        let user = await prisma.user.findUnique({
+          where: { redditId: profile.id }, // Reddit provides `profile.id`
+        });
+
+        if (user) {
+          return done(null, user);
+        } else {
+          // If the user does not exist, create a new user
+          const newUser = await prisma.user.create({
+            data: {
+              redditId: profile.id,
+              redditUsername: profile.name,
+              alias: generateCodename(),
+              isConfirmed: true, // Reddit OAuth users are automatically confirmed
             },
           });
           return done(null, newUser);
@@ -386,7 +423,9 @@ authRouter.get(
 );
 authRouter.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
   async (req, res) => {
     try {
       // At this point, req.user is already populated by Passport's GoogleStrategy
@@ -398,6 +437,32 @@ authRouter.get(
       res.redirect(`${process.env.FRONTEND_URL}/login-success?token=${token}`);
     } catch (error) {
       console.error("Error during Google OAuth callback:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+authRouter.get(
+  "/reddit",
+  passport.authenticate("reddit", { scope: ["identity"] }) // Reddit uses "identity" scope
+);
+
+authRouter.get(
+  "/reddit/callback",
+  passport.authenticate("reddit", {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
+  async (req, res) => {
+    try {
+      // At this point, req.user is already populated by Passport's RedditStrategy
+      const token = jwt.sign({ id: req.user.id }, process.env.SECRET_KEY, {
+        expiresIn: "30d", // Token expires in 30 days
+      });
+
+      // Redirect to the frontend with the JWT token
+      res.redirect(`${process.env.FRONTEND_URL}/login-success?token=${token}`);
+    } catch (error) {
+      console.error("Error during Reddit OAuth callback:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
