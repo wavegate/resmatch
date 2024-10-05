@@ -53,8 +53,10 @@ const createService = <T, FormData>(route: string) => {
       return data;
     },
 
-    getAll: async (): Promise<T[]> => {
-      const { data } = await apiClient.get(`${route}/all`);
+    getAll: async (requestData): Promise<T[]> => {
+      const { data } = await apiClient.post(`${route}/all`, {
+        ...requestData,
+      });
       return data;
     },
   };

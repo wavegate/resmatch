@@ -354,6 +354,7 @@ export const createCrudHandlers = (modelName) => ({
 
   listAll: async (req, res) => {
     try {
+      const { oldData } = req.body;
       // Determine the orderBy clause based on the modelName
       let orderByClause;
       if (
@@ -414,6 +415,13 @@ export const createCrudHandlers = (modelName) => ({
           },
         },
         orderBy: orderByClause,
+        ...(!oldData && {
+          where: {
+            createdAt: {
+              gte: new Date("2024-07-01"),
+            },
+          },
+        }),
       });
 
       // Process the items to remove user data if anonymous

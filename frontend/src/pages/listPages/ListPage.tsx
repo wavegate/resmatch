@@ -16,7 +16,7 @@ interface ListPageProps {
 
 const ListPage: React.FC<ListPageProps> = ({ modelName, className }) => {
   const matches = useMediaQuery("(max-width: 768px)");
-  const [listView, setListView] = useState(false);
+  const [listView, setListView] = useState<boolean>(false);
   const firstLoad = useRef(true);
 
   useEffect(() => {

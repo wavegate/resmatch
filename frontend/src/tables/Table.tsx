@@ -17,6 +17,7 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const { user } = useUser();
   const [showFollowed, setShowFollowed] = useState(false);
+  const [showOldData, setShowOldData] = useState<boolean>(false);
   const gridRef = useRef(null);
 
   const onBtnExport = useCallback(() => {
@@ -25,6 +26,12 @@ const Table: React.FC<TableProps> = ({
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShowFollowed(event.currentTarget.checked);
+  };
+
+  const handleShowOldDataChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setShowOldData(event.currentTarget.checked);
   };
 
   useEffect(() => {
@@ -43,6 +50,13 @@ const Table: React.FC<TableProps> = ({
           onChange={(event) => setListView(event.currentTarget.checked)}
           size="sm"
         />
+
+        <Checkbox
+          label={"Old data"}
+          checked={showOldData}
+          onChange={handleShowOldDataChange}
+        />
+
         {user && (
           <Checkbox
             label={"Followed"}
@@ -64,13 +78,18 @@ const Table: React.FC<TableProps> = ({
       </div>
 
       {listView && (
-        <ListView modelName={modelName} showFollowed={showFollowed} />
+        <ListView
+          modelName={modelName}
+          showFollowed={showFollowed}
+          showOldData={showOldData}
+        />
       )}
       {!listView && (
         <TableView
           ref={gridRef}
           modelName={modelName}
           showFollowed={showFollowed}
+          showOldData={showOldData}
         />
       )}
     </div>
