@@ -6,10 +6,22 @@ import { Badge, Button, Indicator, Popover } from "@mantine/core";
 import { FaRegBell } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { TbMoodSad } from "react-icons/tb";
+import { modelNames } from "@/services/services";
 
 const colorMap = {
   unread: "bg-[#E7F2FF] hover:bg-[#D8E9FF]",
   read: "hover:bg-gray-100",
+};
+
+// Function to get the model name and id
+const getModelLink = (datum) => {
+  for (const modelName of modelNames) {
+    const modelNameId = `${modelName}Id`;
+    if (datum[modelNameId]) {
+      return `/${modelName}/${datum[modelNameId]}/details`;
+    }
+  }
+  return "";
 };
 
 const StatusNotifications = () => {
@@ -45,12 +57,19 @@ const StatusNotifications = () => {
       <Popover.Dropdown p={0}>
         <div className={`max-h-[400px] overflow-y-auto`}>
           {data?.map((datum) => {
+            const link =
+              datum.notificationType === "COMMENT_REPLY"
+                ? `/comment/${datum.comment?.id}`
+                : datum.notificationType === "POST_COMMENT"
+                ? getModelLink(datum)
+                : "";
+
             return (
               <Link
                 className={`gap-1 flex flex-col text-sm w-[340px] py-2 px-4 ${
                   datum.read ? colorMap["read"] : colorMap["unread"]
                 } hover:cursor-pointer`}
-                to={`/comment/${datum.comment?.id}`}
+                to={link}
                 onClick={() => {
                   updateMutation.mutate(datum.id);
                 }}
@@ -72,6 +91,9 @@ const StatusNotifications = () => {
                 <div className={`text-gray-800`}>
                   {datum.notificationType === "COMMENT_REPLY" && (
                     <div>Replied to your comment.</div>
+                  )}
+                  {datum.notificationType === "POST_COMMENT" && (
+                    <div>Replied to your post.</div>
                   )}
                 </div>
               </Link>
