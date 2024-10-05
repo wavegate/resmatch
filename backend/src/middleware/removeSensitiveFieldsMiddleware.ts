@@ -20,7 +20,10 @@ function removeSensitiveFieldsMiddleware(req, res, next) {
         Object.keys(obj).forEach((key) => {
           if (
             key.toLowerCase().includes("password") ||
-            key.toLowerCase().includes("email")
+            key.toLowerCase().includes("email") ||
+            key.toLowerCase().includes("googleid") ||
+            key.toLowerCase().includes("redditid") ||
+            key.toLowerCase().includes("discordid")
           ) {
             delete obj[key];
           } else if (typeof obj[key] === "object") {
