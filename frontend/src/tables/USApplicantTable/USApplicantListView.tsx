@@ -63,6 +63,9 @@ const Table = () => {
             "public",
             "graduateType",
             "googleId",
+            "redditId",
+            "redditUsername",
+            "discordId",
           ].includes(key) && user[key] !== null
       );
     });

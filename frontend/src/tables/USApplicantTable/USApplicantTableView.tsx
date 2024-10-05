@@ -34,6 +34,9 @@ const TableView = forwardRef(({}, ref) => {
             "public",
             "graduateType",
             "googleId",
+            "redditId",
+            "redditUsername",
+            "discordId",
           ].includes(key) && user[key] !== null
       );
     });
