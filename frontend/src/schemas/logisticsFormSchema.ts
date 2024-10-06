@@ -32,6 +32,12 @@ const logisticsFormSchema: FormSchema = {
     description:
       "The platform used to conduct the interview, e.g., Zoom or Microsoft Teams.",
   },
+  slotsLeft: {
+    type: "number",
+    label: "Slots Left",
+    description: "Number of interview slots still available at this time.",
+    placeholder: "Enter slots left",
+  },
   openIVDates: {
     type: "multipleDates",
     label: "Open Interview Dates",

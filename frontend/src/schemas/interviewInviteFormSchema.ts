@@ -142,6 +142,30 @@ const interviewInviteFormSchema: FormSchema = {
     conditions: { medicalDegree: "DO" },
     placeholder: "Enter your COMLEX 2 score",
   },
+  aoa: {
+    type: "boolean",
+    label: "AOA",
+    description: "Are you part of Alpha Omega Alpha?",
+    conditions: {
+      graduateType: "US",
+    },
+  },
+  sigmaSigmaPhi: {
+    type: "boolean",
+    label: "Sigma Sigma Phi",
+    description: "Are you part of Sigma Sigma Phi?",
+    conditions: {
+      medicalDegree: "DO",
+    },
+  },
+  goldHumanism: {
+    type: "boolean",
+    label: "Gold Humanism",
+    description: "Are you part of Gold Humanism Honor Society?",
+    conditions: {
+      graduateType: "US",
+    },
+  },
   honors: {
     type: "number",
     label: "Honors",

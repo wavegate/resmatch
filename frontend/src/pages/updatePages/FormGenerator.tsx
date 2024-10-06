@@ -283,6 +283,13 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
         Report to help me debug. Thanks!
       </div> */}
 
+      {modelName === "interviewInvite" && (
+        <div className={`p-4 bg-yellow-50 text-yellow-700 rounded-lg`}>
+          Congrats on your invite! Don't forget to add details on the Interview
+          Logistics tab.
+        </div>
+      )}
+
       <Button type="submit" loading={isPending}>
         {isUpdate ? "Update" : "Submit"}
       </Button>
