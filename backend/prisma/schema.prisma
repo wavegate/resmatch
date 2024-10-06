@@ -184,6 +184,9 @@ model InterviewInvite {
   step3Score           Int?
   comlex1ScorePass     Boolean?
   comlex2Score         Int?
+  aoa                  Boolean?
+  sigmaSigmaPhi        Boolean?
+  goldHumanism         Boolean?
   visaRequired         Boolean?
   subI                 Boolean?
   home                 Boolean?
@@ -551,6 +554,7 @@ model InterviewLogistics {
   timeSlots         String?
   ivPlatform        IVPlatform?
   dateOfferSent     DateTime?
+  slotsLeft         Int?
   openIVDates       DateTime[]
   comments          Comment[]
   anonymous         Boolean            @default(false)
