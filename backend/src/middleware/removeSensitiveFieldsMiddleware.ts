@@ -1,3 +1,11 @@
+const sensitiveKeys = new Set([
+  "password",
+  "email",
+  "googleId",
+  "redditId",
+  "discordId",
+]);
+
 function removeSensitiveFieldsMiddleware(req, res, next) {
   const originalSend = res.send;
 
@@ -18,13 +26,7 @@ function removeSensitiveFieldsMiddleware(req, res, next) {
         return obj.map(removeSensitiveFields);
       } else if (obj !== null && typeof obj === "object") {
         Object.keys(obj).forEach((key) => {
-          if (
-            key.toLowerCase().includes("password") ||
-            key.toLowerCase().includes("email") ||
-            key.toLowerCase().includes("googleid") ||
-            key.toLowerCase().includes("redditid") ||
-            key.toLowerCase().includes("discordid")
-          ) {
+          if (sensitiveKeys.has(key)) {
             delete obj[key];
           } else if (typeof obj[key] === "object") {
             obj[key] = removeSensitiveFields(obj[key]);

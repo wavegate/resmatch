@@ -12,6 +12,7 @@ import { FRONTEND_URL } from "../constants.js";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as RedditStrategy } from "passport-reddit";
+import { Strategy as DiscordStrategy } from "passport-discord";
 
 const authRouter = express.Router();
 
@@ -83,6 +84,43 @@ passport.use(
               redditUsername: profile.name,
               alias: generateCodename(),
               isConfirmed: true, // Reddit OAuth users are automatically confirmed
+            },
+          });
+          return done(null, newUser);
+        }
+      } catch (error) {
+        return done(error, null);
+      }
+    }
+  )
+);
+
+passport.use(
+  new DiscordStrategy(
+    {
+      clientID: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      callbackURL: "/auth/discord/callback",
+      scope: ["identify"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Check if the user already exists in the database
+        let user = await prisma.user.findUnique({
+          where: { discordId: profile.id },
+        });
+
+        if (user) {
+          return done(null, user);
+        } else {
+          // If the user does not exist, create a new user
+          const newUser = await prisma.user.create({
+            data: {
+              discordId: profile.id,
+              discordUsername: profile.username,
+              discordDiscriminator: profile.discriminator,
+              alias: generateCodename(),
+              isConfirmed: true, // Discord OAuth users are automatically confirmed
             },
           });
           return done(null, newUser);
@@ -463,6 +501,33 @@ authRouter.get(
       res.redirect(`${process.env.FRONTEND_URL}/login-success?token=${token}`);
     } catch (error) {
       console.error("Error during Reddit OAuth callback:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+authRouter.get(
+  "/discord",
+  passport.authenticate("discord", { scope: ["identify"] })
+);
+
+// Route to handle the callback after Discord authentication
+authRouter.get(
+  "/discord/callback",
+  passport.authenticate("discord", {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
+  async (req, res) => {
+    try {
+      // At this point, req.user is already populated by Passport's DiscordStrategy
+      const token = jwt.sign({ id: req.user.id }, process.env.SECRET_KEY, {
+        expiresIn: "30d", // Token expires in 30 days
+      });
+
+      // Redirect to the frontend with the JWT token
+      res.redirect(`${process.env.FRONTEND_URL}/login-success?token=${token}`);
+    } catch (error) {
+      console.error("Error during Discord OAuth callback:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }

@@ -84,6 +84,7 @@ model User {
   role                        Role?
   redditUsername              String?
   discordUsername             String?
+  discordDiscriminator        String?
   followedPrograms            Program[]
   upvotedInterviewInvites     InterviewInvite[]     @relation("upvotedInterviewInvites")
   upvotedCityUserInputs       CityUserInput[]       @relation("upvotedCityUserInputs")
