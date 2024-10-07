@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import authService from "@/services/authService";
 import { Helmet } from "react-helmet";
 import { APP_NAME } from "@/constants";
-import { SiReddit } from "react-icons/si";
+import { SiReddit, SiDiscord } from "react-icons/si";
 
 interface SignupFormValues {
   email: string;
@@ -63,6 +63,10 @@ export default function Signup() {
 
   const handleRedditLogin = () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/auth/reddit`;
+  };
+
+  const handleDiscordLogin = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/discord`;
   };
 
   return (
@@ -178,6 +182,14 @@ export default function Signup() {
               leftSection={<SiReddit size={18} color="#FF4500" />}
             >
               Sign up with Reddit
+            </Button>
+            <Button
+              fullWidth
+              variant="default"
+              onClick={handleDiscordLogin} // Add a handler for Discord login
+              leftSection={<SiDiscord size={18} color="#5865F2" />} // Use the Discord icon
+            >
+              Sign up with Discord
             </Button>
           </div>
 

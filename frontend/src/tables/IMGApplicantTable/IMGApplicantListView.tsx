@@ -66,6 +66,8 @@ const Table = () => {
             "redditId",
             "redditUsername",
             "discordId",
+            "discordUsername",
+            "discordDiscriminator",
           ].includes(key) && user[key] !== null
       );
     });
