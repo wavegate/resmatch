@@ -150,7 +150,7 @@ const Header = ({
           className={`font-medium sm:text-lg hover:underline`}
         >
           {`${label}${
-            userProfile && ` for ${data.program?.institution?.name}`
+            userProfile ? ` for ${data.program?.institution?.name}` : ""
           }`}
         </Link>
       );
