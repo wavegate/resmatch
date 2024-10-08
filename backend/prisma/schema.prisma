@@ -177,6 +177,7 @@ model InterviewInvite {
   geographicPreference Boolean?
   signal               Boolean?
   signalTier           SignalTier?
+  numSpotsLeft         Int?
   inState              Boolean?
   medicalDegree        MedicalDegree?
   step1ScorePass       Boolean?
@@ -220,6 +221,8 @@ model InterviewInvite {
 }
 
 enum SignalTier {
+  NO_SIGNAL
+  SIGNAL
   GOLD
   SILVER
 }
