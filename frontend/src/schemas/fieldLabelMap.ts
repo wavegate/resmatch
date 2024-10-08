@@ -2,6 +2,8 @@ export const fieldLabelMap: Record<string, Record<string, string>> = {
   signalTier: {
     GOLD: "Gold",
     SILVER: "Silver",
+    NO_SIGNAL: "No Signal",
+    SIGNAL: "Signalled (Unspecified)",
   },
   schedulerPlatform: {
     THALAMUS: "Thalamus",

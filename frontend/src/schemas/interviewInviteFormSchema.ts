@@ -37,17 +37,24 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Did you select this program's region as a geographic preference?",
   },
-  signal: {
-    type: "boolean",
-    label: "Program Signal",
-    description: "Did you use a program signal for this program?",
-  },
+  // signal: {
+  //   type: "boolean",
+  //   label: "Program Signal",
+  //   description: "Did you use a program signal for this program?",
+  // },
   signalTier: {
     type: "select",
-    label: "Signal Tier",
-    description: "Which tier signal?",
-    conditions: { signal: true },
-    placeholder: "Select Gold or Silver",
+    label: "Signal",
+    description: "Select if you used a signal for this program.",
+    // conditions: { signal: true },
+    placeholder: "Select signal",
+  },
+  numSpotsLeft: {
+    type: "number",
+    label: "Number of Spots Left",
+    description:
+      "If available, please share approximately how many spots are still open.",
+    placeholder: "Enter number of spots left.",
   },
   inState: {
     type: "boolean",
