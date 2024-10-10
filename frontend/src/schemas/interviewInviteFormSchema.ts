@@ -15,6 +15,7 @@ const interviewInviteFormSchema: FormSchema = {
       "When did you receive the interview invite? Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
     placeholder: "Select the date and time",
     required: true,
+    width: "120px",
   },
   import: true,
   graduateType: {
@@ -23,6 +24,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Are you a U.S. graduate or an International Medical Graduate (IMG)?",
     placeholder: "Select your graduate type",
+    width: "140px",
   },
   img: {
     type: "select",
@@ -30,6 +32,7 @@ const interviewInviteFormSchema: FormSchema = {
     description: "Are you a U.S. IMG or a Non-U.S. IMG?",
     conditions: { graduateType: "IMG" },
     placeholder: "Select your IMG type",
+    width: "160px",
   },
   geographicPreference: {
     type: "boolean",
@@ -48,6 +51,7 @@ const interviewInviteFormSchema: FormSchema = {
     description: "Select if you used a signal for this program.",
     // conditions: { signal: true },
     placeholder: "Select signal",
+    width: "160px",
   },
   numSpotsLeft: {
     type: "number",
@@ -61,6 +65,7 @@ const interviewInviteFormSchema: FormSchema = {
     label: "In-State",
     description: "Is this program in your home state?",
     conditions: { graduateType: "US" },
+    width: "160px",
   },
   medicalDegree: {
     type: "select",
@@ -68,34 +73,40 @@ const interviewInviteFormSchema: FormSchema = {
     description: "Is your degree MD or DO?",
     conditions: { graduateType: "US" },
     placeholder: "Select your medical degree",
+    width: "160px",
   },
   visaRequired: {
     type: "boolean",
     label: "Visa Required",
     description: "Do you require a visa?",
     conditions: { graduateType: "IMG" },
+    width: "160px",
   },
   subI: {
     type: "boolean",
     label: "Sub-Internship",
     description: "Did you complete a Sub-Internship at this program?",
+    width: "160px",
   },
   home: {
     type: "boolean",
     label: "Home Institution",
     description: "Is this your home institution?",
     conditions: { graduateType: "US" },
+    width: "160px",
   },
   greenCard: {
     type: "boolean",
     label: "Green Card",
     description: "Do you have a Green Card?",
     conditions: { graduateType: "IMG" },
+    width: "160px",
   },
   away: {
     type: "boolean",
     label: "Away Rotation",
     description: "Did you complete an away rotation at this program?",
+    width: "160px",
   },
   connection: {
     type: "string",
@@ -108,11 +119,13 @@ const interviewInviteFormSchema: FormSchema = {
     type: "boolean",
     label: "PSTP",
     description: "Are you applying for a Physician-Scientist Training Program?",
+    width: "160px",
   },
   step1ScorePass: {
     type: "boolean",
     label: "Step 1 Score Pass",
     description: "Did you pass Step 1?",
+    width: "160px",
   },
   step1Score: {
     type: "number",
@@ -120,6 +133,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Enter your Step 1 score. Ignore this field if you took Step 1 after the transition to Pass/Fail. Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
     placeholder: "Enter your Step 1 score",
+    width: "160px",
   },
   step2Score: {
     type: "number",
@@ -127,6 +141,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
     placeholder: "Enter your Step 2 score",
+    width: "160px",
   },
   step3Score: {
     type: "number",
@@ -134,6 +149,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Please enter an approximate score. Your score will be displayed as a bin (eg. 250 will be displayed as 250-254).",
     placeholder: "Enter your Step 3 score",
+    width: "160px",
   },
   comlex1ScorePass: {
     type: "boolean",
@@ -156,6 +172,7 @@ const interviewInviteFormSchema: FormSchema = {
     conditions: {
       graduateType: "US",
     },
+    width: "160px",
   },
   sigmaSigmaPhi: {
     type: "boolean",
@@ -164,6 +181,7 @@ const interviewInviteFormSchema: FormSchema = {
     conditions: {
       medicalDegree: "DO",
     },
+    width: "160px",
   },
   goldHumanism: {
     type: "boolean",
@@ -172,6 +190,7 @@ const interviewInviteFormSchema: FormSchema = {
     conditions: {
       graduateType: "US",
     },
+    width: "160px",
   },
   honors: {
     type: "number",
@@ -179,6 +198,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Enter the number of Honors you received during medical school.",
     placeholder: "Enter the number of Honors",
+    width: "120px",
   },
   highPass: {
     type: "number",
@@ -186,6 +206,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Enter the number of High Passes you received during medical school.",
     placeholder: "Enter the number of High Passes",
+    width: "120px",
   },
   pass: {
     type: "number",
@@ -193,6 +214,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Enter the number of Passes you received during medical school.",
     placeholder: "Enter the number of Passes",
+    width: "120px",
   },
   fail: {
     type: "number",
@@ -200,6 +222,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Enter the number of Fails you received during medical school.",
     placeholder: "Enter the number of Fails",
+    width: "120px",
   },
   yearOfGraduation: {
     type: "number",

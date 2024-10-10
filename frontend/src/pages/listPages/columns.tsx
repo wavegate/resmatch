@@ -54,6 +54,7 @@ export function columnGenerator(
     columns.push({
       headerName: "State",
       field: "program.city.state",
+      filter: true,
       width: "120px",
     });
     columns.push({
@@ -70,6 +71,7 @@ export function columnGenerator(
         );
       },
       filter: true, // Add a text filter for program name
+      width: "300px",
     });
   } else if (modelName === "xorY") {
     columns.push({
@@ -111,6 +113,7 @@ export function columnGenerator(
       headerName: field.label || fieldName, // Use label from schema or fieldName as fallback
       field: fieldName,
       filter: true,
+      width: field?.width,
     };
 
     // Handle different field types
@@ -126,11 +129,9 @@ export function columnGenerator(
         break;
 
       case "select":
-        columnDef.valueFormatter = (params) => {
-          const value = params.value;
-          return fieldLabelMap[fieldName] && fieldLabelMap[fieldName][value]
-            ? fieldLabelMap[fieldName][value]
-            : value; // No fallback to "-"
+        columnDef.valueGetter = (params) => {
+          const value = params?.data?.[fieldName];
+          return fieldLabelMap?.[fieldName]?.[value] ?? value;
         };
         break;
 
@@ -166,13 +167,14 @@ export function columnGenerator(
 
       case "boolean":
         columnDef.cellDataType = "text";
-        columnDef.valueFormatter = (params) => {
-          if (params.value === true) {
+        columnDef.valueGetter = (params) => {
+          const value = params?.data?.[fieldName];
+          if (value === true) {
             return "Yes";
-          } else if (params.value === false) {
+          } else if (value === false) {
             return "No";
           } else {
-            return "";
+            return ""; // Return an empty string for undefined or other values
           }
         };
         break;
@@ -199,7 +201,8 @@ export function columnGenerator(
     cellRenderer: ({ data }) => {
       return <UserLink data={data} />;
     },
-    width: "100px",
+    width: "140px",
+    filter: true,
   });
 
   columns.push({
@@ -214,13 +217,14 @@ export function columnGenerator(
       const dateValue = params.value;
       return dateValue ? new Date(dateValue).toLocaleDateString() : null;
     },
-    width: "100px",
+    width: "130px",
   });
 
   columns.push({
     headerName: "Comments",
     autoHeight: true,
     cellClass: "cell-wrap-text",
+    width: "400px",
     cellRenderer: (params) => {
       const [addComment, setAddComment] = useState(false);
       const data = params.data;
