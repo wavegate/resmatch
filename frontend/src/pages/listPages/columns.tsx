@@ -58,15 +58,16 @@ export function columnGenerator(
       width: "120px",
     });
     columns.push({
+      field: "program.institution.name",
       headerName: "Program Name",
-      valueGetter: (params) => programName(params.data.program),
+      valueGetter: (params) => programName(params.data?.program),
       cellRenderer: ({ data }) => {
         return (
           <Link
-            to={`/program/${data.program?.id}/details`}
+            to={`/program/${data?.program?.id}/details`}
             className={`hover:underline`}
           >
-            {programName(data.program)}
+            {programName(data?.program)}
           </Link>
         );
       },
@@ -76,29 +77,29 @@ export function columnGenerator(
   } else if (modelName === "xorY") {
     columns.push({
       headerName: "Program X",
-      valueGetter: (params) => programName(params.data.programX),
+      valueGetter: (params) => programName(params.data?.programX),
       filter: true, // Add a text filter for program name
       cellRenderer: ({ data }) => {
         return (
           <Link
-            to={`/program/${data.programX?.id}/details`}
+            to={`/program/${data?.programX?.id}/details`}
             className={`hover:underline`}
           >
-            {programName(data.programX)}
+            {programName(data?.programX)}
           </Link>
         );
       },
     });
     columns.push({
       headerName: "Program Y",
-      valueGetter: (params) => programName(params.data.programY),
+      valueGetter: (params) => programName(params.data?.programY),
       cellRenderer: ({ data }) => {
         return (
           <Link
-            to={`/program/${data.programY?.id}/details`}
+            to={`/program/${data?.programY?.id}/details`}
             className={`hover:underline`}
           >
-            {programName(data.programY)}
+            {programName(data?.programY)}
           </Link>
         );
       },
@@ -133,11 +134,25 @@ export function columnGenerator(
           const value = params?.data?.[fieldName];
           return fieldLabelMap?.[fieldName]?.[value] ?? value;
         };
+        columnDef.filter = "agTextColumnFilter";
+        columnDef.filterParams = {
+          filterOptions: ["contains"],
+        };
         break;
 
       case "number":
+        columnDef.filter = "agNumberColumnFilter";
+        columnDef.filterParams = {
+          filterOptions: [
+            "equals",
+            "greaterThanOrEqual",
+            "lessThanOrEqual",
+            "inRange",
+          ],
+          maxNumConditions: 1,
+        };
         columnDef.valueGetter = (params) => {
-          const data = params.data;
+          const data = params?.data;
           const scoreFields = [
             "step2Score",
             "step1Score",
@@ -146,19 +161,23 @@ export function columnGenerator(
           ];
 
           if (scoreFields.includes(fieldName)) {
-            const score = data[fieldName];
+            const score = data?.[fieldName];
             if (score) {
               const lowerBound = Math.floor(score / 5) * 5;
               const upperBound = lowerBound + 4;
               return `${lowerBound}-${upperBound}`;
             }
           }
-          return data[fieldName]; // Return the value directly, no "-"
+          return data?.[fieldName]; // Return the value directly, no "-"
         };
         break;
 
       case "date":
         columnDef.filter = "agDateColumnFilter"; // Add date filter for the date field
+        columnDef.filterParams = {
+          filterOptions: ["equals", "lessThan", "greaterThan", "inRange"],
+          maxNumConditions: 1,
+        };
         columnDef.valueFormatter = (params) => {
           const dateValue = params.value;
           return dateValue ? displayUTC(dateValue) : null;
@@ -177,11 +196,19 @@ export function columnGenerator(
             return ""; // Return an empty string for undefined or other values
           }
         };
+        columnDef.filter = "agTextColumnFilter";
+        columnDef.filterParams = {
+          filterOptions: ["contains"],
+        };
         break;
 
       default:
-        columnDef.autoHeight = true;
-        columnDef.cellClass = "cell-wrap-text";
+        // columnDef.autoHeight = true;
+        // columnDef.cellClass = "cell-wrap-text";
+        columnDef.filter = "agTextColumnFilter";
+        columnDef.filterParams = {
+          filterOptions: ["contains"],
+        };
         break;
     }
 
@@ -193,10 +220,10 @@ export function columnGenerator(
     headerName: "User",
     field: "user",
     valueGetter: ({ data }) => {
-      return data.anonymous ? "Anonymous" : data.user?.alias;
+      return data?.anonymous ? "Anonymous" : data?.user?.alias;
     },
     valueFormatter: ({ data }) => {
-      return data.anonymous ? "Anonymous" : data.user?.alias;
+      return data?.anonymous ? "Anonymous" : data?.user?.alias;
     },
     cellRenderer: ({ data }) => {
       return <UserLink data={data} />;
@@ -210,7 +237,7 @@ export function columnGenerator(
     field: "createdAt",
     filter: "agDateColumnFilter",
     valueGetter: (params) => {
-      const dateValue = params.data["createdAt"];
+      const dateValue = params.data?.["createdAt"];
       return dateValue ? new Date(dateValue) : null; // Return the Date object for filtering
     },
     valueFormatter: (params) => {
@@ -220,56 +247,56 @@ export function columnGenerator(
     width: "130px",
   });
 
-  columns.push({
-    headerName: "Comments",
-    autoHeight: true,
-    cellClass: "cell-wrap-text",
-    width: "400px",
-    cellRenderer: (params) => {
-      const [addComment, setAddComment] = useState(false);
-      const data = params.data;
-      const keys = [queryKey, [modelName, data.id]];
+  // columns.push({
+  //   headerName: "Comments",
+  //   autoHeight: true,
+  //   cellClass: "cell-wrap-text",
+  //   width: "400px",
+  //   cellRenderer: (params) => {
+  //     const [addComment, setAddComment] = useState(false);
+  //     const data = params?.data;
+  //     const keys = [queryKey, [modelName, data?.id]];
 
-      return (
-        <div className={`flex flex-col gap-2`}>
-          {data.comments?.length > 0 && (
-            <div className={`flex flex-col gap-4`}>
-              {data.comments.map((item: any) => (
-                <Comment
-                  id={item.id}
-                  key={item.id}
-                  postId={data.id}
-                  queryKey={queryKey}
-                  modelName={modelName}
-                />
-              ))}
-            </div>
-          )}
-          {user && (
-            <div
-              className={`text-sm text-gray-500 hover:cursor-pointer underline`}
-              onClick={() => setAddComment((prev) => !prev)}
-            >
-              Add comment
-            </div>
-          )}
-          {user && addComment && (
-            <AddCommentField
-              queryKey={keys}
-              modelName={modelName}
-              id={data.id}
-            />
-          )}
-        </div>
-      );
-    },
-  });
+  //     return (
+  //       <div className={`flex flex-col gap-2`}>
+  //         {data?.comments?.length > 0 && (
+  //           <div className={`flex flex-col gap-4`}>
+  //             {data?.comments.map((item: any) => (
+  //               <Comment
+  //                 id={item.id}
+  //                 key={item.id}
+  //                 postId={data?.id}
+  //                 queryKey={queryKey}
+  //                 modelName={modelName}
+  //               />
+  //             ))}
+  //           </div>
+  //         )}
+  //         {user && (
+  //           <div
+  //             className={`text-sm text-gray-500 hover:cursor-pointer underline`}
+  //             onClick={() => setAddComment((prev) => !prev)}
+  //           >
+  //             Add comment
+  //           </div>
+  //         )}
+  //         {user && addComment && (
+  //           <AddCommentField
+  //             queryKey={keys}
+  //             modelName={modelName}
+  //             id={data?.id}
+  //           />
+  //         )}
+  //       </div>
+  //     );
+  //   },
+  // });
 
   columns.push({
     headerName: "Actions",
     cellRenderer: (params) => {
-      const data = params.data;
-      const modelId = data.id;
+      const data = params?.data;
+      const modelId = data?.id;
       return (
         <div className="flex gap-4 items-center mt-2">
           <Upvote modelName={modelName} item={data} />
@@ -279,7 +306,7 @@ export function columnGenerator(
           >
             Details
           </Link>
-          {user?.id === data.userId && (
+          {user?.id === data?.userId && (
             <>
               <Link
                 to={`/${modelName}/${modelId}`}
@@ -289,7 +316,7 @@ export function columnGenerator(
               </Link>
               <div
                 className="text-sm underline text-red-500 hover:cursor-pointer"
-                onClick={() => openDeleteModal(data.id)}
+                onClick={() => openDeleteModal(data?.id)}
               >
                 Delete
               </div>

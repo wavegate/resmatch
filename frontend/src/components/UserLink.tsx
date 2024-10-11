@@ -19,18 +19,18 @@ interface UserLinkProps {
 }
 
 const UserLink: React.FC<UserLinkProps> = ({ data }) => {
-  return data.anonymous ? (
+  return data?.anonymous ? (
     "Anonymous"
   ) : (
     <Link
-      to={`/user/${data.user?.id}`}
+      to={`/user/${data?.user?.id}`}
       className="hover:underline flex gap-2 items-center"
     >
       <Avatar
         size="16"
-        src={generateGravatarUrl(String(data.user?.id) || "", 40)}
+        src={generateGravatarUrl(String(data?.user?.id) || "", 40)}
       />
-      <div>{data.user?.alias || "-"}</div>
+      <div>{data?.user?.alias || "-"}</div>
     </Link>
   );
 };

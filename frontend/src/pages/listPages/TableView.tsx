@@ -1,8 +1,9 @@
 import { Button, Loader, TextInput } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, forwardRef, useMemo } from "react";
+import { useState, forwardRef, useMemo, useCallback } from "react";
 import { AgGridReact } from "@ag-grid-community/react";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { InfiniteRowModelModule } from "@ag-grid-community/infinite-row-model";
 import { CsvExportModule } from "@ag-grid-community/csv-export";
 import services from "@/services/services";
 import { columnGenerator } from "./columns";
@@ -56,16 +57,49 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
       },
     });
 
-  const queryKey = [modelName, "all"];
-  const { data, error, isLoading } = useQuery({
-    queryKey,
-    queryFn: () => services[modelName].getAll(),
-  });
-
+  const queryKey = [modelName, "rowModel"];
   const { user } = useUser();
   const columnDefs = useMemo(() => {
     return columnGenerator(modelName, user, openDeleteModal, queryKey);
   }, [user]);
+
+  const getRows = useCallback(
+    async (params) => {
+      const { startRow, endRow, sortModel, filterModel } = params;
+      console.log(params);
+      const rowQueryKey = [
+        ...queryKey,
+        startRow,
+        endRow,
+        JSON.stringify(sortModel),
+        JSON.stringify(filterModel),
+        showFollowed,
+      ];
+
+      try {
+        const data = await queryClient.fetchQuery({
+          queryKey: rowQueryKey,
+          queryFn: () =>
+            services[modelName].getRowModel({
+              startRow,
+              endRow,
+              sortModel,
+              filterModel,
+              showFollowed,
+            }),
+          staleTime: 5 * 60 * 1000,
+        });
+
+        params.successCallback(data.items, data.lastRow);
+      } catch (error) {
+        params.failCallback();
+      } finally {
+      }
+    },
+    [queryKey, queryClient, services, modelName] // Add all dependencies here
+  );
+
+  const datasource = { getRows };
 
   const [searchText, setSearchText] = useState("");
 
@@ -75,38 +109,8 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
     }
   };
 
-  const filteredResults = useMemo(() => {
-    if (!data?.items) return [];
-
-    // Get followed program IDs from user if showFollowed is true
-    const followedProgramIds = user?.followedPrograms || [];
-
-    // Filter by followed programs first if showFollowed is true
-    const filteredByFollowed = showFollowed
-      ? data.items.filter((item) => {
-          if (modelName === "xorY") {
-            // Check both item.programXId and item.programYId for xorY model
-            return followedProgramIds.some(
-              (x) => x.id === item.programXId || x.id === item.programYId
-            );
-          } else {
-            // Default check for item.programId
-            return followedProgramIds.some((x) => x.id === item.programId);
-          }
-        })
-      : data.items;
-
-    return filteredByFollowed;
-  }, [data, showFollowed, user, modelName]);
-
   return (
     <div className={`mt-2 flex-1`}>
-      {isLoading && (
-        <div className={`flex flex-col items-center`}>
-          <Loader color="blue" className={`mt-12`} />
-        </div>
-      )}
-      {/* {!!data?.items?.length && ( */}
       <div className={`h-full flex flex-col`}>
         <TextInput
           size="md"
@@ -131,12 +135,13 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
           )}
         >
           <AgGridReact
-            rowData={filteredResults}
+            datasource={datasource}
+            rowModelType="infinite"
             columnDefs={columnDefs}
             ref={ref}
             enableCellTextSelection={true}
             ensureDomOrder={true}
-            modules={[ClientSideRowModelModule, CsvExportModule]}
+            modules={[InfiniteRowModelModule]}
           />
           <Button
             className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}
@@ -151,8 +156,6 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
           </Button>
         </div>
       </div>
-      {/* )} */}
-      {/* {data?.items && data?.items.length === 0 && <NoRecords />} */}
     </div>
   );
 });
