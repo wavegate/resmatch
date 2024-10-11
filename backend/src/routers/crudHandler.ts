@@ -19,7 +19,7 @@ export const createCrudHandlers = (modelName) => ({
         },
       });
 
-      if (recentCreationsCount >= 20) {
+      if (recentCreationsCount >= 50) {
         return res.status(429).json({
           error: `Rate limit exceeded. Please wait before trying again.`,
         });
