@@ -10,6 +10,22 @@ export const createCrudHandlers = (modelName) => ({
       const userId = req.user.id;
       const { save, ...data } = req.body;
 
+      const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+      const recentCreationsCount = await prisma[modelName].count({
+        where: {
+          userId: Number(userId),
+          createdAt: {
+            gte: fifteenMinutesAgo,
+          },
+        },
+      });
+
+      if (recentCreationsCount >= 50) {
+        return res.status(429).json({
+          error: `Rate limit exceeded. Please wait before trying again.`,
+        });
+      }
+
       if (
         ["interviewInvite", "interviewRejection"].includes(modelName) &&
         save
