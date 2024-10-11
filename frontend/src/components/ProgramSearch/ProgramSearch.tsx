@@ -61,7 +61,7 @@ export default function ProgramSearch({
   return (
     <Select
       leftSection={<IoIosSearch />}
-      limit={10}
+      // limit={20}
       required={required}
       label={label}
       placeholder="Search program"
