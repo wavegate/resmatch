@@ -1,6 +1,9 @@
 import { createCrudHandlers } from "./crudHandler.js";
 import express from "express";
-import { verifyToken } from "../middleware/authMiddleware.js";
+import {
+  optionalVerifyToken,
+  verifyToken,
+} from "../middleware/authMiddleware.js";
 
 function createModelRouter(modelName) {
   const router = express.Router();
@@ -13,6 +16,7 @@ function createModelRouter(modelName) {
     deleteById,
     listWithPagination,
     listAll,
+    rowModel,
   } = createCrudHandlers(modelName);
 
   router.post("/", verifyToken, create);
@@ -22,6 +26,7 @@ function createModelRouter(modelName) {
   router.put("/upvote/:id", verifyToken, upvoteById);
   router.delete("/:id", verifyToken, deleteById);
   router.post("/search", listWithPagination);
+  router.post("/rowModel", optionalVerifyToken, rowModel);
 
   return router;
 }

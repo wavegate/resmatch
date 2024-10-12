@@ -51,7 +51,7 @@ const Table: React.FC<TableProps> = ({
           />
         )}
 
-        {!listView && (
+        {/* {!listView && (
           <Button
             size="compact-sm"
             className={`max-sm:hidden font-normal text-gray-800`}
@@ -60,7 +60,7 @@ const Table: React.FC<TableProps> = ({
           >
             Export as CSV
           </Button>
-        )}
+        )} */}
       </div>
 
       {listView && (

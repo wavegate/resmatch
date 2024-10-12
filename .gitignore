@@ -1,2 +1,3 @@
 *.idea
 *-lock.json
+.DS_Store

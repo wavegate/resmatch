@@ -1,9 +1,8 @@
-import { Button, Loader, TextInput } from "@mantine/core";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, forwardRef, useMemo } from "react";
+import { Button } from "@mantine/core";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, forwardRef, useMemo, useCallback } from "react";
 import { AgGridReact } from "@ag-grid-community/react";
-import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
-import { CsvExportModule } from "@ag-grid-community/csv-export";
+import { InfiniteRowModelModule } from "@ag-grid-community/infinite-row-model";
 import services from "@/services/services";
 import { columnGenerator } from "./columns";
 import useUser from "@/hooks/useUser";
@@ -15,12 +14,9 @@ import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
 
 const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
   const queryClient = useQueryClient();
-
   const [fullScreen, setFullScreen] = useState(false);
-
   const labels = pageDescription[modelName];
 
-  // Mutation for deleting the entry
   const deleteMutation = useMutation({
     mutationFn: (id) => services[modelName].delete(id),
     onSuccess: () => {
@@ -56,59 +52,68 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
       },
     });
 
-  const queryKey = [modelName, "all"];
-  const { data, error, isLoading } = useQuery({
-    queryKey,
-    queryFn: () => services[modelName].getAll(),
-  });
-
+  const queryKey = [modelName, "rowModel"];
   const { user } = useUser();
   const columnDefs = useMemo(() => {
     return columnGenerator(modelName, user, openDeleteModal, queryKey);
   }, [user]);
 
-  const [searchText, setSearchText] = useState("");
+  const getRows = useCallback(
+    async (params) => {
+      const { startRow, endRow, sortModel, filterModel } = params;
+      ref?.current?.api.setGridOption("loading", true);
+      const rowQueryKey = [
+        ...queryKey,
+        startRow,
+        endRow,
+        JSON.stringify(sortModel),
+        JSON.stringify(filterModel),
+        showFollowed,
+      ];
 
-  const onFilterTextBoxChanged = (value) => {
-    if (ref.current) {
-      ref.current.api.setGridOption("quickFilterText", value);
-    }
-  };
+      try {
+        const data = await queryClient.fetchQuery({
+          queryKey: rowQueryKey,
+          queryFn: () =>
+            services[modelName].getRowModel({
+              startRow,
+              endRow,
+              sortModel,
+              filterModel,
+              showFollowed,
+            }),
+          staleTime: 5 * 60 * 1000,
+        });
+        ref?.current?.api.setGridOption("loading", false);
+        if (data.items?.length === 0) {
+          ref?.current?.api.showNoRowsOverlay();
+        }
 
-  const filteredResults = useMemo(() => {
-    if (!data?.items) return [];
+        params.successCallback(data.items, data.lastRow);
+      } catch (error) {
+        ref?.current?.api.setGridOption("loading", false);
 
-    // Get followed program IDs from user if showFollowed is true
-    const followedProgramIds = user?.followedPrograms || [];
+        params.failCallback();
+      } finally {
+      }
+    },
+    [queryKey, queryClient, services, modelName, ref?.current]
+  );
 
-    // Filter by followed programs first if showFollowed is true
-    const filteredByFollowed = showFollowed
-      ? data.items.filter((item) => {
-          if (modelName === "xorY") {
-            // Check both item.programXId and item.programYId for xorY model
-            return followedProgramIds.some(
-              (x) => x.id === item.programXId || x.id === item.programYId
-            );
-          } else {
-            // Default check for item.programId
-            return followedProgramIds.some((x) => x.id === item.programId);
-          }
-        })
-      : data.items;
+  const datasource = { getRows };
 
-    return filteredByFollowed;
-  }, [data, showFollowed, user, modelName]);
+  // const [searchText, setSearchText] = useState("");
+
+  // const onFilterTextBoxChanged = (value) => {
+  //   if (ref.current) {
+  //     ref.current.api.setGridOption("quickFilterText", value);
+  //   }
+  // };
 
   return (
     <div className={`mt-2 flex-1`}>
-      {isLoading && (
-        <div className={`flex flex-col items-center`}>
-          <Loader color="blue" className={`mt-12`} />
-        </div>
-      )}
-      {/* {!!data?.items?.length && ( */}
       <div className={`h-full flex flex-col`}>
-        <TextInput
+        {/* <TextInput
           size="md"
           placeholder="Search..."
           value={searchText}
@@ -117,7 +122,7 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
             onFilterTextBoxChanged(e.currentTarget.value);
           }}
           className={`mb-2`}
-        />
+        /> */}
         <div
           className={classNames(
             "ag-theme-quartz",
@@ -131,12 +136,13 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
           )}
         >
           <AgGridReact
-            rowData={filteredResults}
+            datasource={datasource}
+            rowModelType="infinite"
             columnDefs={columnDefs}
             ref={ref}
             enableCellTextSelection={true}
             ensureDomOrder={true}
-            modules={[ClientSideRowModelModule, CsvExportModule]}
+            modules={[InfiniteRowModelModule]}
           />
           <Button
             className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}
@@ -151,8 +157,6 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
           </Button>
         </div>
       </div>
-      {/* )} */}
-      {/* {data?.items && data?.items.length === 0 && <NoRecords />} */}
     </div>
   );
 });
