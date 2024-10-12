@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
-import { Loader, TextInput } from "@mantine/core";
-import { useDebouncedValue } from "@mantine/hooks";
-import { useQuery } from "@tanstack/react-query";
-import NoRecords from "@/components/NoRecords/NoRecords";
-import services from "@/services/services";
 import Details from "@/components/Details";
 import Header from "@/components/Header";
-import { Virtuoso } from "react-virtuoso";
+import NoRecords from "@/components/NoRecords/NoRecords";
 import useUser from "@/hooks/useUser";
+import services from "@/services/services";
+import {Loader} from "@mantine/core";
+import {useDebouncedValue} from "@mantine/hooks";
+import {useQuery} from "@tanstack/react-query";
+import {useEffect, useMemo, useState} from "react";
+import {Virtuoso} from "react-virtuoso";
 
 interface TableProps {
   modelName: string;
@@ -39,10 +39,10 @@ const searchItems = (items, searchTerm) => {
 };
 
 const Table: React.FC<TableProps> = ({
-  modelName,
-  className,
-  showFollowed,
-}) => {
+                                       modelName,
+                                       className,
+                                       showFollowed,
+                                     }) => {
   // const [selectedProgram, setSelectedProgram] = useState(null);
   // const [startDate, setStartDate] = useState(null);
   // const [endDate, setEndDate] = useState(null);
@@ -61,13 +61,29 @@ const Table: React.FC<TableProps> = ({
   //     });
   //   },
   // });
-  const queryKey = [modelName, "all"];
-  const { data, error, isLoading } = useQuery({
+  const [page, setPage] = useState<number>(1);
+  const PAGE_SIZE = 10;
+  const queryKey = [modelName, "all", page];
+  const {data, error, isLoading} = useQuery({
     queryKey,
-    queryFn: () => services[modelName].getAll(),
+    queryFn: () => services[modelName].getRowModel({
+        startRow: (page - 1) * PAGE_SIZE,
+        endRow: page * PAGE_SIZE,
+        showFollowed: false,
+        sortModel: [],
+        filterModel: {}
+      }
+    ),
   });
+  const [apiData, setApiData] = useState([]);
+  useEffect(() => {
+    if (!isLoading && data) {
+      setApiData(prevData => prevData.concat(data.items))
+    }
+  }, [data, isLoading])
 
-  const { user } = useUser();
+
+  const {user} = useUser();
 
   // const clearFilters = () => {
   //   setStartDate(null);
@@ -94,34 +110,31 @@ const Table: React.FC<TableProps> = ({
   const [search] = useDebouncedValue(searchText, 200);
 
   const filteredResults = useMemo(() => {
-    if (!data?.items) return [];
-
     // Get followed program IDs from user if showFollowed is true
     const followedProgramIds = user?.followedPrograms || [];
 
     // Filter by followed programs first if showFollowed is true
     const filteredByFollowed = showFollowed
-      ? data.items.filter((item) => {
-          if (modelName === "xorY") {
-            // Check both item.programXId and item.programYId for xorY model
-            return followedProgramIds.some(
-              (x) => x.id === item.programXId || x.id === item.programYId
-            );
-          } else {
-            // Default check for item.programId
-            return followedProgramIds.some((x) => x.id === item.programId);
-          }
-        })
-      : data.items;
+      ? apiData.filter((item) => {
+        if (modelName === "xorY") {
+          // Check both item.programXId and item.programYId for xorY model
+          return followedProgramIds.some(
+            (x) => x.id === item.programXId || x.id === item.programYId
+          );
+        } else {
+          // Default check for item.programId
+          return followedProgramIds.some((x) => x.id === item.programId);
+        }
+      })
+      : apiData;
 
     // Now apply the search filter to the followed items (if showFollowed is true) or all items
     if (search.trim() === "") return filteredByFollowed;
 
     return searchItems(filteredByFollowed, search);
-  }, [data, search, showFollowed, user, modelName]);
+  }, [apiData, search, showFollowed, user, modelName]);
 
-  const renderItem = (index) => {
-    const datum = filteredResults[index];
+  const renderItem = (index, datum) => {
     return (
       <div
         key={datum.id}
@@ -129,8 +142,8 @@ const Table: React.FC<TableProps> = ({
           index > 0 ? "mt-2" : ""
         }`}
       >
-        <Header queryKey={queryKey} data={datum} modelName={modelName} />
-        <Details queryKey={queryKey} data={datum} modelName={modelName} />
+        <Header queryKey={queryKey} data={datum} modelName={modelName}/>
+        <Details queryKey={queryKey} data={datum} modelName={modelName}/>
       </div>
     );
   };
@@ -175,30 +188,35 @@ const Table: React.FC<TableProps> = ({
 
       {isLoading && (
         <div className={`flex flex-col items-center`}>
-          <Loader color="blue" className={`mt-12`} />
+          <Loader color="blue" className={`mt-12`}/>
         </div>
       )}
 
       <div className={`h-full flex flex-col`}>
-        <TextInput
-          size="md"
-          placeholder="Search..."
-          value={searchText}
-          onChange={(e) => {
-            setSearchText(e.currentTarget.value);
-          }}
-          className={`mb-2`}
-        />
+        {/*<TextInput*/}
+        {/*  size="md"*/}
+        {/*  placeholder="Search..."*/}
+        {/*  value={searchText}*/}
+        {/*  onChange={(e) => {*/}
+        {/*    setSearchText(e.currentTarget.value);*/}
+        {/*  }}*/}
+        {/*  className={`mb-2`}*/}
+        {/*/>*/}
         {!!filteredResults.length && (
           <div className={`flex flex-col gap-4 flex-1`}>
             <Virtuoso
-              style={{ height: "100%" }} // Adjust the height as needed
-              totalCount={filteredResults.length} // Total number of items
+              style={{height: "100%"}} // Adjust the height as needed
+              data={filteredResults}
               itemContent={renderItem} // Function to render each item
+              endReached={() => {
+                if (data?.lastRow && page * PAGE_SIZE < data?.lastRow) {
+                  setPage(prevPage => prevPage + 1)
+                }
+              }}
             />
           </div>
         )}
-        {filteredResults && filteredResults.length === 0 && <NoRecords />}
+        {filteredResults && filteredResults.length === 0 && <NoRecords/>}
       </div>
     </div>
   );
