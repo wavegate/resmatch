@@ -1,10 +1,8 @@
-import { Button, Loader, TextInput } from "@mantine/core";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@mantine/core";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, forwardRef, useMemo, useCallback } from "react";
 import { AgGridReact } from "@ag-grid-community/react";
-import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { InfiniteRowModelModule } from "@ag-grid-community/infinite-row-model";
-import { CsvExportModule } from "@ag-grid-community/csv-export";
 import services from "@/services/services";
 import { columnGenerator } from "./columns";
 import useUser from "@/hooks/useUser";
@@ -16,12 +14,9 @@ import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
 
 const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
   const queryClient = useQueryClient();
-
   const [fullScreen, setFullScreen] = useState(false);
-
   const labels = pageDescription[modelName];
 
-  // Mutation for deleting the entry
   const deleteMutation = useMutation({
     mutationFn: (id) => services[modelName].delete(id),
     onSuccess: () => {
@@ -66,7 +61,7 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
   const getRows = useCallback(
     async (params) => {
       const { startRow, endRow, sortModel, filterModel } = params;
-      console.log(params);
+      ref?.current?.api.showLoadingOverlay();
       const rowQueryKey = [
         ...queryKey,
         startRow,
@@ -94,25 +89,26 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
       } catch (error) {
         params.failCallback();
       } finally {
+        ref?.current?.api.hideOverlay();
       }
     },
-    [queryKey, queryClient, services, modelName] // Add all dependencies here
+    [queryKey, queryClient, services, modelName, ref?.current] // Add all dependencies here
   );
 
   const datasource = { getRows };
 
-  const [searchText, setSearchText] = useState("");
+  // const [searchText, setSearchText] = useState("");
 
-  const onFilterTextBoxChanged = (value) => {
-    if (ref.current) {
-      ref.current.api.setGridOption("quickFilterText", value);
-    }
-  };
+  // const onFilterTextBoxChanged = (value) => {
+  //   if (ref.current) {
+  //     ref.current.api.setGridOption("quickFilterText", value);
+  //   }
+  // };
 
   return (
     <div className={`mt-2 flex-1`}>
       <div className={`h-full flex flex-col`}>
-        <TextInput
+        {/* <TextInput
           size="md"
           placeholder="Search..."
           value={searchText}
@@ -121,7 +117,7 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
             onFilterTextBoxChanged(e.currentTarget.value);
           }}
           className={`mb-2`}
-        />
+        /> */}
         <div
           className={classNames(
             "ag-theme-quartz",

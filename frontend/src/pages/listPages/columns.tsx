@@ -41,12 +41,20 @@ export function columnGenerator(
       {
         headerName: "City",
         field: "city.name",
-        filter: true,
+        filter: "agTextColumnFilter",
+        filterParams: {
+          filterOptions: ["contains"],
+          maxNumConditions: 1,
+        },
       },
       {
         headerName: "State",
         field: "city.state",
-        filter: true,
+        filter: "agTextColumnFilter",
+        filterParams: {
+          filterOptions: ["contains"],
+          maxNumConditions: 1,
+        },
       }
     );
   } else if (modelName !== "xorY") {
@@ -54,7 +62,11 @@ export function columnGenerator(
     columns.push({
       headerName: "State",
       field: "program.city.state",
-      filter: true,
+      filter: "agTextColumnFilter",
+      filterParams: {
+        filterOptions: ["contains"],
+        maxNumConditions: 1,
+      },
       width: "120px",
     });
     columns.push({
@@ -71,7 +83,11 @@ export function columnGenerator(
           </Link>
         );
       },
-      filter: true, // Add a text filter for program name
+      filter: "agTextColumnFilter",
+      filterParams: {
+        filterOptions: ["contains"],
+        maxNumConditions: 1,
+      },
       width: "300px",
     });
   } else if (modelName === "xorY") {
@@ -218,7 +234,7 @@ export function columnGenerator(
 
   columns.push({
     headerName: "User",
-    field: "user",
+    field: "user.alias",
     valueGetter: ({ data }) => {
       return data?.anonymous ? "Anonymous" : data?.user?.alias;
     },
@@ -229,7 +245,8 @@ export function columnGenerator(
       return <UserLink data={data} />;
     },
     width: "140px",
-    filter: true,
+    // filter: true,
+    sortable: false,
   });
 
   columns.push({
@@ -245,6 +262,27 @@ export function columnGenerator(
       return dateValue ? new Date(dateValue).toLocaleDateString() : null;
     },
     width: "130px",
+  });
+
+  columns.push({
+    headerName: "Comments",
+    width: "150px",
+    cellRenderer: (params) => {
+      const data = params?.data;
+      const modelId = data?.id;
+      const commentCount = data?.comments?.length || 0;
+
+      return (
+        <div className="flex gap-4 items-center mt-2">
+          <Link
+            to={`/${modelName}/${modelId}/details`}
+            className="text-sm underline text-gray-500 hover:cursor-pointer"
+          >
+            {`${commentCount} Comment${commentCount === 1 ? "" : "s"}`}
+          </Link>
+        </div>
+      );
+    },
   });
 
   // columns.push({
@@ -293,13 +331,14 @@ export function columnGenerator(
   // });
 
   columns.push({
+    sortable: false,
     headerName: "Actions",
     cellRenderer: (params) => {
       const data = params?.data;
       const modelId = data?.id;
       return (
         <div className="flex gap-4 items-center mt-2">
-          <Upvote modelName={modelName} item={data} />
+          {/* <Upvote modelName={modelName} item={data} /> */}
           <Link
             to={`/${modelName}/${modelId}/details`}
             className="text-sm underline text-gray-500 hover:cursor-pointer"

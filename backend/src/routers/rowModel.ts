@@ -2,6 +2,10 @@ import prisma from "../prismaClient.js";
 import { handleError } from "../utils/errorHandler.js";
 import { schemas } from "../schemas/schemas.js";
 import { fieldLabelMap } from "../schemas/fieldLabelMap.js";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc.js";
+
+dayjs.extend(utc);
 
 const getFollowedProgramIds = async (userId) => {
   const user = await prisma.user.findUnique({
@@ -79,39 +83,40 @@ const applyDateFilter = (condition) => {
 
   switch (type) {
     case "equals": {
-      const startOfDay = new Date(dateFrom);
-      startOfDay.setHours(0, 0, 0, 0); // Set to start of the day
-
-      const endOfDay = new Date(dateFrom);
-      endOfDay.setHours(23, 59, 59, 999); // Set to end of the day
+      const startOfDay = dayjs(dateFrom).utcOffset(0, true);
+      const endOfDay = dayjs(dateFrom).utcOffset(0, true);
 
       return {
-        gte: startOfDay,
-        lte: endOfDay,
+        gte: startOfDay.toDate(), // Inclusive
+        lte: endOfDay.toDate(), // Inclusive
       };
     }
-    case "lessThan": // corresponds to "before"
-      return {
-        lt: new Date(dateFrom),
-      };
-    case "greaterThan": // corresponds to "after"
-      return {
-        gt: new Date(dateFrom),
-      };
-    case "inRange": // corresponds to "between"
-      if (dateFrom && dateTo) {
-        const startOfDateFrom = new Date(dateFrom);
-        startOfDateFrom.setHours(0, 0, 0, 0);
+    case "lessThan": {
+      const endOfDayLessThan = dayjs(dateFrom).utcOffset(0, true);
 
-        const endOfDateTo = new Date(dateTo);
-        endOfDateTo.setHours(23, 59, 59, 999);
+      return {
+        lte: endOfDayLessThan.toDate(), // Inclusive
+      };
+    }
+    case "greaterThan": {
+      const startOfDayGreaterThan = dayjs(dateFrom).utcOffset(0, true);
+
+      return {
+        gte: startOfDayGreaterThan.toDate(), // Inclusive
+      };
+    }
+    case "inRange": {
+      if (dateFrom && dateTo) {
+        const startOfDateFrom = dayjs(dateFrom).utcOffset(0, true);
+        const endOfDateTo = dayjs(dateTo).utcOffset(0, true);
 
         return {
-          gte: startOfDateFrom,
-          lte: endOfDateTo,
+          gte: startOfDateFrom.toDate(), // Inclusive
+          lte: endOfDateTo.toDate(), // Inclusive
         };
       }
       break;
+    }
     default:
       throw new Error(`Unsupported date filter type: ${type}`);
   }
@@ -122,14 +127,43 @@ const buildFilters = async (filterModel, modelName, showFollowed, userId) => {
 
   if (filterModel) {
     for (const [field, condition] of Object.entries(filterModel)) {
-      const fieldInfo = schemas[modelName]?.[field];
       const filterPath = field.split(".");
       let currentFilter = filters;
 
-      // Choose filter based on field type or apply default `contains` for nested fields
       let filterCondition;
+
+      if (field === "program.institution.name") {
+        // Directly add the program name or institution name filter at the root level
+        if (!filters.OR) filters.OR = [];
+
+        filters.OR.push(
+          {
+            program: {
+              name: {
+                contains: condition.filter,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            program: {
+              institution: {
+                name: {
+                  contains: condition.filter,
+                  mode: "insensitive",
+                },
+              },
+            },
+          }
+        );
+
+        continue; // Skip the rest of the loop for this special case
+      }
+
+      const fieldInfo = schemas[modelName]?.[field];
+
       if (fieldInfo) {
-        // If field is found in schema, apply appropriate filter logic
+        // Apply the appropriate filter based on the field type
         switch (fieldInfo.type) {
           case "select":
             if (fieldLabelMap[field]) {
@@ -152,7 +186,7 @@ const buildFilters = async (filterModel, modelName, showFollowed, userId) => {
             continue; // Skip unrecognized field types
         }
       } else {
-        // For nested fields like `program.city.state`, apply `contains` with `mode: "insensitive"`
+        // Default case for nested fields
         filterCondition = {
           contains: condition.filter,
           mode: "insensitive",
@@ -174,10 +208,11 @@ const buildFilters = async (filterModel, modelName, showFollowed, userId) => {
   }
 
   // Add showFollowed logic
-  if (showFollowed) {
+  if (showFollowed && userId) {
     const followedProgramIds = await getFollowedProgramIds(userId);
     if (modelName === "xorY") {
       filters.OR = [
+        ...(filters.OR || []), // Ensure existing OR conditions are preserved
         { programXId: { in: followedProgramIds } },
         { programYId: { in: followedProgramIds } },
       ];
@@ -291,8 +326,9 @@ const rowModel = (modelName) => async (req, res) => {
       filterModel,
       modelName,
       showFollowed,
-      req.user.id
+      req.user?.id
     );
+    console.log(filters);
     const orderByClause = buildOrderByClause(sortModel, modelName);
     const items = await fetchItemsWithPagination(
       modelName,
