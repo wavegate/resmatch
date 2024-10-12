@@ -18,10 +18,10 @@ export default ({ modelName, item }: UpvoteProps) => {
   const queryClient = useQueryClient();
 
   // Check if the user has upvoted this item based on the upvotedUsers array
-  const isUpvoted = item?.upvotedUsers?.some((u) => u.id === user?.id);
+  const isUpvoted = item.upvotedUsers.some((u) => u.id === user?.id);
 
   // Calculate the number of upvotes based on the length of the upvotedUsers array
-  const upvotesCount = item?.upvotedUsers?.length;
+  const upvotesCount = item.upvotedUsers.length;
 
   // Mutation to upvote or remove upvote
   const upvoteMutation = useMutation({

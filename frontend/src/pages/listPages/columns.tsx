@@ -35,7 +35,6 @@ export function columnGenerator(
   );
   const columns = [];
 
-  // Start with programName as the first column
   if (modelName === "cityUserInput") {
     columns.push(
       {
@@ -58,7 +57,6 @@ export function columnGenerator(
       }
     );
   } else if (modelName !== "xorY") {
-    // Add programName as the first column for other models
     columns.push({
       headerName: "State",
       field: "program.city.state",
@@ -72,11 +70,19 @@ export function columnGenerator(
     columns.push({
       field: "program.institution.name",
       headerName: "Program Name",
-      valueGetter: (params) => programName(params.data?.program),
+      valueGetter: (params) => {
+        if (!params.data) {
+          return undefined;
+        }
+        return programName(params.data?.program);
+      },
       cellRenderer: ({ data }) => {
+        if (!data) {
+          return false;
+        }
         return (
           <Link
-            to={`/program/${data?.program?.id}/details`}
+            to={`/program/${data.program.id}/details`}
             className={`hover:underline`}
           >
             {programName(data?.program)}
@@ -93,6 +99,7 @@ export function columnGenerator(
   } else if (modelName === "xorY") {
     columns.push({
       headerName: "Program X",
+      field: "programX.institution.name",
       valueGetter: (params) => programName(params.data?.programX),
       filter: true, // Add a text filter for program name
       cellRenderer: ({ data }) => {
@@ -108,7 +115,10 @@ export function columnGenerator(
     });
     columns.push({
       headerName: "Program Y",
-      valueGetter: (params) => programName(params.data?.programY),
+      field: "prograYX.institution.name",
+      valueGetter: (params) => {
+        programName(params.data?.programY);
+      },
       cellRenderer: ({ data }) => {
         return (
           <Link
@@ -228,7 +238,6 @@ export function columnGenerator(
         break;
     }
 
-    // Push each field's column definition to the columns array
     columns.push(columnDef);
   });
 
@@ -236,16 +245,18 @@ export function columnGenerator(
     headerName: "User",
     field: "user.alias",
     valueGetter: ({ data }) => {
-      return data?.anonymous ? "Anonymous" : data?.user?.alias;
-    },
-    valueFormatter: ({ data }) => {
-      return data?.anonymous ? "Anonymous" : data?.user?.alias;
+      if (!data) {
+        return undefined;
+      }
+      return data.anonymous ? "Anonymous" : data?.user?.alias;
     },
     cellRenderer: ({ data }) => {
+      if (!data) {
+        return undefined;
+      }
       return <UserLink data={data} />;
     },
     width: "140px",
-    // filter: true,
     sortable: false,
   });
 
@@ -267,8 +278,17 @@ export function columnGenerator(
   columns.push({
     headerName: "Comments",
     width: "150px",
+    valueGetter: ({ data }) => {
+      if (!data) {
+        return undefined;
+      }
+      return data.comments?.length || 0;
+    },
     cellRenderer: (params) => {
       const data = params?.data;
+      if (!data) {
+        return undefined;
+      }
       const modelId = data?.id;
       const commentCount = data?.comments?.length || 0;
 
@@ -283,6 +303,7 @@ export function columnGenerator(
         </div>
       );
     },
+    sortable: false,
   });
 
   // columns.push({
@@ -335,6 +356,9 @@ export function columnGenerator(
     headerName: "Actions",
     cellRenderer: (params) => {
       const data = params?.data;
+      if (!data) {
+        return undefined;
+      }
       const modelId = data?.id;
       return (
         <div className="flex gap-4 items-center mt-2">

@@ -61,7 +61,7 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
   const getRows = useCallback(
     async (params) => {
       const { startRow, endRow, sortModel, filterModel } = params;
-      ref?.current?.api.showLoadingOverlay();
+      ref?.current?.api.setGridOption("loading", true);
       const rowQueryKey = [
         ...queryKey,
         startRow,
@@ -84,15 +84,20 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
             }),
           staleTime: 5 * 60 * 1000,
         });
+        ref?.current?.api.setGridOption("loading", false);
+        if (data.items?.length === 0) {
+          ref?.current?.api.showNoRowsOverlay();
+        }
 
         params.successCallback(data.items, data.lastRow);
       } catch (error) {
+        ref?.current?.api.setGridOption("loading", false);
+
         params.failCallback();
       } finally {
-        ref?.current?.api.hideOverlay();
       }
     },
-    [queryKey, queryClient, services, modelName, ref?.current] // Add all dependencies here
+    [queryKey, queryClient, services, modelName, ref?.current]
   );
 
   const datasource = { getRows };
