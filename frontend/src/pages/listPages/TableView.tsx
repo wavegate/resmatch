@@ -12,8 +12,25 @@ import { modals } from "@mantine/modals";
 import { pageDescription } from "@/schemas/pageDescription";
 import classNames from "classnames";
 import { MdCloseFullscreen, MdOutlineOpenInFull } from "react-icons/md";
+import programService from "@/services/programService";
 
 const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
+  const {
+    data: allPrograms,
+    error: allProgramsError,
+    isLoading: allProgramsLoading,
+  } = useQuery({
+    queryKey: ["allPrograms"],
+    queryFn: programService.getAllPrograms,
+    staleTime: 30 * 60 * 1000,
+    select: (allPrograms) =>
+      allPrograms.reduce((acc, program) => {
+        const { id, ...rest } = program;
+        acc[id] = rest;
+        return acc;
+      }, {}),
+  });
+
   const queryClient = useQueryClient();
 
   const [fullScreen, setFullScreen] = useState(false);
@@ -76,7 +93,7 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
   };
 
   const filteredResults = useMemo(() => {
-    if (!data?.items) return [];
+    if (!data?.items || !allPrograms) return [];
 
     // Get followed program IDs from user if showFollowed is true
     const followedProgramIds = user?.followedPrograms || [];
@@ -96,8 +113,27 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
         })
       : data.items;
 
-    return filteredByFollowed;
-  }, [data, showFollowed, user, modelName]);
+    // Map over filtered results and attach the appropriate program data from allPrograms
+    return filteredByFollowed.map((item) => {
+      if (modelName === "xorY") {
+        // Add both programX and programY details for xorY model
+        const programX = allPrograms[item.programXId] || null;
+        const programY = allPrograms[item.programYId] || null;
+        return {
+          ...item,
+          programX,
+          programY,
+        };
+      } else {
+        // Add program details for default model
+        const program = allPrograms[item.programId] || null;
+        return {
+          ...item,
+          program,
+        };
+      }
+    });
+  }, [data, showFollowed, user, modelName, allPrograms]);
 
   return (
     <div className={`mt-2 flex-1`}>
