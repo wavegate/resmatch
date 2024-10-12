@@ -26,7 +26,7 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
     select: (allPrograms) =>
       allPrograms.reduce((acc, program) => {
         const { id, ...rest } = program;
-        acc[id] = rest;
+        acc[id] = program;
         return acc;
       }, {}),
   });

@@ -8,6 +8,7 @@ import Details from "@/components/Details";
 import Header from "@/components/Header";
 import { Virtuoso } from "react-virtuoso";
 import useUser from "@/hooks/useUser";
+import programService from "@/services/programService";
 
 interface TableProps {
   modelName: string;
@@ -61,6 +62,23 @@ const Table: React.FC<TableProps> = ({
   //     });
   //   },
   // });
+
+  const {
+    data: allPrograms,
+    error: allProgramsError,
+    isLoading: allProgramsLoading,
+  } = useQuery({
+    queryKey: ["allPrograms"],
+    queryFn: programService.getAllPrograms,
+    staleTime: 30 * 60 * 1000,
+    select: (allPrograms) =>
+      allPrograms.reduce((acc, program) => {
+        const { id, ...rest } = program;
+        acc[id] = program;
+        return acc;
+      }, {}),
+  });
+
   const queryKey = [modelName, "all"];
   const { data, error, isLoading } = useQuery({
     queryKey,
@@ -94,7 +112,7 @@ const Table: React.FC<TableProps> = ({
   const [search] = useDebouncedValue(searchText, 200);
 
   const filteredResults = useMemo(() => {
-    if (!data?.items) return [];
+    if (!data?.items || !allPrograms) return [];
 
     // Get followed program IDs from user if showFollowed is true
     const followedProgramIds = user?.followedPrograms || [];
@@ -114,11 +132,32 @@ const Table: React.FC<TableProps> = ({
         })
       : data.items;
 
-    // Now apply the search filter to the followed items (if showFollowed is true) or all items
-    if (search.trim() === "") return filteredByFollowed;
+    // Map the filtered items and add the program details from allPrograms
+    const resultsWithProgramData = filteredByFollowed.map((item) => {
+      if (modelName === "xorY") {
+        // For xorY model, add both programX and programY details
+        const programX = allPrograms[item.programXId] || null;
+        const programY = allPrograms[item.programYId] || null;
+        return {
+          ...item,
+          programX,
+          programY,
+        };
+      } else {
+        // For other models, add the single program detail
+        const program = allPrograms[item.programId] || null;
+        return {
+          ...item,
+          program,
+        };
+      }
+    });
 
-    return searchItems(filteredByFollowed, search);
-  }, [data, search, showFollowed, user, modelName]);
+    // Apply the search filter to the followed items (if showFollowed is true) or all items
+    if (search.trim() === "") return resultsWithProgramData;
+
+    return searchItems(resultsWithProgramData, search);
+  }, [data, search, showFollowed, user, modelName, allPrograms]);
 
   const renderItem = (index) => {
     const datum = filteredResults[index];
