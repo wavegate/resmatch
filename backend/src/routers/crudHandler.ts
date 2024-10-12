@@ -386,27 +386,27 @@ export const createCrudHandlers = (modelName) => ({
       // Fetch all items from the model without any filters or pagination
       const items = await prisma[modelName].findMany({
         include: {
-          ...(modelName !== "cityUserInput" &&
-            modelName !== "xorY" && {
-              program: {
-                include: {
-                  city: true,
-                  institution: true,
-                },
-              },
-            }),
-          ...(modelName === "xorY" && {
-            programX: {
-              include: {
-                institution: true,
-              },
-            },
-            programY: {
-              include: {
-                institution: true,
-              },
-            },
-          }),
+          // ...(modelName !== "cityUserInput" &&
+          //   modelName !== "xorY" && {
+          //     program: {
+          //       include: {
+          //         city: true,
+          //         institution: true,
+          //       },
+          //     },
+          //   }),
+          // ...(modelName === "xorY" && {
+          //   programX: {
+          //     include: {
+          //       institution: true,
+          //     },
+          //   },
+          //   programY: {
+          //     include: {
+          //       institution: true,
+          //     },
+          //   },
+          // }),
           ...(modelName === "cityUserInput" && {
             city: true,
           }),

@@ -54,6 +54,7 @@ programRouter.get("/", async (req, res) => {
             name: true,
           },
         },
+        city: true,
       },
       orderBy: {
         institution: {
