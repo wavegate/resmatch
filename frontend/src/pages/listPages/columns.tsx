@@ -74,7 +74,7 @@ export function columnGenerator(
         if (!params.data) {
           return undefined;
         }
-        return programName(params.data?.program);
+        return programName(params.data.program);
       },
       cellRenderer: ({ data }) => {
         if (!data) {
@@ -85,7 +85,7 @@ export function columnGenerator(
             to={`/program/${data.program.id}/details`}
             className={`hover:underline`}
           >
-            {programName(data?.program)}
+            {programName(data.program)}
           </Link>
         );
       },
@@ -96,41 +96,68 @@ export function columnGenerator(
       },
       width: "300px",
     });
-  } else if (modelName === "xorY") {
-    columns.push({
-      headerName: "Program X",
-      field: "programX.institution.name",
-      valueGetter: (params) => programName(params.data?.programX),
-      filter: true, // Add a text filter for program name
-      cellRenderer: ({ data }) => {
-        return (
-          <Link
-            to={`/program/${data?.programX?.id}/details`}
-            className={`hover:underline`}
-          >
-            {programName(data?.programX)}
-          </Link>
-        );
-      },
-    });
-    columns.push({
-      headerName: "Program Y",
-      field: "prograYX.institution.name",
-      valueGetter: (params) => {
-        programName(params.data?.programY);
-      },
-      cellRenderer: ({ data }) => {
-        return (
-          <Link
-            to={`/program/${data?.programY?.id}/details`}
-            className={`hover:underline`}
-          >
-            {programName(data?.programY)}
-          </Link>
-        );
-      },
-      filter: true, // Add a text filter for program name
-    });
+
+    if (modelName === "xorY") {
+      columns.push({
+        field: "programX.institution.name",
+        headerName: "Program X",
+        valueGetter: (params) => {
+          if (!params.data) {
+            return undefined;
+          }
+          return programName(params.data.programX);
+        },
+        cellRenderer: ({ data }) => {
+          if (!data) {
+            return false;
+          }
+          return (
+            <Link
+              to={`/program/${data.programX.id}/details`}
+              className={`hover:underline`}
+            >
+              {programName(data.programX)}
+            </Link>
+          );
+        },
+        filter: "agTextColumnFilter",
+        filterParams: {
+          filterOptions: ["contains"],
+          maxNumConditions: 1,
+        },
+        width: "300px",
+      });
+
+      columns.push({
+        field: "programY.institution.name",
+        headerName: "Program Y",
+        valueGetter: (params) => {
+          if (!params.data) {
+            return undefined;
+          }
+          return programName(params.data.programY);
+        },
+        cellRenderer: ({ data }) => {
+          if (!data) {
+            return false;
+          }
+          return (
+            <Link
+              to={`/program/${data.programY.id}/details`}
+              className={`hover:underline`}
+            >
+              {programName(data.programY)}
+            </Link>
+          );
+        },
+        filter: "agTextColumnFilter",
+        filterParams: {
+          filterOptions: ["contains"],
+          maxNumConditions: 1,
+        },
+        width: "300px",
+      });
+    }
   }
 
   // Iterate over the filtered fields in the schema to generate the remaining columns
@@ -148,11 +175,15 @@ export function columnGenerator(
       case "multipleDates":
         columnDef.valueGetter = (params) => {
           const data = params.data;
+          if (!data) {
+            return undefined;
+          }
           const datesArray = data[fieldName];
           return Array.isArray(datesArray)
             ? datesArray.map((date: string) => displayUTC(date)).join(", ")
             : null; // Don't display "-" if not available
         };
+        columnDef.sortable = false;
         break;
 
       case "select":
@@ -194,12 +225,12 @@ export function columnGenerator(
               return `${lowerBound}-${upperBound}`;
             }
           }
-          return data?.[fieldName]; // Return the value directly, no "-"
+          return data?.[fieldName];
         };
         break;
 
       case "date":
-        columnDef.filter = "agDateColumnFilter"; // Add date filter for the date field
+        columnDef.filter = "agDateColumnFilter";
         columnDef.filterParams = {
           filterOptions: ["equals", "lessThan", "greaterThan", "inRange"],
           maxNumConditions: 1,
@@ -219,7 +250,7 @@ export function columnGenerator(
           } else if (value === false) {
             return "No";
           } else {
-            return ""; // Return an empty string for undefined or other values
+            return "";
           }
         };
         columnDef.filter = "agTextColumnFilter";
@@ -266,7 +297,7 @@ export function columnGenerator(
     filter: "agDateColumnFilter",
     valueGetter: (params) => {
       const dateValue = params.data?.["createdAt"];
-      return dateValue ? new Date(dateValue) : null; // Return the Date object for filtering
+      return dateValue ? new Date(dateValue) : null;
     },
     valueFormatter: (params) => {
       const dateValue = params.value;
@@ -289,8 +320,8 @@ export function columnGenerator(
       if (!data) {
         return undefined;
       }
-      const modelId = data?.id;
-      const commentCount = data?.comments?.length || 0;
+      const modelId = data.id;
+      const commentCount = data.comments?.length || 0;
 
       return (
         <div className="flex gap-4 items-center mt-2">
@@ -359,7 +390,7 @@ export function columnGenerator(
       if (!data) {
         return undefined;
       }
-      const modelId = data?.id;
+      const modelId = data.id;
       return (
         <div className="flex gap-4 items-center mt-2">
           {/* <Upvote modelName={modelName} item={data} /> */}
@@ -369,7 +400,7 @@ export function columnGenerator(
           >
             Details
           </Link>
-          {user?.id === data?.userId && (
+          {user?.id === data.userId && (
             <>
               <Link
                 to={`/${modelName}/${modelId}`}
@@ -379,7 +410,7 @@ export function columnGenerator(
               </Link>
               <div
                 className="text-sm underline text-red-500 hover:cursor-pointer"
-                onClick={() => openDeleteModal(data?.id)}
+                onClick={() => openDeleteModal(data.id)}
               >
                 Delete
               </div>

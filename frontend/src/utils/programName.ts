@@ -1,6 +1,6 @@
 export default function programName(program) {
   if (!program?.institution?.name) {
-    return `Loading...`;
+    return `Data missing`;
   }
 
   // Initialize the suffix as an empty string

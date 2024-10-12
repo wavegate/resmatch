@@ -65,7 +65,6 @@ const createService = <T, FormData>(route: string) => {
       filterModel,
       showFollowed,
     }): Promise<{ items: T[]; lastRow: number }> => {
-      // Create a request payload object
       const requestBody = {
         startRow,
         endRow,
@@ -73,11 +72,8 @@ const createService = <T, FormData>(route: string) => {
         sortModel,
         filterModel,
       };
-
-      // Make the API request, sending the parameters in the request body
       const { data } = await apiClient.post(`${route}/rowModel`, requestBody);
 
-      // Return the paginated items and lastRow count
       return data;
     },
   };
