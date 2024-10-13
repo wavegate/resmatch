@@ -1,6 +1,6 @@
-import {FormSchema} from "./schema";
+import {FormSchema} from "@/schemas/schema.ts";
 
-const interviewInviteFormSchema: FormSchema = {
+export const defaultFormSchema: FormSchema = {
   programId: {
     type: "programSearch",
     label: "Program",
@@ -13,8 +13,8 @@ const interviewInviteFormSchema: FormSchema = {
     label: "Invite Date",
     description:
       "When did you receive the interview invite? Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
-    placeholder: "Select the date and time",
     required: true,
+    placeholder: "Select the date and time",
     width: "120px",
   },
   graduateType: {
@@ -242,6 +242,4 @@ const interviewInviteFormSchema: FormSchema = {
       "This will update your profile with the new stats you provided on this form.",
     defaultValue: true,
   },
-};
-
-export default interviewInviteFormSchema;
+}
