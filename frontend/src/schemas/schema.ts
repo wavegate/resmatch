@@ -25,6 +25,7 @@ export interface FieldSchema {
   defaultValue?: any;
   placeholder?: string;
   conditions?: any;
+  width?: string;
 }
 
 export interface FormSchema {
