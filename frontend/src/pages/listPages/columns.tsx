@@ -159,6 +159,17 @@ export function columnGenerator(
 
       case "date":
         columnDef.filter = "agDateColumnFilter"; // Add date filter for the date field
+        columnDef.valueGetter = ({ data }) => {
+          const value = data?.[fieldName];
+          if (!value) {
+            return undefined;
+          }
+          const adjustedDate = dayjs(value).subtract(
+            dayjs().utcOffset(),
+            "minutes"
+          );
+          return adjustedDate.toDate();
+        };
         columnDef.valueFormatter = (params) => {
           const dateValue = params.value;
           return dateValue ? displayUTC(dateValue) : null;
