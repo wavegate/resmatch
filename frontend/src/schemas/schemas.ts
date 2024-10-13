@@ -64,7 +64,14 @@ export function generateZodSchema(schema: FormSchema): ZodSchema<any> {
         break;
 
       case "number":
-        zodShape[key] = z.number();
+        zodShape[key] = z
+          .union([
+            z.number(),
+            z
+              .string()
+              .transform((val) => (val === "" ? null : parseFloat(val))),
+          ])
+          .nullable();
         if (!field.required) zodShape[key] = zodShape[key].optional();
         break;
 
