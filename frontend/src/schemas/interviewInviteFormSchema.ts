@@ -239,7 +239,7 @@ const interviewInviteFormSchema: FormSchema = {
     type: "boolean",
     label: "Save Info to Profile?",
     description:
-      "This will update your profile with your stats for easier import next time.",
+      "This will update your profile with the new stats you provided on this form.",
     defaultValue: true,
   },
 };

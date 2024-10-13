@@ -34,15 +34,14 @@ export const createCrudHandlers = (modelName) => ({
           Object.keys(data),
           userFields
         );
+
+        // Include null values in profileData
         const profileData = profileFieldsToUpdate.reduce((obj, key) => {
-          if (data[key] !== null) {
-            // Skip fields with null values
-            obj[key] = data[key];
-          }
+          obj[key] = data[key]; // No check for null values
           return obj;
         }, {});
 
-        // Update the user's profile with the filtered data
+        // Update the user's profile with the data, including nulls
         if (Object.keys(profileData).length > 0) {
           await prisma.user.update({
             where: { id: Number(req.user.id) },
