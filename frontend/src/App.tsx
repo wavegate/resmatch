@@ -19,7 +19,13 @@ import { ModalsProvider } from "@mantine/modals";
 import routes from "@/routes";
 import { DatesProvider } from "@mantine/dates";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
 
 const router = createBrowserRouter(routes);
 
