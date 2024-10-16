@@ -143,6 +143,10 @@ const HomePage = () => {
             >
               <h4 className={`font-medium text-xl`}>Changelog</h4>
               <div className={`flex flex-col gap-1`}>
+                <div className={`font-medium`}>10/15/2024</div>
+                <div>Column width and order is saved.</div>
+              </div>
+              <div className={`flex flex-col gap-1`}>
                 <div className={`font-medium`}>10/5/2024</div>
                 <div>Reddit login.</div>
               </div>

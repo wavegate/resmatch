@@ -33,6 +33,17 @@ const Table: React.FC<TableProps> = ({
     }
   }, [user]);
 
+  const resetColumns = () => {
+    if (gridRef.current) {
+      gridRef.current.api.resetColumnState();
+    }
+    localStorage.removeItem(`columnState|${modelName}`);
+    localStorage.setItem(`resettingColumnState`, "true");
+    setTimeout(() => {
+      localStorage.removeItem(`resettingColumnState`);
+    }, 500);
+  };
+
   return (
     <div className={`flex-1 flex flex-col`}>
       <div className={`inline-flex gap-x-6 gap-y-2 flex-wrap items-center`}>
@@ -51,6 +62,16 @@ const Table: React.FC<TableProps> = ({
           />
         )}
 
+        {!listView && (
+          <Button
+            size="compact-sm"
+            className={`max-sm:hidden font-normal text-gray-800`}
+            variant="subtle"
+            onClick={resetColumns}
+          >
+            Reset columns
+          </Button>
+        )}
         {!listView && (
           <Button
             size="compact-sm"

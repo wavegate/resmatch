@@ -58,6 +58,7 @@ export function columnGenerator(
       width: "120px",
     });
     columns.push({
+      field: "program",
       headerName: "Program Name",
       valueGetter: (params) => programName(params.data.program),
       cellRenderer: ({ data }) => {
@@ -76,6 +77,7 @@ export function columnGenerator(
   } else if (modelName === "xorY") {
     columns.push({
       headerName: "Program X",
+      field: "programX",
       valueGetter: (params) => programName(params.data.programX),
       filter: true, // Add a text filter for program name
       cellRenderer: ({ data }) => {
@@ -91,6 +93,7 @@ export function columnGenerator(
     });
     columns.push({
       headerName: "Program Y",
+      field: "programY",
       valueGetter: (params) => programName(params.data.programY),
       cellRenderer: ({ data }) => {
         return (
@@ -232,6 +235,7 @@ export function columnGenerator(
   });
 
   columns.push({
+    field: "comments",
     headerName: "Comments",
     autoHeight: true,
     cellClass: "cell-wrap-text",
@@ -277,6 +281,7 @@ export function columnGenerator(
   });
 
   columns.push({
+    field: "actions",
     headerName: "Actions",
     cellRenderer: (params) => {
       const data = params.data;
