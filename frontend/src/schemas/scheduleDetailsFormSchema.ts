@@ -33,7 +33,8 @@ const scheduleDetailsFormSchema: FormSchema = {
   startDateOrientation: {
     type: "date",
     label: "Start Date Orientation",
-    description: "The start date of the orientation period.",
+    description:
+      "The start date of the orientation period. Please use US Eastern Time.",
   },
   visaInfo: {
     type: "select",

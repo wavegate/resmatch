@@ -11,7 +11,8 @@ const interviewRejectionFormSchema: FormSchema = {
   date: {
     type: "date",
     label: "Rejection Date & Time",
-    description: "When did you receive the rejection?",
+    description:
+      "When did you receive the rejection? Please use US Eastern Time.",
     placeholder: "Select the date and time",
     required: true,
   },
