@@ -226,9 +226,9 @@ export function columnGenerator(
     },
     valueFormatter: (params) => {
       const dateValue = params.value;
-      return dateValue ? new Date(dateValue).toLocaleDateString() : null;
+      return dateValue ? dayjs(dateValue).format("MM/DD/YYYY [at] hA") : null;
     },
-    width: "130px",
+    width: "160px",
   });
 
   columns.push({
