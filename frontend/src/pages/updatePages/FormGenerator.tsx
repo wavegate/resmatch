@@ -216,7 +216,11 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                         "interviewRejection",
                         "dropped",
                       ].includes(modelName)
-                        ? new Date()
+                        ? new Date(
+                            new Date().toLocaleString("en-US", {
+                              timeZone: "America/New_York",
+                            })
+                          )
                         : undefined
                     }
                     value={field.value}

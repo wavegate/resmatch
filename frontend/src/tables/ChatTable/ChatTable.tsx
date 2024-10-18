@@ -13,16 +13,26 @@ interface ChatTableProps {
   selectedCommentCategories: CommentCategory[];
 }
 
-export default ({ className, selectedCommentCategories }: ChatTableProps) => {
-  const [pageNum, setPageNum] = useState(1);
-
+export default ({
+  className,
+  selectedCommentCategories,
+  searchValue,
+  pageNum,
+  setPageNum,
+}: ChatTableProps) => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["chat", pageNum, JSON.stringify(selectedCommentCategories)],
+    queryKey: [
+      "main",
+      pageNum,
+      JSON.stringify(selectedCommentCategories),
+      searchValue,
+    ],
     queryFn: () => {
       return commentService.searchComment({
         pageNum,
         main: true,
         selectedCommentCategories,
+        searchValue,
       });
     },
   });

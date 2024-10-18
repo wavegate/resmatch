@@ -1,5 +1,5 @@
-import {defaultFormSchema} from "@/schemas/defaultFormSchema.ts";
-import {FormSchema} from "./schema";
+import { defaultFormSchema } from "@/schemas/defaultFormSchema.ts";
+import { FormSchema } from "./schema";
 
 const interviewRejectionFormSchema: FormSchema = {
   programId: {
@@ -10,7 +10,7 @@ const interviewRejectionFormSchema: FormSchema = {
     ...defaultFormSchema.date,
     label: "Rejection Date & Time",
     description: "When did you receive the rejection?",
-    width: "150px"
+    width: "150px",
   },
   reason: {
     type: "string",
@@ -18,7 +18,7 @@ const interviewRejectionFormSchema: FormSchema = {
     description:
       "If the program gave you a reason for the rejection, describe it here.",
     placeholder: "Describe the reason for the rejection, if any",
-    width: "300px"
+    width: "300px",
   },
   import: defaultFormSchema.import,
   graduateType: defaultFormSchema.graduateType,
@@ -28,7 +28,7 @@ const interviewRejectionFormSchema: FormSchema = {
     type: "boolean",
     label: "Program Signal",
     description: "Did you use a program signal for this program?",
-    width: "150px"
+    width: "150px",
   },
   inState: defaultFormSchema.inState,
   medicalDegree: defaultFormSchema.medicalDegree,

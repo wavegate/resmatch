@@ -432,15 +432,14 @@ export const createCrudHandlers = (modelName) => ({
       });
 
       // Process the items to remove user data if anonymous
-      const processedItems = items.map((item) => {
+      items.forEach((item) => {
         if (item.anonymous) {
-          item.user = undefined; // Remove user data if anonymous
+          item.user = undefined; // Modify directly
         }
-        return item;
       });
 
       // Return all items without pagination
-      res.json({ items: processedItems });
+      res.json({ items });
     } catch (error) {
       handleError(res, error, `Error fetching all data for ${modelName}`);
     }

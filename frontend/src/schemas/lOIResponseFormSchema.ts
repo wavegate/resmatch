@@ -21,7 +21,7 @@ const lOIResponseFormSchema: FormSchema = {
   dateSent: {
     type: "date",
     label: "Date Sent",
-    description: "The date the letter was sent.",
+    description: "The date the letter was sent. Please use US Eastern Time.",
   },
   response: {
     type: "boolean",

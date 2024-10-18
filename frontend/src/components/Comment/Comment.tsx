@@ -85,7 +85,7 @@ export default function Comment({
       });
       if (comment.main && !comment.parentId) {
         queryClient.invalidateQueries({
-          queryKey: ["chat"],
+          queryKey: ["main"],
         });
       }
       if (comment.pstp && !comment.parentId) {

@@ -7,7 +7,9 @@ import {
   CommentCategory,
   mapCommentCategoryToLabel,
 } from "@/typings/CommentTypes";
-import { Text, Title, useMantineTheme } from "@mantine/core";
+import { Text, TextInput, Title, useMantineTheme } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 
 const Chat = () => {
@@ -17,6 +19,14 @@ const Chat = () => {
   const { selectedTagList, handleSelectTag } = useFilterTagSection({
     limitOneSelection: false,
   });
+  const [searchText, setSearchText] = useState("");
+  const [searchValue] = useDebouncedValue(searchText, 500);
+  const [pageNum, setPageNum] = useState(1);
+
+  useEffect(() => {
+    setPageNum(1);
+  }, [selectedTagList, searchValue]);
+
   return (
     <>
       <Helmet>
@@ -38,17 +48,31 @@ const Chat = () => {
           >
             A place for general discussion.
           </Text>
-          <FilterTagSection
-            sectionLabel={"Filters:"}
-            tagList={Object.keys(CommentCategory)}
-            selectedTagList={selectedTagList}
-            handleSelectTag={handleSelectTag}
-            mapTagToLabel={mapCommentCategoryToLabel}
-            mapTagToBadgeColor={mapCommentCategoryToBadgeColor}
-          />
+          <div className={`flex flex-col gap-2`}>
+            <FilterTagSection
+              sectionLabel={"Filters:"}
+              tagList={Object.keys(CommentCategory)}
+              selectedTagList={selectedTagList}
+              handleSelectTag={handleSelectTag}
+              mapTagToLabel={mapCommentCategoryToLabel}
+              mapTagToBadgeColor={mapCommentCategoryToBadgeColor}
+            />
+            <TextInput
+              size="md"
+              placeholder="Search..."
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.currentTarget.value);
+              }}
+              className={`mb-2`}
+            />
+          </div>
         </header>
         <ChatTable
           selectedCommentCategories={selectedTagList as CommentCategory[]}
+          searchValue={searchValue}
+          pageNum={pageNum}
+          setPageNum={setPageNum}
         />
       </div>
     </>

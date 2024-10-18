@@ -1,6 +1,6 @@
 import { Button, Loader, TextInput } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, forwardRef, useMemo } from "react";
+import { useState, forwardRef, useMemo, useEffect } from "react";
 import { AgGridReact } from "@ag-grid-community/react";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { CsvExportModule } from "@ag-grid-community/csv-export";
@@ -135,6 +135,32 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
     });
   }, [data, showFollowed, user, modelName, allPrograms]);
 
+  const onColumnChanged = () => {
+    if (localStorage.getItem("resettingColumnState") === "true") {
+      localStorage.removeItem("resettingColumnState");
+      return;
+    }
+    if (ref?.current) {
+      const columnState = ref.current.api.getColumnState();
+      localStorage.setItem(
+        `columnState|${modelName}`,
+        JSON.stringify(columnState)
+      );
+    }
+  };
+
+  const onGridReady = () => {
+    if (ref?.current) {
+      const savedColumnState = localStorage.getItem(`columnState|${modelName}`);
+      if (savedColumnState) {
+        ref.current.api.applyColumnState({
+          state: JSON.parse(savedColumnState),
+          applyOrder: true,
+        });
+      }
+    }
+  };
+
   return (
     <div className={`mt-2 flex-1`}>
       {isLoading && (
@@ -167,12 +193,15 @@ const TableView = forwardRef(({ modelName, showFollowed }, ref) => {
           )}
         >
           <AgGridReact
+            onFirstDataRendered={onGridReady}
             rowData={filteredResults}
             columnDefs={columnDefs}
             ref={ref}
             enableCellTextSelection={true}
             ensureDomOrder={true}
             modules={[ClientSideRowModelModule, CsvExportModule]}
+            onColumnMoved={onColumnChanged}
+            onColumnResized={onColumnChanged}
           />
           <Button
             className={`absolute bottom-6 right-6 max-sm:bottom-2 max-sm:right-2 px-3`}

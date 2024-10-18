@@ -173,7 +173,7 @@ export default function AddChat({ type }: AddChatProps) {
           <Button type="submit" loading={isPending}>
             {`Create ${
               type === "main"
-                ? "Chat"
+                ? "Thread"
                 : type === "pstp"
                 ? "PSTP Thread"
                 : "Report"

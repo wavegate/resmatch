@@ -16,7 +16,7 @@ const secondLookFormSchema: FormSchema = {
   date: {
     type: "date",
     label: "Date",
-    description: "The date of the second look.",
+    description: "The date of the second look. Please use US Eastern Time.",
     placeholder: "Pick a date",
   },
   bearingOnRank: {

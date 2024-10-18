@@ -10,13 +10,15 @@ const droppedFormSchema: FormSchema = {
   date: {
     type: "date",
     label: "Date Dropped",
-    description: "The date you dropped the interview.",
+    description:
+      "The date you dropped the interview. Please use US Eastern Time.",
     required: true,
   },
   dateOfInterviewCancelled: {
     type: "date",
     label: "Date of Interview Cancelled",
-    description: "The date your interview was cancelled, if applicable.",
+    description:
+      "The date your interview was cancelled, if applicable. Please use US Eastern Time.",
     required: false,
   },
   reason: {

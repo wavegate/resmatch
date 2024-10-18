@@ -1,5 +1,5 @@
-import {defaultFormSchema} from "@/schemas/defaultFormSchema.ts";
-import {FormSchema} from "./schema";
+import { defaultFormSchema } from "@/schemas/defaultFormSchema.ts";
+import { FormSchema } from "./schema";
 
 const interviewInviteFormSchema: FormSchema = {
   programId: {
@@ -8,7 +8,8 @@ const interviewInviteFormSchema: FormSchema = {
   },
   date: {
     ...defaultFormSchema.date,
-    description: "When did you receive the interview invite? Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
+    description:
+      "When did you receive the interview invite? Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
   },
   import: defaultFormSchema.import,
   graduateType: defaultFormSchema.graduateType,
@@ -28,7 +29,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "If available, please share approximately how many spots are still open.",
     placeholder: "Enter number of spots left.",
-    width: '165px'
+    width: "165px",
   },
   inState: defaultFormSchema.inState,
   medicalDegree: defaultFormSchema.medicalDegree,
@@ -43,7 +44,7 @@ const interviewInviteFormSchema: FormSchema = {
     description:
       "Describe any professional or personal connections you may have to the program, such as a referral from a faculty member or a fellow.",
     placeholder: "Describe your connection, if any",
-    width: '180px'
+    width: "180px",
   },
   pstp: defaultFormSchema.pstp,
   step1ScorePass: defaultFormSchema.step1ScorePass,
@@ -61,7 +62,7 @@ const interviewInviteFormSchema: FormSchema = {
   fail: defaultFormSchema.fail,
   yearOfGraduation: defaultFormSchema.yearOfGraduation,
   anonymous: defaultFormSchema.anonymous,
-  save: defaultFormSchema.save
+  save: defaultFormSchema.save,
 };
 
 export default interviewInviteFormSchema;
