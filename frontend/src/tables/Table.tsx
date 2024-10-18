@@ -1,4 +1,5 @@
 import useUser from "@/hooks/useUser";
+import InterviewInviteTableView from "@/pages/listPages/InterviewInviteTableView";
 import ListView from "@/pages/listPages/ListView";
 import TableView from "@/pages/listPages/TableView";
 import { Button, Checkbox, Switch } from "@mantine/core";
@@ -51,7 +52,7 @@ const Table: React.FC<TableProps> = ({
           />
         )}
 
-        {!listView && (
+        {!listView && modelName !== "interviewInvite" && (
           <Button
             size="compact-sm"
             className={`max-sm:hidden font-normal text-gray-800`}
@@ -66,13 +67,20 @@ const Table: React.FC<TableProps> = ({
       {listView && (
         <ListView modelName={modelName} showFollowed={showFollowed} />
       )}
-      {!listView && (
-        <TableView
-          ref={gridRef}
-          modelName={modelName}
-          showFollowed={showFollowed}
-        />
-      )}
+      {!listView &&
+        (modelName === "interviewInvite" ? (
+          <InterviewInviteTableView
+            ref={gridRef}
+            modelName={modelName}
+            showFollowed={showFollowed}
+          />
+        ) : (
+          <TableView
+            ref={gridRef}
+            modelName={modelName}
+            showFollowed={showFollowed}
+          />
+        ))}
     </div>
   );
 };
