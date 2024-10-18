@@ -9,7 +9,8 @@ const interviewRejectionFormSchema: FormSchema = {
   date: {
     ...defaultFormSchema.date,
     label: "Rejection Date & Time",
-    description: "When did you receive the rejection?",
+    description:
+      "When did you receive the rejection? Please use US Eastern Time. ",
     width: "150px",
   },
   reason: {

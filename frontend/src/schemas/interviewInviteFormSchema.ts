@@ -9,7 +9,7 @@ const interviewInviteFormSchema: FormSchema = {
   date: {
     ...defaultFormSchema.date,
     description:
-      "When did you receive the interview invite? Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
+      "When did you receive the interview invite? Please use US Eastern Time. Note: this is not the date of the scheduled interview. Please fill that information out over on the IV Logistics page.",
   },
   import: defaultFormSchema.import,
   graduateType: defaultFormSchema.graduateType,
