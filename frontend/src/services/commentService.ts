@@ -36,6 +36,7 @@ const searchComment = async ({
   threadId,
   pageNum = 1,
   selectedCommentCategories = [],
+  searchValue = "",
 }: SearchCommentParams): Promise<SearchResponse> => {
   const { data } = await apiClient.post(`${route}/search`, {
     pstp,
@@ -44,6 +45,7 @@ const searchComment = async ({
     threadId,
     pageNum,
     selectedCommentCategories,
+    searchValue,
   });
   return data;
 };
