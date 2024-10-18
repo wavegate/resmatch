@@ -1,24 +1,24 @@
-import { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import CitySearch from "@/components/CitySearch/CitySearch";
+import GenericList from "@/components/List";
+import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
+import {fieldLabelMap} from "@/schemas/fieldLabelMap";
+import {removeNulls} from "@/utils/processObjects";
+import {zodResolver} from "@hookform/resolvers/zod";
 import {
-  TextInput,
+  Button,
   Checkbox,
   MultiSelect,
-  Textarea,
-  Button,
   NumberInput,
   Select,
   Text,
+  Textarea,
+  TextInput,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
-import ProgramSearch from "@/components/ProgramSearch/ProgramSearch";
-import { generateZodSchema, schemas } from "../../schemas/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import GenericList from "@/components/List";
-import { fieldLabelMap } from "@/schemas/fieldLabelMap";
-import { removeNulls } from "@/utils/processObjects";
-import { Link } from "react-router-dom";
-import CitySearch from "@/components/CitySearch/CitySearch";
+import {DatePickerInput} from "@mantine/dates";
+import {useEffect} from "react";
+import {Controller, useForm} from "react-hook-form";
+import {Link} from "react-router-dom";
+import {generateZodSchema, schemas} from "../../schemas/schemas";
 
 export const formComponentMap = {
   string: TextInput,
@@ -42,13 +42,13 @@ interface FormGeneratorProps {
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
-  isPending,
-  userData,
-  modelName,
-  onSubmit,
-  resetValues,
-  isUpdate = false,
-}) => {
+                                                       isPending,
+                                                       userData,
+                                                       modelName,
+                                                       onSubmit,
+                                                       resetValues,
+                                                       isUpdate = false,
+                                                     }) => {
   const schema = schemas[modelName];
   const zodSchema = generateZodSchema(schema);
 
@@ -76,7 +76,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
     resolver: zodResolver(zodSchema),
   });
 
-  const { control, handleSubmit, reset, watch } = form;
+  const {control, handleSubmit, reset, watch} = form;
   const watchAllFields = watch();
 
   useEffect(() => {
@@ -106,17 +106,19 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
         const Component = formComponentMap[fieldSchema.type] || TextInput;
 
         if (fieldName === "import") {
+          const linkText = "update your profile"
+          const [prefix, suffix] = fieldSchema.label.split(linkText);
           return (
             <div>
               {/* <Button onClick={handleImport} variant="outline">
                 Import My Profile
               </Button> */}
               <Text size="sm" mt="sm">
-                To avoid having to reenter your stats every time, please{" "}
-                <Link to="/profile" style={{ color: "#1A73E8" }}>
-                  update your profile
+                {prefix}
+                <Link to="/profile" style={{color: "#1A73E8"}}>
+                  {linkText}
                 </Link>
-                , and it will be automatically imported below.
+                {suffix}
               </Text>
             </div>
           );
@@ -127,7 +129,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
             key={fieldName}
             name={fieldName}
             control={control}
-            render={({ field, fieldState }) => {
+            render={({field, fieldState}) => {
               const commonProps = {
                 label: fieldSchema.label,
                 description: fieldSchema.description,
@@ -163,7 +165,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                       required={fieldSchema.required}
                     />
                     {fieldState.error && (
-                      <div style={{ color: "red", fontSize: "12px" }}>
+                      <div style={{color: "red", fontSize: "12px"}}>
                         {fieldState.error.message}
                       </div>
                     )}
@@ -181,7 +183,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                       required={fieldSchema.required}
                     />
                     {fieldState.error && (
-                      <div style={{ color: "red", fontSize: "12px" }}>
+                      <div style={{color: "red", fontSize: "12px"}}>
                         {fieldState.error.message}
                       </div>
                     )}
