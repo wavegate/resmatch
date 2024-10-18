@@ -57,25 +57,6 @@ const createService = <T, FormData>(route: string) => {
       const { data } = await apiClient.get(`${route}/all`);
       return data;
     },
-
-    getRowModel: async ({
-      startRow,
-      endRow,
-      sortModel,
-      filterModel,
-      showFollowed,
-    }): Promise<{ items: T[]; lastRow: number }> => {
-      const requestBody = {
-        startRow,
-        endRow,
-        showFollowed,
-        sortModel,
-        filterModel,
-      };
-      const { data } = await apiClient.post(`${route}/rowModel`, requestBody);
-
-      return data;
-    },
   };
 };
 

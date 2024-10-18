@@ -1,7 +1,6 @@
 import { intersectFields, userFields } from "../fields.js";
 import prisma from "../prismaClient.js";
 import { handleError } from "../utils/errorHandler.js";
-import { rowModel } from "./rowModel.js";
 
 export const createCrudHandlers = (modelName) => ({
   //check
@@ -445,6 +444,4 @@ export const createCrudHandlers = (modelName) => ({
       handleError(res, error, `Error fetching all data for ${modelName}`);
     }
   },
-
-  rowModel: rowModel(modelName),
 });
