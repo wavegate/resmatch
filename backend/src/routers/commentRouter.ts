@@ -202,7 +202,12 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
 });
 
 commentRouter.post("/search", async (req, res) => {
-  const { pageNum = 1, selectedCommentCategories, ...queryParams } = req.body;
+  const {
+    pageNum = 1,
+    selectedCommentCategories,
+    searchValue,
+    ...queryParams
+  } = req.body;
   const PAGE_SIZE = 10; // Example page size
 
   try {
@@ -215,6 +220,12 @@ commentRouter.post("/search", async (req, res) => {
               in: selectedCommentCategories, // 'in' operator to find matching categories
             }
           : undefined,
+      content: searchValue
+        ? {
+            contains: searchValue,
+            mode: "insensitive",
+          }
+        : undefined,
       ...queryParams, // Spread all properties from req.body
     };
 
