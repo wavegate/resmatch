@@ -66,6 +66,7 @@ export const createCrudHandlers = (modelName) => ({
   },
 
   getById: async (req, res) => {
+    const userId = req.user?.id;
     try {
       const item = await prisma[modelName].findUnique({
         where: { id: Number(req.params.id) },
@@ -106,9 +107,19 @@ export const createCrudHandlers = (modelName) => ({
               createdAt: "desc",
             },
           },
-          upvotedUsers: true,
+          upvotedUsers: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
+      if (item.anonymous) {
+        item.user = undefined; // Modify directly
+        if (item.userId !== userId) {
+          item.userId = undefined;
+        }
+      }
       if (!item) {
         return res.status(404).json({ error: `${modelName} not found` });
       }
@@ -369,6 +380,7 @@ export const createCrudHandlers = (modelName) => ({
   },
 
   listAll: async (req, res) => {
+    const userId = req.user?.id;
     try {
       // Determine the orderBy clause based on the modelName
       let orderByClause;
@@ -421,7 +433,11 @@ export const createCrudHandlers = (modelName) => ({
               createdAt: "desc",
             },
           },
-          upvotedUsers: true,
+          upvotedUsers: {
+            select: {
+              id: true,
+            },
+          },
           user: {
             select: {
               id: true,
@@ -436,6 +452,9 @@ export const createCrudHandlers = (modelName) => ({
       items.forEach((item) => {
         if (item.anonymous) {
           item.user = undefined; // Modify directly
+          if (item.userId !== userId) {
+            item.userId = undefined;
+          }
         }
       });
 

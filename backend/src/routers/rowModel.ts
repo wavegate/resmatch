@@ -298,7 +298,11 @@ const fetchItemsWithPagination = async (
           createdAt: "desc",
         },
       },
-      upvotedUsers: true,
+      upvotedUsers: {
+        select: {
+          id: true,
+        },
+      },
       user: {
         select: {
           id: true,
@@ -317,6 +321,7 @@ const countTotalItems = async (modelName, filters) => {
 };
 
 const rowModel = (modelName) => async (req, res) => {
+  const userId = req.user?.id;
   try {
     const { startRow, endRow, filterModel, sortModel, showFollowed } = req.body;
     const limit = parseInt(endRow) - parseInt(startRow);
@@ -341,6 +346,9 @@ const rowModel = (modelName) => async (req, res) => {
     const processedItems = items.map((item) => {
       if (item.anonymous) {
         item.user = undefined;
+        if (item.userId !== userId) {
+          item.userId = undefined;
+        }
       }
       return item;
     });

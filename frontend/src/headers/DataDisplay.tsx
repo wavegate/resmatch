@@ -179,7 +179,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       </SimpleGrid>
 
       {/* Buttons for update and delete */}
-      {user?.id === data.userId && (
+      {user && user?.id === data.userId && (
         <Group justify="right" mt="md">
           <Link to={`/${modelName}/${data.id}`}>
             <Button>Update {labels.singular} Entry</Button>

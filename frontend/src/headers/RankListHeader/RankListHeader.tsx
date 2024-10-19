@@ -96,7 +96,7 @@ export default function RankListHeader({
           <div>·</div>
           <div>{dayjs(data.createdAt).format("M/D/YYYY [at] ha")}</div>
           {/* Buttons for update and delete */}
-          {user?.id === data.userId && (
+          {user && user?.id === data.userId && (
             <div className={`ml-4 flex gap-4 items-center`}>
               <Link
                 to={`/rank-list-${type}/${data.id}`}

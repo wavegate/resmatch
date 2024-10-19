@@ -323,6 +323,7 @@ export function interviewInviteColumnGenerator(
           <Link
             to={`/${modelName}/${modelId}/details`}
             className="text-sm underline text-gray-500 hover:cursor-pointer"
+            target="_blank"
           >
             {`${commentCount} Comment${commentCount === 1 ? "" : "s"}`}
           </Link>
@@ -392,11 +393,12 @@ export function interviewInviteColumnGenerator(
           {/* <Upvote modelName={modelName} item={data} /> */}
           <Link
             to={`/${modelName}/${modelId}/details`}
+            target="_blank"
             className="text-sm underline text-gray-500 hover:cursor-pointer"
           >
             Details
           </Link>
-          {user?.id === data.userId && (
+          {user && user?.id === data.userId && (
             <>
               <Link
                 to={`/${modelName}/${modelId}`}

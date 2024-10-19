@@ -244,7 +244,7 @@ export default function Comment({
                 {replyOpened ? "Cancel Reply" : "Reply"}
               </Button>
             )}
-            {user?.id === comment.userId && (
+            {user && user?.id === comment.userId && (
               <>
                 <Button
                   size="compact-xs"
