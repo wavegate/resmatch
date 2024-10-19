@@ -6,7 +6,9 @@
   "scripts": {
     "build": "chmod +x build.sh && ./build.sh",
     "start": "concurrently \"tsc -watch\" \"nodemon ./dist\"",
-    "deploy": "git add . && git commit -m \"heroku deploy\" && cd .. && git subtree push --prefix backend heroku main"
+    "deploy": "git add . && git commit -m \"heroku deploy\" && cd .. && git subtree push --prefix backend heroku main",
+    "deploy-production": "git subtree push --prefix backend heroku main",
+    "deploy-development": "git subtree push --prefix backend heroku-development development:main"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts --esm"
