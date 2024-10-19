@@ -480,7 +480,7 @@ userRouter.post("/search", async (req, res) => {
     const usersWithPassword = await prisma.user.findMany({
       where: whereClause,
       skip: offset,
-      take: 1000,
+      take: 2000,
       orderBy: {
         createdAt: "desc",
       },
