@@ -1,5 +1,18 @@
 import express from "express";
 import prisma from "../prismaClient.js";
+import { optionalVerifyToken } from "../middleware/authMiddleware.js";
+
+const processAnonymous = (items, userId) => {
+  return items.map((item) => {
+    if (item.anonymous) {
+      item.user = undefined; // Modify directly
+      if (item.userId !== userId) {
+        item.userId = undefined;
+      }
+    }
+    return item;
+  });
+};
 
 const programRouter = express.Router();
 
@@ -70,19 +83,15 @@ programRouter.get("/", async (req, res) => {
   }
 });
 
-programRouter.get("/:id", async (req, res) => {
+programRouter.get("/:id", optionalVerifyToken, async (req, res) => {
+  const userId = req.user?.id;
   const { id } = req.params;
 
   try {
-    // const startTime = Date.now();
-    // console.log(`Request received at ${new Date(startTime)}`);
     const programId = Number(id);
     if (isNaN(programId)) {
       return res.status(400).json({ error: "Invalid program ID" });
     }
-
-    // const queryStartTime = Date.now();
-    // console.log(`Starting Prisma query at ${new Date(queryStartTime)}`);
 
     const program = await prisma.program.findUnique({
       where: { id: programId },
@@ -319,19 +328,56 @@ programRouter.get("/:id", async (req, res) => {
             },
           },
         },
-        followingUsers: true,
+        followingUsers: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
-    // const queryEndTime = Date.now();
-    // console.log(
-    //   `Prisma query completed in ${queryEndTime - queryStartTime} ms`
-    // );
-
-    // const combinedListStartTime = Date.now();
-    // console.log(
-    //   `Starting to build combinedList at ${new Date(combinedListStartTime)}`
-    // );
+    if (program) {
+      program.interviewInvites = processAnonymous(
+        program.interviewInvites,
+        userId
+      );
+      program.fameShames = processAnonymous(program.fameShames, userId);
+      program.PostIVCommunication = processAnonymous(
+        program.PostIVCommunication,
+        userId
+      );
+      program.ScheduleDetails = processAnonymous(
+        program.ScheduleDetails,
+        userId
+      );
+      program.InterviewLogistics = processAnonymous(
+        program.InterviewLogistics,
+        userId
+      );
+      program.InterviewRejection = processAnonymous(
+        program.InterviewRejection,
+        userId
+      );
+      program.SecondLook = processAnonymous(program.SecondLook, userId);
+      program.M4InternImpression = processAnonymous(
+        program.M4InternImpression,
+        userId
+      );
+      program.Malignant = processAnonymous(program.Malignant, userId);
+      program.LOIResponse = processAnonymous(program.LOIResponse, userId);
+      program.InterviewImpression = processAnonymous(
+        program.InterviewImpression,
+        userId
+      );
+      program.Question = processAnonymous(program.Question, userId);
+      program.Dropped = processAnonymous(program.Dropped, userId);
+      program.asProgramX = processAnonymous(program.asProgramX, userId);
+      program.asProgramY = processAnonymous(program.asProgramY, userId);
+      program.FellowshipMatch = processAnonymous(
+        program.FellowshipMatch,
+        userId
+      );
+    }
 
     const combinedList = [
       ...(program?.city?.userInputs?.map((item) => ({
@@ -394,20 +440,11 @@ programRouter.get("/:id", async (req, res) => {
       })) ?? []),
     ];
 
-    // const combinedListEndTime = Date.now();
-    // console.log(
-    //   `CombinedList built in ${combinedListEndTime - combinedListStartTime} ms`
-    // );
-
-    // Sort by createdAt (latest first)
     combinedList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     if (!program) {
       return res.status(404).json({ error: "Program not found" });
     }
-
-    // const responseStartTime = Date.now();
-    // console.log(`Starting to send response at ${new Date(responseStartTime)}`);
 
     const {
       interviewInvites,

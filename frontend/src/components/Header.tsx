@@ -221,7 +221,7 @@ const Header = ({
               )}
 
               {/* Edit and Delete links only visible if user is logged in and matches the userId */}
-              {user?.id === data.userId && (
+              {user && user?.id === data.userId && (
                 <>
                   <Link
                     to={`/${modelName}/${data.id}`}

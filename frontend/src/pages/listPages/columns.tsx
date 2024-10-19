@@ -295,7 +295,7 @@ export function columnGenerator(
           >
             Details
           </Link>
-          {user?.id === data.userId && (
+          {user && user?.id === data.userId && (
             <>
               <Link
                 to={`/${modelName}/${modelId}`}
