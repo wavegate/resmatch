@@ -26,10 +26,6 @@ const HomePage = () => {
       </Helmet>
       <div className={`flex flex-col gap-4`}>
         <div className={`flex flex-col gap-4`}>
-          <div className={`p-4 bg-yellow-50 text-yellow-700 rounded-lg`}>
-            I will bring the site down for maintenance tonight around 12:00 AM
-            PST.
-          </div>
           <h1 className={`font-medium text-3xl max-sm:text-xl`}>
             Welcome Internal Medicine Class of 2025!
           </h1>
