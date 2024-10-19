@@ -3,6 +3,7 @@ const allowedOrigins = [
   "https://resmatch.vercel.app",
   "https://residencymatch.net",
   "https://www.residencymatch.net",
+  "https://development.residencymatch.net",
 ];
 
 const corsOptions = {
