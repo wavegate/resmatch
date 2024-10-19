@@ -1,5 +1,8 @@
 import express from "express";
-import { verifyToken } from "../middleware/authMiddleware.js";
+import {
+  optionalVerifyToken,
+  verifyToken,
+} from "../middleware/authMiddleware.js";
 import prisma from "../prismaClient.js";
 import { modelNames } from "../modelNames.js";
 
@@ -87,8 +90,9 @@ commentRouter.post("/", verifyToken, async (req, res) => {
 });
 
 // Get a single comment by ID
-commentRouter.get("/:id", async (req, res) => {
+commentRouter.get("/:id", optionalVerifyToken, async (req, res) => {
   const { id } = req.params;
+  const userId = req.user?.id;
 
   try {
     // Fetch the comment with the user and replies included, ordered by createdAt
@@ -113,7 +117,10 @@ commentRouter.get("/:id", async (req, res) => {
 
     // Check if the comment is not linked, if so, remove the user data
     if (comment.anonymous) {
-      delete comment.user;
+      comment.user = undefined;
+      if (comment.userId !== userId) {
+        comment.userId = undefined;
+      }
     }
 
     res.json(comment);
@@ -201,7 +208,8 @@ commentRouter.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
-commentRouter.post("/search", async (req, res) => {
+commentRouter.post("/search", optionalVerifyToken, async (req, res) => {
+  const userId = req.user?.id;
   const {
     pageNum = 1,
     selectedCommentCategories,
@@ -255,8 +263,12 @@ commentRouter.post("/search", async (req, res) => {
     // Process comments to remove user information if anonymous is true
     comments = comments.map((comment) => {
       if (comment.anonymous) {
-        comment.user = null; // Remove user information
+        comment.user = undefined;
+        if (comment.userId !== userId) {
+          comment.userId = undefined;
+        }
       }
+
       return comment;
     });
 
