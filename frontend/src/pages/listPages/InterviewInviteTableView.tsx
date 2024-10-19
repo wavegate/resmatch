@@ -91,7 +91,6 @@ const InterviewInviteTableView = forwardRef(
       async (params) => {
         const { startRow, endRow, sortModel, filterModel } = params;
         ref?.current?.api.setGridOption("loading", true);
-        console.log("test");
         const rowQueryKey = [
           ...queryKey,
           startRow,
