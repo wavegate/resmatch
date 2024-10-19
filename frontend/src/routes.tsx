@@ -47,6 +47,9 @@ const ProgramDetail = lazy(
   () => import("@/pages/listPages/Program/ProgramDetail")
 );
 const CommentDetail = lazy(() => import("@/pages/CommentDetail"));
+const InterviewInviteListPage = lazy(
+  () => import("@/pages/listPages/interviewInviteListPage")
+);
 
 const routes = [
   {
@@ -122,6 +125,14 @@ const routes = [
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <Program />
+          </Suspense>
+        ),
+      },
+      {
+        path: "interview-invite-test",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <InterviewInviteListPage modelName={`interviewInvite`} />
           </Suspense>
         ),
       },

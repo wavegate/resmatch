@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "git subtree push --prefix backend heroku main"
+    "deploy-production": "git subtree push --prefix backend heroku main",
+    "deploy-development": "git subtree push --prefix backend heroku-development development:main"
   },
   "keywords": [],
   "author": "",
