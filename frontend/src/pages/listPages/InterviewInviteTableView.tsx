@@ -91,6 +91,7 @@ const InterviewInviteTableView = forwardRef(
       async (params) => {
         const { startRow, endRow, sortModel, filterModel } = params;
         ref?.current?.api.setGridOption("loading", true);
+        console.log("test");
         const rowQueryKey = [
           ...queryKey,
           startRow,
@@ -187,14 +188,14 @@ const InterviewInviteTableView = forwardRef(
             <AgGridReact
               datasource={datasource}
               rowModelType="infinite"
-              onFirstDataRendered={onGridReady}
+              // onFirstDataRendered={onGridReady}
               columnDefs={columnDefs}
               ref={ref}
               enableCellTextSelection={true}
               ensureDomOrder={true}
               modules={[InfiniteRowModelModule]}
-              onColumnMoved={onColumnChanged}
-              onColumnResized={onColumnChanged}
+              // onColumnMoved={onColumnChanged}
+              // onColumnResized={onColumnChanged}
               defaultColDef={{
                 filterParams: {
                   maxNumConditions: 1,
