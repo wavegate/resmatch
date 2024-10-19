@@ -62,7 +62,7 @@ export function interviewInviteColumnGenerator(
       width: "120px",
     });
     columns.push({
-      field: "program",
+      field: "program.institution.name",
       headerName: "Program Name",
       valueGetter: (params) => {
         if (!params.data) {
