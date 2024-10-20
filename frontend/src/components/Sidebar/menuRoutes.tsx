@@ -54,6 +54,11 @@ const sidebarRoutes = [
   {
     heading: "Interview Info",
     items: [
+      // {
+      //   link: "/analytics",
+      //   text: "Analytics",
+      //   icon: <SidebarMenuItem Icon={FaRegCalendarCheck} />,
+      // },
       {
         link: "/interviewInvite",
         text: "IV Offers",
