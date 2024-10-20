@@ -91,6 +91,49 @@ const getTotalInvitesOverTime = async (): Promise<
   const { data } = await apiClient.get(`${route}/total-invites-over-time`);
   return data;
 };
+const getSignalsOverTime = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/signals-over-time`);
+  return data;
+};
+const getProgramCompetitiveness = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/program-competitiveness`);
+  return data;
+};
+
+const getProgramsWithMostInvites = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/programs-with-most-invites`);
+  return data;
+};
+
+const getInvitesByGraduateType = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/invites-by-graduate-type`);
+  return data;
+};
+
+const getInvitesByState = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/invites-by-state`);
+  return data;
+};
+
+const getProgramsMinInviteSpots = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/programs-min-invite-spots`);
+  return data;
+};
+const getLast10Programs = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/last-10-programs`);
+  return data;
+};
+const getInvitesByGeographicPreference = async (): Promise<any> => {
+  const { data } = await apiClient.get(
+    `${route}/invites-by-geographic-preference`
+  );
+  return data;
+};
+
+const getTop10UsersByInvites = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/top-10-users-invites`);
+  return data;
+};
 
 export default {
   createInvite,
@@ -99,4 +142,13 @@ export default {
   deleteInvite,
   searchInvite,
   getTotalInvitesOverTime,
+  getSignalsOverTime,
+  getProgramCompetitiveness,
+  getProgramsWithMostInvites,
+  getInvitesByGraduateType,
+  getInvitesByState,
+  getProgramsMinInviteSpots,
+  getLast10Programs,
+  getInvitesByGeographicPreference,
+  getTop10UsersByInvites,
 };
