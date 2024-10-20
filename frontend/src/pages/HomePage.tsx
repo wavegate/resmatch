@@ -78,13 +78,6 @@ const HomePage = () => {
         <Analytics />
         <div className={`grid grid-cols-[2fr_1fr] gap-4 max-sm:grid-cols-1`}>
           <div className={`flex flex-col gap-4`}>
-            {/* <Card shadow="sm" withBorder className={`flex flex-col gap-4`}>
-              <h4 className={`font-medium text-xl`}>
-                Total Interview Invites This Cycle
-              </h4>
-              <TimeRangeChart />
-            </Card> */}
-
             <Card
               shadow="sm"
               withBorder
@@ -183,7 +176,7 @@ const HomePage = () => {
           <Card
             shadow="sm"
             withBorder
-            className={`flex flex-col gap-4 max-h-[500px] col-span-2 overflow-y-auto`}
+            className={`flex flex-col gap-4 max-h-[500px] col-span-2 max-sm:col-span-1 overflow-y-auto`}
           >
             <h4 className={`font-medium text-xl`}>Changelog</h4>
             <div className={`flex flex-col gap-1`}>
