@@ -21,11 +21,11 @@ const Analytics = () => {
         <SpotsLeft />
 
         <SignalsOverTimeChart />
-        <TopUsers />
+        <ProgramCompetitiveness />
         <GraduateTypePieChart />
         <GeographicPreferencePieChart />
         <MostInvites />
-        <ProgramCompetitiveness />
+        <TopUsers />
       </div>
     </div>
   );
