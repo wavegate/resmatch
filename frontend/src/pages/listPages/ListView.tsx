@@ -43,6 +43,7 @@ const Table: React.FC<TableProps> = ({
   modelName,
   className,
   showFollowed,
+  showOldData,
 }) => {
   // const [selectedProgram, setSelectedProgram] = useState(null);
   // const [startDate, setStartDate] = useState(null);
@@ -132,8 +133,16 @@ const Table: React.FC<TableProps> = ({
         })
       : data.items;
 
+    // Filter out old data if showOldData is false
+    const juneFirstDate = new Date("2024-06-01T00:00:00.000Z");
+    const filteredByDate = !showOldData
+      ? filteredByFollowed.filter(
+          (item) => new Date(item.createdAt) >= juneFirstDate
+        )
+      : filteredByFollowed;
+
     // Map the filtered items and add the program details from allPrograms
-    const resultsWithProgramData = filteredByFollowed.map((item) => {
+    const resultsWithProgramData = filteredByDate.map((item) => {
       if (modelName === "xorY") {
         // For xorY model, add both programX and programY details
         const programX = allPrograms[item.programXId] || null;
@@ -157,7 +166,7 @@ const Table: React.FC<TableProps> = ({
     if (search.trim() === "") return resultsWithProgramData;
 
     return searchItems(resultsWithProgramData, search);
-  }, [data, search, showFollowed, user, modelName, allPrograms]);
+  }, [data, search, showFollowed, user, modelName, allPrograms, showOldData]);
 
   const renderItem = (index) => {
     const datum = filteredResults[index];
