@@ -66,7 +66,7 @@ const Table: React.FC<TableProps> = ({
         />
         <Checkbox
           className={`shrink`}
-          label={"Old data"}
+          label={"Show old data"}
           checked={showOldData}
           onChange={handleShowOldDataChange}
         />
