@@ -3,6 +3,7 @@ import ListView from "@/pages/listPages/ListView";
 import TableView from "@/pages/listPages/TableView";
 import { Button, Checkbox, Switch } from "@mantine/core";
 import { useCallback, useEffect, useRef, useState } from "react";
+import "./shrink.scss";
 
 interface TableProps {
   modelName: string;
@@ -17,6 +18,7 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const { user } = useUser();
   const [showFollowed, setShowFollowed] = useState(false);
+  const [showOldData, setShowOldData] = useState<boolean>(true);
   const gridRef = useRef(null);
 
   const onBtnExport = useCallback(() => {
@@ -44,18 +46,33 @@ const Table: React.FC<TableProps> = ({
     }, 500);
   };
 
+  const handleShowOldDataChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setShowOldData(event.currentTarget.checked);
+  };
+
   return (
     <div className={`flex-1 flex flex-col`}>
-      <div className={`inline-flex gap-x-6 gap-y-2 flex-wrap items-center`}>
+      <div
+        className={`inline-flex gap-x-6 max-sm:gap-x-3 gap-y-2 flex-wrap items-center`}
+      >
         <Switch
-          className={`text-nowrap`}
+          className={`text-nowrap shrink`}
           label={"List view"}
           checked={listView}
           onChange={(event) => setListView(event.currentTarget.checked)}
           size="sm"
         />
+        <Checkbox
+          className={`shrink`}
+          label={"Old data"}
+          checked={showOldData}
+          onChange={handleShowOldDataChange}
+        />
         {user && (
           <Checkbox
+            className={`shrink`}
             label={"Followed"}
             checked={showFollowed}
             onChange={handleCheckboxChange}
@@ -85,13 +102,18 @@ const Table: React.FC<TableProps> = ({
       </div>
 
       {listView && (
-        <ListView modelName={modelName} showFollowed={showFollowed} />
+        <ListView
+          modelName={modelName}
+          showFollowed={showFollowed}
+          showOldData={showOldData}
+        />
       )}
       {!listView && (
         <TableView
           ref={gridRef}
           modelName={modelName}
           showFollowed={showFollowed}
+          showOldData={showOldData}
         />
       )}
     </div>
