@@ -149,9 +149,7 @@ const Header = ({
           to={`/${modelName}/${data.id}/details`}
           className={`font-medium sm:text-lg hover:underline`}
         >
-          {`${label}${
-            userProfile ? ` for ${data.program?.institution?.name}` : ""
-          }`}
+          {`${label}${userProfile ? ` for ${programName(data?.program)}` : ""}`}
         </Link>
       );
     } else {
