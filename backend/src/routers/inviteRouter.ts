@@ -306,6 +306,32 @@ inviteRouter.get("/last-10-programs", async (req, res) => {
   }
 });
 
+inviteRouter.get("/invite-quantiles", async (req, res) => {
+  try {
+    // Query to count non-anonymous invites per user and split by graduateType
+    const rawData = await prisma.$queryRaw`
+      SELECT
+        "graduateType",
+        COUNT(*)::bigint AS inviteCount
+      FROM "InterviewInvite"
+      WHERE "anonymous" = false AND "graduateType" IS NOT NULL
+      GROUP BY "userId", "graduateType"
+      ORDER BY "graduateType", inviteCount;
+    `;
+
+    // Prepare data in the requested format
+    const formattedData = rawData.map((entry) => ({
+      group: entry.graduateType,
+      value: Number(entry.invitecount),
+    }));
+
+    res.status(200).json(formattedData);
+  } catch (error) {
+    console.error("Error retrieving invite quantiles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 inviteRouter.get("/top-10-users-invites", async (req, res) => {
   try {
     const rawData = await prisma.$queryRaw`

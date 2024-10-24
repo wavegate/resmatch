@@ -7,6 +7,7 @@ import SignalsOverTimeChart from "@/components/SignalsOverTimeChart/SignalsOverT
 import SpotsLeft from "@/components/SpotsLeft/SpotsLeft";
 import TimeRangeChart from "@/components/TimeRangeChart/TimeRangeChart";
 import TopUsers from "@/components/TopUsers/TopUsers";
+import InviteQuantiles from "@/components/InviteQuantiles/InviteQuantiles";
 
 const Analytics = () => {
   return (
@@ -24,7 +25,8 @@ const Analytics = () => {
         <ProgramCompetitiveness />
         <GraduateTypePieChart />
         <GeographicPreferencePieChart />
-        <MostInvites />
+        {/* <MostInvites /> */}
+        <InviteQuantiles />
         <TopUsers />
       </div>
     </div>
