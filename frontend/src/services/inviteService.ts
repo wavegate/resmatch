@@ -135,6 +135,11 @@ const getTop10UsersByInvites = async (): Promise<any> => {
   return data;
 };
 
+const getInviteQuantiles = async (): Promise<any> => {
+  const { data } = await apiClient.get(`${route}/invite-quantiles`);
+  return data;
+};
+
 export default {
   createInvite,
   readInvite,
@@ -151,4 +156,5 @@ export default {
   getLast10Programs,
   getInvitesByGeographicPreference,
   getTop10UsersByInvites,
+  getInviteQuantiles,
 };
